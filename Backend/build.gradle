@@ -1,19 +1,53 @@
 plugins {
-    id 'java'
+    id 'java' //Gradle에서 자바 프로젝트로 인식하게 함
+    id 'org.springframework.boot' version '3.4.9'//Spring Boot 실행 및 빌드 관련 기능 활성화
+    id 'io.spring.dependency-management' version '1.1.7'//의존성 버전 관리 자동화 (Spring Boot BOM 사용)
 }
 
-group = 'org.example'
+group = 'com.runningcity'
 version = '1.0-SNAPSHOT'
+//빌드 시 groupId, version으로 패키징 시 메이븐 아티팩트명(com.runningcity:project:1.0-SNAPSHOT) 결정됨.
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21) // 개발 환경에 설치된 JDK 버전 상관없이 Gradle이 JDK 17을 자동으로 다운로드해서 사용하게 해줌. -> 버전 이후에 변경하던지.,..?
+    }
+}
+
+configurations { //'의존성 그룹(스코프)'을 설정하는 블록
+    compileOnly { // 컴파일할 때만 필요한 라이브러리를 넣는 영역(런타임 시에는 포함되지 않음)
+        extendsFrom annotationProcessor //annotationProcessor 설정을 compileOnly도 함께 상속받게 해라
+    }
+}
 
 repositories {
-    mavenCentral()
+    mavenCentral() // 의존성 라이브러리를 Maven Central 저장소에서 가져옴 (기본이자 표준).
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'//데이터베이스 ORM
+    implementation 'org.springframework.boot:spring-boot-starter-security'//인증/인가
+    implementation 'org.springframework.boot:spring-boot-starter-web'//REST API 서버
+    implementation 'org.springframework.boot:spring-boot-starter-validation'//DTO 검증
+
+    compileOnly 'org.projectlombok:lombok' //lombok - 어노테이션 처리기.
+    annotationProcessor 'org.projectlombok:lombok' //lombok - 어노테이션 처리기.
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' //Spring Boot + JUnit + Mockito 통합 환경이 전부 세팅
+    testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 전용 라이브러리
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit Platform을 실행(run)할 때 필요한 런타임 구성요소
+
 }
 
-test {
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters' //자바 컴파일 시 메서드의 파라미터 이름 정보를 class 파일에 보존하라는 명령
+    //즉, 리플렉션(reflection)으로 메서드의 매개변수 이름을 알아야 할 때, arg0, arg1이 아니라 실제 이름(userId, email)을 유지하도록 하는 옵션
+}
+
+
+tasks.named('test') { //Gradle의 Lazy Configuration API - Gradle이 모든 태스크를 다 정의한 뒤에, 'test'라는 이름을 가진 태스크를 찾아서 필요할 때만 설정을 적용
     useJUnitPlatform()
 }
