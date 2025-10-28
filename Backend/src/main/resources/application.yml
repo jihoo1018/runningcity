@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api/v1  # 모든 API 앞에 /api/v1 prefix 적용
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/runningcity
