@@ -1,10 +1,7 @@
 package com.runningcity
 
 import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -25,12 +22,8 @@ class LocationService : Service() {
     override fun onCreate() {
         super.onCreate()
         fusedClient = LocationServices.getFusedLocationProviderClient(this)
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(1, createNotification())
         startTracking()
-        return START_STICKY
     }
 
     private fun createNotification(): Notification {
@@ -40,23 +33,24 @@ class LocationService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
-                "RunningCity Location Service",
+                "RunningCity GPS Service",
                 NotificationManager.IMPORTANCE_LOW
             )
             manager.createNotificationChannel(channel)
         }
 
         return NotificationCompat.Builder(this, channelId)
-            .setContentTitle("RunningCity GPS 실행 중")
-            .setContentText("위치를 추적하고 있습니다...")
+            .setContentTitle("RunningCity GPS 전송 중")
+            .setContentText("위치 데이터를 서버로 전송하고 있습니다.")
             .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+            .setOngoing(true)
             .build()
     }
 
     private fun startTracking() {
         val request = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY,
-            TimeUnit.SECONDS.toMillis(10)
+            TimeUnit.SECONDS.toMillis(3) // 몇초간격으로 보낼지. 일단 3초로
         ).build()
 
         if (ActivityCompat.checkSelfPermission(
