@@ -2,6 +2,7 @@ plugins {
     id 'java' //Gradle에서 자바 프로젝트로 인식하게 함
     id 'org.springframework.boot' version '3.4.9'//Spring Boot 실행 및 빌드 관련 기능 활성화
     id 'io.spring.dependency-management' version '1.1.7'//의존성 버전 관리 자동화 (Spring Boot BOM 사용)
+    id 'com.google.cloud.tools.jib' version '3.4.3'
 }
 
 group = 'com.runningcity'
@@ -54,4 +55,14 @@ tasks.withType(JavaCompile) {
 
 tasks.named('test') { //Gradle의 Lazy Configuration API - Gradle이 모든 태스크를 다 정의한 뒤에, 'test'라는 이름을 가진 태스크를 찾아서 필요할 때만 설정을 적용
     useJUnitPlatform()
+}
+
+jib {
+    to {
+        image = 'local/backend:develop'
+    }
+    container {
+        ports = ['8080']
+        jvmFlags = ['-Duser.timezone=Asia/Seoul']
+    }
 }
