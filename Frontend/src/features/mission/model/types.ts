@@ -1,4 +1,5 @@
-// src/types/mission.ts
+// src/features/mission/model/types.ts
+
 export type MissionModalData = {
   id: number;
   date: string;

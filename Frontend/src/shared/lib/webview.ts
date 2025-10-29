@@ -1,4 +1,4 @@
-// src/utils/webview.ts
+// src/shared/lib/webview.ts
 
 /**
  * Android WebView 인터페이스 타입 정의
