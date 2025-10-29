@@ -1,4 +1,4 @@
-// src/lib/api.ts
+// src/shared/api/http.ts
 
 const API_ORIGIN =
   (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_ORIGIN) ||

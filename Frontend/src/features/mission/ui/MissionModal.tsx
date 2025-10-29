@@ -1,31 +1,24 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { apiGet, apiPost } from "../../lib/api";
+// src/features/mission/ui/MissionModal.tsx
 
-export type MissionModalData = {
-  id: number;
-  date: string;
-  serverTime: string;
-  targetKm: number;
-  currentKm: number;
-  progressPercent: number;
-  completed: boolean;
-  claimed: boolean;
-  rewardCoins: number;
-};
+import React, { useEffect, useMemo, useState } from "react";
+import { apiGet, apiPost } from "../../../shared/api";
+import type { MissionModalData, ClaimResponse } from "../model/types";
 
 const fmt = (v: number) => (Number.isFinite(v) ? v.toFixed(2) : "0.00");
 const getErr = (e: unknown) =>
   e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
 
+interface MissionModalProps {
+  open: boolean;
+  onClose: () => void;
+  onClaimed?: (coins: number) => void;
+}
+
 export default function MissionModal({
   open,
   onClose,
   onClaimed,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onClaimed?: (coins: number) => void;
-}) {
+}: MissionModalProps) {
   const [mission, setMission] = useState<MissionModalData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,7 +54,7 @@ export default function MissionModal({
         `/api/v1/daily-mission/${mission.id}/progress?addKm=${delta}`,
         undefined,
         "PATCH"
-      ); // 본문/응답 없음 → void
+      );
       await load();
     } catch (e) {
       setError(getErr(e));
@@ -78,9 +71,9 @@ export default function MissionModal({
     try {
       setLoading(true);
       setError(null);
-      const data = await apiPost<{ rewardCoins: number; claimed: boolean }>(
+      const data = await apiPost<ClaimResponse>(
         `/api/v1/daily-mission/${mission.id}/claim`
-      ); // 이건 JSON 반환
+      );
       alert(`보상 ${data.rewardCoins ?? 0} 코인을 수령했습니다! 🎉`);
       onClaimed?.(data.rewardCoins ?? 0);
       await load();
@@ -96,7 +89,7 @@ export default function MissionModal({
     try {
       setLoading(true);
       setError(null);
-      await apiPost<void>(`/api/v1/daily-mission/reset`); // 본문/응답 없음
+      await apiPost<void>(`/api/v1/daily-mission/reset`);
       await load();
     } catch (e) {
       setError(getErr(e));
