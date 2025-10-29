@@ -1,0 +1,9 @@
+{
+  "name": "러닝시티 - 러너즈 프로토콜",
+  "short_name": "러닝시티",
+  "description": "러닝 에너지로 도시를 지켜라",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f2937",
+  "theme_color": "#1f2937"
+}
