@@ -2,10 +2,11 @@ package com.runningcity.onboarding.service;
 
 import com.runningcity.onboarding.dto.OnboardingRequest;
 import com.runningcity.onboarding.dto.OnboardingResponse;
-import com.runningcity.onboarding.entity.User;
 import com.runningcity.onboarding.entity.UserPreference;
 import com.runningcity.onboarding.repository.UserPreferenceRepository;
-import com.runningcity.onboarding.repository.UserRepository;
+import com.runningcity.user.entity.User;
+import com.runningcity.user.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

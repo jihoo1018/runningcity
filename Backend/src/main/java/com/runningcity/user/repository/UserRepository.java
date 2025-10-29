@@ -1,8 +1,9 @@
-package com.runningcity.onboarding.repository;
+package com.runningcity.user.repository;
 
-import com.runningcity.onboarding.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.runningcity.user.entity.User;
 
 import java.util.Optional;
 

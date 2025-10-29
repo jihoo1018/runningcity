@@ -1,5 +1,6 @@
-package com.runningcity.onboarding.entity;
+package com.runningcity.user.entity;
 
+import com.runningcity.onboarding.entity.UserPreference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
