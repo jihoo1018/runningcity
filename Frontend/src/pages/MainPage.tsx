@@ -3,9 +3,15 @@
 import { useState, useEffect } from 'react';
 import Button from '../components/Button';
 import { AndroidBridge } from '../utils/webview';
+import MissionModal from '../components/mission/MissionModal';
 
 const MainPage = () => {
     const [gpsData, setGpsData] = useState<{ lat: number; lng: number } | null>(null);
+    // ✅ 모달 열기/닫기 상태
+    const [missionOpen, setMissionOpen] = useState(false);
+
+    // 수령한 코인 보여주고 지갑 상태 추가
+    const [wallet, setWallet] = useState(0);
 
     useEffect(() => {
         if (AndroidBridge.isAndroid()) {
@@ -35,7 +41,8 @@ const MainPage = () => {
     };
 
     const handleQuest = () => {
-        AndroidBridge.showToast('퀘스트');
+        //AndroidBridge.showToast('퀘스트');
+        setMissionOpen(true);
     };
 
     return (
@@ -54,6 +61,7 @@ const MainPage = () => {
                 alignItems: 'flex-start',
                 flexShrink: 0,
             }}>
+                
                 {/* 우측 상단: 세로로 정렬된 버튼들 */}
                 <div style={{
                     display: 'flex',
@@ -117,7 +125,15 @@ const MainPage = () => {
                 >
                     러닝 에너지 모으러 가기
                 </button>
-
+                {/* (선택) 지갑/디버그 */}
+                <div style={{ marginTop: 12, textAlign: 'center' }}>
+                <div style={{ fontSize: 12, color: '#334155' }}>지갑: {wallet} 코인</div>
+                {gpsData && (
+                    <div style={{ marginTop: 8, fontSize: 11, color: '#9ca3af' }}>
+                    GPS: {gpsData.lat.toFixed(4)}, {gpsData.lng.toFixed(4)}
+                    </div>
+                )}
+                </div>
                 {/* 디버그 정보 (개발용) */}
                 {gpsData && (
                     <div style={{
@@ -150,6 +166,12 @@ const MainPage = () => {
                 <NavButton label="사무실" onClick={() => AndroidBridge.showToast('사무실')} />
                 <NavButton label="기록" onClick={() => AndroidBridge.showToast('기록')} />
             </div>
+            {/* ✅ 미션 모달 */}
+            <MissionModal
+                open={missionOpen}
+                onClose={() => setMissionOpen(false)}
+                onClaimed={(coins) => setWallet((w) => w + coins)}
+            />
         </div>
     );
 };
