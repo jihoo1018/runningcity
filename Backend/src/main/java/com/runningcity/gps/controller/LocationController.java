@@ -9,6 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/location")
+@CrossOrigin(origins = "*")
 public class LocationController {
 
     private final List<LocationData> locations = new ArrayList<>();

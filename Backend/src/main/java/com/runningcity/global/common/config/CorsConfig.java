@@ -1,4 +1,4 @@
-package com.runningcity.common;
+package com.runningcity.global.common.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -8,10 +8,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry reg) {
         reg.addMapping("/**")
-           .allowedOrigins("http://localhost:3000", "http://localhost:5173")
+           .allowedOrigins("*")
            .allowedMethods("GET","POST","PATCH","PUT","DELETE","OPTIONS")
            .allowedHeaders("*")
-           .allowCredentials(true)
+//          .allowCredentials(true)
            .maxAge(3600);
     }
 }
