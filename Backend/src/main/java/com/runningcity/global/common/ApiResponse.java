@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Builder
 public class ApiResponse<T> {
-    private HttpStatus status; //
+    private int status;             // HTTP 상태 코드 (200, 400 등)
     private String code;            // ex) "SUCCESS", "USER_NOT_FOUND"
     private String message;         // ex) "요청이 성공적으로 처리되었습니다."
     private T data;
@@ -18,7 +18,7 @@ public class ApiResponse<T> {
     // 성공 응답
     public static <T> ApiResponse<T> success(BaseResponseCode code, T data) {
         return ApiResponse.<T>builder()
-                .status(code.getHttpStatus())
+                .status(code.getHttpStatus().value())
                 .code(code.getCode())
                 .message(code.getMessage())
                 .data(data)
@@ -28,7 +28,7 @@ public class ApiResponse<T> {
     // 성공(데이터 없음)
     public static ApiResponse<Void> success(BaseResponseCode code) {
         return ApiResponse.<Void>builder()
-                .status(code.getHttpStatus())
+                .status(code.getHttpStatus().value())
                 .code(code.getCode())
                 .message(code.getMessage())
                 .build();
@@ -37,7 +37,7 @@ public class ApiResponse<T> {
     // 실패 응답
     public static ApiResponse<Void> fail(BaseResponseCode code) {
         return ApiResponse.<Void>builder()
-                .status(code.getHttpStatus())
+                .status(code.getHttpStatus().value())
                 .code(code.getCode())
                 .message(code.getMessage())
                 .error(new ErrorResponse(null))
@@ -47,7 +47,7 @@ public class ApiResponse<T> {
     // 실패 응답 (필드별 오류 포함)
     public static ApiResponse<Void> fail(BaseResponseCode code, List<ErrorDetail> details) {
         return ApiResponse.<Void>builder()
-                .status(code.getHttpStatus())
+                .status(code.getHttpStatus().value())
                 .code(code.getCode())
                 .message(code.getMessage())
                 .error(new ErrorResponse(details))
