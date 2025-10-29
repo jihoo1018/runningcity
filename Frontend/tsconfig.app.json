@@ -20,5 +20,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["src", "vite-env.d.ts", "backup/DailyMissionTest.tsx"]
+  "include": ["src", "vite-env.d.ts"]
 }
