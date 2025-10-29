@@ -40,7 +40,7 @@ public class ApiResponse<T> {
                 .status(code.getHttpStatus().value())
                 .code(code.getCode())
                 .message(code.getMessage())
-                .error(new ErrorResponse(code.getCode(), code.getMessage(), null))
+                .error(new ErrorResponse(null))
                 .build();
     }
 
@@ -50,7 +50,7 @@ public class ApiResponse<T> {
                 .status(code.getHttpStatus().value())
                 .code(code.getCode())
                 .message(code.getMessage())
-                .error(new ErrorResponse(code.getCode(), code.getMessage(), details))
+                .error(new ErrorResponse(details))
                 .build();
     }
 }
