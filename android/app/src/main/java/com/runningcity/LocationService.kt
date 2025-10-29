@@ -1,7 +1,10 @@
 package com.runningcity
 
 import android.Manifest
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -9,9 +12,18 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import com.google.android.gms.location.*
-import kotlinx.coroutines.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.cancel
 
 class LocationService : Service() {
 
@@ -50,7 +62,7 @@ class LocationService : Service() {
     private fun startTracking() {
         val request = LocationRequest.Builder(
             Priority.PRIORITY_HIGH_ACCURACY,
-            TimeUnit.SECONDS.toMillis(3) // 몇초간격으로 보낼지. 일단 3초로
+            TimeUnit.SECONDS.toMillis(3)
         ).build()
 
         if (ActivityCompat.checkSelfPermission(
@@ -65,8 +77,16 @@ class LocationService : Service() {
         override fun onLocationResult(result: LocationResult) {
             val location: Location? = result.lastLocation
             location?.let {
+                // 📡 UI로 브로드캐스트 전송
+                val intent = Intent("LOCATION_UPDATE").apply {
+                    putExtra("latitude", it.latitude)
+                    putExtra("longitude", it.longitude)
+                }
+                sendBroadcast(intent)
+
+                // 🌐 서버 전송
                 serviceScope.launch {
-                    networkClient.sendLocation(it.latitude, it.longitude)
+                    networkClient.sendLocation(it)
                 }
             }
         }
@@ -78,5 +98,7 @@ class LocationService : Service() {
         serviceScope.cancel()
     }
 
-    override fun onBind(intent: Intent?): IBinder? = null
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
 }
