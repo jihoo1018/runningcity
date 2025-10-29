@@ -14,17 +14,17 @@ deploy_dev_front_static:
     - |
       set -euo pipefail
 
-      mkdir -p Frontend/node_cache || true
+      docker volume create npm_cache || true
+      
       docker run --rm \
         -v "$PWD/Frontend:/app" \
-        -v "$PWD/Frontend/node_cache:/root/.npm" \
+        -v npm_cache:/root/.npm \
         -w /app \
         node:20 bash -lc "corepack enable || true; npm ci && npm run build"
       
       mkdir -p deploy/nginx/static
       rm -rf deploy/nginx/static/* || true
       cp -r Frontend/dist/* deploy/nginx/static/
-      
       printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
         "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
         > deploy/nginx/static/version.json
