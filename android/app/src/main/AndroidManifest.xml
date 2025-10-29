@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * AndroidManifest.xml -> 안드로이드 앱의 핵심 설정 파일
+    : 앱이 어떤 권한(permission) 을 요청하는지,
+    어떤 서비스(service) 와 액티비티(activity) 를 가지는지,
+    운영체제가 앱을 어떻게 다뤄야 하는지를 정의합니다.
+ -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!--
-    ⚠️ 참고: Android 10 이상에서는 위치 권한이 3단계로 나뉩니다
-    앱이 처음 실행될 때 다음 세 가지 중 선택할 수 있어요:
-    "앱을 사용하는 동안만 허용"
-    "한 번만 허용"
-    "항상 허용"
-    → ACCESS_BACKGROUND_LOCATION 은 “항상 허용”을 받아야 작동합니다.
-    따라서 Android 10(API 29)+ 기기에서는 위치 추적이 제한될 수 있습니다.
-    (앱이 완전히 백그라운드일 때 위치 수집이 필요하면, 설정에서 직접 권한을 변경하도록 안내해야 해요.)
+    manifest: 안드로이드 앱의 루트 태그.
+    xmlns:android: 안드로이드 속성을 인식하게 하는 네임스페이스.
+    xmlns:tools: Android Studio에서 lint 검사나 빌드 도구용으로 사용하는 추가 속성 정의.
     -->
-    <!-- ✅ 위치 권한 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 고정밀 GPS 사용 (필수) -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /><!-- Wi-Fi / 셀룰러 기반 위치 -->
-    <!-- Android 10 이상에서 백그라운드 위치를 허용하려면 필요 -->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /><!-- 앱이 백그라운드일 때도 위치 추적 -->
-    <!-- ✅ 네트워크 및 포그라운드 서비스 권한 -->
-    <uses-permission android:name="android.permission.INTERNET" /><!-- 서버로 데이터 전송 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /><!-- 위치 추적을 위한 포그라운드 서비스 -->
 
+
+     <!--
+     ⚠️ 참고: Android 10 이상에서는 위치 권한이 3단계로 나뉩니다
+     앱이 처음 실행될 때 다음 세 가지 중 선택할 수 있어요:
+     "앱을 사용하는 동안만 허용"
+     "한 번만 허용"
+     "항상 허용"
+     → ACCESS_BACKGROUND_LOCATION 은 “항상 허용”을 받아야 작동합니다.
+     따라서 Android 10(API 29)+ 기기에서는 위치 추적이 제한될 수 있습니다.
+     (앱이 완전히 백그라운드일 때 위치 수집이 필요하면, 설정에서 직접 권한을 변경하도록 안내해야 해요.)
+     -->
+    <!-- 위치 권한 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- GPS 센서를 이용한 고정밀 위치(GPS) 접근 권한. “정확한 위치”가 필요한 경우 필수 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /><!-- Wi-Fi 또는 기지국 정보를 통한 “대략적 위치” 권한. GPS가 꺼져 있을 때에도 위치를 추정할 수 있음 -->
+    <!-- Android 10 이상에서 백그라운드 위치를 허용하려면 필요 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /><!-- 앱이 화면에 보이지 않아도 (백그라운드 상태) 위치를 추적하려면 필요한 권한. Android 10(API 29)+부터는 별도 허용이 필요.“항상 허용”을 받아야 이 권한이 활성화됨 -->
+    <!-- 네트워크 및 포그라운드 서비스 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /><!-- 앱이 서버로 HTTP 통신(예: GPS 데이터 전송)을 하기 위해 필요. 네트워크 요청을 수행할 때 필수 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /><!-- Android 9(API 28)+에서 백그라운드 위치 추적을 허용하려면 반드시 필요. 포그라운드 서비스(알림창에 아이콘이 떠 있는 상태)로 실행할 수 있게 함 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" /> <!-- FOREGROUND_SERVICE_LOCATION은 “이 앱의 포그라운드 서비스가 위치 정보를 다룬다” 라는 걸 운영체제에 명시적으로 알려주는 새로운 보안 권한. 이걸 안 넣으면 Android 14 이상에서는 앱 실행 시 오류 발생-->
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -32,22 +44,63 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Runningcity"
         tools:targetApi="31">
-        <!-- ✅ 위치 추적용 서비스 등록 -->
+        <!--앱 전반의 설정
+| 속성                                                  | 설명                                                                  |
+| `android:name=".App"`                               | 앱 시작 시 실행되는 `Application` 클래스 지정 (전역 context 관리용).                  |
+| `android:allowBackup="true"`                        | 사용자가 기기를 백업/복원할 때 앱 데이터도 백업 가능.                                     |
+| `android:dataExtractionRules` / `fullBackupContent` | Android 12+에서 백업 대상 지정용 XML.                                        |
+| `android:icon`                                      | 런처에 표시될 앱 아이콘.                                                      |
+| `android:label`                                     | 앱 이름. (`@string/app_name` → strings.xml 참조)                         |
+| `android:roundIcon`                                 | 라운드 버전 아이콘 (일부 런처용).                                                |
+| `android:supportsRtl="true"`                        | 오른쪽→왼쪽 언어 (예: 아랍어) 레이아웃 지원.                                         |
+| `android:theme`                                     | 전체 테마 스타일 지정 (색상, 배경, 폰트 등).                                        |
+| `tools:targetApi="31"`                              | Android Studio에게 빌드 시 API 31을 기준으로 lint 검사하라는 의미 (실제 targetSdk 아님). |
+-->
+
+        <!--  위치 추적용 서비스 등록 -->
         <service
             android:name=".LocationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" /> <!-- foregroundServiceType="location" : Android 10(API 29)+ 에서 필수 설정 -->
+<!--
+| 속성                                         | 설명                                      |
+| `android:name=".LocationService"`          | GPS 추적용 서비스 클래스 등록.                     |
+| `android:enabled="true"`                   | 기본적으로 활성화 상태로 등록.                       |
+| `android:exported="false"`                 | 외부 앱에서 이 서비스를 실행할 수 없도록 차단 (보안).        |
+| `android:foregroundServiceType="location"` | Android 10(API 29)+에서 위치 서비스임을 명시 (필수). |
 
-        <!-- ✅ 기본 Activity (앱 진입점) -->
+-->
+
+        <!-- BroadcastReceiver 등록 (Manifest 내) -->
+        <receiver
+            android:name=".LocationUpdateReceiver"
+            android:exported="false">
+        </receiver>
+
+
+        <!-- 기본 Activity (앱 진입점) -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Runningcity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--
+            | 태그                             | 역할                          |
+| `<activity>`                   | 앱 화면을 담당하는 컴포넌트 등록.         |
+| `android:name=".MainActivity"` | 앱 실행 시 가장 먼저 열릴 액티비티.       |
+| `android:exported="true"`      | 외부 런처(홈 화면)에서 실행할 수 있도록 허용. |
+| `android:label`                | 화면 상단에 표시되는 액티비티 이름.        |
+| `android:theme`                | 이 액티비티에 적용할 테마.             |
+            -->
 
+
+            <intent-filter>
+                <!-- intent-filter
+                    MAIN: 앱의 진입점(첫 실행 지점)을 의미.
+                    LAUNCHER: 이 액티비티를 앱 런처(홈 화면)에서 아이콘으로 실행할 수 있게 함.
+                -->
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

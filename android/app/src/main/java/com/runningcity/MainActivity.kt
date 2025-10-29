@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,7 +25,7 @@ import com.runningcity.ui.theme.RunningcityTheme
  * MainActivity
  * - 앱의 메인 화면(Activity)
  * - GPS 전송 버튼 UI를 표시하고,
- *   버튼을 눌렀을 때 위치 서비스(LocationService)를 시작/중지함
+ *   버튼을 눌렀을 때 LocationService를 실행하거나 중지함
  */
 class MainActivity : ComponentActivity() {
 
@@ -33,13 +34,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 위치 관련 권한 목록
+        // 요청할 권한 목록
         val permissions = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
 
-        // 권한 요청 결과 처리
+        // 권한 요청 처리
         val requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 permissionGranted = result.values.all { it }
@@ -63,11 +64,18 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    /**
+     * ✅ 위치 서비스(LocationService) 시작
+     * - 백그라운드에서 GPS 데이터를 주기적으로 전송함
+     */
     private fun startLocationService() {
         val intent = Intent(this, LocationService::class.java)
         ContextCompat.startForegroundService(this, intent)
     }
 
+    /**
+     * ✅ 위치 서비스 중지
+     */
     private fun stopLocationService() {
         val intent = Intent(this, LocationService::class.java)
         stopService(intent)
@@ -86,15 +94,15 @@ fun GPSControlScreen(
     onStartService: () -> Unit,
     onStopService: () -> Unit
 ) {
-    var isSending by remember { mutableStateOf(false) }
-    var latitude by remember { mutableStateOf<Double?>(null) }
-    var longitude by remember { mutableStateOf<Double?>(null) }
+    var isSending by remember { mutableStateOf(false) }  // 현재 GPS 전송 중 여부
+    var latitude by remember { mutableStateOf<Double?>(null) }   // 현재 위도
+    var longitude by remember { mutableStateOf<Double?>(null) }  // 현재 경도
 
     val context = LocalContext.current
 
     /**
-     * 🔊 BroadcastReceiver 등록
-     * - LocationService에서 "LOCATION_UPDATE" 액션을 수신
+     * 📡 BroadcastReceiver 등록
+     * - LocationService가 보낸 "LOCATION_UPDATE" 액션을 수신함
      */
     DisposableEffect(Unit) {
         val receiver = object : BroadcastReceiver() {
@@ -107,14 +115,22 @@ fun GPSControlScreen(
         }
 
         val filter = IntentFilter("LOCATION_UPDATE")
-        context.registerReceiver(receiver, filter)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Android 8.0 (API 26) 이상에서는 REVEIVER_NOT_EXPORTED 플래그 필요
+            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            // 하위 버전에서는 flag 없이 사용
+            context.registerReceiver(receiver, filter)
+        }
+
+        // 화면이 사라질 때 리시버 해제
         onDispose {
             context.unregisterReceiver(receiver)
         }
     }
 
-    // 화면 UI
+    // UI 구성
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -128,7 +144,7 @@ fun GPSControlScreen(
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
-        // 전송 버튼
+        // 버튼
         Button(
             onClick = {
                 if (isPermissionGranted) {
@@ -140,7 +156,7 @@ fun GPSControlScreen(
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(if (isSending) "🛰 전송 중..." else "📡 GPS 전송 시작")
+            Text(if (isSending) "GPS 전송 중..." else "GPS 전송 시작")
         }
 
         Spacer(modifier = Modifier.height(24.dp))
