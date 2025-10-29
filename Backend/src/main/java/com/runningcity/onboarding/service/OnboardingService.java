@@ -2,6 +2,7 @@ package com.runningcity.onboarding.service;
 
 import com.runningcity.onboarding.dto.OnboardingRequest;
 import com.runningcity.onboarding.dto.OnboardingResponse;
+import com.runningcity.onboarding.dto.OnboardingUpdateRequest;
 import com.runningcity.onboarding.entity.UserPreference;
 import com.runningcity.onboarding.repository.UserPreferenceRepository;
 import com.runningcity.user.entity.User;
@@ -81,6 +82,55 @@ public class OnboardingService {
         return userRepository.findById(userId)
                 .map(User::getHasCompletedOnboarding)
                 .orElse(false);
+    }
+
+    /**
+     * 사용자 온보딩 정보 수정 (목표 거리만 수정 가능)
+     * @param userId 사용자 ID
+     * @param request 수정할 온보딩 정보
+     * @return 수정된 온보딩 정보
+     */
+    @Transactional
+    public OnboardingResponse updateOnboarding(Long userId, OnboardingUpdateRequest request) {
+        // 1. 사용자 조회
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId));
+
+        // 2. 온보딩 완료 여부 확인
+        if (!user.getHasCompletedOnboarding()) {
+            throw new IllegalStateException("온보딩을 먼저 완료해야 합니다.");
+        }
+
+        // 3. UserPreference 조회
+        UserPreference userPreference = userPreferenceRepository.findByUser_UserId(userId)
+                .orElseThrow(() -> new IllegalStateException("사용자 설정 정보를 찾을 수 없습니다."));
+
+        // 4. targetDistanceKm 수정
+        UserPreference updatedPreference = UserPreference.builder()
+                .preferenceId(userPreference.getPreferenceId())
+                .user(userPreference.getUser())
+                .hasRunningHistory(userPreference.getHasRunningHistory())
+                .fitnessLevel(userPreference.getFitnessLevel())
+                .targetDistanceKm(request.getTargetDistanceKm()) // 수정
+                .restingHeartRate(userPreference.getRestingHeartRate())
+                .hasSmartWatch(userPreference.getHasSmartWatch())
+                .build();
+
+        // 5. 저장
+        userPreferenceRepository.save(updatedPreference);
+
+        // 6. 응답 생성
+        return OnboardingResponse.builder()
+                .userId(user.getUserId())
+                .onboardingCompletedAt(user.getUpdatedAt())
+                .profile(OnboardingResponse.ProfileDto.builder()
+                        .hasRunningHistory(updatedPreference.getHasRunningHistory())
+                        .fitnessLevel(updatedPreference.getFitnessLevel())
+                        .targetDistanceKm(updatedPreference.getTargetDistanceKm())
+                        .restingHeartRate(updatedPreference.getRestingHeartRate())
+                        .hasSmartWatch(updatedPreference.getHasSmartWatch())
+                        .build())
+                .build();
     }
 }
 
