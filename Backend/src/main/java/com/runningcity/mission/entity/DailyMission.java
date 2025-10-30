@@ -22,6 +22,7 @@ public class DailyMission {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    // DB가 timestamptz 또는 timestamp 여야 함
     @Column(name = "date", nullable = false)
     private ZonedDateTime date;
 
@@ -31,10 +32,12 @@ public class DailyMission {
     @Column(name = "current_km", nullable = false)
     private double currentKm;
 
-    @Column(name = "is_completed", nullable = false)
+    
+    @Column(name = "completed", nullable = false)
     private boolean completed = false;
 
-    @Column(name = "is_claimed", nullable = false)
+    
+    @Column(name = "claimed", nullable = false)
     private boolean claimed = false;
 
     @Column(name = "reward_coins", nullable = false)
@@ -92,6 +95,7 @@ public class DailyMission {
         this.currentKm = currentKm;
     }
 
+    
     public boolean isCompleted() {
         return completed;
     }
