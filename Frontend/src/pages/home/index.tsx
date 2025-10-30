@@ -12,7 +12,8 @@ const HomePage = () => {
     const [missionOpen, setMissionOpen] = useState(false);
 
     // 수령한 코인 보여주고 지갑 상태 추가
-    const [wallet, setWallet] = useState(0);
+    // const [wallet, setWallet] = useState(0); // 지갑 돈 늘어나는거 디버깅용. 
+    const setWallet = useState(0)[1];
     const userId = 1; //임시 유저 id
     useEffect(() => {
         if (AndroidBridge.isAndroid()) {
@@ -163,9 +164,9 @@ const HomePage = () => {
                 )}
 
                 {/* (선택) 지갑/디버그 */}
-                <div style={{ marginTop: 12, textAlign: 'center' }}>
+                {/* <div style={{ marginTop: 12, textAlign: 'center' }}>
                     <div style={{ fontSize: 12, color: '#334155' }}>지갑: {wallet} 코인</div>
-                </div>
+                </div> */}
             </div>
 
             {/* 하단 네비게이션 바 */}
