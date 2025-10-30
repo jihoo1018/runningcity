@@ -1,0 +1,4 @@
+# Deploy
+/deploy/secrets
+/deploy/nginx/static/
+/Backend/src/main/resources/application*.yml
