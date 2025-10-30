@@ -1,4 +1,21 @@
-# Deploy
+# docker / deploy
 /deploy/secrets
 /deploy/nginx/static/
 /Backend/src/main/resources/application*.yml
+
+# frontend
+Frontend/node_modules/
+Frontend/dist/
+Frontend/src/**/*.d.ts
+Frontend/src/**/*.js
+Frontend/vite.config.js
+
+# gradle
+**/.gradle/
+**/build/
+
+# OS / IDE
+.DS_Store
+*.log
+.vscode/
+.idea/

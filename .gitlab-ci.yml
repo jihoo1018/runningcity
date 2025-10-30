@@ -16,20 +16,22 @@ deploy_dev_front_static:
 
       docker volume create npm_cache || true
       
-      docker run --rm \
-        -v "$PWD/Frontend:/app" \
+      docker rm -f fe-build || true
+      docker run --name fe-build \
+        -v "$PWD/Frontend:/src:ro" \
         -v npm_cache:/root/.npm \
-        -w /app \
-        node:20 bash -lc "corepack enable || true; npm ci && npm run build"
+        -w /work \
+        node:20 bash -lc "corepack enable || true; cp -a /src/. /work/; npm ci; npm run build"
       
       mkdir -p deploy/nginx/static
       rm -rf deploy/nginx/static/* || true
-      cp -r Frontend/dist/* deploy/nginx/static/
+      docker cp fe-build:/work/dist/. deploy/nginx/static/
       printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
         "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
         > deploy/nginx/static/version.json
 
-      docker compose -f deploy/docker-compose.dev.yml up -d nginx
+      docker rm -f fe-build || true
+      docker compose -f deploy/docker-compose.dev.yml up -d nginx --no-deps
 
 # backend
 deploy_dev_backend:
@@ -69,13 +71,34 @@ deploy_dev_backend:
           hikari:
             maximum-pool-size: 10
         redis:
-          host: ${REDIS_HOST}
-          port: ${REDIS_PORT}
+          host: ${DEV_REDIS_HOST}
+          port: ${DEV_REDIS_PORT}
+        mvc:
+          cors:
+            mappings:
+              "[/**]":
+                allowed-origin-patterns:
+                  - "${DEV_WEB_BASE_URL:http://localhost}"
+                  - "http://localhost:*"
+                  - "http://127.0.0.1:*"
+                allowed-methods: "*"
+                allowed-headers: "*"
+                allow-credentials: true
+                exposed-headers: [ "Location" ]
       server:
         port: 8080
       logging:
         level:
           root: info
+      management:
+        endpoints:
+          web:
+            exposure:
+              include: health,info
+        endpoint:
+          health:
+            probes:
+              enabled: true
       EOF
       
       [ -f deploy/db/init/001_postgis.sql ] || echo 'CREATE EXTENSION IF NOT EXISTS postgis;' > deploy/db/init/001_postgis.sql
@@ -84,7 +107,7 @@ deploy_dev_backend:
         -v "$PWD/Backend:/home/gradle/project" \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -w /home/gradle/project \
-        gradle:8.10.2-jdk21 bash -lc "./gradlew --no-daemon clean jibDockerBuild"
+        gradle:8.10.2-jdk21 bash -lc "sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew && ./gradlew --no-daemon clean jibDockerBuild"
 
       docker compose -f deploy/docker-compose.dev.yml up -d postgres-dev redis-dev
       docker compose -f deploy/docker-compose.dev.yml up -d backend-dev

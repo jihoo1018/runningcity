@@ -1,8 +1,6 @@
 // src/shared/api/http.ts
 
-const API_ORIGIN =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_ORIGIN) ||
-  "http://localhost:8080";
+const API_ORIGIN = import.meta.env.VITE_API_ORIGIN ?? "";
 
 function toURL(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
@@ -37,11 +35,7 @@ export async function apiGet<T>(path: string): Promise<T> {
 export type WriteMethod = "POST" | "PATCH" | "DELETE";
 
 // POST/PATCH/DELETE: JSON이면 파싱, 아니면 void 반환
-export async function apiPost<T = void, B = unknown>(
-  path: string,
-  body?: B,
-  method: WriteMethod = "POST"
-): Promise<T> {
+export async function apiPost<T = void, B = unknown>(path: string, body?: B, method: WriteMethod = "POST"): Promise<T> {
   const url = toURL(path);
 
   const headers: HeadersInit = {};
