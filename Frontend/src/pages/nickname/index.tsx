@@ -1,4 +1,4 @@
-// src/pages/onboarding/index.tsx
+// src/pages/nickname/index.tsx
 
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
