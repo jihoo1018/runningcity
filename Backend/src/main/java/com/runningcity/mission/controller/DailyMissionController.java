@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users/{userId}/daily-missions")
+@RequestMapping("/users/{userId}/daily-missions")
 public class DailyMissionController {
 
     private final DailyMissionService dailyMissionService;
