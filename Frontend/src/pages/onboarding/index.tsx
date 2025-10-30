@@ -1,64 +1,86 @@
-// src/pages/onboarding/index.tsx
+// src/pages/onboarding-form/index.tsx
 
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateNickname } from '../../shared/api/onboarding';
+import { completeOnboarding, FitnessLevel } from '../../shared/api/onboarding';
 
 const OnboardingPage = () => {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState('');
+  
+  // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
+  const userId = 1;
+
+  const [hasRunningHistory, setHasRunningHistory] = useState<boolean | null>(null);
+  const [targetDistance, setTargetDistance] = useState('');
+  const [fitnessLevel, setFitnessLevel] = useState<FitnessLevel | ''>('');
+  const [restingHeartRate, setRestingHeartRate] = useState('');
+  const [hasSmartWatch, setHasSmartWatch] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
-  const userId = 1; // 임시 하드코딩
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
-    // 닉네임 유효성 검사
-    if (!nickname.trim()) {
-      setError('닉네임을 입력해 주세요');
+    setError('');
+
+    // 유효성 검사
+    if (hasRunningHistory === null) {
+      setError('러닝 이력을 선택해주세요');
       return;
     }
 
-    if (nickname.length < 2) {
-      setError('닉네임은 2글자 이상이어야 합니다');
+    if (!targetDistance || parseFloat(targetDistance) < 1 || parseFloat(targetDistance) > 40) {
+      setError('목표 거리는 1~40km 사이로 입력해주세요');
       return;
     }
 
-    if (nickname.length > 50) {
-      setError('닉네임은 50글자 이하여야 합니다');
+    if (!fitnessLevel) {
+      setError('운동 능력치를 선택해주세요');
       return;
     }
 
-    // 한글, 영문, 숫자, 언더스코어만 허용
-    const nicknamePattern = /^[a-zA-Z0-9가-힣_]+$/;
-    if (!nicknamePattern.test(nickname)) {
-      setError('닉네임은 한글, 영문, 숫자, 언더스코어(_)만 사용 가능합니다');
+    if (restingHeartRate && (parseInt(restingHeartRate) < 40 || parseInt(restingHeartRate) > 120)) {
+      setError('심박수는 40~120 사이로 입력해주세요');
       return;
     }
 
     setIsLoading(true);
-    setError('');
 
     // 백그라운드로 API 호출 (실패해도 페이지 이동)
-    updateNickname(userId, nickname.trim()).catch((err) => {
-      console.error('닉네임 업데이트 실패:', err);
+    const onboardingData: any = {
+      hasRunningHistory,
+      fitnessLevel,
+      targetDistanceKm: parseFloat(targetDistance),
+      hasSmartWatch,
+    };
+    
+    if (restingHeartRate) {
+      onboardingData.restingHeartRate = parseInt(restingHeartRate);
+    }
+    
+    completeOnboarding(userId, onboardingData).catch((err) => {
+      console.error('온보딩 실패:', err);
     });
     
-    // 짧은 딜레이 후 온보딩 페이지로 이동
+    // 짧은 딜레이 후 홈으로 이동
     setTimeout(() => {
       setIsLoading(false);
-      navigate('/onboarding');
+      navigate('/');
     }, 100);
   };
+
+  const fitnessOptions: { value: FitnessLevel; label: string }[] = [
+    { value: 'BEGINNER', label: '입문자 (처음 시작)' },
+    { value: 'INTERMEDIATE', label: '초급자 (가끔 운동)' },
+    { value: 'ADVANCED', label: '중급자 (주 2-3회)' },
+    { value: 'EXPERT', label: '상급자 (주 4-5회)' },
+    { value: 'ELITE', label: '전문가 (매일 운동)' },
+  ];
 
   return (
     <div
       style={{
         width: '100vw',
-        height: '100vh',
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -75,85 +97,256 @@ const OnboardingPage = () => {
           backgroundColor: '#d4d4d4',
           border: '2px solid #9ca3af',
           borderRadius: '8px',
-          padding: '40px 30px',
+          padding: '30px 25px',
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          gap: '20px',
         }}
       >
         {/* 헤더 */}
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', paddingBottom: '10px', borderBottom: '2px solid #9ca3af' }}>
           <h1
             style={{
-              fontSize: '28px',
+              fontSize: '24px',
               fontWeight: 'normal',
               color: '#4b5563',
               margin: '0 0 8px 0',
               fontFamily: 'Arial, sans-serif',
             }}
           >
-            [ 로고 / 타이틀 ]
+            [ 온보딩 정보 입력 ]
           </h1>
           <p
             style={{
-              fontSize: '14px',
+              fontSize: '13px',
               color: '#6b7280',
               margin: 0,
               fontFamily: 'Arial, sans-serif',
             }}
           >
-            닉네임을 입력해 주세요
+            러닝 활동에 필요한 정보를 입력해주세요
           </p>
         </div>
 
-        {/* 입력 폼 */}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* 러닝 이력 */}
           <div>
             <label
               style={{
                 display: 'block',
                 fontSize: '12px',
-                color: '#6b7280',
-                marginBottom: '8px',
+                color: '#4b5563',
+                marginBottom: '10px',
                 fontFamily: 'Arial, sans-serif',
+                fontWeight: 'bold',
               }}
             >
-              닉네임
+              러닝 이력 T/F
+            </label>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="button"
+                onClick={() => setHasRunningHistory(true)}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  fontSize: '14px',
+                  color: hasRunningHistory === true ? '#1f2937' : '#6b7280',
+                  backgroundColor: hasRunningHistory === true ? '#ffffff' : '#e5e7eb',
+                  border: hasRunningHistory === true ? '2px solid #6b7280' : '2px solid #9ca3af',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontFamily: 'Arial, sans-serif',
+                }}
+              >
+                [ True ]
+              </button>
+              <button
+                type="button"
+                onClick={() => setHasRunningHistory(false)}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  fontSize: '14px',
+                  color: hasRunningHistory === false ? '#1f2937' : '#6b7280',
+                  backgroundColor: hasRunningHistory === false ? '#ffffff' : '#e5e7eb',
+                  border: hasRunningHistory === false ? '2px solid #6b7280' : '2px solid #9ca3af',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontFamily: 'Arial, sans-serif',
+                }}
+              >
+                [ False ]
+              </button>
+            </div>
+          </div>
+
+          {/* 목표 거리 */}
+          <div>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '12px',
+                color: '#4b5563',
+                marginBottom: '8px',
+                fontFamily: 'Arial, sans-serif',
+                fontWeight: 'bold',
+              }}
+            >
+              목표 km
             </label>
             <input
-              type="text"
-              value={nickname}
-              onChange={(e) => {
-                setNickname(e.target.value);
-                setError(''); // 입력 시 에러 초기화
-              }}
-              placeholder="닉네임을 입력해 주세요"
-              maxLength={50}
-              disabled={isLoading}
+              type="number"
+              value={targetDistance}
+              onChange={(e) => setTargetDistance(e.target.value)}
+              placeholder="목표 거리 (1~40km)"
+              min="1"
+              max="40"
+              step="0.1"
               style={{
                 width: '100%',
                 padding: '12px',
                 fontSize: '14px',
-                border: error ? '2px solid #ef4444' : '2px solid #9ca3af',
+                border: '2px solid #9ca3af',
                 borderRadius: '4px',
                 outline: 'none',
                 boxSizing: 'border-box',
-                backgroundColor: isLoading ? '#e5e7eb' : '#ffffff',
+                backgroundColor: '#ffffff',
                 fontFamily: 'Arial, sans-serif',
               }}
             />
-            {/* 글자수 표시 */}
-            <div
+          </div>
+
+          {/* 운동 능력치 */}
+          <div>
+            <label
               style={{
-                fontSize: '11px',
-                color: '#9ca3af',
-                textAlign: 'right',
-                marginTop: '4px',
+                display: 'block',
+                fontSize: '12px',
+                color: '#4b5563',
+                marginBottom: '8px',
+                fontFamily: 'Arial, sans-serif',
+                fontWeight: 'bold',
+              }}
+            >
+              현재 운동 가능 능력치
+            </label>
+            <select
+              value={fitnessLevel}
+              onChange={(e) => setFitnessLevel(e.target.value as FitnessLevel)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                fontSize: '14px',
+                border: '2px solid #9ca3af',
+                borderRadius: '4px',
+                outline: 'none',
+                boxSizing: 'border-box',
+                backgroundColor: '#ffffff',
                 fontFamily: 'Arial, sans-serif',
               }}
             >
-              {nickname.length}/50자
+              <option value="">선택해주세요</option>
+              {fitnessOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* 심박수 측정 */}
+          <div>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '12px',
+                color: '#4b5563',
+                marginBottom: '8px',
+                fontFamily: 'Arial, sans-serif',
+                fontWeight: 'bold',
+              }}
+            >
+              측정치 (선택사항)
+            </label>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <input
+                type="number"
+                value={restingHeartRate}
+                onChange={(e) => setRestingHeartRate(e.target.value)}
+                placeholder="심박수 (40~120)"
+                min="40"
+                max="120"
+                disabled={!hasSmartWatch}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  fontSize: '14px',
+                  border: '2px solid #9ca3af',
+                  borderRadius: '4px',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  backgroundColor: !hasSmartWatch ? '#e5e7eb' : '#ffffff',
+                  fontFamily: 'Arial, sans-serif',
+                }}
+              />
+              <button
+                type="button"
+                disabled={!hasSmartWatch}
+                style={{
+                  padding: '12px 20px',
+                  fontSize: '14px',
+                  color: !hasSmartWatch ? '#9ca3af' : '#1f2937',
+                  backgroundColor: !hasSmartWatch ? '#e5e7eb' : '#a3a3a3',
+                  border: '2px solid #6b7280',
+                  borderRadius: '4px',
+                  cursor: !hasSmartWatch ? 'not-allowed' : 'pointer',
+                  fontFamily: 'Arial, sans-serif',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                [ 심박수 측정 ]
+              </button>
             </div>
+          </div>
+
+          {/* 워치 체크박스 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '10px',
+            }}
+          >
+            <label
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                color: '#4b5563',
+                fontFamily: 'Arial, sans-serif',
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={!hasSmartWatch}
+                onChange={(e) => {
+                  setHasSmartWatch(!e.target.checked);
+                  if (e.target.checked) {
+                    setRestingHeartRate('');
+                  }
+                }}
+                style={{
+                  width: '18px',
+                  height: '18px',
+                  cursor: 'pointer',
+                }}
+              />
+              워치가 없어요 체크
+            </label>
           </div>
 
           {/* 에러 메시지 */}
@@ -173,25 +366,24 @@ const OnboardingPage = () => {
             </div>
           )}
 
-          {/* 확인 버튼 */}
+          {/* 제출 버튼 */}
           <button
             type="submit"
-            disabled={isLoading || !nickname.trim()}
+            disabled={isLoading}
             style={{
               width: '100%',
-              padding: '14px',
-              fontSize: '14px',
-              fontWeight: 'normal',
-              color: isLoading || !nickname.trim() ? '#6b7280' : '#1f2937',
-              backgroundColor: isLoading || !nickname.trim() ? '#e5e7eb' : '#a3a3a3',
+              padding: '16px',
+              fontSize: '15px',
+              fontWeight: 'bold',
+              color: isLoading ? '#6b7280' : '#1f2937',
+              backgroundColor: isLoading ? '#e5e7eb' : '#a3a3a3',
               border: '2px solid #6b7280',
               borderRadius: '4px',
-              cursor: isLoading || !nickname.trim() ? 'not-allowed' : 'pointer',
-              minHeight: '48px',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}
           >
-            {isLoading ? '[ 처리중... ]' : '[ 확인 ]'}
+            {isLoading ? '[ 제출 중... ]' : '[ 제출하기 ]'}
           </button>
         </form>
 
@@ -207,8 +399,8 @@ const OnboardingPage = () => {
             lineHeight: '1.6',
           }}
         >
-          * 한글, 영문, 숫자, 언더스코어(_) 사용 가능<br />
-          * 2~50자 입력
+          * 모든 정보는 맞춤형 러닝 추천에 사용됩니다<br />
+          * 심박수는 워치가 있을 때만 입력 가능합니다
         </div>
       </div>
     </div>
