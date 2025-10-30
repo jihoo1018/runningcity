@@ -46,7 +46,7 @@ export default function MissionModal({
     [mission]
   );
 
-  // ✅ 여기만 새 주소로 바꾼 것
+  
   const load = async () => {
     try {
       setLoading(true);
@@ -69,7 +69,7 @@ export default function MissionModal({
     }
   }, [open]);
 
-  // ✅ 여기도 새 주소
+  
   const addKm = async (delta: number) => {
     if (!mission) return;
     try {
@@ -89,7 +89,7 @@ export default function MissionModal({
     }
   };
 
-  // ✅ 여기도 새 주소
+  
   const claim = async () => {
     if (!mission) return;
     if (mission.claimed) {
@@ -104,9 +104,9 @@ export default function MissionModal({
     try {
       setLoading(true);
       setError(null);
-      // POST /api/v1/users/{userId}/daily-missions/{missionId}/claim
+      // POST /api/v1/users/{userId}/daily-missions/today/claim
       const res = await apiPost<ApiResponse<DailyMissionResponse>>(
-        `/api/v1/users/${userId}/daily-missions/${mission.id}/claim`
+        `/api/v1/users/${userId}/daily-missions/today/claim`
       );
       const coins = res.data.rewardCoins ?? 0;
       alert(`보상 ${coins} 코인을 수령했습니다! 🎉`);
