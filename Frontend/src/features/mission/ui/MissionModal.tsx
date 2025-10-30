@@ -1,3 +1,4 @@
+// src/features/mission/MissionModal.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import { apiGet, apiPost } from "../../../shared/api";
 
@@ -45,10 +46,12 @@ export default function MissionModal({
     [mission]
   );
 
+  // ✅ 여기만 새 주소로 바꾼 것
   const load = async () => {
     try {
       setLoading(true);
       setError(null);
+      // GET /api/v1/users/{userId}/daily-missions/today
       const res = await apiGet<ApiResponse<DailyMissionResponse>>(
         `/api/v1/users/${userId}/daily-missions/today`
       );
@@ -66,11 +69,13 @@ export default function MissionModal({
     }
   }, [open]);
 
+  // ✅ 여기도 새 주소
   const addKm = async (delta: number) => {
     if (!mission) return;
     try {
       setLoading(true);
       setError(null);
+      // PATCH /api/v1/users/{userId}/daily-missions/today/progress
       await apiPost<void>(
         `/api/v1/users/${userId}/daily-missions/today/progress`,
         { additionalKm: delta },
@@ -84,6 +89,7 @@ export default function MissionModal({
     }
   };
 
+  // ✅ 여기도 새 주소
   const claim = async () => {
     if (!mission) return;
     if (mission.claimed) {
@@ -98,6 +104,7 @@ export default function MissionModal({
     try {
       setLoading(true);
       setError(null);
+      // POST /api/v1/users/{userId}/daily-missions/{missionId}/claim
       const res = await apiPost<ApiResponse<DailyMissionResponse>>(
         `/api/v1/users/${userId}/daily-missions/${mission.id}/claim`
       );
@@ -113,6 +120,7 @@ export default function MissionModal({
     }
   };
 
+  // 🔸 이건 네 백엔드에 /reset 없으면 어차피 404라서 나중에 지워도 됨
   const reset = async () => {
     try {
       setLoading(true);
@@ -304,4 +312,3 @@ const styles: Record<string, React.CSSProperties> = {
     marginBottom: 8,
   },
 };
-
