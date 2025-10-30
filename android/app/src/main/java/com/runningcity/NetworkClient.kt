@@ -13,7 +13,7 @@ class NetworkClient {
     private val client = OkHttpClient() //HTTP 요청용 OkHttpClient 초기화. 안드로이드에서 가장 많이 쓰이는 네트워크 라이브러리.
 
     // 서버 API 주소 (ngrok 주소는 매번 새로 켤 때 갱신 필요)
-    private val serverUrl = "https://nonconjunctive-cami-outdoor.ngrok-free.dev/api/location"
+    private val serverUrl = "https://castiel-propraetorial-hadlee.ngrok-free.dev/api/v1/api/location"
 
     suspend fun sendLocation(location: Location) {
         try {
