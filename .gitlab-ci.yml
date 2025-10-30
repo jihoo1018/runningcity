@@ -29,7 +29,7 @@ deploy_dev_front_static:
         "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
         > deploy/nginx/static/version.json
 
-      docker compose -f deploy/docker-compose.dev.yml up -d nginx
+      docker compose -f deploy/docker-compose.dev.yml up -d nginx --no-deps
 
 # backend
 deploy_dev_backend:
