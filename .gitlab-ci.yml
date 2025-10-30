@@ -126,3 +126,5 @@ deploy_dev_backend:
       done
       
       docker compose -f deploy/docker-compose.dev.yml up -d backend-dev
+      
+      docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /w || true"
