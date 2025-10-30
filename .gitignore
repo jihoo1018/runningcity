@@ -6,11 +6,9 @@
 # frontend
 Frontend/node_modules/
 Frontend/dist/
-**/*.d.ts
-
-# local build artifacts
-src/**/*.js
-vite.config.js
+Frontend/src/**/*.d.ts
+Frontend/src/**/*.js
+Frontend/vite.config.js
 
 # gradle
 **/.gradle/
