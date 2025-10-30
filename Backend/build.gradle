@@ -31,6 +31,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'//REST API 서버
     implementation 'org.springframework.boot:spring-boot-starter-validation'//DTO 검증
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     compileOnly 'org.projectlombok:lombok' //lombok - 어노테이션 처리기.
     annotationProcessor 'org.projectlombok:lombok' //lombok - 어노테이션 처리기.
 
