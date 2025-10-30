@@ -43,5 +43,11 @@ export default defineConfig({
   server: {
     host: '0.0.0.0', // 같은 네트워크의 모바일에서 접근 가능
     port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080', // 백엔드 프록시
+        changeOrigin: true,
+      },
+    },
   }
 });
