@@ -2,8 +2,8 @@ package com.runningcity.global.exception;
 
 import com.A606.hon_moon.global.common.dto.ApiResponse_legacy;
 import com.A606.hon_moon.global.common.enums.ErrorCode;
-import com.runningcity.global.common.ApiResponse;
-import com.runningcity.global.common.CommonResponseCode;
+import com.runningcity.global.response.ApiResponse;
+import com.runningcity.global.response.CommonResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;

@@ -1,7 +1,7 @@
 package com.runningcity.global.exception;
 
 
-import com.runningcity.global.common.CommonResponseCode;
+import com.runningcity.global.response.CommonResponseCode;
 
 public class UserException extends BaseException {
     

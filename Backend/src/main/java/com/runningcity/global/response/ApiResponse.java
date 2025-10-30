@@ -1,8 +1,7 @@
-package com.runningcity.global.common;
+package com.runningcity.global.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 

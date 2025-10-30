@@ -1,6 +1,6 @@
 package com.runningcity.global.exception;
 
-import com.runningcity.global.common.CommonResponseCode;
+import com.runningcity.global.response.CommonResponseCode;
 import lombok.Getter;
 
 @Getter
