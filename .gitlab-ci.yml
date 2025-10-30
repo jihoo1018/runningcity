@@ -10,6 +10,8 @@ deploy_dev_front_static:
       changes:
         - "Frontend/**"
         - "deploy/nginx/**"
+        - ".gitlab-ci.yml"
+        - "deploy/docker-compose.dev.yml"
   script:
     - |
       set -euo pipefail
@@ -44,6 +46,7 @@ deploy_dev_backend:
         - "Backend/**"
         - "deploy/docker-compose.dev.yml"
         - "deploy/db/**"
+        - ".gitlab-ci.yml"
   script:
     - |
       set -euo pipefail
