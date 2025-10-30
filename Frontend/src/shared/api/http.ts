@@ -24,7 +24,7 @@ function hasBody(res: Response) {
 // GET: 항상 JSON 기대
 export async function apiGet<T>(path: string): Promise<T> {
   const url = toURL(path);
-  const res = await fetch(url, { credentials: "include" });
+  const res = await fetch(url, { credentials: "omit" });
   if (!res.ok) throw new Error(`GET ${path} -> ${res.status}`);
 
   if (!isJson(res)) {
@@ -47,10 +47,10 @@ export async function apiPost<T = void, B = unknown>(
   const headers: HeadersInit = {};
   const init: RequestInit = {
     method,
-    credentials: "include",
+    credentials: "omit",
     headers,
   };
-
+  
   if (body !== undefined) {
     (headers as Record<string, string>)["Content-Type"] = "application/json";
     (init as RequestInit & { body: BodyInit }).body = JSON.stringify(body);
@@ -65,3 +65,4 @@ export async function apiPost<T = void, B = unknown>(
   // 본문이 없거나 JSON이 아니면 성공으로 간주하고 void 반환
   return undefined as T;
 }
+ 
