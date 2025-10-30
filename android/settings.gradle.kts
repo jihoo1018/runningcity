@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "runningcity"
 include(":app")
- 
+include(":wearos")
