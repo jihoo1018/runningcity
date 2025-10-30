@@ -10,6 +10,8 @@ deploy_dev_front_static:
       changes:
         - "Frontend/**"
         - "deploy/nginx/**"
+        - ".gitlab-ci.yml"
+        - "deploy/docker-compose.dev.yml"
   script:
     - |
       set -euo pipefail
@@ -31,7 +33,7 @@ deploy_dev_front_static:
         > deploy/nginx/static/version.json
 
       docker rm -f fe-build || true
-      docker compose -f deploy/docker-compose.dev.yml up -d nginx
+      docker compose -f deploy/docker-compose.dev.yml up -d nginx --no-deps
 
 # backend
 deploy_dev_backend:
@@ -44,6 +46,7 @@ deploy_dev_backend:
         - "Backend/**"
         - "deploy/docker-compose.dev.yml"
         - "deploy/db/**"
+        - ".gitlab-ci.yml"
   script:
     - |
       set -euo pipefail
