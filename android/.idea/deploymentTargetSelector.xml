@@ -8,6 +8,9 @@
       <SelectionState runConfigName="runningcity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="runningcity.RunningComplicationService">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
