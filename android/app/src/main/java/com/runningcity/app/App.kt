@@ -1,4 +1,4 @@
-package com.runningcity
+package com.runningcity.app
 
 import android.app.Application
 import android.content.Context
@@ -6,8 +6,14 @@ import android.content.Context
 /**
  * App
  * - 전역 context를 사용하기 위한 Application 클래스(일반 Activity의 context는 화면이 꺼지면 사라지기 때문에 전역용이 필요함)
+ * - 앱이 시작될 때 한 번만 호출되고, 앱의 전체 생명 주기 동안 유지되는 객체를 관리할 수 있음
  * - 패키지 선언 및 Android Application 관련 클래스 import
  * - AndroidManifest.xml에서 android:name=".App" 으로 등록해야 함
+ *
+ * Application 클래스를 상속받는 이유:
+ * - 앱 전체에서 전역적으로 사용할 데이터나 자원을 관리할 때.
+ * - 앱이 시작될 때 필요한 초기화 작업을 할 때.
+ * - 앱 내의 싱글턴 패턴 구현 시 유용
  */
 class App : Application() { //앱 전체 생명주기에서 가장 먼저 생성되는 객체
     override fun onCreate() { // 앱이 시작될 때 한 번 실행.
