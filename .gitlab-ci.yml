@@ -34,18 +34,18 @@ deploy_dev_front_static:
       rm -rf deploy/nginx/static/* || true
       
       docker run --rm \
-        --user "$(id -u):$(id -g)" \
         -v "$PWD/Frontend:/src:ro" \
         -v "$PWD/deploy/nginx/static:/out" \
         -v npm_cache:/root/.npm \
         -w /work \
         node:20 bash -lc '
           set -euo pipefail
-          corepack enable || true
+          mkdir -p /work
           cp -a /src/. /work/
-          npm ci
+          cd /work
+          npm ci --no-audit --no-fund
           npm run build
-          cp -a /work/dist/. /out/
+          cp -a dist/. /out/
         '
 
       printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
@@ -80,7 +80,7 @@ deploy_dev_backend:
       EOF
       
       cat > deploy/secrets/.env.dev <<EOF
-      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST}:${DEV_DB_PORT}/${DEV_DB_NAME}
+      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST:-postgres-dev}:${DEV_DB_PORT:-5432}/${DEV_DB_NAME:-5432}
       SPRING_DATASOURCE_USERNAME=${DEV_DB_USER}
       SPRING_DATASOURCE_PASSWORD=${DEV_DB_PASSWORD}
       REDIS_HOST=${DEV_REDIS_HOST}
@@ -134,7 +134,10 @@ deploy_dev_backend:
         -v gradle_cache:/home/gradle/.gradle \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -w /home/gradle/project \
-        gradle:8.10.2-jdk21 bash -lc "./gradlew --no-daemon clean jibDockerBuild"
+        gradle:8.10.2-jdk21 bash -lc "
+          chmod +x ./gradlew
+          ./gradlew --no-daemon clean jibDockerBuild
+        "
 
       docker compose -f deploy/docker-compose.dev.yml up -d postgres-dev redis-dev
 
