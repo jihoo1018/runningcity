@@ -1,10 +1,22 @@
 stages: [deploy]
 
+# 공통
+.default_chown:
+  before_script:
+    - |
+      # checkout 직후 남아있을 수 있는 root 소유물 교정
+      docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /w || true"
+  after_script:
+    - |
+      # 잡 산출물도 러너 소유로 바꿔 cleanup 실패 방지
+      docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /w || true"
+
 # frontend static
 deploy_dev_front_static:
   stage: deploy
   environment: develop
   tags: ["run-dev-runner"]
+  extends: .default_chown
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
@@ -18,21 +30,28 @@ deploy_dev_front_static:
 
       docker volume create npm_cache || true
       
-      docker rm -f fe-build || true
-      docker run --name fe-build \
-        -v "$PWD/Frontend:/src:ro" \
-        -v npm_cache:/root/.npm \
-        -w /work \
-        node:20 bash -lc "corepack enable || true; cp -a /src/. /work/; npm ci; npm run build"
-      
       mkdir -p deploy/nginx/static
       rm -rf deploy/nginx/static/* || true
-      docker cp fe-build:/work/dist/. deploy/nginx/static/
+      
+      docker run --rm \
+        --user "$(id -u):$(id -g)" \
+        -v "$PWD/Frontend:/src:ro" \
+        -v "$PWD/deploy/nginx/static:/out" \
+        -v npm_cache:/root/.npm \
+        -w /work \
+        node:20 bash -lc '
+          set -euo pipefail
+          corepack enable || true
+          cp -a /src/. /work/
+          npm ci
+          npm run build
+          cp -a /work/dist/. /out/
+        '
+
       printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
         "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
         > deploy/nginx/static/version.json
 
-      docker rm -f fe-build || true
       docker compose -f deploy/docker-compose.dev.yml up -d nginx --no-deps
 
 # backend
@@ -40,6 +59,7 @@ deploy_dev_backend:
   stage: deploy
   environment: develop
   tags: ["run-dev-runner"]
+  extends: .default_chown
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
@@ -109,22 +129,20 @@ deploy_dev_backend:
       docker volume create gradle_cache || true
       
       docker run --rm \
-        --user "0:0" \ 
+        --user "$(id -u):$(id -g)" \
         -v "$PWD/Backend:/home/gradle/project" \
         -v gradle_cache:/home/gradle/.gradle \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -w /home/gradle/project \
         gradle:8.10.2-jdk21 bash -lc "./gradlew --no-daemon clean jibDockerBuild"
 
-      docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chmod -R 777 /w || true"
-      
       docker compose -f deploy/docker-compose.dev.yml up -d postgres-dev redis-dev
-      
+
       pg=$(docker compose -f deploy/docker-compose.dev.yml ps -q postgres-dev)
       for i in {1..60}; do
         st=$(docker inspect -f "{{.State.Health.Status}}" "$pg" 2>/dev/null || echo "starting")
         [ "$st" = "healthy" ] && echo "✅ postgres-dev healthy" && break
         sleep 2
       done
-      
+
       docker compose -f deploy/docker-compose.dev.yml up -d backend-dev
