@@ -25,6 +25,7 @@ deploy_dev_front_static:
         - ".gitlab-ci.yml"
         - "deploy/docker-compose.dev.yml"
   script:
+    - export COMPOSE_PROJECT_NAME=runningcity-dev
     - |
       set -euo pipefail
 
@@ -68,23 +69,24 @@ deploy_dev_backend:
         - "deploy/db/**"
         - ".gitlab-ci.yml"
   script:
+    - export COMPOSE_PROJECT_NAME=runningcity-dev
     - |
       set -euo pipefail
       
       mkdir -p deploy/secrets deploy/db/init
       
       cat > deploy/secrets/db.env <<EOF
-      POSTGRES_DB=${DEV_DB_NAME}
-      POSTGRES_USER=${DEV_DB_USER}
-      POSTGRES_PASSWORD=${DEV_DB_PASSWORD}
+      POSTGRES_DB=${DEV_DB_NAME:-postgres-dev}
+      POSTGRES_USER=${DEV_DB_USER:-admin}
+      POSTGRES_PASSWORD=${DEV_DB_PASSWORD:-1234}
       EOF
       
       cat > deploy/secrets/.env.dev <<EOF
-      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST:-postgres-dev}:${DEV_DB_PORT:-5432}/${DEV_DB_NAME:-5432}
+      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST:-postgres-dev}:${DEV_DB_PORT:-5432}/${DEV_DB_NAME:-app}
       SPRING_DATASOURCE_USERNAME=${DEV_DB_USER}
       SPRING_DATASOURCE_PASSWORD=${DEV_DB_PASSWORD}
-      REDIS_HOST=${DEV_REDIS_HOST}
-      REDIS_PORT=${DEV_REDIS_PORT}
+      REDIS_HOST=${DEV_REDIS_HOST:-redis-dev}
+      REDIS_PORT=${DEV_REDIS_PORT:-6379}
       JWT_SECRET=${DEV_JWT_SECRET:-__unused__}
       EOF
       
@@ -129,7 +131,6 @@ deploy_dev_backend:
       docker volume create gradle_cache || true
       
       docker run --rm \
-        --user "$(id -u):$(id -g)" \
         -v "$PWD/Backend:/home/gradle/project" \
         -v gradle_cache:/home/gradle/.gradle \
         -v /var/run/docker.sock:/var/run/docker.sock \
@@ -149,3 +150,4 @@ deploy_dev_backend:
       done
 
       docker compose -f deploy/docker-compose.dev.yml up -d backend-dev
+      docker compose -f deploy/docker-compose.dev.yml up -d nginx
