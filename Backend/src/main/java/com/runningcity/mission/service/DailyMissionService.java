@@ -1,6 +1,6 @@
 package com.runningcity.mission.service;
 
-import com.runningcity.global.common.CommonResponseCode;
+import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.mission.dto.DailyMissionProgressRequest;
 import com.runningcity.mission.dto.DailyMissionResponse;
 import com.runningcity.mission.entity.DailyMission;
