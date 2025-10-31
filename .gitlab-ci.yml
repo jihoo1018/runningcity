@@ -57,7 +57,7 @@ deploy_dev_front_static:
         > deploy/nginx/static/version.json
 
       docker compose -f deploy/docker-compose.dev.yml up -d nginx --no-deps
-      sleep 3
+      sleep 2
       docker exec nginx wget -qO- http://localhost/version.json || echo "⚠️ nginx version.json not found"
 
 # backend
@@ -81,17 +81,17 @@ deploy_dev_backend:
       mkdir -p deploy/secrets deploy/db/init
       
       cat > deploy/secrets/db.env <<EOF
-      POSTGRES_DB=${DEV_DB_NAME:-postgres-dev}
-      POSTGRES_USER=${DEV_DB_USER:-admin}
-      POSTGRES_PASSWORD=${DEV_DB_PASSWORD:-1234}
+      POSTGRES_DB=${DEV_DB_NAME}
+      POSTGRES_USER=${DEV_DB_USER}
+      POSTGRES_PASSWORD=${DEV_DB_PASSWORD}
       EOF
       
       cat > deploy/secrets/.env.dev <<EOF
-      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST:-postgres-dev}:${DEV_DB_PORT:-5432}/${DEV_DB_NAME:-app}
-      SPRING_DATASOURCE_USERNAME=${DEV_DB_USER:-admin}
-      SPRING_DATASOURCE_PASSWORD=${DEV_DB_PASSWORD:-1234}
-      REDIS_HOST=${DEV_REDIS_HOST:-redis-dev}
-      REDIS_PORT=${DEV_REDIS_PORT:-6379}
+      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST}:${DEV_DB_PORT}/${DEV_DB_NAME}
+      SPRING_DATASOURCE_USERNAME=${DEV_DB_USER}
+      SPRING_DATASOURCE_PASSWORD=${DEV_DB_PASSWORD}
+      REDIS_HOST=${DEV_REDIS_HOST}
+      REDIS_PORT=${DEV_REDIS_PORT}
       JWT_SECRET=${DEV_JWT_SECRET:-__unused__}
       EOF
       
@@ -108,7 +108,7 @@ deploy_dev_backend:
             mappings:
               "[/**]":
                 allowed-origin-patterns:
-                  - "${DEV_WEB_BASE_URL:http://localhost}"
+                  - "${DEV_WEB_BASE_URL:-http://localhost}"
                   - "http://localhost:*"
                   - "http://127.0.0.1:*"
                 allowed-methods: "*"
@@ -138,12 +138,14 @@ deploy_dev_backend:
       docker run --rm \
         -v "$PWD/Backend:/home/gradle/project" \
         -v gradle_cache:/home/gradle/.gradle \
-        -v /var/run/docker.sock:/var/run/docker.sock \
         -w /home/gradle/project \
         gradle:8.10.2-jdk21 bash -lc "
+          set -euo pipefail
+          sed -i 's/\r$//' gradlew || true
           chmod +x ./gradlew
-          ./gradlew --no-daemon clean jibDockerBuild
+          ./gradlew --no-daemon clean jibBuildTar
         "
+      docker load -i Backend/build/jib-image.tar
 
       docker compose -f deploy/docker-compose.dev.yml up -d postgres-dev redis-dev
 
@@ -155,7 +157,6 @@ deploy_dev_backend:
       done
 
       docker compose -f deploy/docker-compose.dev.yml up -d backend-dev
-      
       echo "⌛ Waiting for backend health..."
       for i in {1..30}; do
         if curl -sf http://localhost:8080/api/v1/actuator/health >/dev/null 2>&1; then
