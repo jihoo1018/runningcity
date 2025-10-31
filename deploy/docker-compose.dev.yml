@@ -32,8 +32,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DEV_DB_PASSWORD}
       REDIS_HOST: ${DEV_REDIS_HOST}
       REDIS_PORT: ${DEV_REDIS_PORT}
-    ports:
-      - 8080:8080
 
   nginx:
     image: nginx:alpine

@@ -94,7 +94,9 @@ deploy_dev_backend:
       docker compose -f deploy/docker-compose.dev.yml up -d --no-deps backend-dev
       echo "⌛ Waiting for backend health..."
       for i in {1..30}; do
-        if curl -sf http://localhost:8080/api/v1/actuator/health >/dev/null 2>&1; then
+        if docker run --rm --network "${COMPOSE_PROJECT_NAME}_default" \
+            curlimages/curl:8.10.1 -fsS \
+            http://backend-dev:8080/api/v1/actuator/health >/dev/null 2>&1; then
           echo "✅ Backend UP"
           break
         fi
