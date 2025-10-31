@@ -52,6 +52,10 @@ deploy_dev_front_static:
           cp -a dist/. /out/
         '
 
+      docker run --rm \
+        -v "$PWD/deploy/nginx/static:/out" \
+        alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /out || true"
+      
       printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
         "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
         > deploy/nginx/static/version.json
