@@ -1,5 +1,7 @@
 package com.runningcity.onboarding.service;
 
+import com.runningcity.global.exception.BaseException;
+import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.onboarding.dto.OnboardingRequest;
 import com.runningcity.onboarding.dto.OnboardingResponse;
 import com.runningcity.onboarding.dto.OnboardingUpdateRequest;
@@ -30,11 +32,11 @@ public class OnboardingService {
     public OnboardingResponse completeOnboarding(Long userId, OnboardingRequest request) {
         // 1. 사용자 조회
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId));
+                .orElseThrow(() -> new BaseException(CommonResponseCode.USER_NOT_FOUND));
 
         // 2. 이미 온보딩을 완료했는지 확인
         if (user.getHasCompletedOnboarding()) {
-            throw new IllegalStateException("이미 온보딩을 완료한 사용자입니다.");
+            throw new BaseException(CommonResponseCode.ONBOARDING_ALREADY_COMPLETED);
         }
 
         // 3. UserPreference 생성 또는 업데이트
@@ -94,16 +96,16 @@ public class OnboardingService {
     public OnboardingResponse updateOnboarding(Long userId, OnboardingUpdateRequest request) {
         // 1. 사용자 조회
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId));
+                .orElseThrow(() -> new BaseException(CommonResponseCode.USER_NOT_FOUND));
 
         // 2. 온보딩 완료 여부 확인
         if (!user.getHasCompletedOnboarding()) {
-            throw new IllegalStateException("온보딩을 먼저 완료해야 합니다.");
+            throw new BaseException(CommonResponseCode.ONBOARDING_NOT_COMPLETED);
         }
 
         // 3. UserPreference 조회
         UserPreference userPreference = userPreferenceRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> new IllegalStateException("사용자 설정 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new BaseException(CommonResponseCode.ONBOARDING_NOT_COMPLETED));
 
         // 4. targetDistanceKm 수정
         UserPreference updatedPreference = UserPreference.builder()
