@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateNickname } from '../../shared/api/onboarding';
+import { updateNickname } from '../../shared/api/nickname';
 
 const NicknamePage = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const NicknamePage = () => {
   const [error, setError] = useState('');
 
   // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
-  const userId = 1; // 임시 하드코딩
+  const userId = 9; // 임시 하드코딩
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,31 +27,57 @@ const NicknamePage = () => {
       return;
     }
 
-    if (nickname.length > 50) {
-      setError('닉네임은 50글자 이하여야 합니다');
+    if (nickname.length > 10) {
+      setError('닉네임은 10글자 이하여야 합니다');
       return;
     }
 
-    // 한글, 영문, 숫자, 언더스코어만 허용
-    const nicknamePattern = /^[a-zA-Z0-9가-힣_]+$/;
+    // 한글, 영문, 숫자만 허용
+    const nicknamePattern = /^[a-zA-Z0-9가-힣]+$/;
     if (!nicknamePattern.test(nickname)) {
-      setError('닉네임은 한글, 영문, 숫자, 언더스코어(_)만 사용 가능합니다');
+      setError('닉네임은 한글, 영문, 숫자만 사용 가능합니다');
       return;
     }
 
     setIsLoading(true);
     setError('');
 
-    // 백그라운드로 API 호출 (실패해도 페이지 이동)
-    updateNickname(userId, nickname.trim()).catch((err) => {
-      console.error('닉네임 업데이트 실패:', err);
-    });
-    
-    // 짧은 딜레이 후 온보딩 페이지로 이동
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const result = await updateNickname(userId, nickname.trim());
+      console.log('닉네임 업데이트 완료:', result);
+      
+      // 성공 시 온보딩 페이지로 이동
       navigate('/onboarding');
-    }, 100);
+    } catch (err: any) {
+      setIsLoading(false);
+      
+      // API 에러 응답 처리
+      if (err.response?.data) {
+        const errorData = err.response.data;
+        
+        // 닉네임 중복 (409)
+        if (errorData.code === 'USER_4090') {
+          setError('이미 사용 중인 닉네임입니다. 다른 닉네임을 입력해주세요.');
+          return;
+        }
+        
+        // 유효성 검증 실패 (400)
+        if (errorData.code === 'USER_4000' && errorData.error?.details) {
+          const fieldErrors = errorData.error.details
+            .map((detail: any) => detail.message)
+            .join(', ');
+          setError(fieldErrors);
+          return;
+        }
+        
+        // 기타 에러
+        setError(errorData.message || '닉네임 업데이트 중 오류가 발생했습니다.');
+      } else {
+        setError('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+      
+      console.error('닉네임 업데이트 실패:', err);
+    }
   };
 
   return (
@@ -85,14 +111,14 @@ const NicknamePage = () => {
         <div style={{ textAlign: 'center' }}>
           <h1
             style={{
-              fontSize: '28px',
+              fontSize: '25px',
               fontWeight: 'normal',
               color: '#4b5563',
               margin: '0 0 8px 0',
               fontFamily: 'Arial, sans-serif',
             }}
           >
-            [ 로고 / 타이틀 ]
+            [ 러닝시티: 러너즈 프로토콜 ]
           </h1>
           <p
             style={{
@@ -128,7 +154,7 @@ const NicknamePage = () => {
                 setError(''); // 입력 시 에러 초기화
               }}
               placeholder="닉네임을 입력해 주세요"
-              maxLength={50}
+              maxLength={10}
               disabled={isLoading}
               style={{
                 width: '100%',
@@ -152,7 +178,7 @@ const NicknamePage = () => {
                 fontFamily: 'Arial, sans-serif',
               }}
             >
-              {nickname.length}/50자
+              {nickname.length}/10자
             </div>
           </div>
 
@@ -207,8 +233,8 @@ const NicknamePage = () => {
             lineHeight: '1.6',
           }}
         >
-          * 한글, 영문, 숫자, 언더스코어(_) 사용 가능<br />
-          * 2~50자 입력
+          * 한글, 영문, 숫자만 사용 가능<br />
+          * 2~10자 입력
         </div>
       </div>
     </div>

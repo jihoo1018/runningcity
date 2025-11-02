@@ -23,7 +23,21 @@ function hasBody(res: Response) {
 export async function apiGet<T>(path: string): Promise<T> {
   const url = toURL(path);
   const res = await fetch(url, { credentials: "omit" });
-  if (!res.ok) throw new Error(`GET ${path} -> ${res.status}`);
+  
+  if (!res.ok) {
+    // 에러 응답 본문 파싱
+    let errorData;
+    if (hasBody(res) && isJson(res)) {
+      errorData = await res.json();
+    }
+    
+    const error: any = new Error(`GET ${path} -> ${res.status}`);
+    error.response = {
+      status: res.status,
+      data: errorData
+    };
+    throw error;
+  }
 
   if (!isJson(res)) {
     const text = await res.text();
@@ -51,7 +65,21 @@ export async function apiPost<T = void, B = unknown>(path: string, body?: B, met
   }
 
   const res = await fetch(url, init);
-  if (!res.ok) throw new Error(`${method} ${path} -> ${res.status}`);
+  
+  if (!res.ok) {
+    // 에러 응답 본문 파싱
+    let errorData;
+    if (hasBody(res) && isJson(res)) {
+      errorData = await res.json();
+    }
+    
+    const error: any = new Error(`${method} ${path} -> ${res.status}`);
+    error.response = {
+      status: res.status,
+      data: errorData
+    };
+    throw error;
+  }
 
   if (hasBody(res) && isJson(res)) {
     return (await res.json()) as T;
