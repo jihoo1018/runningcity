@@ -1,36 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- ==================== 하드웨어 기능 ==================== -->
     <uses-feature android:name="android.hardware.type.watch" />
 
+    <!-- 심박수 센서 - required="false"로 설정 (센서 없는 기기도 설치 가능) -->
+    <uses-feature
+        android:name="android.hardware.sensor.heartrate"
+        android:required="false" />
+
+    <!-- GPS - required="false"로 설정 -->
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+
+    <!-- ==================== 권한 목록 ==================== -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!-- 👇 여기부터 추가 -->
-    <!-- 심박수 측정 (필수!) -->
+    <!-- 심박수 센서 -->
     <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
 
-    <!-- 걸음수 및 운동 인식 (필수!) -->
+    <!-- 걸음수 및 운동 인식 -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
-    <!-- GPS 위치 (러닝 경로 추적) -->
+    <!-- GPS 위치 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- 백그라운드 위치 (선택사항) -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <!-- 백그라운드 서비스 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
 
-    <!-- 인터넷 (데이터 전송) -->
+    <!-- 인터넷 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 👆 여기까지 추가 -->
 
+    <!-- 알림 (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- ==================== 애플리케이션 ==================== -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <!-- 컴플리케이션 서비스 -->
         <service
             android:name=".complication.RunningComplicationService"
             android:exported="true"
@@ -39,7 +59,6 @@
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
             </intent-filter>
-
             <meta-data
                 android:name="android.support.wearable.complications.SUPPORTED_TYPES"
                 android:value="SHORT_TEXT" />
@@ -47,6 +66,8 @@
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="0" />
         </service>
+
+        <!-- 타일 서비스 -->
         <service
             android:name=".tile.RunningTileService"
             android:exported="true"
@@ -55,26 +76,25 @@
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
-
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
                 android:resource="@drawable/tile_preview" />
         </service>
 
+        <!-- Wear OS 라이브러리 -->
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
         <uses-library
             android:name="wear-sdk"
             android:required="false" />
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
+
+        <!-- 독립 실행 -->
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
+        <!-- 메인 액티비티 -->
         <activity
             android:name=".presentation.RunningActivity"
             android:exported="true"
@@ -82,7 +102,6 @@
             android:theme="@style/RunningActivityTheme.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
