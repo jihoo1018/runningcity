@@ -13,10 +13,7 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="runningcity">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="runningcity.RunningComplicationService">
+      <SelectionState runConfigName="wearos">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

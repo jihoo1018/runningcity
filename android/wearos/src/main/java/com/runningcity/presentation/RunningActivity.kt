@@ -21,18 +21,35 @@ class RunningActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // PermissionManager 초기화
         permissionManager = PermissionManager(this)
 
         setContent {
             MaterialTheme {
-                TestPermissionScreen()
+                // 권한 상태를 변경 가능하게!
+                var hasPermissions by remember {
+                    mutableStateOf(permissionManager.hasAllPermissions())
+                }
+
+                if (hasPermissions) {
+                    // 권한 있으면 → 운동 측정 화면
+                    WorkoutScreen(context = this@RunningActivity)
+                } else {
+                    // 권한 없으면 → 권한 요청 화면
+                    TestPermissionScreen(
+                        onPermissionsGranted = {
+                            // 권한 허용되면 상태 업데이트!
+                            hasPermissions = true
+                        }
+                    )
+                }
             }
         }
     }
 
     @Composable
-    fun TestPermissionScreen() {
+    fun TestPermissionScreen(
+        onPermissionsGranted: () -> Unit = {}
+    ) {
         // 권한 상태
         var hasPermissions by remember {
             mutableStateOf(permissionManager.hasAllPermissions())
@@ -127,6 +144,11 @@ class RunningActivity : ComponentActivity() {
                                         "심박수: ${if (newStatus.heartRate) "OK" else "X"}\n" +
                                         "GPS: ${if (newStatus.gps) "OK" else "X"}\n" +
                                         "걸음수: ${if (newStatus.steps) "OK" else "X"}"
+
+                                // 모든 권한 허용되면 화면 전환!
+                                if (granted) {
+                                    onPermissionsGranted()
+                                }
                             }
                         },
                         modifier = Modifier.fillMaxWidth(0.8f)
@@ -169,6 +191,18 @@ class RunningActivity : ComponentActivity() {
                         text = "🎉",
                         style = MaterialTheme.typography.display1
                     )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // 다음 화면으로 버튼 추가!
+                    Button(
+                        onClick = {
+                            onPermissionsGranted()
+                        },
+                        modifier = Modifier.fillMaxWidth(0.8f)
+                    ) {
+                        Text("시작하기")
+                    }
 
                     Spacer(modifier = Modifier.height(8.dp))
 

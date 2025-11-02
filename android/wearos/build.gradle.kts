@@ -78,6 +78,11 @@ dependencies {
 
     // 👆👆👆 여기까지 추가! 👆👆👆
 
+    //fusedlocation 사용용
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+    //워치와 폰 연결용
+    implementation("com.google.android.gms:play-services-wearable:18.0.0")
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
