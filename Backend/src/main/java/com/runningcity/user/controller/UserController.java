@@ -1,7 +1,7 @@
 package com.runningcity.user.controller;
 
-import com.runningcity.global.common.ApiResponse;
-import com.runningcity.global.common.CommonResponseCode;
+import com.runningcity.global.response.ApiResponse;
+import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.user.dto.NicknameUpdateRequest;
 import com.runningcity.user.dto.NicknameUpdateResponse;
 import com.runningcity.user.service.UserService;

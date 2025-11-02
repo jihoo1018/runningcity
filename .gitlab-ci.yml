@@ -1,113 +1,108 @@
 stages: [deploy]
 
+# 공통
+.default_chown:
+  before_script:
+    - |
+      # checkout 직후 남아있을 수 있는 root 소유물 교정
+      docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /w || true"
+  after_script:
+    - |
+      # 잡 산출물도 러너 소유로 바꿔 cleanup 실패 방지
+      docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /w || true"
+
 # frontend static
 deploy_dev_front_static:
   stage: deploy
   environment: develop
   tags: ["run-dev-runner"]
+  extends: .default_chown
+  needs:
+    - job: deploy_dev_backend
+      optional: true
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
         - "Frontend/**"
         - "deploy/nginx/**"
+        - ".gitlab-ci.yml"
+        - "deploy/docker-compose.dev.yml"
   script:
+    - export COMPOSE_PROJECT_NAME=runningcity-dev
     - |
       set -euo pipefail
 
       docker volume create npm_cache || true
       
-      docker rm -f fe-build || true
-      docker run --name fe-build \
-        -v "$PWD/Frontend:/src:ro" \
-        -v npm_cache:/root/.npm \
-        -w /work \
-        node:20 bash -lc "corepack enable || true; cp -a /src/. /work/; npm ci; npm run build"
-      
       mkdir -p deploy/nginx/static
       rm -rf deploy/nginx/static/* || true
-      docker cp fe-build:/work/dist/. deploy/nginx/static/
+      
+      docker run --rm \
+        -v "$PWD/Frontend:/src:ro" \
+        -v "$PWD/deploy/nginx/static:/out" \
+        -v npm_cache:/root/.npm \
+        -w /work \
+        node:20 bash -lc '
+          set -euo pipefail
+          mkdir -p /work
+          cp -a /src/. /work/
+          cd /work
+          npm ci --no-audit --no-fund
+          npm run build
+          cp -a dist/. /out/
+        '
+
+      docker run --rm \
+        -v "$PWD/deploy/nginx/static:/out" \
+        alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /out || true"
+      
       printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
         "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
         > deploy/nginx/static/version.json
 
-      docker rm -f fe-build || true
-      docker compose -f deploy/docker-compose.dev.yml up -d nginx
+      docker compose -f deploy/docker-compose.dev.yml up -d --no-deps nginx
+      sleep 2
+      docker exec nginx wget -qO- http://localhost/version.json >/dev/null || echo "⚠️ nginx version.json not found"
 
 # backend
 deploy_dev_backend:
   stage: deploy
   environment: develop
   tags: ["run-dev-runner"]
+  extends: .default_chown
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
         - "Backend/**"
         - "deploy/docker-compose.dev.yml"
-        - "deploy/db/**"
+        - ".gitlab-ci.yml"
   script:
+    - export COMPOSE_PROJECT_NAME=runningcity-dev
     - |
       set -euo pipefail
       
-      mkdir -p deploy/secrets deploy/db/init
-      
-      cat > deploy/secrets/db.env <<EOF
-      POSTGRES_DB=${DEV_DB_NAME}
-      POSTGRES_USER=${DEV_DB_USER}
-      POSTGRES_PASSWORD=${DEV_DB_PASSWORD}
-      EOF
-      
-      cat > deploy/secrets/.env.dev <<EOF
-      SPRING_DATASOURCE_URL=jdbc:postgresql://${DEV_DB_HOST}:${DEV_DB_PORT}/${DEV_DB_NAME}
-      SPRING_DATASOURCE_USERNAME=${DEV_DB_USER}
-      SPRING_DATASOURCE_PASSWORD=${DEV_DB_PASSWORD}
-      REDIS_HOST=${DEV_REDIS_HOST}
-      REDIS_PORT=${DEV_REDIS_PORT}
-      JWT_SECRET=${DEV_JWT_SECRET}
-      EOF
-      
-      cat > deploy/secrets/application-dev.yml <<'EOF'
-      spring:
-        datasource:
-          hikari:
-            maximum-pool-size: 10
-        redis:
-          host: ${DEV_REDIS_HOST}
-          port: ${DEV_REDIS_PORT}
-        mvc:
-          cors:
-            mappings:
-              "[/**]":
-                allowed-origin-patterns:
-                  - "${DEV_WEB_BASE_URL:http://localhost}"
-                  - "http://localhost:*"
-                  - "http://127.0.0.1:*"
-                allowed-methods: "*"
-                allowed-headers: "*"
-                allow-credentials: true
-                exposed-headers: [ "Location" ]
-      server:
-        port: 8080
-      logging:
-        level:
-          root: info
-      management:
-        endpoints:
-          web:
-            exposure:
-              include: health,info
-        endpoint:
-          health:
-            probes:
-              enabled: true
-      EOF
-      
-      [ -f deploy/db/init/001_postgis.sql ] || echo 'CREATE EXTENSION IF NOT EXISTS postgis;' > deploy/db/init/001_postgis.sql
+      docker volume create gradle_cache || true
       
       docker run --rm \
         -v "$PWD/Backend:/home/gradle/project" \
-        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v gradle_cache:/home/gradle/.gradle \
         -w /home/gradle/project \
-        gradle:8.10.2-jdk21 bash -lc "sed -i 's/\r$//' ./gradlew && chmod +x ./gradlew && ./gradlew --no-daemon clean jibDockerBuild"
+        gradle:8.10.2-jdk21 bash -lc "
+          set -euo pipefail
+          sed -i 's/\r$//' gradlew || true
+          chmod +x ./gradlew
+          ./gradlew --no-daemon clean jibBuildTar
+        "
+      docker load -i Backend/build/jib-image.tar
 
-      docker compose -f deploy/docker-compose.dev.yml up -d postgres-dev redis-dev
-      docker compose -f deploy/docker-compose.dev.yml up -d backend-dev
+      docker compose -f deploy/docker-compose.dev.yml up -d --no-deps backend-dev
+      echo "⌛ Waiting for backend health..."
+      for i in {1..30}; do
+        if docker run --rm --network "${COMPOSE_PROJECT_NAME}_default" \
+            curlimages/curl:8.10.1 -fsS \
+            http://backend-dev:8080/api/v1/actuator/health >/dev/null 2>&1; then
+          echo "✅ Backend UP"
+          break
+        fi
+        sleep 2
+      done
