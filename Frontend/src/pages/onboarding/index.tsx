@@ -8,7 +8,7 @@ const OnboardingPage = () => {
   const navigate = useNavigate();
   
   // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
-  const userId = 1;
+  const userId = 9;
 
   const [hasRunningHistory, setHasRunningHistory] = useState<boolean | null>(null);
   const [targetDistance, setTargetDistance] = useState('');
@@ -45,27 +45,60 @@ const OnboardingPage = () => {
 
     setIsLoading(true);
 
-    // 백그라운드로 API 호출 (실패해도 페이지 이동)
-    const onboardingData: any = {
-      hasRunningHistory,
-      fitnessLevel,
-      targetDistanceKm: parseFloat(targetDistance),
-      hasSmartWatch,
-    };
-    
-    if (restingHeartRate) {
-      onboardingData.restingHeartRate = parseInt(restingHeartRate);
-    }
-    
-    completeOnboarding(userId, onboardingData).catch((err) => {
-      console.error('온보딩 실패:', err);
-    });
-    
-    // 짧은 딜레이 후 홈으로 이동
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const onboardingData: any = {
+        hasRunningHistory,
+        fitnessLevel,
+        targetDistanceKm: parseFloat(targetDistance),
+        hasSmartWatch,
+      };
+      
+      if (restingHeartRate) {
+        onboardingData.restingHeartRate = parseInt(restingHeartRate);
+      }
+      
+      const result = await completeOnboarding(userId, onboardingData);
+      console.log('온보딩 완료:', result);
+      
+      // 성공 시 홈으로 이동
       navigate('/');
-    }, 100);
+    } catch (err: any) {
+      setIsLoading(false);
+      
+      // API 에러 응답 처리
+      if (err.response?.data) {
+        const errorData = err.response.data;
+        
+        // 이미 온보딩 완료 (409)
+        if (errorData.code === 'ONBOARDING_4090') {
+          setError('이미 온보딩을 완료했습니다. 홈으로 이동합니다.');
+          setTimeout(() => navigate('/'), 2000);
+          return;
+        }
+        
+        // 유효성 검증 실패 (400)
+        if (errorData.code === 'ONBOARDING_4000' && errorData.error?.details) {
+          const fieldErrors = errorData.error.details
+            .map((detail: any) => detail.message)
+            .join(', ');
+          setError(fieldErrors);
+          return;
+        }
+        
+        // 사용자 없음 (404)
+        if (errorData.code === 'USER_4040') {
+          setError('사용자를 찾을 수 없습니다.');
+          return;
+        }
+        
+        // 기타 에러
+        setError(errorData.message || '온보딩 중 오류가 발생했습니다.');
+      } else {
+        setError('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+      
+      console.error('온보딩 실패:', err);
+    }
   };
 
   const fitnessOptions: { value: FitnessLevel; label: string }[] = [
