@@ -22,6 +22,20 @@ public enum CommonResponseCode implements BaseResponseCode {
 
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON_5000", "서버 내부 오류가 발생했습니다."),
 
+    // Onboarding 관련 에러
+    ONBOARDING_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "ONBOARDING_4000", "입력값이 올바르지 않습니다."),
+    ONBOARDING_ALREADY_COMPLETED(HttpStatus.CONFLICT, "ONBOARDING_4090", "이미 온보딩을 완료한 사용자입니다."),
+    ONBOARDING_NOT_COMPLETED(HttpStatus.BAD_REQUEST, "ONBOARDING_4001", "온보딩을 먼저 완료해야 합니다."),
+    ONBOARDING_HEART_RATE_WITHOUT_WATCH(HttpStatus.BAD_REQUEST, "ONBOARDING_4002", "스마트워치가 없는 경우 심박수를 입력할 수 없습니다."),
+
+    // User 관련 에러
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER_4040", "사용자를 찾을 수 없습니다."),
+    USER_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "USER_4000", "입력값이 올바르지 않습니다."),
+    NICKNAME_DUPLICATE(HttpStatus.CONFLICT, "USER_4090", "이미 사용 중인 닉네임입니다."),
+    NICKNAME_INVALID_LENGTH(HttpStatus.BAD_REQUEST, "USER_4001", "닉네임은 2자 이상 10자 이하여야 합니다."),
+    NICKNAME_INVALID_CHARACTER(HttpStatus.BAD_REQUEST, "USER_4002", "닉네임은 한글, 영문, 숫자만 사용 가능합니다."),
+
+    // Mission 관련 에러
     DAILY_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION_4040", "해당 일일 미션을 찾을 수 없습니다."),
     DAILY_MISSION_ALREADY_CLAIMED(HttpStatus.BAD_REQUEST, "MISSION_4001", "이미 보상을 수령한 미션입니다."),
     DAILY_MISSION_NOT_COMPLETED(HttpStatus.BAD_REQUEST, "MISSION_4002", "미션을 완료하지 않아 보상을 받을 수 없습니다.");
