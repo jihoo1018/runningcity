@@ -1,8 +1,6 @@
 // src/shared/api/http.ts
 
-const API_ORIGIN =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_API_ORIGIN) ||
-  "http://localhost:8080";
+const API_ORIGIN = import.meta.env.VITE_API_ORIGIN ?? "";
 
 function toURL(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
@@ -24,7 +22,7 @@ function hasBody(res: Response) {
 // GET: 항상 JSON 기대
 export async function apiGet<T>(path: string): Promise<T> {
   const url = toURL(path);
-  const res = await fetch(url, { credentials: "include" });
+  const res = await fetch(url, { credentials: "omit" });
   if (!res.ok) throw new Error(`GET ${path} -> ${res.status}`);
 
   if (!isJson(res)) {
@@ -37,20 +35,16 @@ export async function apiGet<T>(path: string): Promise<T> {
 export type WriteMethod = "POST" | "PATCH" | "DELETE";
 
 // POST/PATCH/DELETE: JSON이면 파싱, 아니면 void 반환
-export async function apiPost<T = void, B = unknown>(
-  path: string,
-  body?: B,
-  method: WriteMethod = "POST"
-): Promise<T> {
+export async function apiPost<T = void, B = unknown>(path: string, body?: B, method: WriteMethod = "POST"): Promise<T> {
   const url = toURL(path);
 
   const headers: HeadersInit = {};
   const init: RequestInit = {
     method,
-    credentials: "include",
+    credentials: "omit",
     headers,
   };
-
+  
   if (body !== undefined) {
     (headers as Record<string, string>)["Content-Type"] = "application/json";
     (init as RequestInit & { body: BodyInit }).body = JSON.stringify(body);
@@ -65,3 +59,4 @@ export async function apiPost<T = void, B = unknown>(
   // 본문이 없거나 JSON이 아니면 성공으로 간주하고 void 반환
   return undefined as T;
 }
+ 

@@ -1,4 +1,4 @@
-package com.runningcity.global.common;
+package com.runningcity.global.response;
 
 import org.springframework.http.HttpStatus;
 
