@@ -17,5 +17,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByGoogleId(String googleId);
     
     boolean existsByEmail(String email);
+    
+    // 닉네임 중복 체크
+    boolean existsByNickname(String nickname);
+    
+    // 특정 사용자를 제외한 닉네임 중복 체크
+    boolean existsByNicknameAndUserIdNot(String nickname, Long userId);
 }
 
