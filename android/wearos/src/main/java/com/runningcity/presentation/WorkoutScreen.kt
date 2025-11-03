@@ -42,6 +42,9 @@ fun WorkoutScreen(context: Context) {
     var gpsAccuracy by remember { mutableStateOf(0f) }
     var gpsCount by remember { mutableStateOf(0) }
 
+    // ✅ 거리 상태 추가!
+    var totalDistance by remember { mutableStateOf(0f) }
+
     // 운동 세션 상태
     var sessionId by remember { mutableStateOf("") }
     var startTime by remember { mutableStateOf(0L) }
@@ -59,7 +62,7 @@ fun WorkoutScreen(context: Context) {
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-    // 🔥 Service 연결
+    // Service 연결
     var workoutService by remember { mutableStateOf<WorkoutService?>(null) }
     var serviceBound by remember { mutableStateOf(false) }
 
@@ -77,6 +80,11 @@ fun WorkoutScreen(context: Context) {
                     longitude = location.longitude
                     gpsAccuracy = location.accuracy
                     gpsCount++
+                }
+                // ✅ 거리 업데이트 리스너 추가!
+                workoutService?.onDistanceUpdate = { distance ->
+                    totalDistance = distance
+                    println("📱 UI 거리 업데이트: ${distance}m")
                 }
             }
 
@@ -143,8 +151,8 @@ fun WorkoutScreen(context: Context) {
         }
     }
 
-    // 센서 시작/중지
-    DisposableEffect(isRunning) {
+    // 🔥 센서 시작/중지 (LaunchedEffect 사용)
+    LaunchedEffect(isRunning) {
         if (isRunning) {
             println("🚀 센서 시작!")
 
@@ -153,15 +161,13 @@ fun WorkoutScreen(context: Context) {
             startTime = System.currentTimeMillis()
 
             // 세션 DB에 저장
-            scope.launch {
-                val session = WorkoutSessionEntity(
-                    sessionId = sessionId,
-                    startTime = startTime,
-                    status = "IN_PROGRESS"
-                )
-                dao.insertSession(session)
-                println("💾 세션 DB 저장: $sessionId")
-            }
+            val session = WorkoutSessionEntity(
+                sessionId = sessionId,
+                startTime = startTime,
+                status = "IN_PROGRESS"
+            )
+            dao.insertSession(session)
+            println("💾 세션 DB 저장: $sessionId")
 
             // 리스트 초기화
             heartRateList.clear()
@@ -174,6 +180,7 @@ fun WorkoutScreen(context: Context) {
                     it,
                     SensorManager.SENSOR_DELAY_NORMAL
                 )
+                println("✅ 심박수 센서 등록")
             }
 
             // 걸음수 센서 시작
@@ -183,9 +190,10 @@ fun WorkoutScreen(context: Context) {
                     it,
                     SensorManager.SENSOR_DELAY_NORMAL
                 )
+                println("✅ 걸음수 센서 등록")
             }
 
-            // 🔥 Service 시작
+            // Service 시작
             val serviceIntent = Intent(context, WorkoutService::class.java).apply {
                 action = WorkoutService.ACTION_START
             }
@@ -199,19 +207,44 @@ fun WorkoutScreen(context: Context) {
             )
 
             // Service에 세션 ID 전달
-            scope.launch {
-                kotlinx.coroutines.delay(500)  // Service 연결 대기
-                workoutService?.sessionId = sessionId
-            }
+            kotlinx.coroutines.delay(500)
+            workoutService?.sessionId = sessionId
 
-        } else if (sessionId.isNotEmpty()) {
-            // 운동 종료
-            println("⏹️ 운동 종료! 데이터 저장 중...")
+        } else {
+            // 🔥 운동 종료 (isRunning == false가 되면 즉시 실행)
+            if (sessionId.isNotEmpty()) {
+                println("⏹️ 운동 종료! 센서/Service 중지 중...")
 
-            val endTime = System.currentTimeMillis()
-            val duration = ((endTime - startTime) / 1000).toInt()
+                // 🔥 먼저 센서 중지!
+                println("⏹️ 센서 중지")
+                sensorManager.unregisterListener(heartRateListener)
+                sensorManager.unregisterListener(stepListener)
 
-            scope.launch {
+                // ✅ Service에서 최종 거리 가져오기
+                val finalDistance = workoutService?.getTotalDistance() ?: 0f
+                println("📏 최종 거리: ${finalDistance}m")
+
+                // 🔥 Service 중지!
+                val serviceIntent = Intent(context, WorkoutService::class.java).apply {
+                    action = WorkoutService.ACTION_STOP
+                }
+                context.startService(serviceIntent)
+
+                if (serviceBound) {
+                    try {
+                        context.unbindService(serviceConnection)
+                        serviceBound = false
+                        println("✅ Service 언바인딩 완료")
+                    } catch (e: Exception) {
+                        println("⚠️ Service 언바인딩 실패: ${e.message}")
+                    }
+                }
+
+                // 데이터 저장
+                println("💾 데이터 저장 시작...")
+                val endTime = System.currentTimeMillis()
+                val duration = ((endTime - startTime) / 1000).toInt()
+
                 // 심박수 통계 계산
                 val avgHr = dao.getAvgHeartRate(sessionId) ?: 0
                 val maxHr = dao.getMaxHeartRate(sessionId) ?: 0
@@ -219,8 +252,7 @@ fun WorkoutScreen(context: Context) {
 
                 // GPS 데이터 가져오기
                 val locations = dao.getLocations(sessionId)
-
-                // 세션 업데이트
+// ✅ 세션 업데 이트 (거리 포함!)
                 val session = WorkoutSessionEntity(
                     sessionId = sessionId,
                     startTime = startTime,
@@ -228,7 +260,7 @@ fun WorkoutScreen(context: Context) {
                     duration = duration,
                     status = "COMPLETED",
                     totalSteps = steps,
-                    totalDistance = 0.0,
+                    totalDistance = finalDistance.toDouble(),  // ✅ 여기!
                     totalCalories = 0,
                     avgHeartRate = avgHr,
                     maxHeartRate = maxHr,
@@ -250,29 +282,38 @@ fun WorkoutScreen(context: Context) {
                 println("✅ 모든 데이터 저장 완료!")
                 println("📊 요약:")
                 println("   - 걸음수: $steps")
+                println("   - 거리: ${finalDistance}m")  // ✅ 추가!
                 println("   - 평균 심박수: $avgHr bpm")
                 println("   - 최대 심박수: $maxHr bpm")
                 println("   - 지속 시간: $duration 초")
                 println("   - 심박수 기록: ${heartRateList.size}개")
                 println("   - GPS 기록: ${locations.size}개")
+
+                // 세션 ID 초기화
+                sessionId = ""
             }
         }
+    }
 
+    // 🔥 화면 종료 시 정리 (별도 DisposableEffect)
+    DisposableEffect(Unit) {
         onDispose {
             if (isRunning) {
-                println("⏹️ 센서 중지")
+                println("⏹️ [화면 종료] 센서/Service 강제 중지")
                 sensorManager.unregisterListener(heartRateListener)
                 sensorManager.unregisterListener(stepListener)
 
-                // 🔥 Service 중지
                 val serviceIntent = Intent(context, WorkoutService::class.java).apply {
                     action = WorkoutService.ACTION_STOP
                 }
                 context.startService(serviceIntent)
 
                 if (serviceBound) {
-                    context.unbindService(serviceConnection)
-                    serviceBound = false
+                    try {
+                        context.unbindService(serviceConnection)
+                    } catch (e: Exception) {
+                        println("⚠️ [화면 종료] Service 언바인딩 실패: ${e.message}")
+                    }
                 }
             }
         }
