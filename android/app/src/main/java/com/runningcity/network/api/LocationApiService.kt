@@ -12,7 +12,7 @@ import retrofit2.http.POST
  */
 interface LocationApiService {
 
-    @POST("/api/v1/api/location")
+    @POST("/api/v1/location")
     suspend fun sendLocation(
         @Body request: LocationRequest
     ): Response<Unit> // 본문이 필요 없는 경우 Response<Unit> 사용

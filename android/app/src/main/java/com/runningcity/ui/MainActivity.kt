@@ -1,7 +1,10 @@
 package com.runningcity
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,6 +15,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.runningcity.location.LocationService
 
@@ -52,10 +56,29 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RunningCityMainScreen() {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = { Text("RunningCity") })
+    var latitude by remember { mutableStateOf<Double?>(null) }
+    var longitude by remember { mutableStateOf<Double?>(null) }
+
+    val context = LocalContext.current
+
+    // BroadcastReceiver 등록
+    DisposableEffect(Unit) {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                latitude = intent?.getDoubleExtra("latitude", 0.0)
+                longitude = intent?.getDoubleExtra("longitude", 0.0)
+            }
         }
+        val filter = IntentFilter("LOCATION_UPDATE")
+        context.registerReceiver(receiver, filter)
+
+        onDispose {
+            context.unregisterReceiver(receiver)
+        }
+    }
+
+    Scaffold(
+        topBar = { CenterAlignedTopAppBar(title = { Text("RunningCity") }) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -66,7 +89,14 @@ fun RunningCityMainScreen() {
         ) {
             Text("🏙️ 러닝시티 앱이 실행 중입니다!", style = MaterialTheme.typography.headlineSmall)
             Spacer(modifier = Modifier.height(16.dp))
-            Text("위치 추적 서비스가 백그라운드에서 실행됩니다.")
+
+            if (latitude != null && longitude != null) {
+                Text("📍 현재 위치")
+                Text("위도: %.6f".format(latitude))
+                Text("경도: %.6f".format(longitude))
+            } else {
+                Text("위치 정보를 가져오는 중...")
+            }
         }
     }
 }

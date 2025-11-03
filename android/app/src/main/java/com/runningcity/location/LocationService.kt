@@ -62,6 +62,12 @@ class LocationService : Service() {
                     serviceScope.launch {
                         uploader.sendLocation(location)
                     }
+
+                    // 화면 업데이트용 브로드캐스트 전송
+                    val intent = Intent("LOCATION_UPDATE")
+                    intent.putExtra("latitude", location.latitude)
+                    intent.putExtra("longitude", location.longitude)
+                    sendBroadcast(intent)
                 }
             }
         }
