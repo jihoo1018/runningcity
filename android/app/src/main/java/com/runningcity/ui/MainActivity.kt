@@ -2,44 +2,71 @@ package com.runningcity
 
 import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.runningcity.location.LocationService
 
-/**
- * MainActivity
- * - 앱 진입점(Activity)
- * - 위치 권한 요청 및 ForegroundService(LocationService) 실행 담당
- */
 class MainActivity : ComponentActivity() {
 
-    // 요청할 권한 목록 정의 (Android 10+에서는 ForegroundService 권한도 필요)
     private val permissions = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,   // 정확한 위치 (GPS)
-        Manifest.permission.ACCESS_COARSE_LOCATION, // 대략적 위치 (Wi-Fi, 셀룰러)
-        Manifest.permission.FOREGROUND_SERVICE      // ForegroundService 실행 허용
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.FOREGROUND_SERVICE
     )
 
-    // ActivityResult API를 이용해 권한 요청 결과 처리
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
-        val granted = result.values.all { it } // 모든 권한이 허용되었는지 검사
+        val granted = result.values.all { it }
         if (granted) startLocationService()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 앱 실행 시 권한 요청 시작
+
         permissionLauncher.launch(permissions)
+
+        setContent {
+            RunningCityMainScreen()
+        }
     }
 
-    /**
-     * ForegroundService(LocationService)를 실행하는 함수
-     */
     private fun startLocationService() {
         val intent = Intent(this, LocationService::class.java)
-        startForegroundService(intent) // 앱이 백그라운드여도 실행 유지
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            startForegroundService(intent)
+        else
+            startService(intent)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RunningCityMainScreen() {
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(title = { Text("RunningCity") })
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("🏙️ 러닝시티 앱이 실행 중입니다!", style = MaterialTheme.typography.headlineSmall)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("위치 추적 서비스가 백그라운드에서 실행됩니다.")
+        }
     }
 }

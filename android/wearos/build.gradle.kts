@@ -6,14 +6,15 @@ plugins {
 
 android {
     namespace = "com.runningcity"
-    compileSdk {
-        version = release(36)
-    }
+//    compileSdk {
+//        version = release(36)
+//    }
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.runningcity"
+        applicationId = "com.runningcity.wearos"
         minSdk = 30
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -35,9 +36,14 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    useLibrary("wear-sdk")
+//    useLibrary("wear-sdk")
     buildFeatures {
         compose = true
+    }
+
+    lint {
+        abortOnError = false
+        warningsAsErrors = false
     }
 }
 

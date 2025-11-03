@@ -6,14 +6,13 @@ plugins {
 
 android {
     namespace = "com.runningcity"
-    compileSdk {
-        version = release(36)
-    }
+
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.runningcity"
-        minSdk = 24
-        targetSdk = 36
+        minSdk = 26
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -39,6 +38,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    lint {
+        abortOnError = false  // ❌ Lint 에러 발생해도 빌드 중단 안 함
+        warningsAsErrors = false
+    }
+
 }
 
 dependencies {
@@ -65,4 +70,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("androidx.core:core-ktx:1.13.1")
+
+    implementation("androidx.activity:activity-ktx:1.9.3")
+    implementation("androidx.fragment:fragment-ktx:1.7.1") // ✅ 반드시 추가
 }

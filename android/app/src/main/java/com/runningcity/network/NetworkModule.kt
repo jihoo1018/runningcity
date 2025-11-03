@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 object NetworkModule {
 
     // TODO: ngrok URL은 매번 새로 켤 때 갱신 필요
-    private const val BASE_URL = "https://castiel-propraetorial-hadlee.ngrok-free.dev"
+    private const val BASE_URL = "https://nonconjunctive-cami-outdoor.ngrok-free.dev"
 
     // OkHttpClient: 타임아웃 및 기본 설정
     private val okHttpClient = OkHttpClient.Builder()
