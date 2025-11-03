@@ -39,7 +39,6 @@ dependencies {
     // PostgreSQL 드라이버
     runtimeOnly 'org.postgresql:postgresql'
 
-
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
