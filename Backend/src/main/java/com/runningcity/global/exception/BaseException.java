@@ -1,24 +1,24 @@
 package com.runningcity.global.exception;
 
+import com.runningcity.global.response.BaseResponseCode;
 import com.runningcity.global.response.CommonResponseCode;
 import lombok.Getter;
 
+// before: private final CommonResponseCode commonResponseCode;
 @Getter
 public class BaseException extends RuntimeException {
-    private final CommonResponseCode commonResponseCode;
+    private final BaseResponseCode responseCode;
 
-    public BaseException(CommonResponseCode commonResponseCode) {
-        super(commonResponseCode.getMessage());
-        this.commonResponseCode = commonResponseCode;
+    public BaseException(BaseResponseCode responseCode) {
+        super(responseCode.getMessage());
+        this.responseCode = responseCode;
     }
-
-    public BaseException(CommonResponseCode commonResponseCode, String message) {
+    public BaseException(BaseResponseCode responseCode, String message) {
         super(message);
-        this.commonResponseCode = commonResponseCode;
+        this.responseCode = responseCode;
     }
-
-    public BaseException(CommonResponseCode commonResponseCode, Throwable cause) {
-        super(commonResponseCode.getMessage(), cause);
-        this.commonResponseCode = commonResponseCode;
+    public BaseException(BaseResponseCode responseCode, Throwable cause) {
+        super(responseCode.getMessage(), cause);
+        this.responseCode = responseCode;
     }
-} 
+}
