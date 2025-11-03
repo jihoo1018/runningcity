@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId = "com.runningcity.wearos"
         minSdk = 30
-        targetSdk = 34
+        targetSdk = 33  // ✅ 33으로 변경 (Galaxy Watch 6 최적화)
         versionCode = 1
         versionName = "1.0"
 
