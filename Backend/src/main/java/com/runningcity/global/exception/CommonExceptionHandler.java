@@ -1,12 +1,16 @@
 package com.runningcity.global.exception;
 
 import com.runningcity.global.response.ApiResponse;
+import com.runningcity.global.response.BaseResponseCode;
 import com.runningcity.global.response.CommonResponseCode;
+import com.runningcity.global.response.ErrorDetail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
 //import org.springframework.security.core.AuthenticationException;
 //import org.springframework.security.authentication.BadCredentialsException;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,13 +24,18 @@ public class CommonExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     protected ResponseEntity<ApiResponse<Void>> handleBaseException(BaseException e) {
-        log.error("BaseException: {}", e.getMessage());
-        CommonResponseCode commonResponseCode = e.getCommonResponseCode();
+        BaseResponseCode code = e.getResponseCode();
+
+        if (code.getHttpStatus().is4xxClientError()) {
+            log.warn("BaseException code={}, msg={}", code.getCode(), e.getMessage());
+        } else {
+            log.error("BaseException code={}, msg={}", code.getCode(), e.getMessage());
+        }
 
         // 변경: ApiResponse.error(ErrorCode errorCode) 호출
-        ApiResponse<Void> response = ApiResponse.fail(commonResponseCode);
+        ApiResponse<Void> response = ApiResponse.fail(code);
 
-        return ResponseEntity.status(commonResponseCode.getHttpStatus()).body(response);
+        return ResponseEntity.status(code.getHttpStatus()).body(response);
     }
 
     /**
@@ -34,16 +43,15 @@ public class CommonExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ApiResponse<Void>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error("MethodArgumentNotValidException: {}", e.getMessage());
+        List<ErrorDetail> details = e.getBindingResult().getFieldErrors().stream()
+                .map(fe -> new ErrorDetail(fe.getField(), fe.getDefaultMessage()))
+                .toList();
 
-        String errorMessage = e.getBindingResult().getFieldError() != null
-                ? e.getBindingResult().getFieldError().getDefaultMessage()
-                : "입력값 검증에 실패했습니다.";
+        CommonResponseCode code = CommonResponseCode.INVALID_INPUT_VALUE;
+        log.warn("Validation failed: {}", details);
 
-        CommonResponseCode commonResponseCode = CommonResponseCode.INVALID_INPUT_VALUE; // INVALID_INPUT_VALUE 사용
-        ApiResponse<Void> response = ApiResponse.fail(commonResponseCode);
-
-        return ResponseEntity.status(commonResponseCode.getHttpStatus()).body(response);
+        ApiResponse<Void> response = ApiResponse.fail(code, details);
+        return ResponseEntity.status(code.getHttpStatus()).body(response);
     }
 
     /**
