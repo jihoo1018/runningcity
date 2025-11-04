@@ -12,8 +12,9 @@ const HomePage = () => {
     const [missionOpen, setMissionOpen] = useState(false);
 
     // 수령한 코인 보여주고 지갑 상태 추가
-    const [wallet, setWallet] = useState(0);
-
+    // const [wallet, setWallet] = useState(0); // 지갑 돈 늘어나는거 디버깅용. 
+    const setWallet = useState(0)[1];
+    const userId = 1; //임시 유저 id
     useEffect(() => {
         if (AndroidBridge.isAndroid()) {
             console.log('Android WebView 환경');
@@ -176,6 +177,7 @@ const HomePage = () => {
                 open={missionOpen}
                 onClose={() => setMissionOpen(false)}
                 onClaimed={(coins) => setWallet((w) => w + coins)}
+                userId={userId}
             />
         </div>
     );

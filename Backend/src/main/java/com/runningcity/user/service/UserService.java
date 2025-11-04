@@ -1,5 +1,7 @@
 package com.runningcity.user.service;
 
+import com.runningcity.global.exception.BaseException;
+import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.user.dto.NicknameUpdateRequest;
 import com.runningcity.user.dto.NicknameUpdateResponse;
 import com.runningcity.user.entity.User;
@@ -25,9 +27,14 @@ public class UserService {
     public NicknameUpdateResponse updateNickname(Long userId, NicknameUpdateRequest request) {
         // 1. 사용자 조회
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. userId: " + userId));
+                .orElseThrow(() -> new BaseException(CommonResponseCode.USER_NOT_FOUND));
 
-        // 2. 닉네임 수정 (빌더 패턴 사용)
+        // 2. 닉네임 중복 체크 (본인 제외)
+        if (userRepository.existsByNicknameAndUserIdNot(request.getNickname(), userId)) {
+            throw new BaseException(CommonResponseCode.NICKNAME_DUPLICATE);
+        }
+
+        // 3. 닉네임 수정 (빌더 패턴 사용)
         User updatedUser = User.builder()
                 .userId(user.getUserId())
                 .googleId(user.getGoogleId())
@@ -40,10 +47,10 @@ public class UserService {
                 .isActive(user.getIsActive())
                 .build();
 
-        // 3. 저장
+        // 4. 저장
         userRepository.save(updatedUser);
 
-        // 4. 응답 생성
+        // 5. 응답 생성
         return NicknameUpdateResponse.builder()
                 .userId(updatedUser.getUserId())
                 .nickname(updatedUser.getNickname())

@@ -1,76 +1,130 @@
 package com.runningcity.mission.entity;
 
 import jakarta.persistence.*;
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(
-    name = "daily_mission",
-    uniqueConstraints = @UniqueConstraint(name = "uk_daily_mission_date", columnNames = "date")
+        name = "daily_mission",
+        uniqueConstraints = @UniqueConstraint(
+                name = "uk_daily_mission_user_date",
+                columnNames = {"user_id", "date"}
+        )
 )
 public class DailyMission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "mission_id")
+    private Long missionId;
 
-    // YYYY-MM-DD (오늘 기준 1개만)
-    @Column(nullable = false)
-    private LocalDate date;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    // 목표 거리(km)
-    @Column(nullable = false)
+    // DB가 timestamptz 또는 timestamp 여야 함
+    @Column(name = "date", nullable = false)
+    private ZonedDateTime date;
+
+    @Column(name = "target_km", nullable = false)
     private double targetKm;
 
-    // 현재 진행 거리(km)
-    @Column(nullable = false)
-    private double currentKm = 0.0;
+    @Column(name = "current_km", nullable = false)
+    private double currentKm;
 
-    // 목표 달성 여부
-    @Column(nullable = false)
+    
+    @Column(name = "completed", nullable = false)
     private boolean completed = false;
 
-    // 보상 수령 여부
-    @Column(nullable = false)
+    
+    @Column(name = "claimed", nullable = false)
     private boolean claimed = false;
 
-    // 보상 코인
-    @Column(nullable = false)
+    @Column(name = "reward_coins", nullable = false)
     private int rewardCoins = 0;
 
-    // 갱신 시각
-    @Column(nullable = false)
-    private Instant updatedAt;
+    @Column(name = "updated_at", nullable = false)
+    private ZonedDateTime updatedAt;
 
-    @PrePersist @PreUpdate
-    void touch() {
-        this.updatedAt = Instant.now();
+    public DailyMission() {
     }
 
-    // ======= Getter / Setter =======
+    @PrePersist
+    @PreUpdate
+    void touch() {
+        this.updatedAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getMissionId() {
+        return missionId;
+    }
 
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
+    public void setMissionId(Long missionId) {
+        this.missionId = missionId;
+    }
 
-    public double getTargetKm() { return targetKm; }
-    public void setTargetKm(double targetKm) { this.targetKm = targetKm; }
+    public Long getUserId() {
+        return userId;
+    }
 
-    public double getCurrentKm() { return currentKm; }
-    public void setCurrentKm(double currentKm) { this.currentKm = currentKm; }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-    public boolean isCompleted() { return completed; }
-    public void setCompleted(boolean completed) { this.completed = completed; }
+    public ZonedDateTime getDate() {
+        return date;
+    }
 
-    public boolean isClaimed() { return claimed; }
-    public void setClaimed(boolean claimed) { this.claimed = claimed; }
+    public void setDate(ZonedDateTime date) {
+        this.date = date;
+    }
 
-    public int getRewardCoins() { return rewardCoins; }
-    public void setRewardCoins(int rewardCoins) { this.rewardCoins = rewardCoins; }
+    public double getTargetKm() {
+        return targetKm;
+    }
 
-    public Instant getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+    public void setTargetKm(double targetKm) {
+        this.targetKm = targetKm;
+    }
+
+    public double getCurrentKm() {
+        return currentKm;
+    }
+
+    public void setCurrentKm(double currentKm) {
+        this.currentKm = currentKm;
+    }
+
+    
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    public boolean isClaimed() {
+        return claimed;
+    }
+
+    public void setClaimed(boolean claimed) {
+        this.claimed = claimed;
+    }
+
+    public int getRewardCoins() {
+        return rewardCoins;
+    }
+
+    public void setRewardCoins(int rewardCoins) {
+        this.rewardCoins = rewardCoins;
+    }
+
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

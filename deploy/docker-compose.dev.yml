@@ -3,11 +3,14 @@ services:
     image: redis:7-alpine
     ports:
       - 6379:6379
+    profiles: ["infra"]
 
   postgres-dev:
     image: postgis/postgis:16-3.5
-    env_file:
-      - ./secrets/db.env
+    environment:
+      POSTGRES_DB: ${DEV_DB_NAME}
+      POSTGRES_USER: ${DEV_DB_USER}
+      POSTGRES_PASSWORD: ${DEV_DB_PASSWORD}
     volumes:
       - pgdata_dev:/var/lib/postgresql/data
       - ./db/init:/docker-entrypoint-initdb.d:ro
@@ -18,23 +21,17 @@ services:
       interval: 5s
       timeout: 3s
       retries: 20
+    profiles: ["infra"]
 
   backend-dev:
     image: local/backend:develop
-    env_file:
-      - ./secrets/.env.dev
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_CONFIG_ADDITIONAL_LOCATION=/config/
-    volumes:
-      - ./secrets:/config:ro
-    depends_on:
-      postgres-dev:
-        condition: service_healthy
-      redis-dev:
-        condition: service_started
-    ports:
-      - 8080:8080
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:postgresql://postgres-dev:5432/${DEV_DB_NAME}}
+      SPRING_DATASOURCE_USERNAME: ${DEV_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DEV_DB_PASSWORD}
+      REDIS_HOST: ${DEV_REDIS_HOST}
+      REDIS_PORT: ${DEV_REDIS_PORT}
 
   nginx:
     image: nginx:alpine
