@@ -56,6 +56,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
+    // ✅ fillMaxSize(), padding, Column, Box 등 layout 관련 확장 함수 포함
+//    implementation("androidx.compose.foundation:foundation-layout:1.7.4")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,7 +67,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
 
     implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
@@ -73,5 +76,11 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
 
     implementation("androidx.activity:activity-ktx:1.9.3")
-    implementation("androidx.fragment:fragment-ktx:1.7.1") // ✅ 반드시 추가
+    implementation("androidx.fragment:fragment-ktx:1.7.1")
+
+    // ✅ Google Maps SDK
+//    implementation("com.google.android.gms:play-services-maps:19.0.0")
+//    implementation("com.google.android.gms:play-services-location:21.2.0")
+
+//    implementation("androidx.compose.foundation:foundation:1.7.4")
 }
