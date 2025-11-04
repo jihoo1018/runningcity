@@ -1,8 +1,10 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
+
 
 android {
     namespace = "com.runningcity"
@@ -45,6 +47,13 @@ android {
         warningsAsErrors = false
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
+
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -78,9 +87,12 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.fragment:fragment-ktx:1.7.1")
 
-    // ✅ Google Maps SDK
-//    implementation("com.google.android.gms:play-services-maps:19.0.0")
-//    implementation("com.google.android.gms:play-services-location:21.2.0")
+    // Hilt
 
-//    implementation("androidx.compose.foundation:foundation:1.7.4")
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.52")
+    kapt("com.google.dagger:hilt-compiler:2.52")
+
+    // ✅ OkHttp 로깅 인터셉터 추가
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }

@@ -1,28 +1,33 @@
 package com.runningcity.app
 
 import android.app.Application
-import android.content.Context
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
+import dagger.hilt.android.HiltAndroidApp
 
 /**
- * App
- * - 전역 context를 사용하기 위한 Application 클래스(일반 Activity의 context는 화면이 꺼지면 사라지기 때문에 전역용이 필요함)
- * - 앱이 시작될 때 한 번만 호출되고, 앱의 전체 생명 주기 동안 유지되는 객체를 관리할 수 있음
- * - 패키지 선언 및 Android Application 관련 클래스 import
- * - AndroidManifest.xml에서 android:name=".App" 으로 등록해야 함
- *
- * Application 클래스를 상속받는 이유:
- * - 앱 전체에서 전역적으로 사용할 데이터나 자원을 관리할 때.
- * - 앱이 시작될 때 필요한 초기화 작업을 할 때.
- * - 앱 내의 싱글턴 패턴 구현 시 유용
+ * 🌐 App.kt
+ * ────────────────────────────────────────────────
+ * - 전역 Context 관리용 Application 클래스
+ * - ForegroundService용 NotificationChannel 등록
+ * ────────────────────────────────────────────────
  */
-class App : Application() { //앱 전체 생명주기에서 가장 먼저 생성되는 객체
-    override fun onCreate() { // 앱이 시작될 때 한 번 실행.
-        super.onCreate()
-        context = applicationContext // 전역 변수 context에 applicationContext(앱 전체 Context)를 저장(이렇게 해두면 다른 클래스에서도 App.context로 Context를 쓸 수 있음)
-    }
+@HiltAndroidApp
+class App : Application() {
 
-    companion object {//Java의 static처럼 동작.
-        lateinit var context: Context // 즉, App.context로 어느 클래스에서도 Context 접근 가능.
-            private set // private set은 외부에서 수정은 못 하게 막음.
+    override fun onCreate() {
+        super.onCreate()
+
+        // ForegroundService NotificationChannel 생성
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "running_location", // 채널 ID
+                "러닝 위치 추적",     // 채널 이름
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
+        }
     }
 }
