@@ -10,19 +10,30 @@ import androidx.room.Index
     foreignKeys = [
         ForeignKey(
             entity = WorkoutSessionEntity::class,
-            parentColumns = ["sessionId"],
-            childColumns = ["sessionId"],
+            parentColumns = ["watchSessionId"],
+            childColumns = ["watchSessionId"],
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index("sessionId")]
+    indices = [
+        Index("watchSessionId"),
+        Index("syncedToServer"),
+        Index("timestamp")
+    ]
 )
 data class HeartRateRecordEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    val sessionId: String,
+    val watchSessionId: String,
     val timestamp: Long,
     val heartRate: Int,
-    val accuracy: Int = 3  // 0-3, 3이 가장 정확
+    val accuracy: Int = 3,  // 0-3, 3이 가장 정확
+
+    // 동기화 관리
+    val syncedToServer: Boolean = false,
+    val lastSyncAttempt: Long? = null,
+    val batchId: String? = null,
+
+    val createdAt: Long = System.currentTimeMillis()
 )
