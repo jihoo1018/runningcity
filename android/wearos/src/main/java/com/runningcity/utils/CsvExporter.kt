@@ -29,8 +29,8 @@ object CsvExporter {
         csv.append("항목,값\n")
 
         // 데이터
-        csv.append("세션ID,${session.sessionId}\n")
-        csv.append("운동타입,${session.exerciseType}\n")
+        csv.append("세션ID,${session.watchSessionId}\n")
+//        csv.append("운동타입,${session.exerciseType}\n")
         csv.append("시작시간,${timestampFormat.format(Date(session.startTime))}\n")
         csv.append("종료시간,${session.endTime?.let { timestampFormat.format(Date(it)) } ?: "진행중"}\n")
         csv.append("지속시간(초),${session.duration ?: 0}\n")
@@ -54,10 +54,10 @@ object CsvExporter {
      */
     fun exportHeartRates(
         context: Context,
-        sessionId: String,
+        watchSessionId: String,
         records: List<HeartRateRecordEntity>
     ): File {
-        val filename = "heartrate_${sessionId}_${dateFormat.format(Date())}.csv"
+        val filename = "heartrate_${watchSessionId}_${dateFormat.format(Date())}.csv"
         val file = File(context.filesDir, filename)
 
         val csv = StringBuilder()
@@ -83,10 +83,10 @@ object CsvExporter {
      */
     fun exportLocations(
         context: Context,
-        sessionId: String,
+        watchSessionId: String,
         records: List<LocationRecordEntity>
     ): File {
-        val filename = "location_${sessionId}_${dateFormat.format(Date())}.csv"
+        val filename = "location_${watchSessionId}_${dateFormat.format(Date())}.csv"
         val file = File(context.filesDir, filename)
 
         val csv = StringBuilder()
@@ -124,11 +124,11 @@ object CsvExporter {
         files.add(exportSession(context, session))
 
         if (heartRates.isNotEmpty()) {
-            files.add(exportHeartRates(context, session.sessionId, heartRates))
+            files.add(exportHeartRates(context, session.watchSessionId, heartRates))
         }
 
         if (locations.isNotEmpty()) {
-            files.add(exportLocations(context, session.sessionId, locations))
+            files.add(exportLocations(context, session.watchSessionId, locations))
         }
 
         println("✅ 총 ${files.size}개 CSV 파일 저장 완료!")

@@ -30,7 +30,7 @@ class WorkoutService : Service() {
     private lateinit var locationManager: LocationManager
 
     // 현재 세션 정보
-    var sessionId: String = ""
+    var watchSessionId: String = ""
     var isTracking = false
 
     // ✅ 여기에 추가! (기존 변수들 바로 아래)
@@ -243,7 +243,7 @@ class WorkoutService : Service() {
         onLocationUpdate?.invoke(location)
 
         // DB 저장
-        if (isTracking && sessionId.isNotEmpty()) {
+        if (isTracking && watchSessionId.isNotEmpty()) {
             saveLocationToDb(location)
         }
     }
@@ -270,7 +270,7 @@ class WorkoutService : Service() {
                 val dao = database.workoutDao()
 
                 val record = LocationRecordEntity(
-                    sessionId = sessionId,
+                    watchSessionId = watchSessionId,
                     timestamp = System.currentTimeMillis(),
                     latitude = location.latitude,
                     longitude = location.longitude,

@@ -46,7 +46,7 @@ fun WorkoutScreen(context: Context) {
     var totalDistance by remember { mutableStateOf(0f) }
 
     // 운동 세션 상태
-    var sessionId by remember { mutableStateOf("") }
+    var watchSessionId by remember { mutableStateOf("") }
     var startTime by remember { mutableStateOf(0L) }
 
     // DB & CSV
@@ -115,9 +115,9 @@ fun WorkoutScreen(context: Context) {
                 heartRate = event.values[0].toInt()
                 println("💓 심박수 측정됨: $heartRate bpm")
 
-                if (isRunning && sessionId.isNotEmpty()) {
+                if (isRunning && watchSessionId.isNotEmpty()) {
                     val record = HeartRateRecordEntity(
-                        sessionId = sessionId,
+                        watchSessionId = watchSessionId,
                         timestamp = System.currentTimeMillis(),
                         heartRate = heartRate,
                         accuracy = 3
@@ -157,17 +157,17 @@ fun WorkoutScreen(context: Context) {
             println("🚀 센서 시작!")
 
             // 새 세션 생성
-            sessionId = "run_${UUID.randomUUID().toString().substring(0, 8)}"
+            watchSessionId = "run_${UUID.randomUUID().toString().substring(0, 8)}"
             startTime = System.currentTimeMillis()
 
             // 세션 DB에 저장
             val session = WorkoutSessionEntity(
-                sessionId = sessionId,
+                watchSessionId = watchSessionId,
                 startTime = startTime,
                 status = "IN_PROGRESS"
             )
             dao.insertSession(session)
-            println("💾 세션 DB 저장: $sessionId")
+            println("💾 세션 DB 저장: $watchSessionId")
 
             // 리스트 초기화
             heartRateList.clear()
@@ -208,11 +208,11 @@ fun WorkoutScreen(context: Context) {
 
             // Service에 세션 ID 전달
             kotlinx.coroutines.delay(500)
-            workoutService?.sessionId = sessionId
+            workoutService?.watchSessionId = watchSessionId
 
         } else {
             // 🔥 운동 종료 (isRunning == false가 되면 즉시 실행)
-            if (sessionId.isNotEmpty()) {
+            if (watchSessionId.isNotEmpty()) {
                 println("⏹️ 운동 종료! 센서/Service 중지 중...")
 
                 // 🔥 먼저 센서 중지!
@@ -246,15 +246,15 @@ fun WorkoutScreen(context: Context) {
                 val duration = ((endTime - startTime) / 1000).toInt()
 
                 // 심박수 통계 계산
-                val avgHr = dao.getAvgHeartRate(sessionId) ?: 0
-                val maxHr = dao.getMaxHeartRate(sessionId) ?: 0
-                val minHr = dao.getMinHeartRate(sessionId) ?: 0
+                val avgHr = dao.getAvgHeartRate(watchSessionId) ?: 0
+                val maxHr = dao.getMaxHeartRate(watchSessionId) ?: 0
+                val minHr = dao.getMinHeartRate(watchSessionId) ?: 0
 
                 // GPS 데이터 가져오기
-                val locations = dao.getLocations(sessionId)
+                val locations = dao.getLocations(watchSessionId)
 // ✅ 세션 업데 이트 (거리 포함!)
                 val session = WorkoutSessionEntity(
-                    sessionId = sessionId,
+                    watchSessionId = watchSessionId,
                     startTime = startTime,
                     endTime = endTime,
                     duration = duration,
@@ -290,7 +290,7 @@ fun WorkoutScreen(context: Context) {
                 println("   - GPS 기록: ${locations.size}개")
 
                 // 세션 ID 초기화
-                sessionId = ""
+                watchSessionId = ""
             }
         }
     }
@@ -427,7 +427,7 @@ fun WorkoutScreen(context: Context) {
                     color = Color.Yellow
                 )
                 Text(
-                    text = "ID: $sessionId",
+                    text = "ID: $watchSessionId",
                     style = MaterialTheme.typography.caption2,
                     color = Color.Gray
                 )
