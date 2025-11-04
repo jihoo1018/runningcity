@@ -15,6 +15,13 @@ public class RunSessionUpload {
     @JoinColumn(name="session_id")
     private RunSession session;
 
-    @Column(nullable=false)
-    private Integer ackedUntilSeq;
+
+    @Column(name = "acked_until_seq", nullable = false)
+    @Builder.Default
+    private Integer ackedUntilSeq = 0;
+
+    @PrePersist
+    void prePersist() {
+        if (ackedUntilSeq == null) ackedUntilSeq = 0;
+    }
 }
