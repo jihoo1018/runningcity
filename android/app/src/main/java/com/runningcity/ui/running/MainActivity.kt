@@ -11,22 +11,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.runningcity.data.location.LocationRepositoryImpl
-import com.runningcity.domain.usecase.StartSessionUseCase
-import com.runningcity.domain.usecase.StopSessionUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
- * 📱 MainActivity (Compose + WebView)
+ * 📱 MainActivity
  * ────────────────────────────────────────────────
- * - React(WebView) ↔ Kotlin 통신
- * - GPS 권한 요청 및 ViewModel 주입
- * - WebAppInterface 연결
+ * - React(WebView) ↔ Kotlin 양방향 통신
+ * - GPS 권한 요청 및 ViewModel 주입 (Hilt)
+ * - RunningViewModel 의 상태를 React로 실시간 전달
  * ────────────────────────────────────────────────
  */
 @AndroidEntryPoint
@@ -38,31 +37,68 @@ class MainActivity : ComponentActivity() {
         Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    /** 🧠 ViewModel 자동 주입 */
-    private val viewModel: RunningViewModel by viewModels() // Hilt가 자동 주입
+    /** 🧠 ViewModel (Hilt 자동 주입) */
+    private val viewModel: RunningViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkLocationPermissions()
+        checkLocationPermissions() // 위치 권한 확인 및 요청
 
-        setContent { // setContent { ... } → XML 대신 화면을 직접 그리는 진입점
-            Scaffold(//Scaffold() →화면 전체 레이아웃 (기본 구조: 상단바 + 본문)
+        setContent {
+            val coroutineScope = rememberCoroutineScope()
+            var webView by remember { mutableStateOf<WebView?>(null) }
+
+            Scaffold(
                 topBar = {
-                    CenterAlignedTopAppBar(title = { Text("🏙️ RunningCity") })
-                    //Text() → 글자 출력
+                    CenterAlignedTopAppBar(
+                        title = { Text("🏙️ RunningCity") },
+                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    )
                 }
             ) { padding ->
-                RunningWebView( //RunningWebView() → 내가 만든 WebView를 Composable 형태로 사용
-                    url = "http://k13a405.p.ssafy.io/", // 🌐 React 서버 주소
+
+                // ✅ React WebView 로드
+                webView = RunningWebView(
+                    url = "http://k13a405.p.ssafy.io/",
                     viewModel = viewModel,
                     modifierPadding = padding
                 )
+
+                // 🔁 ViewModel → React 실시간 데이터 전송
+                LaunchedEffect(viewModel) {
+                    viewModel.uiState.collectLatest { state ->
+                        // 📦 JSON 형태로 변환
+                        val json = """
+                            {
+                              "isRunning": ${state.isRunning},
+                              "distanceKm": ${state.distanceKm},
+                              "durationSec": ${state.durationSec},
+                              "avgPace": ${"%.2f".format(state.avgPace)}
+                            }
+                        """.trimIndent()
+
+                        // JS 함수 호출 (React 수신용)
+                        val jsCode = "window.receiveFromAndroid($json);"
+                        coroutineScope.launch {
+                            webView?.evaluateJavascript(jsCode, null)
+                        }
+                    }
+                }
             }
         }
     }
 
-    /** 🔒 위치 권한 요청 */
+    /**
+     * 🔒 위치 권한 요청
+     * ────────────────────────────────────────────────
+     * - FINE(정확) + COARSE(대략적) 권한 모두 확인
+     * - 미부여 시 런타임 요청
+     * ────────────────────────────────────────────────
+     */
     private fun checkLocationPermissions() {
         val notGranted = LOCATION_PERMISSIONS.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED

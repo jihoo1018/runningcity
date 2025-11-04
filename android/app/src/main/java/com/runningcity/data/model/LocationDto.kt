@@ -1,5 +1,7 @@
 package com.runningcity.data.model
 
+import android.location.Location
+
 /**
  * 📦 LocationRequest
  * ────────────────────────────────────────────────
@@ -17,3 +19,19 @@ data class LocationDto(
     val provider: String?,    // 위치 제공자 (gps / network)
     val timestamp: Long       // 측정 시각 (ms)
 )
+
+
+/**
+ * 🔁 LocationDto → Android Location 객체로 변환
+ */
+fun LocationDto.toLocation(): Location {
+    val loc = Location(provider ?: "dto") // provider가 null이면 "dto"로 대체
+    loc.latitude = latitude
+    loc.longitude = longitude
+    loc.accuracy = accuracy
+    loc.altitude = altitude
+    loc.speed = speed
+    loc.bearing = bearing
+    loc.time = timestamp
+    return loc
+}

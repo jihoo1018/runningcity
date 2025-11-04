@@ -8,10 +8,11 @@ import android.util.Log
 import org.json.JSONObject
 
 /**
- * 🤖 AndroidBridge
+ * 🤖 WebAppInterface (React ↔ Android 브릿지)
  * ────────────────────────────────────────────────
- * - React(WebView) ↔ Kotlin 통신 브릿지 클래스
- * - window.Android.startRunning(), stopRunning(), getRunningState() 등 가능
+ * - React(WebView) → Kotlin : JS 함수 호출 처리
+ * - Kotlin → React(WebView) : evaluateJavascript() 로 데이터 전달
+ * - RunningViewModel과 연결되어 러닝 상태 관리
  * ────────────────────────────────────────────────
  */
 class WebAppInterface(
@@ -51,14 +52,14 @@ class WebAppInterface(
         return json
     }
 
-    /** 📡 React → Android : 데이터 전달용 (예: 위치, 하트레이트 등) */
+    /** 📩 React → Android : 외부 데이터 전달용 (예: 위치, 심박수 등) */
     @JavascriptInterface
     fun sendData(data: String) {
         Log.d("WebAppInterface", "React로부터 데이터 수신: $data")
-        // 필요 시 JSON 파싱 후 내부 상태 업데이트
+        // 필요 시 JSON 파싱 후 ViewModel 업데이트 가능
     }
 
-    /** ✅ Kotlin → React : 상태 갱신 push */
+    /** ✅ Kotlin → React : 상태를 JS 함수로 전달 */
     fun sendUiStateToReact() {
         val state = viewModel.uiState.value
         val json = JSONObject().apply {
@@ -68,15 +69,16 @@ class WebAppInterface(
             put("avgPace", state.avgPace)
         }.toString()
 
+        // React 측에 전달될 JS 함수 (window.receiveFromAndroid 등)
         webView.post {
             webView.evaluateJavascript(
-                "window.AndroidBridge.onRunningStateUpdated($json)",
+                "window.receiveFromAndroid($json)",
                 null
             )
         }
     }
 
-    /** 🧭 React → Android : GPS 요청 */
+    /** 🧭 React → Android : GPS 테스트 요청 */
     @JavascriptInterface
     fun requestLocation() {
         val lat = 37.5665
@@ -84,7 +86,7 @@ class WebAppInterface(
 
         webView.post {
             webView.evaluateJavascript(
-                "window.AndroidBridge.onLocationReceived($lat, $lon)",
+                "window.receiveFromAndroid({lat:$lat, lon:$lon})",
                 null
             )
         }
