@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
                 // ✅ React WebView 로드
                 webView = RunningWebView(
-                    url = "http://k13a405.p.ssafy.io/",
+                    url = "http://70.12.112.97:5173/",
                     viewModel = viewModel,
                     modifierPadding = padding
                 )
