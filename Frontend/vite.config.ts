@@ -38,6 +38,14 @@ export default defineConfig({
     // 파일 크기 경고 제한 완화
     chunkSizeWarningLimit: 1000,
   },
+    preview: {
+        host: '0.0.0.0',     // 컨테이너 외부에서 접근 가능
+        port: 3000,
+        strictPort: true,
+        // ⬇️ 여기 중요
+        allowedHosts: ['k13a405.p.ssafy.io', 'localhost'],
+    },
+
 
   // 개발 서버 설정 (모바일에서 테스트 시)
   server: {
