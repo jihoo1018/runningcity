@@ -12,6 +12,8 @@ import com.runningcity.run.entity.RunSession;
 import com.runningcity.run.exception.RunResponseCode;
 import com.runningcity.run.repository.RunNativeRepository;
 import com.runningcity.run.repository.RunSessionRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,9 @@ public class RunService {
 
     private final RunSessionRepository sessionRepository;
     private final RunNativeRepository nativeRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
     /** 세션 생성 */
     @Transactional
@@ -56,12 +61,12 @@ public class RunService {
         RunSession session = sessionRepository.findById(sid)
                 .orElseThrow(() -> new BaseException(RunResponseCode.SESSION_NOT_FOUND));
 
-        // 세션 소유자 검증
+        // 소유자 검증
         if (!Objects.equals(session.getUserId(), userId)) {
             throw new BaseException(CommonResponseCode.FORBIDDEN);
         }
 
-        // FINALIZED 차단 (ACTIVE가 아니면 업로드 불가)
+        // FINALIZED 차단
         if (!"ACTIVE".equals(session.getStatus())) {
             throw new BaseException(RunResponseCode.SESSION_FINALIZED);
         }
@@ -89,7 +94,7 @@ public class RunService {
             params.add(m);
         }
 
-        // (선택) 업로드 상태 행 보장: 없으면 생성
+        // 상태 행 보장
         nativeRepository.insertSessionUploadRow(sid);
 
         nativeRepository.batchInsertPoints(sid, params);
@@ -100,8 +105,6 @@ public class RunService {
                 .maxInsertedSeq(batchMaxSeq)
                 .build();
     }
-
-
 
     /** Finish (멱등, deadline 지나면 현재까지로 확정) */
     @Transactional
@@ -140,6 +143,7 @@ public class RunService {
             nativeRepository.batchInsertPoints(sid, params);
         }
 
+        // 진행 중 요약 PATCH(null 무시)
         FinishRequest.DeviceSummary dsPatch = req.getDeviceSummary();
         if (dsPatch != null) {
             Map<String, Object> patchSummary = new HashMap<>();
@@ -150,7 +154,7 @@ public class RunService {
             patchSummary.put("elevationGainM", dsPatch.getElevationGainM());
             patchSummary.put("avgHrBpm", dsPatch.getAvgHrBpm());
             patchSummary.put("avgCadenceSpm", dsPatch.getAvgCadenceSpm());
-            nativeRepository.upsertSummaryWhileOpen(sid, patchSummary); // [ADDED]
+            nativeRepository.upsertSummaryWhileOpen(sid, patchSummary);
         }
 
         // ACK 확인
@@ -173,17 +177,17 @@ public class RunService {
             summary.put("avgHrBpm", ds.getAvgHrBpm());
             summary.put("avgCadenceSpm", ds.getAvgCadenceSpm());
 
-
+            // 요약 + end_at + status 네이티브로 반영
             nativeRepository.finalizeSession(sid, summary);
 
             // 여기에서 리워드가 있으면 json형태로 추가하면 됨
 
-            Instant finalizedAt = nativeRepository.getFinalizedAtOrNull(sid);
-            session.setStatus("FINALIZED"); // 엔티티 캐시 정합
+            // DB 값으로 동기화 (요약 덮어쓰기 방지)
+            em.refresh(session);
 
             return FinishResponse.builder()
                     .status("FINALIZED")
-                    .finalizedAt(finalizedAt)
+                    .finalizedAt(session.getEndAt())
                     .build();
         }
 
@@ -194,7 +198,6 @@ public class RunService {
                         Instant.now().isAfter(session.getClosingDeadline());
 
         if (deadlinePassed) {
-            // 현재까지로 부분 확정
             try {
                 nativeRepository.upsertRouteAndLength(sid, 5.0);
             } catch (Exception ignore) {}
@@ -210,23 +213,22 @@ public class RunService {
             summary.put("avgCadenceSpm", ds.getAvgCadenceSpm());
 
             nativeRepository.finalizeSession(sid, summary);
-
             // 리워드 추가하면됨 (부분 확정이더라도 FINALIZED이면 저장)
 
-            Instant finalizedAt = nativeRepository.getFinalizedAtOrNull(sid);
-            session.setStatus("FINALIZED");
+            // 동기화
+            em.refresh(session);
 
             return FinishResponse.builder()
                     .status("FINALIZED")
-                    .finalizedAt(finalizedAt)
+                    .finalizedAt(session.getEndAt())
                     .build();
         }
 
         // 3) ACTIVE면 최초 한 번만 CLOSING 전환(연장 금지)
         if ("ACTIVE".equals(session.getStatus())) {
             nativeRepository.setClosingIfFirstTime(sid, 60);
-            session.setStatus("CLOSING");
-            session.setClosingDeadline(Instant.now().plusSeconds(60)); // 응답 힌트용
+            // DB에서 계산된 closing_deadline을 읽어오도록 동기화
+            em.refresh(session);
         }
 
         // CLOSING 계속 유지(연장 없음)
