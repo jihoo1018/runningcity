@@ -11,7 +11,9 @@ import com.runningcity.data.local.entity.*
     entities = [
         WorkoutSessionEntity::class,
         HeartRateRecordEntity::class,
-        LocationRecordEntity::class
+        LocationRecordEntity::class,
+        CadenceRecordEntity::class,
+        CalorieRecordEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -31,7 +33,7 @@ abstract class WorkoutDatabase : RoomDatabase() {
                     WorkoutDatabase::class.java,
                     "workout_database"
                 )
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration()  // 개발 중에는 이렇게, 프로덕션에서는 Migration 필요
                     .build()
 
                 INSTANCE = instance

@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 
 @Entity(
-    tableName = "location_records",
+    tableName = "calorie_records",
     foreignKeys = [
         ForeignKey(
             entity = WorkoutSessionEntity::class,
@@ -17,26 +17,23 @@ import androidx.room.Index
     ],
     indices = [
         Index("watchSessionId"),
-        Index("syncedToServer"),  // 미전송 데이터 조회 최적화
-        Index("timestamp")  // 시간순 정렬 최적화
+        Index("syncedToServer"),
+        Index("timestamp")
     ]
 )
-data class LocationRecordEntity(
+data class CalorieRecordEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,  // BigInt로 자동 증가 (배치 전송시 범위 지정용)
+    val id: Long = 0,
 
     val watchSessionId: String,
     val timestamp: Long,
-    val latitude: Double,
-    val longitude: Double,
-    val accuracy: Float,
-    val altitude: Double? = null,
-    val speed: Float? = null,
+    val calories: Double,  // 누적 칼로리 (kcal)
+    val caloriesIncrement: Double? = null,  // 이전 기록 대비 증가량
 
     // 동기화 관리
     val syncedToServer: Boolean = false,
     val lastSyncAttempt: Long? = null,
-    val batchId: String? = null,  // 배치 전송 그룹 ID
+    val batchId: String? = null,
 
     val createdAt: Long = System.currentTimeMillis()
 )

@@ -1,14 +1,13 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-//    alias(libs.plugins.android.application)
-//    alias(libs.plugins.kotlin.android)
-    kotlin("kapt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
     namespace = "com.runningcity"
-    compileSdk = 34
+    compileSdk = 34  // ✅ 이렇게 수정!
 
     defaultConfig {
         applicationId = "com.runningcity"
@@ -16,7 +15,6 @@ android {
         targetSdk = 33  // ✅ 33으로 변경 (Galaxy Watch 6 최적화)
         versionCode = 1
         versionName = "1.0"
-
     }
 
     buildTypes {
@@ -78,24 +76,26 @@ dependencies {
     // Health Services
     implementation("androidx.health:health-services-client:1.1.0-alpha03")
 
-    // 위치 서비스 (GPS)
-    implementation("com.google.android.gms:play-services-location:21.0.1")
+    // 위치 서비스 (GPS) - 중복 제거하고 최신 버전 하나만!
+    implementation("com.google.android.gms:play-services-location:21.3.0")  // ✅ 최신 버전
 
-    // Coroutines (비동기 처리 - 필수!)
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
-    // ViewModel (데이터 관리)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
 
-    // 👆👆👆 여기까지 추가! 👆👆👆
+    // Wearable
+    implementation("com.google.android.gms:play-services-wearable:18.1.0")
 
-    //fusedlocation 사용용
-    implementation("com.google.android.gms:play-services-location:21.0.1")
-    //워치와 폰 연결용
-    implementation("com.google.android.gms:play-services-wearable:18.0.0")
+    // Room Database
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
