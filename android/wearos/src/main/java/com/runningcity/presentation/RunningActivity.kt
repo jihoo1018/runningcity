@@ -25,23 +25,57 @@ class RunningActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                // 권한 상태를 변경 가능하게!
-                var hasPermissions by remember {
-                    mutableStateOf(permissionManager.hasAllPermissions())
-                }
+                RunningCityNavigation()
+            }
+        }
+    }
 
+    // ✅ Navigation 추가
+    @Composable
+    fun RunningCityNavigation() {
+        var currentScreen by remember { mutableStateOf<AppScreen>(AppScreen.Permission) }
+        var resultSessionSeq by remember { mutableStateOf(0L) }
+        var hasPermissions by remember { mutableStateOf(permissionManager.hasAllPermissions()) }
+
+        when (currentScreen) {
+            is AppScreen.Permission -> {
                 if (hasPermissions) {
-                    // 권한 있으면 → 운동 측정 화면
-                    WorkoutScreen(context = this@RunningActivity)
+                    // 권한 있으면 바로 홈으로
+                    currentScreen = AppScreen.Home
                 } else {
-                    // 권한 없으면 → 권한 요청 화면
+                    // 권한 요청 화면
                     TestPermissionScreen(
                         onPermissionsGranted = {
-                            // 권한 허용되면 상태 업데이트!
                             hasPermissions = true
+                            currentScreen = AppScreen.Home
                         }
                     )
                 }
+            }
+            is AppScreen.Home -> {
+                HomeScreen(
+                    onStartWorkout = {
+                        currentScreen = AppScreen.Workout
+                    }
+                )
+            }
+            is AppScreen.Workout -> {
+                WorkoutScreen(
+                    context = this@RunningActivity,
+                    onWorkoutComplete = { seq ->
+                        resultSessionSeq = seq
+                        currentScreen = AppScreen.Result
+                    }
+                )
+            }
+            is AppScreen.Result -> {
+                WorkoutResultScreen(
+                    context = this@RunningActivity,
+                    sessionSeq = resultSessionSeq,
+                    onBackToHome = {
+                        currentScreen = AppScreen.Home
+                    }
+                )
             }
         }
     }
@@ -234,4 +268,12 @@ class RunningActivity : ComponentActivity() {
             }
         }
     }
+}
+
+// ✅ Navigation용 Screen 정의
+sealed class AppScreen {
+    object Permission : AppScreen()
+    object Home : AppScreen()
+    object Workout : AppScreen()
+    object Result : AppScreen()
 }

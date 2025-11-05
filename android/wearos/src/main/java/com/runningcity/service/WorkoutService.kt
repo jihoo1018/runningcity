@@ -5,6 +5,10 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -13,41 +17,69 @@ import android.os.IBinder
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.runningcity.data.local.WorkoutDatabase
+import com.runningcity.data.local.entity.CadenceRecordEntity
+import com.runningcity.data.local.entity.CalorieRecordEntity
 import com.runningcity.data.local.entity.LocationRecordEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
-class WorkoutService : Service() {
+class WorkoutService : Service(), SensorEventListener {
 
     private val binder = WorkoutBinder()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    // 위치 관련
+    // GPS 관련
     private var gpsListener: LocationListener? = null
     private var networkListener: LocationListener? = null
     private lateinit var locationManager: LocationManager
+    private var lastProvider: String? = null
 
-    // 현재 세션 정보
-    var watchSessionId: String = ""
+    // 센서 관련
+    private lateinit var sensorManager: SensorManager
+    private var stepCounterSensor: Sensor? = null
+    private var lastStepCount = 0f
+    private var sessionSteps = 0
+
+    // 세션 및 상태
+    var clientSecretKey: String = ""
+    var workoutSessionSeq: Long = 0L
     var isTracking = false
+    private var isPaused = false
 
-    // ✅ 여기에 추가! (기존 변수들 바로 아래)
-    // 거리 추적 변수
-    private var totalDistance = 0f  // 총 거리 (미터)
-    private var lastLocation: Location? = null  // 이전 위치
+    // 시간
+    private var pausedTime = 0L
+    private var totalPausedDuration = 0L
 
-    // 위치 데이터 리스너
+    // 거리 및 위치
+    private var totalDistance = 0f
+    private var lastLocation: Location? = null
+
+    // 칼로리
+    private var totalCalories = 0.0
+    private var lastCalorieUpdate = 0L
+    private val userWeight = 70.0  // kg
+
+    // 케이던스
+    private var currentCadence = 0
+    private var lastCadenceUpdate = 0L
+    private val cadenceWindow = mutableListOf<Pair<Long, Int>>()
+
+    // 고도 리스트 (평균용)
+    private val elevationList = mutableListOf<Double>()
+
+    // 콜백 리스너
     var onLocationUpdate: ((Location) -> Unit)? = null
-    // ✅ 여기에 추가!
-    var onDistanceUpdate: ((Float) -> Unit)? = null  // 거리 업데이트 리스너
+    var onDistanceUpdate: ((Float) -> Unit)? = null
+    var onCalorieUpdate: ((Double) -> Unit)? = null
+    var onCadenceUpdate: ((Int) -> Unit)? = null
+    var onStepsUpdate: ((Int) -> Unit)? = null
 
     companion object {
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "workout_channel"
         const val ACTION_START = "ACTION_START"
         const val ACTION_STOP = "ACTION_STOP"
+        const val ACTION_PAUSE = "ACTION_PAUSE"
+        const val ACTION_RESUME = "ACTION_RESUME"
     }
 
     inner class WorkoutBinder : Binder() {
@@ -58,21 +90,21 @@ class WorkoutService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        println("🔧 WorkoutService onCreate")
-
-        // 알림 채널 생성
         createNotificationChannel()
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START -> {
-                println("▶️ WorkoutService 시작")
                 startForegroundService()
                 startLocationTracking()
+                startSensorTracking()
             }
+            ACTION_PAUSE -> pauseWorkout()
+            ACTION_RESUME -> resumeWorkout()
             ACTION_STOP -> {
-                println("⏹️ WorkoutService 중지")
+                stopSensorTracking()
                 stopLocationTracking()
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
@@ -81,263 +113,316 @@ class WorkoutService : Service() {
         return START_STICKY
     }
 
+    /** 🔔 포그라운드 서비스 시작 */
     private fun startForegroundService() {
         val notification = createNotification("운동 추적 중...")
         startForeground(NOTIFICATION_ID, notification)
-        println("🔔 Foreground Service 시작")
     }
 
+    /** 📍 위치 추적 시작 */
     private fun startLocationTracking() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-
-        // ✅ GPS 시작할 때 거리 초기화 (여기에 추가!)
         resetDistance()
+        setupLocationListeners()
 
-        // GPS 상태 확인
-        val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-        println("📡 [Service] GPS Provider: ${if(isGPSEnabled) "✅ ON" else "❌ OFF"}")
-        println("📡 [Service] Network Provider: ${if(isNetworkEnabled) "✅ ON" else "❌ OFF"}")
-
-        // 마지막 GPS 위치 확인
-        try {
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                val lastGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                if (lastGPS != null) {
-                    val timeSince = System.currentTimeMillis() - lastGPS.time
-                    println("📍 [Service] 마지막 GPS: ${lastGPS.accuracy}m (${timeSince/1000}초 전)")
-                } else {
-                    println("⚠️ [Service] 마지막 GPS 없음 (Cold Start - 위성 찾는데 2-3분 소요)")
-                }
-            }
-        } catch (e: SecurityException) {
-            println("❌ GPS 권한 에러")
-        }
-
-        // GPS 리스너 (정확한 위성 위치)
-        gpsListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                val accuracy = location.accuracy
-
-                // GPS는 정확도 20m 이하만 사용
-                if (accuracy <= 20f) {
-                    println("📍 GPS (위성 ⭐): 위도=${String.format("%.6f", location.latitude)}, 경도=${String.format("%.6f", location.longitude)}, 정확도=${accuracy}m")
-                    handleLocation(location, "GPS")
-                } else {
-                    println("⚠️ GPS 정확도 낮음: ${accuracy}m - 무시")
-                }
-            }
-
-            override fun onProviderEnabled(provider: String) {
-                println("✅ GPS 활성화됨: $provider")
-            }
-
-            override fun onProviderDisabled(provider: String) {
-                println("❌ GPS 비활성화됨: $provider")
-            }
-
-            @Deprecated("Deprecated in API level 29")
-            override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {
-                println("📡 GPS 상태 변경: $provider, status=$status")
-            }
-        }
-
-        // Network 리스너 (A-GPS 백업용)
-        networkListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) {
-                val accuracy = location.accuracy
-
-                // Network는 GPS 안 잡힐 때만 사용 (백업용)
-                // 정확도 20m 초과만 사용 (GPS랑 겹치지 않게)
-                if (accuracy > 20f) {
-                    println("📍 Network (A-GPS 🌐): 위도=${String.format("%.6f", location.latitude)}, 경도=${String.format("%.6f", location.longitude)}, 정확도=${accuracy}m")
-                    handleLocation(location, "Network")
-                }
-            }
-
-            override fun onProviderEnabled(provider: String) {
-                println("✅ Network 활성화됨: $provider")
-            }
-
-            override fun onProviderDisabled(provider: String) {
-                println("❌ Network 비활성화됨: $provider")
-            }
-
-            @Deprecated("Deprecated in API level 29")
-            override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {}
-        }
+        val gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val netEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            // GPS Provider 등록 (우선순위 1)
-            if (isGPSEnabled) {
+            if (gpsEnabled) {
                 locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    1000L,    // 1초마다
-                    5f,       // 5미터 이동마다
-                    gpsListener!!
+                    LocationManager.GPS_PROVIDER, 1000L, 3f, gpsListener!!
                 )
-                println("🚀 GPS Provider 시작! (위성 신호 대기 중...)")
-            } else {
-                println("⚠️ GPS Provider 꺼져있음!")
             }
-
-            // Network Provider 등록 (우선순위 2 - 백업용)
-            if (isNetworkEnabled) {
+            if (netEnabled) {
                 locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    5000L,    // 5초마다 (GPS보다 느리게)
-                    10f,      // 10미터 이동마다
-                    networkListener!!
+                    LocationManager.NETWORK_PROVIDER, 5000L, 10f, networkListener!!
                 )
-                println("🚀 Network Provider 시작! (A-GPS 백업)")
             }
+        }
+        isTracking = true
+    }
 
-            isTracking = true
-            println("🎯 하이브리드 GPS 추적 시작! (GPS 우선, Network 백업)")
-        } else {
-            println("❌ GPS 권한 없음 (Service)")
+    /** 👟 센서 시작 */
+    private fun startSensorTracking() {
+        stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        stepCounterSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
-    // ✅ 새로운 코드로 교체
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event == null || isPaused) return
+        if (event.sensor.type == Sensor.TYPE_STEP_COUNTER) {
+            val currentSteps = event.values[0]
+            if (lastStepCount == 0f) {
+                lastStepCount = currentSteps
+            } else {
+                val diff = (currentSteps - lastStepCount).toInt()
+                if (diff > 0) {
+                    sessionSteps += diff
+                    lastStepCount = currentSteps
+                    calculateCadence()
+                    onStepsUpdate?.invoke(sessionSteps)
+                }
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    /** ⏱️ 케이던스 계산 */
+    private fun calculateCadence() {
+        val now = System.currentTimeMillis()
+        cadenceWindow.add(now to 1)
+        cadenceWindow.removeAll { now - it.first > 60000 }
+
+        val oldest = cadenceWindow.firstOrNull()?.first ?: return
+        val seconds = (now - oldest) / 1000.0
+        if (seconds > 0) {
+            val steps = cadenceWindow.size
+            currentCadence = ((steps / seconds) * 60).toInt()
+            if (now - lastCadenceUpdate > 5000) {
+                lastCadenceUpdate = now
+                onCadenceUpdate?.invoke(currentCadence)
+                saveCadenceToDb()
+            }
+        }
+    }
+
+    /** 📍 위치 리스너 설정 */
+    private fun setupLocationListeners() {
+        gpsListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) =
+                handleLocation(location, "GPS")
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
+        }
+
+        networkListener = object : LocationListener {
+            override fun onLocationChanged(location: Location) =
+                handleLocation(location, "Network")
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
+        }
+    }
+
+    /** 🧮 위치 계산 핵심 */
     private fun handleLocation(location: Location, source: String) {
-        val latitude = location.latitude
-        val longitude = location.longitude
-        val accuracy = location.accuracy
+        if (isPaused) return
 
-        // ✅ 거리 계산 추가!
-        if (lastLocation != null && accuracy <= 15f) {
-            // 이전 위치와의 거리 계산
-            val distance = lastLocation!!.distanceTo(location)
+        // ✅ 1. 정확도 & 속도 필터링
+        if (location.accuracy > 25f || location.speed > 10f) return
 
-            // 너무 큰 점프는 무시 (GPS 오류)
-            if (distance < 100f) {  // 100m 이상 점프는 오류
-                totalDistance += distance
+        // ✅ 2. GPS 우선 (GPS 수신 중에는 Network 무시)
+        if (source == "Network" && lastProvider == "GPS") return
+        lastProvider = source
 
-                println("📏 거리 증가: +${String.format("%.1f", distance)}m, 총: ${String.format("%.1f", totalDistance)}m")
-
-                // UI 업데이트
-                onDistanceUpdate?.invoke(totalDistance)
-            } else {
-                println("⚠️ 비정상적인 거리: ${String.format("%.1f", distance)}m - 무시")
-            }
+        // ✅ 3. 첫 위치는 기준점만 저장 (거리 계산 제외)
+        if (lastLocation == null) {
+            lastLocation = location
+            return
         }
 
-        // 현재 위치를 이전 위치로 저장
+        // ✅ 4. 거리 계산 (튀는 값 필터링)
+        val distance = lastLocation!!.distanceTo(location)
+        if (distance in 0f..50f) { // 50m 이상 튀면 무시
+            totalDistance += distance
+            onDistanceUpdate?.invoke(totalDistance)
+        }
+
+        // ✅ 5. 고도 수집
+        elevationList.add(location.altitude)
+
+        // ✅ 6. 칼로리 계산
+        calculateCalories(location)
+
+        // ✅ 7. 상태 업데이트
         lastLocation = location
+        updateNotification("📡 $source | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal | ${currentCadence}spm")
 
-        // 알림 업데이트 (거리 추가)
-        updateNotification("$source: ${String.format("%.1f", accuracy)}m | ${totalDistance.toInt()}m")
-
-        // 리스너 호출 (WorkoutScreen 업데이트)
         onLocationUpdate?.invoke(location)
+        saveLocationToDb(location)
+    }
 
-        // DB 저장
-        if (isTracking && watchSessionId.isNotEmpty()) {
-            saveLocationToDb(location)
+    /** 🔥 칼로리 계산 */
+    private fun calculateCalories(location: Location) {
+        val now = System.currentTimeMillis()
+        if (now - lastCalorieUpdate < 5000) return
+        val met = calculateMET(location)
+        val timeHr = 5.0 / 3600.0
+        val cal = met * userWeight * timeHr
+        totalCalories += cal
+        lastCalorieUpdate = now
+        onCalorieUpdate?.invoke(totalCalories)
+        saveCalorieToDb(totalCalories, cal)
+    }
+
+    private fun calculateMET(location: Location): Double {
+        val kmh = location.speed * 3.6
+        return when {
+            kmh < 4 -> 4.0
+            kmh < 6 -> 6.0
+            kmh < 8 -> 8.0
+            kmh < 10 -> 10.0
+            kmh < 12 -> 11.5
+            else -> 13.0
         }
     }
 
-    private fun stopLocationTracking() {
-        if (gpsListener != null) {
-            locationManager.removeUpdates(gpsListener!!)
-            println("⏹️ GPS Provider 중지")
-        }
-
-        if (networkListener != null) {
-            locationManager.removeUpdates(networkListener!!)
-            println("⏹️ Network Provider 중지")
-        }
-
-        isTracking = false
-        println("⏹️ 하이브리드 GPS 추적 중지")
-    }
-
+    /** 💾 DB 저장들 */
     private fun saveLocationToDb(location: Location) {
+        if (workoutSessionSeq == 0L) return
         serviceScope.launch {
             try {
-                val database = WorkoutDatabase.getDatabase(applicationContext)
-                val dao = database.workoutDao()
-
-                val record = LocationRecordEntity(
-                    watchSessionId = watchSessionId,
-                    timestamp = System.currentTimeMillis(),
-                    latitude = location.latitude,
-                    longitude = location.longitude,
-                    accuracy = location.accuracy,
-                    altitude = location.altitude,
-                    speed = location.speed
+                val dao = WorkoutDatabase.getDatabase(applicationContext).workoutDao()
+                dao.insertLocation(
+                    LocationRecordEntity(
+                        workoutSessionSeq = workoutSessionSeq,
+                        createdAt = System.currentTimeMillis(),
+                        latitude = location.latitude,
+                        longitude = location.longitude,
+                        accuracy = location.accuracy,
+                        altitude = location.altitude,
+                        speed = location.speed,
+                        syncedToServer = false,
+                        savedAt = System.currentTimeMillis()
+                    )
                 )
-
-                dao.insertLocation(record)
-                println("💾 위치 DB 저장 (Service)")
             } catch (e: Exception) {
-                println("❌ DB 저장 실패: ${e.message}")
+                println("❌ 위치 저장 실패: ${e.message}")
             }
         }
     }
 
-    private fun createNotificationChannel() {
-        val channel = NotificationChannel(
-            CHANNEL_ID,
-            "운동 추적",
-            NotificationManager.IMPORTANCE_LOW
-        ).apply {
-            description = "운동 중 GPS 추적"
-            setShowBadge(false)
+    private fun saveCalorieToDb(total: Double, inc: Double) {
+        if (workoutSessionSeq == 0L) return
+        serviceScope.launch {
+            val dao = WorkoutDatabase.getDatabase(applicationContext).workoutDao()
+            dao.insertCalorie(
+                CalorieRecordEntity(
+                    workoutSessionSeq = workoutSessionSeq,
+                    createdAt = System.currentTimeMillis(),
+                    calories = total,
+                    caloriesIncrement = inc,
+                    syncedToServer = false,
+                    savedAt = System.currentTimeMillis()
+                )
+            )
         }
-
-        val notificationManager = getSystemService(NotificationManager::class.java)
-        notificationManager.createNotificationChannel(channel)
-        println("📢 알림 채널 생성")
     }
 
-    private fun createNotification(contentText: String): Notification {
-        // 앱 실행 Intent
+    private fun saveCadenceToDb() {
+        if (!isTracking || workoutSessionSeq == 0L) return
+        serviceScope.launch {
+            val dao = WorkoutDatabase.getDatabase(applicationContext).workoutDao()
+            dao.insertCadence(
+                CadenceRecordEntity(
+                    workoutSessionSeq = workoutSessionSeq,
+                    createdAt = System.currentTimeMillis(),
+                    cadence = currentCadence,
+                    syncedToServer = false,
+                    savedAt = System.currentTimeMillis()
+                )
+            )
+        }
+    }
+
+    /** 📴 센서/위치 정리 */
+    private fun stopSensorTracking() = sensorManager.unregisterListener(this)
+
+    private fun stopLocationTracking() {
+        gpsListener?.let { locationManager.removeUpdates(it) }
+        networkListener?.let { locationManager.removeUpdates(it) }
+        isTracking = false
+    }
+
+    /** ⏸️ 일시정지 */
+    private fun pauseWorkout() {
+        if (!isTracking || isPaused) return
+        isTracking = false
+        isPaused = true
+        pausedTime = System.currentTimeMillis()
+        updateNotification("⏸️ 일시정지 | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal")
+    }
+
+    /** ▶️ 재개 */
+    private fun resumeWorkout() {
+        if (!isPaused) return
+        isPaused = false
+        isTracking = true
+
+        // ✅ 위치 리셋 → 거리 튐 방지
+        lastLocation = null
+
+        if (pausedTime > 0) {
+            totalPausedDuration += (System.currentTimeMillis() - pausedTime) / 1000
+            pausedTime = 0L
+        }
+        updateNotification("▶️ 운동 중 | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal")
+    }
+
+    /** 🔔 알림 관련 */
+    private fun createNotificationChannel() {
+        val channel = NotificationChannel(
+            CHANNEL_ID, "운동 추적", NotificationManager.IMPORTANCE_LOW
+        )
+        getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
+    }
+
+    private fun createNotification(text: String): Notification {
         val pendingIntent = PendingIntent.getActivity(
-            this,
-            0,
+            this, 0,
             packageManager.getLaunchIntentForPackage(packageName),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("러닝시티")
-            .setContentText(contentText)
-            .setSmallIcon(android.R.drawable.ic_menu_mylocation)  // GPS 아이콘
-            .setOngoing(true)  // 스와이프로 제거 불가
+            .setContentText(text)
+            .setSmallIcon(android.R.drawable.ic_menu_mylocation)
+            .setOngoing(true)
             .setContentIntent(pendingIntent)
             .build()
     }
 
-    private fun updateNotification(contentText: String) {
-        val notification = createNotification(contentText)
-        val notificationManager = getSystemService(NotificationManager::class.java)
-        notificationManager.notify(NOTIFICATION_ID, notification)
+    private fun updateNotification(text: String) {
+        getSystemService(NotificationManager::class.java)
+            .notify(NOTIFICATION_ID, createNotification(text))
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        stopSensorTracking()
         stopLocationTracking()
-        println("🔧 WorkoutService onDestroy")
     }
-    // 거리 초기화
+
+    /** 🔄 리셋 */
     fun resetDistance() {
         totalDistance = 0f
         lastLocation = null
-        println("🔄 거리 초기화")
+        isPaused = false
+        pausedTime = 0L
+        totalPausedDuration = 0L
+        totalCalories = 0.0
+        lastCalorieUpdate = System.currentTimeMillis()
+        sessionSteps = 0
+        lastStepCount = 0f
+        currentCadence = 0
+        lastCadenceUpdate = 0L
+        cadenceWindow.clear()
+        elevationList.clear()
     }
 
-    // 현재 거리 가져오기
+    // Getter들
     fun getTotalDistance(): Float = totalDistance
+    fun getTotalPausedDuration(): Long = totalPausedDuration
+    fun isPaused(): Boolean = isPaused
+    fun getTotalCalories(): Double = totalCalories
+    fun getTotalSteps(): Int = sessionSteps
+    fun getCurrentCadence(): Int = currentCadence
+    fun getElevationList(): List<Double> = elevationList.toList()
 }

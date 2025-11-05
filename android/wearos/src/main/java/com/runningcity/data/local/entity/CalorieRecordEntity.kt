@@ -10,23 +10,23 @@ import androidx.room.Index
     foreignKeys = [
         ForeignKey(
             entity = WorkoutSessionEntity::class,
-            parentColumns = ["watchSessionId"],
-            childColumns = ["watchSessionId"],
+            parentColumns = ["seq"],
+            childColumns = ["workoutSessionSeq"],
             onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
-        Index("watchSessionId"),
+        Index("workoutSessionSeq"),
         Index("syncedToServer"),
-        Index("timestamp")
+        Index("createdAt")  // ✅ 인덱스명도 변경
     ]
 )
 data class CalorieRecordEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val seq: Long = 0,
 
-    val watchSessionId: String,
-    val timestamp: Long,
+    val workoutSessionSeq: Long,  // ✅ WorkoutSession의 seq 참조
+    val createdAt: Long,  // ✅ 실제 운동 중 칼로리가 측정된 시각 (워치 기준)
     val calories: Double,  // 누적 칼로리 (kcal)
     val caloriesIncrement: Double? = null,  // 이전 기록 대비 증가량
 
@@ -35,5 +35,5 @@ data class CalorieRecordEntity(
     val lastSyncAttempt: Long? = null,
     val batchId: String? = null,
 
-    val createdAt: Long = System.currentTimeMillis()
+    val savedAt: Long = System.currentTimeMillis()  // ✅ DB에 저장된 시각
 )
