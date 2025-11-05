@@ -17,15 +17,15 @@ import androidx.compose.ui.viewinterop.AndroidView
  * ────────────────────────────────────────────────
  * - React 웹앱을 Compose 내부에서 렌더링
  * - WebAppInterface 연결 (React ↔ Kotlin)
- * - MainActivity에서 ViewModel과 상태 공유
+ * - ngrok 보안 경고 자동 우회
  * ────────────────────────────────────────────────
  */
-
 @Composable
 fun RunningWebView(
     url: String,
     viewModel: RunningViewModel,
-    modifierPadding: PaddingValues
+    modifierPadding: PaddingValues,
+    extraHeaders: Map<String, String>? = null // ✅ 추가
 ): WebView {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
@@ -45,15 +45,19 @@ fun RunningWebView(
                 webViewClient = WebViewClient()
                 webChromeClient = WebChromeClient()
 
-                // 🔗 WebAppInterface 연결 (React ↔ Android 통신)
+                // 🔗 React ↔ Android 통신 브릿지 등록
                 addJavascriptInterface(
                     WebAppInterface(context, this, viewModel),
                     "Android"
                 )
 
-                // 🌍 React 서버 로드
+                // 🌍 React 서버 로드 (ngrok 헤더 포함)
                 if (url.isNotEmpty()) {
-                    loadUrl(url)
+                    if (extraHeaders != null) {
+                        loadUrl(url, extraHeaders)
+                    } else {
+                        loadUrl(url)
+                    }
                 }
             }
         },
@@ -64,6 +68,7 @@ fun RunningWebView(
 
     return webView
 }
+
 
 /*
 //React 쪽 대응 코드 예시

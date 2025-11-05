@@ -21,18 +21,18 @@ export default defineConfig({
   },
 
   // ✅ Android WebView 설정 추가
-  base: './', // 상대 경로로 변경 (중요!)
+  base: "./", // 상대 경로로 변경 (중요!)
 
   build: {
     sourcemap: true,
-    outDir: 'dist', // 빌드 결과물 폴더
-    assetsDir: 'assets', // 정적 파일 폴더
+    outDir: "dist", // 빌드 결과물 폴더
+    assetsDir: "assets", // 정적 파일 폴더
 
     // 단일 파일로 번들링 (WebView 최적화)
     rollupOptions: {
       output: {
         manualChunks: undefined,
-      }
+      },
     },
 
     // 파일 크기 경고 제한 완화
@@ -41,13 +41,15 @@ export default defineConfig({
 
   // 개발 서버 설정 (모바일에서 테스트 시)
   server: {
-    host: '0.0.0.0', // 같은 네트워크의 모바일에서 접근 가능
+    allowedHosts: ["nonconjunctive-cami-outdoor.ngrok-free.dev"],
+    host: true, // ✅ 외부 접속 허용 (기본적으로 localhost만 허용)
+    // host: '0.0.0.0', // 같은 네트워크의 모바일에서 접근 가능
     port: 5173,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080', // 백엔드 프록시
+      "/api": {
+        target: "http://localhost:8080", // 백엔드 프록시
         changeOrigin: true,
       },
     },
-  }
+  },
 });

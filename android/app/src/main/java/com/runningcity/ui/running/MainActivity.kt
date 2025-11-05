@@ -62,11 +62,18 @@ class MainActivity : ComponentActivity() {
             ) { padding ->
 
                 // ✅ React WebView 로드
+//                webView = RunningWebView(
+//                    url = "http://localhost:5173",
+//                    viewModel = viewModel,
+//                    modifierPadding = padding
+//                )
                 webView = RunningWebView(
-                    url = "http://70.12.112.97:5173/",
+                    url = "https://nonconjunctive-cami-outdoor.ngrok-free.dev",
                     viewModel = viewModel,
-                    modifierPadding = padding
+                    modifierPadding = padding,
+                    extraHeaders = mapOf("ngrok-skip-browser-warning" to "true")
                 )
+
 
                 // 🔁 ViewModel → React 실시간 데이터 전송
                 LaunchedEffect(viewModel) {
