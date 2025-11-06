@@ -2,12 +2,13 @@
 
 import { NavButton } from '../../../shared/ui';
 import { AndroidBridge } from '../../../shared/lib/webview';
-
+import { useNavigate } from 'react-router-dom';
 interface NavbarProps {
     activeTab?: string;
 }
 
 const Navbar = ({ activeTab = '홈' }: NavbarProps) => {
+    const navigate = useNavigate();
     const handleNavClick = (label: string) => {
         AndroidBridge.showToast(label);
     };
@@ -45,7 +46,10 @@ const Navbar = ({ activeTab = '홈' }: NavbarProps) => {
             />
             <NavButton 
                 label="기록" 
-                onClick={() => handleNavClick('기록')} 
+                onClick={() => {
+                    handleNavClick('기록');  // 토스트
+                    navigate('/recordlist'); // 페이지 이동
+                }} 
                 isActive={activeTab === '기록'} 
             />
         </div>
