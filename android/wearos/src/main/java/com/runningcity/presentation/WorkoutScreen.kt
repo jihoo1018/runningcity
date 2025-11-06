@@ -7,13 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
-import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.IBinder
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
 import androidx.wear.compose.material.*
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.local.entity.HeartRateRecordEntity
@@ -35,42 +34,43 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 @Composable
-fun WorkoutScreen(context: Context) {
-    // 센서 데이터 상태
+fun WorkoutScreen(
+    context: Context,
+    onWorkoutComplete: (Long) -> Unit  // ✅ 1. 여기에 콜백 파라미터 추가!
+) {
     var heartRate by remember { mutableStateOf(0) }
     var steps by remember { mutableStateOf(0) }
     var isRunning by remember { mutableStateOf(false) }
 
-    // GPS 데이터 상태
+    var isPaused by remember { mutableStateOf(false) }
+    var pausedDuration by remember { mutableStateOf(0L) }
+
     var latitude by remember { mutableStateOf(0.0) }
     var longitude by remember { mutableStateOf(0.0) }
     var gpsAccuracy by remember { mutableStateOf(0f) }
     var gpsCount by remember { mutableStateOf(0) }
-
-    // ✅ 거리 상태 추가!
     var totalDistance by remember { mutableStateOf(0f) }
+    var totalCalories by remember { mutableStateOf(0.0) }
 
-    // 운동 세션 상태
-    var watchSessionId by remember { mutableStateOf("") }
+    var currentCadence by remember { mutableStateOf(0) }
+
+    var clientSecretKey by remember { mutableStateOf("") }
+    var workoutSessionSeq by remember { mutableStateOf(0L) }
     var startTime by remember { mutableStateOf(0L) }
     
     // 모바일 전송 대기 중인 세션 ID
     var pendingSessionId by remember { mutableStateOf<String?>(null) }
 
-    // DB & CSV
     val database = remember { WorkoutDatabase.getDatabase(context) }
     val dao = database.workoutDao()
     val scope = rememberCoroutineScope()
 
-    // 데이터 수집용 리스트
     val heartRateList = remember { mutableListOf<HeartRateRecordEntity>() }
 
-    // 센서 매니저
     val sensorManager = remember {
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-    // Service 연결
     var workoutService by remember { mutableStateOf<WorkoutService?>(null) }
     var serviceBound by remember { mutableStateOf(false) }
 
@@ -82,18 +82,31 @@ fun WorkoutScreen(context: Context) {
                 serviceBound = true
                 println("✅ Service 연결됨")
 
-                // 위치 업데이트 리스너 설정
                 workoutService?.onLocationUpdate = { location ->
                     latitude = location.latitude
                     longitude = location.longitude
                     gpsAccuracy = location.accuracy
                     gpsCount++
                 }
-                // ✅ 거리 업데이트 리스너 추가!
+
                 workoutService?.onDistanceUpdate = { distance ->
                     totalDistance = distance
-                    println("📱 UI 거리 업데이트: ${distance}m")
                 }
+
+                workoutService?.onCalorieUpdate = { calories ->
+                    totalCalories = calories
+                }
+
+                workoutService?.onCadenceUpdate = { cadence ->
+                    currentCadence = cadence
+                }
+
+                workoutService?.onStepsUpdate = { serviceSteps ->
+                    steps = serviceSteps
+                }
+
+                isPaused = workoutService?.isPaused() ?: false
+                pausedDuration = workoutService?.getTotalPausedDuration() ?: 0L
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
@@ -104,119 +117,71 @@ fun WorkoutScreen(context: Context) {
         }
     }
 
-    // 심박수 센서
     val heartRateSensor = remember {
         sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)
     }
 
-    // 걸음수 센서
-    val stepSensor = remember {
-        sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-    }
-
-    var initialSteps by remember { mutableStateOf(0f) }
-
-    // 심박수 리스너
     val heartRateListener = remember {
         object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent) {
                 heartRate = event.values[0].toInt()
-                println("💓 심박수 측정됨: $heartRate bpm")
 
-                if (isRunning && watchSessionId.isNotEmpty()) {
+                if (isRunning && !isPaused && workoutSessionSeq != 0L) {
                     val record = HeartRateRecordEntity(
-                        watchSessionId = watchSessionId,
-                        timestamp = System.currentTimeMillis(),
+                        workoutSessionSeq = workoutSessionSeq,
+                        createdAt = System.currentTimeMillis(),
                         heartRate = heartRate,
-                        accuracy = 3
+                        syncedToServer = false,
+                        savedAt = System.currentTimeMillis()
                     )
                     heartRateList.add(record)
-
                     scope.launch {
                         dao.insertHeartRate(record)
                     }
                 }
             }
-
-            override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-                println("💓 센서 정확도 변경: $accuracy")
-            }
-        }
-    }
-
-    // 걸음수 리스너
-    val stepListener = remember {
-        object : SensorEventListener {
-            override fun onSensorChanged(event: SensorEvent) {
-                if (initialSteps == 0f) {
-                    initialSteps = event.values[0]
-                }
-                steps = (event.values[0] - initialSteps).toInt()
-                println("👟 걸음수: $steps")
-            }
-
             override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
         }
     }
 
-    // 🔥 센서 시작/중지 (LaunchedEffect 사용)
     LaunchedEffect(isRunning) {
         if (isRunning) {
-            println("🚀 센서 시작!")
+            println("🚀 운동 시작!")
 
-            // 새 세션 생성
-            watchSessionId = "run_${UUID.randomUUID().toString().substring(0, 8)}"
+            clientSecretKey = "run_${UUID.randomUUID().toString().substring(0, 8)}"
             startTime = System.currentTimeMillis()
 
-            // 세션 DB에 저장
             val session = WorkoutSessionEntity(
-                watchSessionId = watchSessionId,
+                clientSecretKey = clientSecretKey,
                 startTime = startTime,
                 status = "IN_PROGRESS"
             )
-            dao.insertSession(session)
-            println("💾 세션 DB 저장: $watchSessionId")
+            workoutSessionSeq = dao.insertSession(session)
 
-            // 리스트 초기화
+            println("💾 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey")
+
             heartRateList.clear()
             gpsCount = 0
 
-            // 심박수 센서 시작
             heartRateSensor?.let {
-                sensorManager.registerListener(
-                    heartRateListener,
-                    it,
-                    SensorManager.SENSOR_DELAY_NORMAL
-                )
+                sensorManager.registerListener(heartRateListener, it, SensorManager.SENSOR_DELAY_NORMAL)
                 println("✅ 심박수 센서 등록")
             }
 
-            // 걸음수 센서 시작
-            stepSensor?.let {
-                sensorManager.registerListener(
-                    stepListener,
-                    it,
-                    SensorManager.SENSOR_DELAY_NORMAL
-                )
-                println("✅ 걸음수 센서 등록")
-            }
-
-            // Service 시작
             val serviceIntent = Intent(context, WorkoutService::class.java).apply {
                 action = WorkoutService.ACTION_START
             }
             context.startForegroundService(serviceIntent)
 
-            // Service 바인딩
             context.bindService(
                 Intent(context, WorkoutService::class.java),
                 serviceConnection,
                 Context.BIND_AUTO_CREATE
             )
 
-            // Service에 세션 ID 전달
             kotlinx.coroutines.delay(500)
-            workoutService?.watchSessionId = watchSessionId
+            workoutService?.clientSecretKey = clientSecretKey
+            workoutService?.workoutSessionSeq = workoutSessionSeq
 
     //////////////////////////////////////////////////////////////
     // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
@@ -226,20 +191,20 @@ fun WorkoutScreen(context: Context) {
     //////////////////////////////////////////////////////////////
 
         } else {
-            // 🔥 운동 종료 (isRunning == false가 되면 즉시 실행)
-            if (watchSessionId.isNotEmpty()) {
-                println("⏹️ 운동 종료! 센서/Service 중지 중...")
+            // 운동 종료
+            if (clientSecretKey.isNotEmpty()) {
+                println("⏹️ 운동 종료!")
 
-                // 🔥 먼저 센서 중지!
-                println("⏹️ 센서 중지")
                 sensorManager.unregisterListener(heartRateListener)
-                sensorManager.unregisterListener(stepListener)
 
-                // ✅ Service에서 최종 거리 가져오기
                 val finalDistance = workoutService?.getTotalDistance() ?: 0f
-                println("📏 최종 거리: ${finalDistance}m")
+                val finalPausedDuration = workoutService?.getTotalPausedDuration() ?: 0L
+                val finalCalories = workoutService?.getTotalCalories() ?: 0.0
+                val finalSteps = workoutService?.getTotalSteps() ?: steps
+                val finalCadence = workoutService?.getCurrentCadence() ?: 0
 
-                // 🔥 Service 중지!
+                val elevationList = workoutService?.getElevationList() ?: emptyList()
+
                 val serviceIntent = Intent(context, WorkoutService::class.java).apply {
                     action = WorkoutService.ACTION_STOP
                 }
@@ -249,7 +214,6 @@ fun WorkoutScreen(context: Context) {
                     try {
                         context.unbindService(serviceConnection)
                         serviceBound = false
-                        println("✅ Service 언바인딩 완료")
                     } catch (e: Exception) {
                         println("⚠️ Service 언바인딩 실패: ${e.message}")
                     }
@@ -265,54 +229,83 @@ fun WorkoutScreen(context: Context) {
                 println("📡 모바일에 데이터 준비 알림 전송 - 세션: $watchSessionId")
     //////////////////////////////////////////////////////////////
 
-                // 데이터 저장
-                println("💾 데이터 저장 시작...")
                 val endTime = System.currentTimeMillis()
                 val duration = ((endTime - startTime) / 1000).toInt()
 
-                // 심박수 통계 계산
-                val avgHr = dao.getAvgHeartRate(watchSessionId) ?: 0
-                val maxHr = dao.getMaxHeartRate(watchSessionId) ?: 0
-                val minHr = dao.getMinHeartRate(watchSessionId) ?: 0
+                val avgElevation = if (elevationList.isNotEmpty()) {
+                    elevationList.average()
+                } else {
+                    0.0
+                }
 
-                // GPS 데이터 가져오기
-                val locations = dao.getLocations(watchSessionId)
-// ✅ 세션 업데 이트 (거리 포함!)
-                val session = WorkoutSessionEntity(
-                    watchSessionId = watchSessionId,
+                val totalDurationSeconds = duration - finalPausedDuration.toInt()
+                val avgPace = if (finalDistance > 0 && totalDurationSeconds > 0) {
+                    val avgSpeed = finalDistance / totalDurationSeconds.toDouble()
+                    (1000.0 / avgSpeed).toInt()
+                } else {
+                    0
+                }
+
+                val avgHr = dao.getAvgHeartRate(workoutSessionSeq) ?: 0
+                val maxHr = dao.getMaxHeartRate(workoutSessionSeq) ?: 0
+                val avgCadence = dao.getAvgCadence(workoutSessionSeq) ?: finalCadence
+
+                val locations = dao.getLocations(workoutSessionSeq)
+                val cadences = dao.getCadences(workoutSessionSeq)
+                val calories = dao.getCalories(workoutSessionSeq)
+
+                val updatedSession = WorkoutSessionEntity(
+                    seq = workoutSessionSeq,
+                    clientSecretKey = clientSecretKey,
                     startTime = startTime,
                     endTime = endTime,
-                    duration = duration,
+                    duration = totalDurationSeconds,
                     status = "COMPLETED",
-                    totalSteps = steps,
-                    totalDistance = finalDistance.toDouble(),  // ✅ 여기!
-                    totalCalories = 0,
+                    totalSteps = finalSteps,
+                    totalDistance = finalDistance.toDouble(),
+                    totalCalories = finalCalories.toInt(),
                     avgHeartRate = avgHr,
-                    maxHeartRate = maxHr,
-                    minHeartRate = if (minHr == 0) 999 else minHr,
-                    avgCadence = 0
+                    avgCadence = avgCadence,
+                    avgPace = avgPace,
+                    elevation = avgElevation,
+                    createdAt = startTime,
+                    updatedAt = System.currentTimeMillis()
                 )
 
-                dao.updateSession(session)
-                println("💾 세션 업데이트 완료!")
+                dao.updateSession(updatedSession)
 
-                // CSV 저장
                 CsvExporter.exportAll(
                     context = context,
-                    session = session,
+                    session = updatedSession,
                     heartRates = heartRateList,
-                    locations = locations
+                    locations = locations,
+                    cadences = cadences,
+                    calories = calories
                 )
 
-                println("✅ 모든 데이터 저장 완료!")
+                println("✅ 데이터 저장 완료!")
                 println("📊 요약:")
-                println("   - 걸음수: $steps")
-                println("   - 거리: ${finalDistance}m")  // ✅ 추가!
-                println("   - 평균 심박수: $avgHr bpm")
-                println("   - 최대 심박수: $maxHr bpm")
-                println("   - 지속 시간: $duration 초")
-                println("   - 심박수 기록: ${heartRateList.size}개")
-                println("   - GPS 기록: ${locations.size}개")
+                println("   - 거리: ${finalDistance}m")
+                println("   - 칼로리: ${String.format("%.1f", finalCalories)}kcal")
+                println("   - 걸음: ${finalSteps}걸음")
+                println("   - 평균 케이던스: ${avgCadence}spm")
+                println("   - 평균 페이스: ${avgPace}초/km (${avgPace/60}분 ${avgPace%60}초/km)")
+                println("   - 평균 고도: ${String.format("%.1f", avgElevation)}m")
+                println("   - 지속 시간: ${totalDurationSeconds}초")
+
+                // ✅ 2. seq 저장 후 초기화 전에 콜백 호출!
+                val savedSeq = workoutSessionSeq
+
+                clientSecretKey = ""
+                workoutSessionSeq = 0L
+                isPaused = false
+                pausedDuration = 0L
+
+                // ✅ 3. 결과 화면으로 이동!
+                onWorkoutComplete(savedSeq)
+            }
+        }
+    }
 
                 // 세션 ID 초기화
                 watchSessionId = ""
@@ -381,9 +374,7 @@ fun WorkoutScreen(context: Context) {
     DisposableEffect(Unit) {
         onDispose {
             if (isRunning) {
-                println("⏹️ [화면 종료] 센서/Service 강제 중지")
                 sensorManager.unregisterListener(heartRateListener)
-                sensorManager.unregisterListener(stepListener)
 
                 val serviceIntent = Intent(context, WorkoutService::class.java).apply {
                     action = WorkoutService.ACTION_STOP
@@ -393,15 +384,21 @@ fun WorkoutScreen(context: Context) {
                 if (serviceBound) {
                     try {
                         context.unbindService(serviceConnection)
-                    } catch (e: Exception) {
-                        println("⚠️ [화면 종료] Service 언바인딩 실패: ${e.message}")
-                    }
+                    } catch (e: Exception) {}
                 }
             }
         }
     }
 
-    // UI
+    LaunchedEffect(isPaused, isRunning) {
+        if (isPaused && isRunning) {
+            while (isPaused) {
+                kotlinx.coroutines.delay(1000)
+                pausedDuration = workoutService?.getTotalPausedDuration() ?: 0L
+            }
+        }
+    }
+
     Scaffold(
         timeText = { TimeText() }
     ) {
@@ -410,6 +407,7 @@ fun WorkoutScreen(context: Context) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color.Black)
                 .verticalScroll(scrollState)
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -425,46 +423,59 @@ fun WorkoutScreen(context: Context) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // 심박수 표시
+            // 심박수
             Text(
                 text = "💓 $heartRate",
                 style = MaterialTheme.typography.display2,
                 color = if (heartRate > 0) Color.Red else Color.Gray
             )
-            Text(
-                text = "bpm",
-                style = MaterialTheme.typography.caption1
-            )
+            Text(text = "bpm", style = MaterialTheme.typography.caption1)
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // 걸음수 표시
+            // 걸음수
             Text(
                 text = "👟 $steps",
                 style = MaterialTheme.typography.display2,
                 color = if (steps > 0) Color.Green else Color.Gray
             )
+            Text(text = "steps", style = MaterialTheme.typography.caption1)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // 케이던스
             Text(
-                text = "steps",
-                style = MaterialTheme.typography.caption1
+                text = "🏃 $currentCadence",
+                style = MaterialTheme.typography.display3,
+                color = if (currentCadence > 0) Color(0xFF9C27B0) else Color.Gray
+            )
+            Text(text = "spm", style = MaterialTheme.typography.caption1)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // 거리
+            Text(
+                text = "📏 ${String.format("%.1f", totalDistance)}m",
+                style = MaterialTheme.typography.display3,
+                color = if (totalDistance > 0) Color.Cyan else Color.Gray
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // GPS 표시
+            // 칼로리
+            Text(
+                text = "🔥 ${String.format("%.1f", totalCalories)}",
+                style = MaterialTheme.typography.display3,
+                color = if (totalCalories > 0) Color(0xFFFF9800) else Color.Gray
+            )
+            Text(text = "kcal", style = MaterialTheme.typography.caption1)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // GPS 정보
             Text(
                 text = "📍 GPS (${gpsCount}개)",
                 style = MaterialTheme.typography.caption1
-            )
-            Text(
-                text = String.format("%.6f", latitude),
-                style = MaterialTheme.typography.caption2,
-                color = if (latitude != 0.0) Color.Cyan else Color.Gray
-            )
-            Text(
-                text = String.format("%.6f", longitude),
-                style = MaterialTheme.typography.caption2,
-                color = if (longitude != 0.0) Color.Cyan else Color.Gray
             )
             if (gpsAccuracy > 0) {
                 Text(
@@ -474,7 +485,6 @@ fun WorkoutScreen(context: Context) {
                 )
             }
 
-            // Service 상태
             if (serviceBound) {
                 Text(
                     text = "🔔 백그라운드 추적 중",
@@ -485,31 +495,93 @@ fun WorkoutScreen(context: Context) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // 시작/중지 버튼
-            Button(
-                onClick = {
-                    isRunning = !isRunning
-                    println("🔘 버튼 클릭: isRunning = $isRunning")
-                },
-                modifier = Modifier.fillMaxWidth(0.9f),
-                colors = if (isRunning) {
-                    ButtonDefaults.secondaryButtonColors()
-                } else {
-                    ButtonDefaults.primaryButtonColors()
+            // 버튼
+            if (isRunning) {
+                Button(
+                    onClick = {
+                        if (isPaused) {
+                            val intent = Intent(context, WorkoutService::class.java).apply {
+                                action = WorkoutService.ACTION_RESUME
+                            }
+                            context.startService(intent)
+                            isPaused = false
+                            println("▶️ 운동 재개")
+                        } else {
+                            val intent = Intent(context, WorkoutService::class.java).apply {
+                                action = WorkoutService.ACTION_PAUSE
+                            }
+                            context.startService(intent)
+                            isPaused = true
+                            println("⏸️ 운동 일시정지")
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    colors = ButtonDefaults.secondaryButtonColors()
+                ) {
+                    Text(if (isPaused) "▶️ 재개" else "⏸️ 일시정지")
                 }
-            ) {
-                Text(if (isRunning) "중지" else "시작")
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Button(
+                    onClick = {
+                        isRunning = false
+                        isPaused = false
+                        println("⏹️ 운동 종료")
+                    },
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Red
+                    )
+                ) {
+                    Text("⏹️ 종료")
+                }
+            } else {
+                Button(
+                    onClick = {
+                        isRunning = true
+                        isPaused = false
+                        println("▶️ 운동 시작")
+                    },
+                    modifier = Modifier.fillMaxWidth(0.9f),
+                    colors = ButtonDefaults.primaryButtonColors()
+                ) {
+                    Text("▶️ 시작")
+                }
             }
 
             if (isRunning) {
                 Spacer(modifier = Modifier.height(4.dp))
+
+                if (isPaused) {
+                    Text(
+                        text = "⏸️ 일시정지 중",
+                        style = MaterialTheme.typography.caption2,
+                        color = Color.Yellow
+                    )
+                } else {
+                    Text(
+                        text = "🏃 측정 중...",
+                        style = MaterialTheme.typography.caption2,
+                        color = Color.Green
+                    )
+                }
+
+                if (pausedDuration > 0) {
+                    Text(
+                        text = "⏸️ 누적: ${pausedDuration}초",
+                        style = MaterialTheme.typography.caption2,
+                        color = Color.Gray
+                    )
+                }
+
                 Text(
-                    text = "측정 중...",
+                    text = "Key: $clientSecretKey",
                     style = MaterialTheme.typography.caption2,
-                    color = Color.Yellow
+                    color = Color.Gray
                 )
                 Text(
-                    text = "ID: $watchSessionId",
+                    text = "Seq: $workoutSessionSeq",
                     style = MaterialTheme.typography.caption2,
                     color = Color.Gray
                 )

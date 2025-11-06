@@ -10,30 +10,29 @@ import androidx.room.Index
     foreignKeys = [
         ForeignKey(
             entity = WorkoutSessionEntity::class,
-            parentColumns = ["watchSessionId"],
-            childColumns = ["watchSessionId"],
+            parentColumns = ["seq"],
+            childColumns = ["workoutSessionSeq"],
             onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
-        Index("watchSessionId"),
+        Index("workoutSessionSeq"),
         Index("syncedToServer"),
-        Index("timestamp")
+        Index("createdAt")
     ]
 )
 data class CadenceRecordEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val seq: Long = 0,
 
-    val watchSessionId: String,
-    val timestamp: Long,
+    val workoutSessionSeq: Long,  // ✅ WorkoutSession의 seq 참조
+    val createdAt: Long,  // ✅ 워치에서 케이던스가 측정된 시각
     val cadence: Int,  // SPM (Steps Per Minute)
-    val accuracy: Int = 3,  // 0-3, 3이 가장 정확
 
     // 동기화 관리
     val syncedToServer: Boolean = false,
     val lastSyncAttempt: Long? = null,
     val batchId: String? = null,
 
-    val createdAt: Long = System.currentTimeMillis()
+    val savedAt: Long = System.currentTimeMillis()  // ✅ DB에 저장된 시각
 )

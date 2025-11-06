@@ -2,6 +2,7 @@ package com.runningcity.run.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -11,8 +12,12 @@ import java.util.Map;
 
 @Entity
 @Table(name = "run_session")
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@DynamicUpdate
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RunSession {
 
     @Id
