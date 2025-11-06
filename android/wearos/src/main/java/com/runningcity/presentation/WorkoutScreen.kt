@@ -1,15 +1,18 @@
 package com.runningcity.presentation
 
 import android.Manifest
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.IBinder
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -26,6 +29,8 @@ import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.WorkoutSessionEntity
 import com.runningcity.service.WorkoutService
 import com.runningcity.utils.CsvExporter
+import com.runningcity.utils.DataSyncHelper
+import com.runningcity.utils.MobileCommunicationHelper
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -48,6 +53,9 @@ fun WorkoutScreen(context: Context) {
     // 운동 세션 상태
     var watchSessionId by remember { mutableStateOf("") }
     var startTime by remember { mutableStateOf(0L) }
+    
+    // 모바일 전송 대기 중인 세션 ID
+    var pendingSessionId by remember { mutableStateOf<String?>(null) }
 
     // DB & CSV
     val database = remember { WorkoutDatabase.getDatabase(context) }
@@ -210,6 +218,13 @@ fun WorkoutScreen(context: Context) {
             kotlinx.coroutines.delay(500)
             workoutService?.watchSessionId = watchSessionId
 
+    //////////////////////////////////////////////////////////////
+    // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
+            // 🚀 운동 세션 시작 (세션 ID만 저장, 데이터는 전송 안 함)
+            DataSyncHelper.startSession(context, watchSessionId)
+            println("📡 DataSyncService 시작 - 세션: $watchSessionId")
+    //////////////////////////////////////////////////////////////
+
         } else {
             // 🔥 운동 종료 (isRunning == false가 되면 즉시 실행)
             if (watchSessionId.isNotEmpty()) {
@@ -239,6 +254,16 @@ fun WorkoutScreen(context: Context) {
                         println("⚠️ Service 언바인딩 실패: ${e.message}")
                     }
                 }
+
+    //////////////////////////////////////////////////////////////
+    // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
+                // ⏹️ 운동 세션 중지 - 모바일에 데이터 준비 알림
+                pendingSessionId = watchSessionId
+                scope.launch {
+                    MobileCommunicationHelper.notifyDataReady(context)
+                }
+                println("📡 모바일에 데이터 준비 알림 전송 - 세션: $watchSessionId")
+    //////////////////////////////////////////////////////////////
 
                 // 데이터 저장
                 println("💾 데이터 저장 시작...")
@@ -294,6 +319,63 @@ fun WorkoutScreen(context: Context) {
             }
         }
     }
+
+    //////////////////////////////////////////////////////////////
+    // 모바일 -> 워치 데이터 전달하기 위해 추가한 부분
+    // 📡 모바일에서 메시지 수신
+    DisposableEffect(Unit) {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(ctx: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    "com.runningcity.START_WORKOUT_FROM_MOBILE" -> {
+                        val sessionId = intent.getLongExtra("sessionId", 0L)
+                        if (sessionId > 0 && !isRunning) {
+                            println("📨 모바일에서 시작 요청 수신 (세션: $sessionId)")
+                            // 세션 ID를 문자열로 변환하여 저장
+                            watchSessionId = "session_$sessionId"
+                            // 시작 트리거
+                            isRunning = true
+                        }
+                    }
+                    "com.runningcity.STOP_WORKOUT_FROM_MOBILE" -> {
+                        if (isRunning) {
+                            println("📨 모바일에서 중지 요청 수신")
+                            // 중지 트리거
+                            isRunning = false
+                        }
+                    }
+                    "com.runningcity.MOBILE_READY" -> {
+                        // 모바일 앱이 열렸을 때 대기 중인 데이터 전송
+                        pendingSessionId?.let { sessionId ->
+                            println("📨 모바일 준비 완료 - 데이터 전송 시작 (세션: $sessionId)")
+                            scope.launch {
+                                DataSyncHelper.stopSession(context)
+                                println("📡 DataSyncService 중지 - 데이터 전송 완료")
+                                pendingSessionId = null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        val filter = IntentFilter().apply {
+            addAction("com.runningcity.START_WORKOUT_FROM_MOBILE")
+            addAction("com.runningcity.STOP_WORKOUT_FROM_MOBILE")
+            addAction("com.runningcity.MOBILE_READY")
+        }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            context.registerReceiver(receiver, filter)
+        }
+        
+        onDispose {
+            context.unregisterReceiver(receiver)
+        }
+    }
+    //////////////////////////////////////////////////////////////
 
     // 🔥 화면 종료 시 정리 (별도 DisposableEffect)
     DisposableEffect(Unit) {
@@ -429,6 +511,21 @@ fun WorkoutScreen(context: Context) {
                 Text(
                     text = "ID: $watchSessionId",
                     style = MaterialTheme.typography.caption2,
+                    color = Color.Gray
+                )
+            }
+            
+            // 데이터 전송 대기 중 표시
+            if (pendingSessionId != null) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "📡 데이터 전송 대기 중",
+                    style = MaterialTheme.typography.caption2,
+                    color = Color.Cyan
+                )
+                Text(
+                    text = "모바일 앱을 열어주세요",
+                    style = MaterialTheme.typography.caption3,
                     color = Color.Gray
                 )
             }

@@ -56,6 +56,41 @@
             android:exported="false"
             android:foregroundServiceType="location" />
 
+        <!-- 워치 -> 모바일 데이터 전달하기 위해 추가한 부분 -->
+        <!-- ////////////////////////////////////////////////////////////// -->
+        <!-- 데이터 동기화 서비스 (Foreground Service) -->
+        <service
+            android:name=".service.DataSyncService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+        <!-- ////////////////////////////////////////////////////////////// -->
+
+        <!-- 모바일 -> 워치 데이터 전달하기 위해 추가한 부분 -->
+        <!-- ////////////////////////////////////////////////////////////// -->
+        <!-- 모바일 메시지 수신 서비스 -->
+        <service
+            android:name=".service.MobileMessageListenerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data
+                    android:host="*"
+                    android:pathPrefix="/start_workout"
+                    android:scheme="wear" />
+                <data
+                    android:host="*"
+                    android:pathPrefix="/stop_workout"
+                    android:scheme="wear" />
+                <data
+                    android:host="*"
+                    android:pathPrefix="/mobile_ready"
+                    android:scheme="wear" />
+            </intent-filter>
+        </service>
+        <!-- ////////////////////////////////////////////////////////////// -->
+
         <!-- 컴플리케이션 서비스 -->
         <service
             android:name=".complication.RunningComplicationService"

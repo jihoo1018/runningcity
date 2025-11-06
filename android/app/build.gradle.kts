@@ -63,4 +63,15 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
+    //////////////////////////////////////////////////////////////
+    // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
+    // Wearable Data Layer API
+    implementation("com.google.android.gms:play-services-wearable:18.1.0")
+
+    // Coroutines for Play Services (Task.await() 사용)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+
+    // Gson for JSON serialization
+    implementation("com.google.code.gson:gson:2.10.1")
+    //////////////////////////////////////////////////////////////
 }
