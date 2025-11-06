@@ -10,6 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.google.gson.Gson
+import com.runningcity.data.WorkoutDataBatch
 import com.runningcity.ui.theme.RunningcityTheme
 import com.runningcity.utils.WatchCommunicationHelper
 import kotlinx.coroutines.launch
@@ -53,25 +55,68 @@ fun WorkoutControlScreen() {
     var statusMessage by remember { mutableStateOf("") }
     var isForeground by remember { mutableStateOf(true) }
     
+    // 워치에서 받은 운동 데이터 저장 (백엔드로 전송할 데이터)
+    var receivedWorkoutData by remember { mutableStateOf<WorkoutDataBatch?>(null) }
+    
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val gson = remember { Gson() }
     
-    // 워치에서 데이터 준비 요청 수신
+    // 워치에서 메시지 수신
     DisposableEffect(Unit) {
         val receiver = object : android.content.BroadcastReceiver() {
             override fun onReceive(ctx: android.content.Context?, intent: android.content.Intent?) {
-                if (intent?.action == "com.runningcity.WATCH_DATA_READY") {
-                    // 모바일이 포그라운드 상태면 즉시 준비 완료 응답
-                    if (isForeground) {
-                        scope.launch {
-                            WatchCommunicationHelper.sendMobileReady(context)
+                when (intent?.action) {
+                    "com.runningcity.WATCH_DATA_READY" -> {
+                        // 모바일이 포그라운드 상태면 즉시 준비 완료 응답
+                        if (isForeground) {
+                            scope.launch {
+                                WatchCommunicationHelper.sendMobileReady(context)
+                            }
+                        }
+                    }
+                    "com.runningcity.WORKOUT_STOPPED_FROM_WATCH" -> {
+                        // 워치에서 운동 종료
+                        val sessionId = intent.getLongExtra("sessionId", 0L)
+                        if (sessionId > 0 && currentSessionId == sessionId) {
+                            println("⏹️ 워치에서 운동 종료됨 (sessionId: $sessionId)")
+                            isRunning = false
+                            statusMessage = "워치에서 운동이 종료되었습니다"
+                            currentSessionId = null
+                        }
+                    }
+                    "com.runningcity.WORKOUT_DATA_RECEIVED" -> {
+                        // 워치에서 운동 데이터 수신
+                        val jsonString = intent.getStringExtra("workoutData")
+                        if (jsonString != null) {
+                            try {
+                                val workoutData = gson.fromJson(jsonString, WorkoutDataBatch::class.java)
+                                receivedWorkoutData = workoutData
+                                println("✅ 운동 데이터 수신 및 저장 완료")
+                                println("   - clientSecretKey: ${workoutData.clientSecretKey}")
+                                println("   - sessionId: ${workoutData.sessionId}")
+                                println("   - heartRateRecords: ${workoutData.heartRateRecords.size}개")
+                                println("   - gpsPoints: ${workoutData.gpsPoints.size}개")
+                                println("   - cadenceRecords: ${workoutData.cadenceRecords.size}개")
+                                
+                                // TODO: 여기서 백엔드로 데이터 전송
+                                // sendToBackend(workoutData)
+                                
+                            } catch (e: Exception) {
+                                println("❌ 운동 데이터 파싱 실패: ${e.message}")
+                            }
                         }
                     }
                 }
             }
         }
         
-        val filter = android.content.IntentFilter("com.runningcity.WATCH_DATA_READY")
+        val filter = android.content.IntentFilter().apply {
+            addAction("com.runningcity.WATCH_DATA_READY")
+            addAction("com.runningcity.WORKOUT_STOPPED_FROM_WATCH")
+            addAction("com.runningcity.WORKOUT_DATA_RECEIVED")
+        }
+        
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             context.registerReceiver(receiver, filter, android.content.Context.RECEIVER_NOT_EXPORTED)
         } else {
@@ -174,6 +219,47 @@ fun WorkoutControlScreen() {
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+        }
+        
+        // 받은 운동 데이터 표시
+        if (receivedWorkoutData != null) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "📊 받은 운동 데이터",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    receivedWorkoutData?.let { data ->
+                        Text(
+                            text = "clientSecretKey: ${data.clientSecretKey}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "sessionId: ${data.sessionId ?: "null"}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "심박수: ${data.heartRateRecords.size}개",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "GPS: ${data.gpsPoints.size}개",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            text = "케이던스: ${data.cadenceRecords.size}개",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
         }
     }
 }

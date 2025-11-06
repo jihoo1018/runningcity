@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
+import com.runningcity.presentation.RunningActivity
 
 // 모바일 -> 워치로 통신하기 위한 코드
 /**
@@ -68,10 +69,19 @@ class MobileMessageListenerService : WearableListenerService() {
      * 모바일에서 시작된 운동 시작
      */
     private fun startWorkoutFromMobile(sessionId: Long) {
-        // WorkoutScreen의 시작 로직을 트리거하기 위해 브로드캐스트 전송
-        val intent = Intent("com.runningcity.START_WORKOUT_FROM_MOBILE")
-        intent.putExtra("sessionId", sessionId)
-        sendBroadcast(intent)
+        // 1. 워치 앱 자동 시작
+        val activityIntent = Intent(this, RunningActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra("sessionId", sessionId)
+            putExtra("autoStart", true)  // 자동 시작 플래그
+        }
+        startActivity(activityIntent)
+        Log.d(TAG, "🚀 워치 앱 자동 시작 (세션: $sessionId)")
+        
+        // 2. WorkoutScreen의 시작 로직을 트리거하기 위해 브로드캐스트 전송
+        val broadcastIntent = Intent("com.runningcity.START_WORKOUT_FROM_MOBILE")
+        broadcastIntent.putExtra("sessionId", sessionId)
+        sendBroadcast(broadcastIntent)
         
         Log.d(TAG, "✅ 워치 운동 시작 브로드캐스트 전송 (세션: $sessionId)")
     }

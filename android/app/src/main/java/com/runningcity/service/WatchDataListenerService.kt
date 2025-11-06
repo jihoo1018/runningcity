@@ -43,6 +43,7 @@ class WatchDataListenerService : WearableListenerService() {
         private const val PATH_SESSION_START = "/session_start"
         private const val PATH_SESSION_END = "/session_end"
         private const val PATH_WATCH_DATA_READY = "/watch_data_ready"
+        private const val PATH_WORKOUT_STOPPED = "/workout_stopped"
     }
 
     override fun onCreate() {
@@ -142,6 +143,13 @@ class WatchDataListenerService : WearableListenerService() {
             // 📊 JSON 로그 출력
             logWorkoutDataAsJson(workoutBatch, jsonString)
             
+            // 앱에 브로드캐스트 전송 (데이터를 변수에 저장하기 위해)
+            val intent = android.content.Intent("com.runningcity.WORKOUT_DATA_RECEIVED")
+            intent.putExtra("workoutData", jsonString)  // JSON 문자열로 전달
+            sendBroadcast(intent)
+            
+            Log.d(TAG, "✅ 운동 데이터 브로드캐스트 전송 완료")
+            
             // TODO: PostgreSQL 저장 로직 추가
             // saveToPostgreSQL(workoutBatch)
             
@@ -235,6 +243,25 @@ class WatchDataListenerService : WearableListenerService() {
                 // 앱에 브로드캐스트 전송
                 val intent = android.content.Intent("com.runningcity.WATCH_DATA_READY")
                 sendBroadcast(intent)
+            }
+            PATH_WORKOUT_STOPPED -> {
+                // 워치에서 운동 종료 알림
+                val sessionIdStr = String(messageEvent.data, Charsets.UTF_8)
+                val sessionId = sessionIdStr.toLongOrNull()
+                
+                if (sessionId != null) {
+                    Log.d(TAG, "⏹️ 워치에서 운동 종료 (sessionId: $sessionId)")
+                    // 앱에 브로드캐스트 전송
+                    val intent = android.content.Intent("com.runningcity.WORKOUT_STOPPED_FROM_WATCH")
+                    intent.putExtra("sessionId", sessionId)
+                    sendBroadcast(intent)
+                    
+                    // 데이터 동기화 요청
+                    val syncIntent = android.content.Intent("com.runningcity.WATCH_DATA_READY")
+                    sendBroadcast(syncIntent)
+                } else {
+                    Log.e(TAG, "❌ sessionId 파싱 실패: $sessionIdStr")
+                }
             }
             "/ping" -> {
                 Log.d(TAG, "🏓 Ping 수신 - 워치 연결 확인됨")

@@ -41,7 +41,7 @@ class WatchDataSyncRepository(
     private val nodeClient: NodeClient = Wearable.getNodeClient(context)
     private val capabilityClient: CapabilityClient = Wearable.getCapabilityClient(context)
     
-    private val gson = Gson()
+    private val gson = com.google.gson.GsonBuilder().setPrettyPrinting().create()
     
     // 동시 실행 방지를 위한 Mutex (순서 보장 강화)
     private val syncMutex = Mutex()
@@ -88,46 +88,61 @@ class WatchDataSyncRepository(
             val isMobileReachable = checkMobileConnection()
             Log.d(TAG, "모바일 연결 상태: $isMobileReachable")
             
-            // 2. 미동기화 데이터 조회
+            // 4. 세션 정보 조회 (먼저 조회해서 seq를 얻음)
+            val session = watchSessionId?.let { 
+                database.workoutDao().getSession(it)
+            } ?: run {
+                Log.e(TAG, "❌ 세션 정보를 찾을 수 없습니다: $watchSessionId")
+                return SyncResult.Error("세션 정보를 찾을 수 없습니다")
+            }
+            
+            val sessionSeq = session.seq
+            Log.d(TAG, "✅ 세션 조회 성공: seq=$sessionSeq, clientSecretKey=${session.clientSecretKey}")
+            
+            // 2. 미동기화 데이터 조회 (workoutSessionSeq로 필터링)
             val heartRates = if (watchSessionId != null) {
                 database.workoutDao().getUnsyncedHeartRates(batchSize)
-                    .filter { it.watchSessionId == watchSessionId }
+                    .filter { it.workoutSessionSeq == sessionSeq }
             } else {
                 database.workoutDao().getUnsyncedHeartRates(batchSize)
             }
             
             val locations = if (watchSessionId != null) {
                 database.workoutDao().getUnsyncedLocations(batchSize)
-                    .filter { it.watchSessionId == watchSessionId }
+                    .filter { it.workoutSessionSeq == sessionSeq }
             } else {
                 database.workoutDao().getUnsyncedLocations(batchSize)
             }
             
             val cadences = if (watchSessionId != null) {
                 database.workoutDao().getUnsyncedCadences(batchSize)
-                    .filter { it.watchSessionId == watchSessionId }
+                    .filter { it.workoutSessionSeq == sessionSeq }
             } else {
                 database.workoutDao().getUnsyncedCadences(batchSize)
             }
             
             val calories = if (watchSessionId != null) {
                 database.workoutDao().getUnsyncedCalories(batchSize)
-                    .filter { it.watchSessionId == watchSessionId }
+                    .filter { it.workoutSessionSeq == sessionSeq }
             } else {
                 database.workoutDao().getUnsyncedCalories(batchSize)
             }
             
-            // 3. 전송할 데이터가 없으면 종료
+            // 3. 로그: 조회된 데이터 개수
+            Log.d(TAG, """
+                📊 배치 전송 준비 (세션: $watchSessionId)
+                - 심박수: ${heartRates.size}개
+                - GPS: ${locations.size}개
+                - 케이던스: ${cadences.size}개
+                - 칼로리: ${calories.size}개
+            """.trimIndent())
+            
+            // 4. 전송할 데이터가 없으면 종료
             if (heartRates.isEmpty() && locations.isEmpty() && 
                 cadences.isEmpty() && calories.isEmpty()) {
                 Log.d(TAG, "전송할 데이터 없음")
                 return SyncResult.NoData
             }
-            
-            // 4. 세션 정보 조회
-            val session = watchSessionId?.let { 
-                database.workoutDao().getSession(it)
-            } ?: return SyncResult.Error("세션 정보를 찾을 수 없습니다")
             
             // 5. 거리 기반 평균 페이스 계산 (초/km)
             val avgPace = if (session.totalDistance > 0 && session.duration != null) {
@@ -144,9 +159,11 @@ class WatchDataSyncRepository(
             }
             
             // 7. WorkoutDataBatch 생성
+            // 모바일에서 시작한 경우 sessionId만 사용, 워치에서 시작한 경우 clientSecretKey 사용
+            val isMobileStarted = session.sessionId > 0
             val batch = WorkoutDataBatch(
-                clientSecretKey = session.watchSessionId,
-                sessionId = null,  // 워치에서 시작한 경우 null
+                clientSecretKey = if (isMobileStarted) "" else session.clientSecretKey,  // 모바일 시작: 빈 문자열
+                sessionId = if (isMobileStarted) session.sessionId else null,  // 모바일 시작: sessionId 설정
                 userId = session.userId,
                 startTime = session.startTime,
                 endTime = session.endTime ?: System.currentTimeMillis(),
@@ -168,16 +185,22 @@ class WatchDataSyncRepository(
             // 8. JSON 직렬화
             val jsonString = gson.toJson(batch)
             
+            // 8-1. JSON 로그 출력 (디버깅용)
+            Log.d(TAG, """
+                📤 전송할 JSON 데이터:
+                $jsonString
+            """.trimIndent())
+            
             // 9. Data Layer API로 전송
-            val success = sendToMobile(session.watchSessionId, jsonString)
+            val success = sendToMobile(session.clientSecretKey, jsonString)
             
             if (success) {
                 // 10. 전송 성공 시에만 DB 업데이트
                 try {
-                    markAsSynced(heartRates, locations, cadences, calories, session.watchSessionId)
+                    markAsSynced(heartRates, locations, cadences, calories, session.clientSecretKey)
                     
                     SyncResult.Success(
-                        clientSecretKey = session.watchSessionId,
+                        clientSecretKey = session.clientSecretKey,
                         heartRateCount = heartRates.size,
                         gpsCount = locations.size,
                         cadenceCount = cadences.size
@@ -188,7 +211,7 @@ class WatchDataSyncRepository(
                 }
             } else {
                 Log.w(TAG, "⚠️ 전송 실패 - 다음 전송 시 재시도")
-                SyncResult.Queued(session.watchSessionId)
+                SyncResult.Queued(session.clientSecretKey)
             }
             
         } catch (e: Exception) {
@@ -210,12 +233,35 @@ class WatchDataSyncRepository(
      */
     private suspend fun checkMobileConnection(): Boolean {
         return try {
+            // Capability로 연결된 노드 확인
             val capabilityInfo = capabilityClient.getCapability(
                 CAPABILITY_MOBILE,
                 CapabilityClient.FILTER_REACHABLE
             ).await()
             
-            capabilityInfo.nodes.isNotEmpty()
+            // 직접 연결된 노드도 확인
+            val connectedNodes = nodeClient.connectedNodes.await()
+            
+            Log.d(TAG, """
+                📡 연결 상태 확인:
+                - Capability 노드: ${capabilityInfo.nodes.size}개
+                - 직접 연결 노드: ${connectedNodes.size}개
+                - 노드 목록: ${connectedNodes.map { it.displayName }}
+            """.trimIndent())
+            
+            val isConnected = capabilityInfo.nodes.isNotEmpty() || connectedNodes.isNotEmpty()
+            
+            if (!isConnected) {
+                Log.w(TAG, """
+                    ⚠️ 모바일 연결 안 됨
+                    - 블루투스가 켜져있는지 확인
+                    - 모바일과 워치가 페어링되어 있는지 확인
+                    - 모바일 앱이 설치되어 있는지 확인
+                    - WiFi는 필요 없음 (블루투스만 사용)
+                """.trimIndent())
+            }
+            
+            isConnected
         } catch (e: Exception) {
             Log.w(TAG, "연결 확인 실패: ${e.message}")
             false
@@ -224,9 +270,31 @@ class WatchDataSyncRepository(
 
     /**
      * Data Layer API로 데이터 전송
+     * 
+     * ⚠️ 중요: Data Layer API는 블루투스만 사용 (WiFi 불필요)
+     * - 모바일과 워치가 페어링되어 있어야 함
+     * - 블루투스가 켜져있어야 함
+     * - 모바일 앱이 설치되어 있어야 함
+     * - ADB 연결은 개발용이며 실제 사용에는 불필요
      */
     private suspend fun sendToMobile(clientSecretKey: String, jsonString: String): Boolean {
         return try {
+            // 연결 상태 먼저 확인
+            val connectedNodes = nodeClient.connectedNodes.await()
+            Log.d(TAG, """
+                📤 데이터 전송 시도
+                - 연결된 노드: ${connectedNodes.size}개
+                - 노드 목록: ${connectedNodes.map { "${it.displayName} (${it.id})" }}
+            """.trimIndent())
+            
+            if (connectedNodes.isEmpty()) {
+                Log.w(TAG, """
+                    ⚠️ 연결된 노드 없음 - Data Layer 큐에 저장됨
+                    - 모바일이 연결되면 자동으로 전송됨
+                    - 블루투스 연결 확인 필요
+                """.trimIndent())
+            }
+            
             // PutDataRequest 생성
             val putDataRequest = PutDataMapRequest.create("$PATH_WORKOUT_DATA/$clientSecretKey").apply {
                 dataMap.putString("json", jsonString)
@@ -234,14 +302,22 @@ class WatchDataSyncRepository(
             }.asPutDataRequest()
                 .setUrgent() // 즉시 전송 시도
             
-            // 전송
+            // 전송 (연결 안 되어있어도 큐에 저장됨)
             val dataItem = dataClient.putDataItem(putDataRequest).await()
             
-            Log.d(TAG, "✅ DataItem 전송됨: ${dataItem.uri}")
+            Log.d(TAG, """
+                ✅ DataItem 전송 완료
+                - URI: ${dataItem.uri}
+                - 연결 상태: ${if (connectedNodes.isNotEmpty()) "연결됨" else "큐에 저장됨"}
+            """.trimIndent())
             true
             
         } catch (e: Exception) {
-            Log.e(TAG, "❌ 전송 실패: ${e.message}", e)
+            Log.e(TAG, """
+                ❌ 전송 실패: ${e.message}
+                - 연결 상태 확인 필요
+                - 블루투스 켜져있는지 확인
+            """.trimIndent(), e)
             false
         }
     }
@@ -259,16 +335,16 @@ class WatchDataSyncRepository(
         val dao = database.workoutDao()
         
         if (heartRates.isNotEmpty()) {
-            dao.markHeartRatesAsSynced(heartRates.map { it.id }, clientSecretKey)
+            dao.markHeartRatesAsSynced(heartRates.map { it.seq }, clientSecretKey)
         }
         if (locations.isNotEmpty()) {
-            dao.markLocationsAsSynced(locations.map { it.id }, clientSecretKey)
+            dao.markLocationsAsSynced(locations.map { it.seq }, clientSecretKey)
         }
         if (cadences.isNotEmpty()) {
-            dao.markCadencesAsSynced(cadences.map { it.id }, clientSecretKey)
+            dao.markCadencesAsSynced(cadences.map { it.seq }, clientSecretKey)
         }
         if (calories.isNotEmpty()) {
-            dao.markCaloriesAsSynced(calories.map { it.id }, clientSecretKey)
+            dao.markCaloriesAsSynced(calories.map { it.seq }, clientSecretKey)
         }
     }
 
@@ -289,28 +365,28 @@ class WatchDataSyncRepository(
     
     private fun convertToHeartRate(entity: HeartRateRecordEntity): HeartRateRecord {
         return HeartRateRecord(
-            seq = entity.id,
+            seq = entity.seq,
             heartRate = entity.heartRate,
-            createdAt = entity.timestamp
+            createdAt = entity.createdAt
         )
     }
     
     private fun convertToGpsPoint(entity: LocationRecordEntity): GpsPoint {
         return GpsPoint(
-            seq = entity.id,
+            seq = entity.seq,
             latitude = entity.latitude,
             longitude = entity.longitude,
             altitude = entity.altitude,
             speed = entity.speed,
-            createdAt = entity.timestamp
+            createdAt = entity.createdAt
         )
     }
     
     private fun convertToCadence(entity: CadenceRecordEntity): CadenceRecord {
         return CadenceRecord(
-            seq = entity.id,
+            seq = entity.seq,
             cadence = entity.cadence.toDouble(),
-            createdAt = entity.timestamp
+            createdAt = entity.createdAt
         )
     }
 }
@@ -318,46 +394,75 @@ class WatchDataSyncRepository(
 // ==================== 데이터 모델 ====================
 
 data class WorkoutDataBatch(
+    @com.google.gson.annotations.SerializedName("clientSecretKey")
     val clientSecretKey: String,
+    @com.google.gson.annotations.SerializedName("sessionId")
     val sessionId: Long?,
+    @com.google.gson.annotations.SerializedName("userId")
     val userId: String,
+    @com.google.gson.annotations.SerializedName("startTime")
     val startTime: Long,
+    @com.google.gson.annotations.SerializedName("endTime")
     val endTime: Long,
+    @com.google.gson.annotations.SerializedName("summary")
     val summary: WorkoutSummary,
+    @com.google.gson.annotations.SerializedName("cadenceRecords")
     val cadenceRecords: List<CadenceRecord>,
+    @com.google.gson.annotations.SerializedName("heartRateRecords")
     val heartRateRecords: List<HeartRateRecord>,
+    @com.google.gson.annotations.SerializedName("gpsPoints")
     val gpsPoints: List<GpsPoint>
 )
 
 data class WorkoutSummary(
+    @com.google.gson.annotations.SerializedName("totalSteps")
     val totalSteps: Int,
+    @com.google.gson.annotations.SerializedName("totalDistance")
     val totalDistance: Double,
+    @com.google.gson.annotations.SerializedName("totalCalories")
     val totalCalories: Int,
+    @com.google.gson.annotations.SerializedName("avgHeartRate")
     val avgHeartRate: Int,
+    @com.google.gson.annotations.SerializedName("duration")
     val duration: Int,
+    @com.google.gson.annotations.SerializedName("avgCadence")
     val avgCadence: Int,
+    @com.google.gson.annotations.SerializedName("avgPace")
     val avgPace: Int,
+    @com.google.gson.annotations.SerializedName("elevation")
     val elevation: Double
 )
 
 data class CadenceRecord(
+    @com.google.gson.annotations.SerializedName("seq")
     val seq: Long,
+    @com.google.gson.annotations.SerializedName("cadence")
     val cadence: Double,
+    @com.google.gson.annotations.SerializedName("createdAt")
     val createdAt: Long
 )
 
 data class HeartRateRecord(
+    @com.google.gson.annotations.SerializedName("seq")
     val seq: Long,
+    @com.google.gson.annotations.SerializedName("heartRate")
     val heartRate: Int,
+    @com.google.gson.annotations.SerializedName("createdAt")
     val createdAt: Long
 )
 
 data class GpsPoint(
+    @com.google.gson.annotations.SerializedName("seq")
     val seq: Long,
+    @com.google.gson.annotations.SerializedName("latitude")
     val latitude: Double,
+    @com.google.gson.annotations.SerializedName("longitude")
     val longitude: Double,
+    @com.google.gson.annotations.SerializedName("altitude")
     val altitude: Double?,
+    @com.google.gson.annotations.SerializedName("speed")
     val speed: Float?,
+    @com.google.gson.annotations.SerializedName("createdAt")
     val createdAt: Long
 )
 

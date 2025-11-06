@@ -3,12 +3,13 @@ package com.runningcity.service
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.Service
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.android.gms.wearable.MessageEvent
+import com.google.android.gms.wearable.WearableListenerService
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.sync.SyncResult
 import com.runningcity.data.sync.WatchDataSyncRepository
@@ -19,6 +20,7 @@ import kotlinx.coroutines.*
  * DataSyncService
  * 
  * 워치에서 백그라운드로 데이터를 모바일에 동기화하는 서비스
+ * WearableListenerService를 상속하여 모바일로부터 메시지를 직접 수신
  * 
  * 동작 방식:
  * 
@@ -28,17 +30,19 @@ import kotlinx.coroutines.*
  *    - 안드로이드에는 데이터 전송하지 않음
  * 
  * 2️⃣ 중지 버튼 클릭 시
+ *    - 모바일에 데이터 준비 알림 전송
+ *    - 모바일 준비 완료 메시지 대기
+ * 
+ * 3️⃣ 모바일 준비 완료 시
  *    - 세션 동안 쌓인 모든 데이터를 한 번에 전송
  *    - 전송 데이터: heartRates, locations, cadences, calories
  */
-class DataSyncService : Service() {
+class DataSyncService : WearableListenerService() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     
     private lateinit var syncRepository: WatchDataSyncRepository
-    
-    // 현재 운동 세션 ID (운동 시작 시 설정됨)
-    private var currentWatchSessionId: String? = null
+    private lateinit var database: WorkoutDatabase
     
     companion object {
         private const val TAG = "DataSyncService"
@@ -47,24 +51,23 @@ class DataSyncService : Service() {
         private const val NOTIFICATION_ID = 2001
         private const val CHANNEL_ID = "data_sync_channel"
         
-        // Action
-        const val ACTION_START_SESSION = "ACTION_START_SESSION"
-        const val ACTION_STOP_SESSION = "ACTION_STOP_SESSION"
-        const val EXTRA_WATCH_SESSION_ID = "WATCH_SESSION_ID"
+        // Message Path
+        private const val PATH_MOBILE_READY = "/mobile_ready"
+        private const val PATH_SYNC_REQUEST = "/sync_request"
     }
 
     override fun onCreate() {
         super.onCreate()
         
         // Repository 초기화
-        val database = WorkoutDatabase.getDatabase(applicationContext)
+        database = WorkoutDatabase.getDatabase(applicationContext)
         syncRepository = WatchDataSyncRepository(applicationContext, database)
         
         // Foreground Service 시작
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification())
         
-        Log.d(TAG, "✅ DataSyncService 생성됨 (Foreground)")
+        Log.d(TAG, "✅ DataSyncService 생성됨 (Foreground) - 모바일 요청 대기 중")
     }
     
     /**
@@ -107,46 +110,63 @@ class DataSyncService : Service() {
         notificationManager.notify(NOTIFICATION_ID, createNotification(message))
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when (intent?.action) {
-            ACTION_START_SESSION -> {
-                // 운동 시작 - 세션 ID 저장만 함
-                val sessionId = intent.getStringExtra(EXTRA_WATCH_SESSION_ID)
-                currentWatchSessionId = sessionId
-                Log.d(TAG, "🚀 운동 시작 - 세션 ID: $sessionId")
-                updateNotification("운동 중... (세션: $sessionId)")
-            }
-            
-            ACTION_STOP_SESSION -> {
-                // 운동 중지 - 모든 데이터 한 번에 전송
-                currentWatchSessionId?.let { sessionId ->
-                    Log.d(TAG, "⏹️ 운동 중지 - 데이터 전송 시작 (세션: $sessionId)")
-                    updateNotification("데이터 전송 중...")
-                    serviceScope.launch {
-                        syncAllSessionData(sessionId)
-                    }
+    /**
+     * 모바일로부터 메시지 수신
+     */
+    override fun onMessageReceived(messageEvent: MessageEvent) {
+        Log.d(TAG, "📨 메시지 수신: ${messageEvent.path}")
+        
+        when (messageEvent.path) {
+            PATH_MOBILE_READY, PATH_SYNC_REQUEST -> {
+                Log.d(TAG, "✅ 모바일에서 동기화 요청 수신")
+                // 미동기화 데이터 확인 및 전송
+                serviceScope.launch {
+                    syncUnsyncedData()
                 }
             }
         }
-        
-        return START_STICKY // 시스템에 의해 종료되어도 재시작
+    }
+    
+    /**
+     * 미동기화 데이터 확인 및 전송
+     */
+    private suspend fun syncUnsyncedData() {
+        try {
+            Log.d(TAG, "🔍 미동기화 세션 확인 중...")
+            
+            // 1. 미동기화 세션 조회
+            val unsyncedSessions = database.workoutDao().getUnsyncedSessions()
+            
+            if (unsyncedSessions.isEmpty()) {
+                Log.d(TAG, "📭 미동기화 세션 없음")
+                updateNotification("동기화 완료")
+                return
+            }
+            
+            Log.d(TAG, "📦 미동기화 세션 ${unsyncedSessions.size}개 발견")
+            
+            // 2. 각 세션 데이터 전송
+            unsyncedSessions.forEach { session ->
+                Log.d(TAG, "📤 세션 전송 시작: ${session.clientSecretKey}")
+                updateNotification("동기화 중... (${session.clientSecretKey})")
+                syncAllSessionData(session.clientSecretKey)
+            }
+            
+            Log.d(TAG, "✅ 모든 세션 동기화 완료")
+            updateNotification("동기화 완료")
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 동기화 오류: ${e.message}", e)
+            updateNotification("동기화 오류")
+        }
     }
 
     /**
      * 세션 데이터 한 번에 전송
-     * 중지 버튼 클릭 시 호출됨
      */
     private suspend fun syncAllSessionData(sessionId: String) {
         try {
-            // 1. 연결 상태 확인
-            val isConnected = syncRepository.isMobileReachable()
-            if (!isConnected) {
-                Log.e(TAG, "❌ 모바일 연결 안 됨 - 데이터 전송 실패")
-                updateNotification("전송 실패 (연결 안 됨)")
-                return
-            }
-            
-            // 2. 해당 세션의 모든 데이터 한 번에 전송
+            // 1. 해당 세션의 모든 데이터 한 번에 전송
             Log.d(TAG, "📤 세션 데이터 전송 시작 (세션: $sessionId)")
             
             val result = syncRepository.syncWorkoutData(
@@ -154,7 +174,7 @@ class DataSyncService : Service() {
                 batchSize = Int.MAX_VALUE // 모든 데이터 한 번에 전송
             )
             
-            // 3. 결과 로그 출력
+            // 2. 결과 로그 출력
             when (result) {
                 is SyncResult.Success -> {
                     Log.d(TAG, """
@@ -166,28 +186,27 @@ class DataSyncService : Service() {
                         	"gpsPoints": ${result.gpsCount}개
                         }
                     """.trimIndent())
-                    updateNotification("전송 완료")
+                    
+                    // 세션을 동기화 완료로 마킹
+                    database.workoutDao().markSessionAsSynced(sessionId)
+                    Log.d(TAG, "✅ 세션 동기화 완료 마킹: $sessionId")
                 }
                 
                 is SyncResult.Queued -> {
                     Log.d(TAG, "📮 Data Layer 큐에 추가됨")
-                    updateNotification("전송 대기 중")
                 }
                 
                 is SyncResult.NoData -> {
                     Log.d(TAG, "📭 전송할 데이터 없음")
-                    updateNotification("전송할 데이터 없음")
                 }
                 
                 is SyncResult.Error -> {
                     Log.e(TAG, "❌ 전송 실패: ${result.message}")
-                    updateNotification("전송 실패")
                 }
             }
             
         } catch (e: Exception) {
             Log.e(TAG, "❌ 데이터 전송 중 오류: ${e.message}", e)
-            updateNotification("전송 오류")
         }
     }
 
@@ -204,7 +223,5 @@ class DataSyncService : Service() {
         serviceScope.cancel()
         Log.d(TAG, "❌ DataSyncService 종료됨")
     }
-
-    override fun onBind(intent: Intent?): IBinder? = null
 }
 

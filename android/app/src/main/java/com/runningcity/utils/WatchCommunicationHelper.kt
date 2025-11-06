@@ -91,10 +91,10 @@ object WatchCommunicationHelper {
     }
     
     /**
-     * 워치에 모바일 준비 완료 메시지 전송
-     * (모바일 앱이 열렸을 때 호출)
+     * 워치에 데이터 동기화 요청 메시지 전송
+     * (모바일 앱이 열렸을 때 호출 - 워치의 미동기화 데이터를 가져옴)
      */
-    suspend fun sendMobileReady(context: Context): Boolean {
+    suspend fun requestSync(context: Context): Boolean {
         return try {
             val nodeClient = Wearable.getNodeClient(context)
             val nodes = nodeClient.connectedNodes.await()
@@ -109,8 +109,8 @@ object WatchCommunicationHelper {
             var success = false
             nodes.forEach { node ->
                 try {
-                    messageClient.sendMessage(node.id, "/mobile_ready", byteArrayOf()).await()
-                    Log.d(TAG, "✅ 워치에 모바일 준비 완료 메시지 전송 (node: ${node.displayName})")
+                    messageClient.sendMessage(node.id, "/sync_request", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 워치에 동기화 요청 전송 (node: ${node.displayName})")
                     success = true
                 } catch (e: Exception) {
                     Log.e(TAG, "❌ 워치 메시지 전송 실패: ${e.message}")
@@ -122,6 +122,14 @@ object WatchCommunicationHelper {
             Log.e(TAG, "❌ 워치 통신 오류: ${e.message}", e)
             false
         }
+    }
+    
+    /**
+     * 워치에 모바일 준비 완료 메시지 전송 (하위 호환성)
+     * requestSync()와 동일한 동작
+     */
+    suspend fun sendMobileReady(context: Context): Boolean {
+        return requestSync(context)
     }
 }
 

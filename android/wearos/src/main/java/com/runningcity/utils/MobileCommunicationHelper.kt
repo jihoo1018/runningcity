@@ -47,5 +47,40 @@ object MobileCommunicationHelper {
             false
         }
     }
+    
+    /**
+     * 모바일에 운동 종료 알림
+     * (모바일에서 시작한 운동을 워치에서 종료할 때 호출)
+     */
+    suspend fun notifyWorkoutStopped(context: Context, sessionId: Long): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            val message = sessionId.toString().toByteArray()
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/workout_stopped", message).await()
+                    Log.d(TAG, "✅ 모바일에 운동 종료 알림 전송 (sessionId: $sessionId, node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
 }
 

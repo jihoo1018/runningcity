@@ -28,7 +28,6 @@ import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.WorkoutSessionEntity
 import com.runningcity.service.WorkoutService
 import com.runningcity.utils.CsvExporter
-import com.runningcity.utils.DataSyncHelper
 import com.runningcity.utils.MobileCommunicationHelper
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -58,8 +57,8 @@ fun WorkoutScreen(
     var workoutSessionSeq by remember { mutableStateOf(0L) }
     var startTime by remember { mutableStateOf(0L) }
     
-    // 모바일 전송 대기 중인 세션 ID
-    var pendingSessionId by remember { mutableStateOf<String?>(null) }
+    // 모바일에서 시작된 세션 ID
+    var mobileSessionId by remember { mutableStateOf<Long?>(null) }
 
     val database = remember { WorkoutDatabase.getDatabase(context) }
     val dao = database.workoutDao()
@@ -153,12 +152,17 @@ fun WorkoutScreen(
 
             val session = WorkoutSessionEntity(
                 clientSecretKey = clientSecretKey,
+                sessionId = mobileSessionId ?: 0L,  // 모바일에서 시작한 경우 sessionId 설정
                 startTime = startTime,
                 status = "IN_PROGRESS"
             )
             workoutSessionSeq = dao.insertSession(session)
 
-            println("💾 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey")
+            if (mobileSessionId != null) {
+                println("💾 모바일 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey, mobileSessionId=$mobileSessionId")
+            } else {
+                println("💾 워치 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey")
+            }
 
             heartRateList.clear()
             gpsCount = 0
@@ -183,12 +187,6 @@ fun WorkoutScreen(
             workoutService?.clientSecretKey = clientSecretKey
             workoutService?.workoutSessionSeq = workoutSessionSeq
 
-    //////////////////////////////////////////////////////////////
-    // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
-            // 🚀 운동 세션 시작 (세션 ID만 저장, 데이터는 전송 안 함)
-            DataSyncHelper.startSession(context, watchSessionId)
-            println("📡 DataSyncService 시작 - 세션: $watchSessionId")
-    //////////////////////////////////////////////////////////////
 
         } else {
             // 운동 종료
@@ -221,12 +219,19 @@ fun WorkoutScreen(
 
     //////////////////////////////////////////////////////////////
     // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
-                // ⏹️ 운동 세션 중지 - 모바일에 데이터 준비 알림
-                pendingSessionId = watchSessionId
+                // ⏹️ 운동 세션 중지 - DB에 저장 + 모바일에 알림
                 scope.launch {
-                    MobileCommunicationHelper.notifyDataReady(context)
+                    if (mobileSessionId != null) {
+                        // 모바일에서 시작한 경우 - 운동 종료 알림
+                        MobileCommunicationHelper.notifyWorkoutStopped(context, mobileSessionId!!)
+                        println("📡 모바일에 운동 종료 알림 전송 (sessionId: $mobileSessionId)")
+                    } else {
+                        // 워치에서 시작한 경우 - 데이터 준비 알림
+                        MobileCommunicationHelper.notifyDataReady(context)
+                        println("📡 모바일에 동기화 요청 전송")
+                    }
                 }
-                println("📡 모바일에 데이터 준비 알림 전송 - 세션: $watchSessionId")
+                println("⏹️ 운동 종료 - 데이터 DB 저장 완료 (세션: $clientSecretKey)")
     //////////////////////////////////////////////////////////////
 
                 val endTime = System.currentTimeMillis()
@@ -298,6 +303,7 @@ fun WorkoutScreen(
 
                 clientSecretKey = ""
                 workoutSessionSeq = 0L
+                mobileSessionId = null
                 isPaused = false
                 pausedDuration = 0L
 
@@ -307,15 +313,9 @@ fun WorkoutScreen(
         }
     }
 
-                // 세션 ID 초기화
-                watchSessionId = ""
-            }
-        }
-    }
-
     //////////////////////////////////////////////////////////////
     // 모바일 -> 워치 데이터 전달하기 위해 추가한 부분
-    // 📡 모바일에서 메시지 수신
+    // 📡 모바일에서 운동 시작/중지 메시지 수신
     DisposableEffect(Unit) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(ctx: Context?, intent: Intent?) {
@@ -324,28 +324,16 @@ fun WorkoutScreen(
                         val sessionId = intent.getLongExtra("sessionId", 0L)
                         if (sessionId > 0 && !isRunning) {
                             println("📨 모바일에서 시작 요청 수신 (세션: $sessionId)")
-                            // 세션 ID를 문자열로 변환하여 저장
-                            watchSessionId = "session_$sessionId"
-                            // 시작 트리거
+                            mobileSessionId = sessionId
+                            // 운동 시작 트리거
                             isRunning = true
                         }
                     }
                     "com.runningcity.STOP_WORKOUT_FROM_MOBILE" -> {
                         if (isRunning) {
                             println("📨 모바일에서 중지 요청 수신")
-                            // 중지 트리거
+                            // 운동 중지 트리거
                             isRunning = false
-                        }
-                    }
-                    "com.runningcity.MOBILE_READY" -> {
-                        // 모바일 앱이 열렸을 때 대기 중인 데이터 전송
-                        pendingSessionId?.let { sessionId ->
-                            println("📨 모바일 준비 완료 - 데이터 전송 시작 (세션: $sessionId)")
-                            scope.launch {
-                                DataSyncHelper.stopSession(context)
-                                println("📡 DataSyncService 중지 - 데이터 전송 완료")
-                                pendingSessionId = null
-                            }
                         }
                     }
                 }
@@ -355,7 +343,6 @@ fun WorkoutScreen(
         val filter = IntentFilter().apply {
             addAction("com.runningcity.START_WORKOUT_FROM_MOBILE")
             addAction("com.runningcity.STOP_WORKOUT_FROM_MOBILE")
-            addAction("com.runningcity.MOBILE_READY")
         }
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -583,21 +570,6 @@ fun WorkoutScreen(
                 Text(
                     text = "Seq: $workoutSessionSeq",
                     style = MaterialTheme.typography.caption2,
-                    color = Color.Gray
-                )
-            }
-            
-            // 데이터 전송 대기 중 표시
-            if (pendingSessionId != null) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "📡 데이터 전송 대기 중",
-                    style = MaterialTheme.typography.caption2,
-                    color = Color.Cyan
-                )
-                Text(
-                    text = "모바일 앱을 열어주세요",
-                    style = MaterialTheme.typography.caption3,
                     color = Color.Gray
                 )
             }
