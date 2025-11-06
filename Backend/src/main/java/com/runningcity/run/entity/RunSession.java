@@ -1,97 +1,73 @@
 package com.runningcity.run.entity;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Map;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Entity
 @Table(name = "run_session")
-@DynamicUpdate
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class RunSession {
 
     @Id
-    @Column(name = "session_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "session_id")
     private Long sessionId;
 
-    // === 컬럼 매핑 (DDL 스네이크케이스와 1:1) ===
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @Column(name = "client_secret_key")
+    private String clientSecretKey;
+
     @Column(name = "type", nullable = false)
-    private String type; // NORMAL | INFILTRATION
+    private String type; // NORMAL | ENTRY
 
     @Column(name = "base_id")
     private Long baseId;
 
     @Column(name = "device_type", nullable = false)
-    private String deviceType; // ANDROID_PHONE | WEAR_OS
+    private String deviceType; // PHONE | WATCH
 
-    @Column(name = "start_at", nullable = false)
-    private Instant startAt;
+    @Column(name = "start_time", nullable = false)
+    private Instant startTime;
 
-    @Column(name = "end_at")
-    private Instant endAt;
+    @Column(name = "end_time")
+    private Instant endTime;
 
-    @Column(name = "status", nullable = false)
-    private String status; // ACTIVE | CLOSING | FINALIZED
+    // summary (읽기용 필드들)
+    @Column(name = "total_steps")     private Integer totalSteps;
+    @Column(name = "total_distance")  private Double totalDistance;
+    @Column(name = "total_calories")  private Integer totalCalories;
+    @Column(name = "avg_heart_rate")  private Integer avgHeartRate;
+    @Column(name = "duration")        private Integer duration;
+    @Column(name = "avg_cadence")     private Integer avgCadence;
+    @Column(name = "avg_pace")        private Integer avgPace;
+    @Column(name = "elevation")       private Double elevation;
 
-    @Column(name = "closing_deadline")
-    private Instant closingDeadline;
-
-    // 요약값
-    @Column(name = "duration_sec")
-    private Integer durationSec;
-
-    @Column(name = "distance_km", precision = 7, scale = 3)
-    private BigDecimal distanceKm;
-
-    @Column(name = "avg_pace_sec_per_km")
-    private Integer avgPaceSecPerKm;
-
-    @Column(name = "calories_kcal")
-    private Integer caloriesKcal;
-
-    @Column(name = "elevation_gain_m")
-    private Integer elevationGainM;
-
-    @Column(name = "avg_hr_bpm")
-    private Short avgHrBpm;
-
-    @Column(name = "avg_cadence_spm")
-    private Short avgCadenceSpm;
-
-    // JSONB 매핑 (내장 타입)
+    // JSONB (읽기 전용)
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "result_meta")   // columnDefinition 생략 가능
-    private Map<String, Object> resultMeta;
+    @Column(name = "cadence_records", columnDefinition = "jsonb")
+    private JsonNode cadenceRecords;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(name = "rewards_meta")
-    private Map<String, Object> rewardsMeta;
+    @Column(name = "heart_rate_records", columnDefinition = "jsonb")
+    private JsonNode heartRateRecords;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "rewards_meta", columnDefinition = "jsonb")
+    private JsonNode rewardsMeta;
+
+    // DB/네이티브가 채움 (JPA는 단순 매핑)
+    @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
 
-    // updated_at은 DB 트리거가 갱신 → 애플리케이션에서는 읽기 전용
-    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
+    @Column(name = "updated_at", insertable = false, updatable = false)
     private Instant updatedAt;
-
-    @PrePersist
-    void prePersist() {
-        if (createdAt == null) createdAt = Instant.now();
-        if (status == null) status = "ACTIVE";
-        if (type == null) type = "NORMAL";
-    }
 }
