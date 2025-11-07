@@ -1,66 +1,73 @@
+// src/main/java/com/runningcity/run/dto/FinishRequest.java
 package com.runningcity.run.dto;
 
+import com.runningcity.run.dto.common.GpsPointLike;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
-
-import java.time.Instant;
 import java.util.List;
 
-@Getter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class FinishRequest {
 
-    @NotNull(message = "deviceSummary는 필수입니다.")
+    private String clientSecretKey;
+
+    @Positive private long startTime;
+    @Positive private long endTime;
+
+    @Valid @NotNull
+    private Summary summary;
+
+    @Valid private List<HeartRateRecord> heartRateRecords;
+    @Valid private List<CadenceRecord> cadenceRecords;
+
+    @Valid @NotEmpty
+    private List<GpsPoint> gpsPoints;
+
+    // OPTIONAL: ENTRY(잡입)일 때만 내려올 수도 있음
     @Valid
-    private DeviceSummary deviceSummary;
+    private Rewards rewards; // null 가능
 
-    @NotNull @Positive(message = "clientLastSeq는 1 이상이어야 합니다.")
-    private Integer clientLastSeq;
-
-    private List<@Valid TailPoint> tailPoints;
-
-    @Getter @NoArgsConstructor @AllArgsConstructor @Builder
-    public static class DeviceSummary {
-        @NotNull @DecimalMin(value = "0.0", message = "distanceKm는 0 이상이어야 합니다.")
-        private Double distanceKm;
-
-        @NotNull @PositiveOrZero(message = "durationSec는 0 이상이어야 합니다.")
-        private Integer durationSec;
-
-        @PositiveOrZero(message = "avgPaceSecPerKm는 0 이상이어야 합니다.")
-        private Integer avgPaceSecPerKm;
-
-        @PositiveOrZero(message = "caloriesKcal는 0 이상이어야 합니다.")
-        private Integer caloriesKcal;
-
-        private Integer elevationGainM;
-        private Integer avgHrBpm;
-        private Integer avgCadenceSpm;
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    public static class Summary {
+        @Min(0) private Integer totalSteps;
+        @DecimalMin("0.0") private Double totalDistance; // meters
+        @Min(0) private Integer totalCalories;
+        @Min(0) private Integer avgHeartRate;
+        @Min(0) private Integer duration;   // sec
+        @Min(0) private Integer avgCadence; // spm
+        @Min(0) private Integer avgPace;    // sec/km
+        @DecimalMin("0.0") private Double elevation;
     }
 
-    // 남은 애들 같이 보내기
-    @Getter @NoArgsConstructor @AllArgsConstructor @Builder
-    public static class TailPoint {
-        @NotNull @Positive(message = "seq는 1 이상이어야 합니다.")
-        private Integer seq;
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    public static class CadenceRecord {
+        @Positive int seq;
+        @DecimalMin("0.0") double cadence;
+        Long createdAt;
+        Double caloriesIncrement;
+    }
 
-        @NotNull(message = "recordedAt(UTC)은 필수입니다.")
-        private Instant recordedAt;
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    public static class HeartRateRecord {
+        @Positive int seq;
+        @Min(0) int heartRate;
+        Long createdAt;
+    }
 
-        @NotNull @DecimalMin(value = "-180.0", message = "경도는 -180.0 이상 180.0 이하여야 합니다.")
-        @DecimalMax(value = "180.0",  message = "경도는 -180.0 이상 180.0 이하여야 합니다.")
-        private Double lon;
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    public static class GpsPoint implements GpsPointLike {
+        @Positive int seq;
+        @DecimalMin("-90.0")  @DecimalMax("90.0")   double latitude;
+        @DecimalMin("-180.0") @DecimalMax("180.0")  double longitude;
+        Double altitude;
+        @DecimalMin("0.0") Double speed;
+        @NotNull Long createdAt;
+    }
 
-        @NotNull @DecimalMin(value = "-90.0", message = "위도는 -90.0 이상 90.0 이하여야 합니다.")
-        @DecimalMax(value = "90.0",  message = "위도는 -90.0 이상 90.0 이하여야 합니다.")
-        private Double lat;
-
-        private Double alt;
-        private Float  speedMps;
-        private Integer hrBpm;
-        private Integer cadenceSpm;
-        private String  source; // "PHONE" | "WATCH"
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+    public static class Rewards {
+        @Min(0) private Long exp;
+        @Min(0) private Long credit;
     }
 }
-
-

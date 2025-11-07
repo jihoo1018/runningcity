@@ -2,6 +2,9 @@ package com.runningcity.run.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.runningcity.global.exception.BaseException;
+import com.runningcity.run.dto.CreateSessionRequest;
+import com.runningcity.run.dto.CreateSessionResponse;
+import com.runningcity.run.dto.FinishRequest;
 import com.runningcity.run.dto.WatchUploadRequest;
 import com.runningcity.run.exception.RunResponseCode;
 import com.runningcity.run.repository.RunNativeRepository;
@@ -12,12 +15,62 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.List;
 
+import static com.runningcity.run.util.RunValidators.toInstantStrictMillis;
+import static com.runningcity.run.util.RunValidators.validateGps;
+
 @Service
 @RequiredArgsConstructor
 public class RunService {
 
     private final RunNativeRepository nativeRepository;
     private final ObjectMapper objectMapper;
+
+    @Transactional
+    public CreateSessionResponse createSession(long userId, CreateSessionRequest req) {
+
+        // baseId는 NORMAL/ENTRY 모두 nullable 허용
+        long sid = nativeRepository.createSession(
+                userId, req.getType(), req.getDeviceType(), req.getBaseId()
+        );
+
+        return CreateSessionResponse.builder().sessionId(sid).build();
+    }
+
+    /** 세션 종료 (모바일 Finish) — 서비스는 Instant만 사용 */
+    @Transactional
+    public void finishSession(long userId, long sid, FinishRequest req) {
+        Instant st = toInstantStrictMillis(req.getStartTime());
+        Instant et = toInstantStrictMillis(req.getEndTime());
+        if (!st.isBefore(et)) {
+            throw new BaseException(RunResponseCode.INVALID_TIME_RANGE);
+        }
+        validateGps(req.getGpsPoints());
+
+        String rewardsJson = (req.getRewards() == null) ? null : toJsonString(req.getRewards());
+
+        nativeRepository.finishUpdateSessionAndMaybeApplyRewards(
+                sid,
+                st,
+                et,
+                req.getSummary().getTotalSteps(),
+                req.getSummary().getTotalDistance(),
+                req.getSummary().getTotalCalories(),
+                req.getSummary().getAvgHeartRate(),
+                req.getSummary().getDuration(),
+                req.getSummary().getAvgCadence(),
+                req.getSummary().getAvgPace(),
+                req.getSummary().getElevation(),
+                toJsonString(req.getCadenceRecords()),
+                toJsonString(req.getHeartRateRecords()),
+                rewardsJson,
+                req.getClientSecretKey()
+        );
+
+        nativeRepository.batchInsertPoints(sid, req.getGpsPoints());
+        boolean ok = nativeRepository.upsertRouteAndLength(sid, 2.0);
+        if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
+    }
+
 
     @Transactional
     public void uploadWatchOnce(long userId, WatchUploadRequest req) {
@@ -64,53 +117,6 @@ public class RunService {
         if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
     }
 
-    /** epoch millis(숫자)만 허용. 범위 밖이면 INVALID_EPOCH_MILLIS */
-    private Instant toInstantStrictMillis(long epochMillis) {
-        long min = Instant.parse("2000-01-01T00:00:00Z").toEpochMilli();
-        long max = Instant.now().plusSeconds(86400).toEpochMilli(); // 지금 + 1일
-        if (epochMillis < min || epochMillis > max) {
-            throw new BaseException(RunResponseCode.INVALID_EPOCH_MILLIS);
-        }
-        return Instant.ofEpochMilli(epochMillis);
-    }
-
-    /** GPS 리스트와 각 요소의 무결성 검증 */
-    private void validateGps(List<WatchUploadRequest.GpsPoint> pts) {
-        if (pts == null || pts.isEmpty()) {
-            throw new BaseException(RunResponseCode.GPS_POINTS_EMPTY);
-        }
-        int expected = 1;
-        long prevTs = Long.MIN_VALUE;
-
-        for (int i = 0; i < pts.size(); i++) {
-            var p = pts.get(i);
-
-            // seq: 1..N 연속
-            if (p.getSeq() != expected) {
-                throw new BaseException(RunResponseCode.GPS_SEQ_OUT_OF_ORDER);
-            }
-            expected++;
-
-            // createdAt: 오름차순
-            if (p.getCreatedAt() < prevTs) {
-                throw new BaseException(RunResponseCode.GPS_TIME_NOT_ASC);
-            }
-            prevTs = p.getCreatedAt();
-
-            // NaN 금지
-            if (Double.isNaN(p.getLatitude()) || Double.isNaN(p.getLongitude())
-                    || (p.getAltitude() != null && Double.isNaN(p.getAltitude()))
-                    || (p.getSpeed() != null && Double.isNaN(p.getSpeed()))) {
-                throw new BaseException(RunResponseCode.GPS_VALUE_NAN);
-            }
-
-            // 좌표 범위
-            if (p.getLatitude() < -90 || p.getLatitude() > 90
-                    || p.getLongitude() < -180 || p.getLongitude() > 180) {
-                throw new BaseException(RunResponseCode.GPS_COORD_OUT_OF_RANGE);
-            }
-        }
-    }
 
     /** JSON 직렬화 실패 시 JSON_SERIALIZATION_FAILED */
     private String toJsonString(Object v) {
