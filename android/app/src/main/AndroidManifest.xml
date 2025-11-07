@@ -74,6 +74,24 @@
 | `android:foregroundServiceType="location"` | Android 10(API 29)+에서 위치 서비스임을 명시 (필수). |
 
 -->
+    <!-- 워치 -> 모바일 데이터 전달하기 위해 추가한 부분 --> 
+    <!-- ////////////////////////////////////////////////////////////// -->
+        <!-- 워치 데이터 수신 서비스 (Data Layer API) -->
+        <service
+            android:name=".service.WatchDataListenerService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <!-- Data Layer API 이벤트 수신 -->
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
+                
+                <!-- 데이터 경로 필터 -->
+                <data android:scheme="wear" android:host="*" />
+            </intent-filter>
+        </service>
+    <!-- ////////////////////////////////////////////////////////////// -->
 
         <!-- BroadcastReceiver 등록 (Manifest 내) -->
 <!--        <receiver-->
