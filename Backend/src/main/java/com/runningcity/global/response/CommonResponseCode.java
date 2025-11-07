@@ -38,7 +38,10 @@ public enum CommonResponseCode implements BaseResponseCode {
     // Mission 관련 에러
     DAILY_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION_4040", "해당 일일 미션을 찾을 수 없습니다."),
     DAILY_MISSION_ALREADY_CLAIMED(HttpStatus.BAD_REQUEST, "MISSION_4001", "이미 보상을 수령한 미션입니다."),
-    DAILY_MISSION_NOT_COMPLETED(HttpStatus.BAD_REQUEST, "MISSION_4002", "미션을 완료하지 않아 보상을 받을 수 없습니다.");
+    DAILY_MISSION_NOT_COMPLETED(HttpStatus.BAD_REQUEST, "MISSION_4002", "미션을 완료하지 않아 보상을 받을 수 없습니다."),
+
+    // Entry 관련 에러
+    ENTRY_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "ENTRY_4000", "입력값이 올바르지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
