@@ -90,4 +90,17 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.tiles.tooling)
+
+    // Design
+    implementation("androidx.compose.material:material-icons-core:1.7.0")
+    implementation("androidx.compose.material:material-icons-extended:1.7.0")
+
+    // Wear Compose
+    implementation("androidx.wear.compose:compose-foundation:1.3.0")
+    implementation("androidx.wear.compose:compose-material:1.3.0") // <- Surface 여기 있음
+
+    // Compose BOM (모바일 Compose용)과 섞는다면 버전 충돌 없게 유지
+    implementation(platform("androidx.compose:compose-bom:2024.09.02"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
 }
