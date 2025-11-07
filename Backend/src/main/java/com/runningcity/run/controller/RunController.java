@@ -22,7 +22,30 @@ public class RunController {
     private final RunService runService;
     private static final long userId = 1L; // 로그인 없으니 임시 1 고정
 
-    /** 사후 동기화 업로드 (워치 단독 → 연결 후 1회 업로드) */
+    // RunController에 추가
+    @PostMapping
+    public ResponseEntity<ApiResponse<CreateSessionResponse>> createSession(
+            @Valid @RequestBody CreateSessionRequest req
+            // @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        CreateSessionResponse resp = runService.createSession(userId, req);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(CommonResponseCode.SUCCESS, resp));
+    }
+
+    /** 세션 종료 (모바일에서 Finish + 보상 1회 처리) */
+    @PostMapping("/{sid}/finish")
+    public ResponseEntity<ApiResponse<Void>> finish(
+            @PathVariable("sid") long sessionId,
+            @Valid @RequestBody FinishRequest req
+    ) {
+        runService.finishSession(userId, sessionId, req);
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS));
+    }
+
+
+
+
     @PostMapping("/watch")
     public ResponseEntity<ApiResponse<Void>> uploadFromWatch(@Valid @RequestBody WatchUploadRequest req
                                                              //  @AuthenticationPrincipal UserDetails userDetails,
