@@ -1,13 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
 }
 
 android {
     namespace = "com.runningcity"
-    compileSdk = 34  // ✅ 이렇게 수정!
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.runningcity"
@@ -28,14 +27,14 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
-//    useLibrary("wear-sdk") // Jetpack Compose 기반의 Wear OS 프로젝트에서는 예전식 “wear-sdk”는 필요하지 않음 (Compose + Horologist + Tiles 등으로 모두 대체됨)
+
     buildFeatures {
         compose = true
     }

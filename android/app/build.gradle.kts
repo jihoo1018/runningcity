@@ -1,19 +1,17 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt.android)
     kotlin("kapt")
 }
 
 
 android {
     namespace = "com.runningcity"
-
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.runningcity"
-//        minSdk = 26
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -32,11 +30,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -83,8 +81,6 @@ dependencies {
 
     implementation("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.fragment:fragment-ktx:1.7.1")
-
-    // Hilt
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.52")
