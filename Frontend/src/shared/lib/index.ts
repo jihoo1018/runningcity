@@ -1,2 +1,2 @@
 // src/shared/lib/index.ts
-export { AndroidBridge } from './webview';
+export { AndroidBridge, initializeAndroidListener } from "./webview";

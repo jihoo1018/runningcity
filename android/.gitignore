@@ -1,15 +1,56 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+# ----------------------------
+# OS 공통
+# ----------------------------
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+Thumbs.db
+
+# ----------------------------
+# IDE (Android Studio / IntelliJ)
+# ----------------------------
+*.iml
+.idea/
+# 만약 팀에서 코드스타일/검사 규칙을 공유한다면 아래만 예외 해제:
+!.idea/codeStyles/
+#!.idea/inspectionProfiles/
+
+# ----------------------------
+# Gradle & 빌드 아티팩트 (모든 모듈 공통)
+# ----------------------------
+.gradle/
+**/build/
+# Gradle Wrapper 바이너리는 반드시 커밋(프로젝트 재현성)
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# ----------------------------
+# Android 전용 캐시/툴링
+# ----------------------------
 local.properties
+**/.cxx/
+**/.externalNativeBuild/
+captures/
+.navigation/
+*.hprof
+*.log
+
+# ----------------------------
+# 컴파일 산출물
+# ----------------------------
+*.class
+*.dex
+*.kotlin_module
+
+# ----------------------------
+# 서명/민감 정보
+# ----------------------------
+*.keystore
+*.jks
+keystore.properties
+signing.properties
+
+# ----------------------------
+# Play/fastlane 등 배포 산출물
+# ----------------------------
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots

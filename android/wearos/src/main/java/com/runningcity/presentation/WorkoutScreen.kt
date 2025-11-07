@@ -1,13 +1,17 @@
 package com.runningcity.presentation
 
+import android.Manifest
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.IBinder
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,6 +28,7 @@ import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.WorkoutSessionEntity
 import com.runningcity.service.WorkoutService_backup
 import com.runningcity.utils.CsvExporter
+import com.runningcity.utils.MobileCommunicationHelper
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -51,6 +56,9 @@ fun WorkoutScreen(
     var clientSecretKey by remember { mutableStateOf("") }
     var workoutSessionSeq by remember { mutableStateOf(0L) }
     var startTime by remember { mutableStateOf(0L) }
+    
+    // 모바일에서 시작된 세션 ID
+    var mobileSessionId by remember { mutableStateOf<Long?>(null) }
 
     val database = remember { WorkoutDatabase.getDatabase(context) }
     val dao = database.workoutDao()
@@ -144,12 +152,17 @@ fun WorkoutScreen(
 
             val session = WorkoutSessionEntity(
                 clientSecretKey = clientSecretKey,
+                sessionId = mobileSessionId ?: 0L,  // 모바일에서 시작한 경우 sessionId 설정
                 startTime = startTime,
                 status = "IN_PROGRESS"
             )
             workoutSessionSeq = dao.insertSession(session)
 
-            println("💾 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey")
+            if (mobileSessionId != null) {
+                println("💾 모바일 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey, mobileSessionId=$mobileSessionId")
+            } else {
+                println("💾 워치 세션 저장 완료: seq=$workoutSessionSeq, key=$clientSecretKey")
+            }
 
             heartRateList.clear()
             gpsCount = 0
@@ -173,6 +186,7 @@ fun WorkoutScreen(
             kotlinx.coroutines.delay(500)
             workoutService?.clientSecretKey = clientSecretKey
             workoutService?.workoutSessionSeq = workoutSessionSeq
+
 
         } else {
             // 운동 종료
@@ -202,6 +216,23 @@ fun WorkoutScreen(
                         println("⚠️ Service 언바인딩 실패: ${e.message}")
                     }
                 }
+
+    //////////////////////////////////////////////////////////////
+    // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
+                // ⏹️ 운동 세션 중지 - DB에 저장 + 모바일에 알림
+                scope.launch {
+                    if (mobileSessionId != null) {
+                        // 모바일에서 시작한 경우 - 운동 종료 알림
+                        MobileCommunicationHelper.notifyWorkoutStopped(context, mobileSessionId!!)
+                        println("📡 모바일에 운동 종료 알림 전송 (sessionId: $mobileSessionId)")
+                    } else {
+                        // 워치에서 시작한 경우 - 데이터 준비 알림
+                        MobileCommunicationHelper.notifyDataReady(context)
+                        println("📡 모바일에 동기화 요청 전송")
+                    }
+                }
+                println("⏹️ 운동 종료 - 데이터 DB 저장 완료 (세션: $clientSecretKey)")
+    //////////////////////////////////////////////////////////////
 
                 val endTime = System.currentTimeMillis()
                 val duration = ((endTime - startTime) / 1000).toInt()
@@ -272,6 +303,7 @@ fun WorkoutScreen(
 
                 clientSecretKey = ""
                 workoutSessionSeq = 0L
+                mobileSessionId = null
                 isPaused = false
                 pausedDuration = 0L
 
@@ -281,6 +313,51 @@ fun WorkoutScreen(
         }
     }
 
+    //////////////////////////////////////////////////////////////
+    // 모바일 -> 워치 데이터 전달하기 위해 추가한 부분
+    // 📡 모바일에서 운동 시작/중지 메시지 수신
+    DisposableEffect(Unit) {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(ctx: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    "com.runningcity.START_WORKOUT_FROM_MOBILE" -> {
+                        val sessionId = intent.getLongExtra("sessionId", 0L)
+                        if (sessionId > 0 && !isRunning) {
+                            println("📨 모바일에서 시작 요청 수신 (세션: $sessionId)")
+                            mobileSessionId = sessionId
+                            // 운동 시작 트리거
+                            isRunning = true
+                        }
+                    }
+                    "com.runningcity.STOP_WORKOUT_FROM_MOBILE" -> {
+                        if (isRunning) {
+                            println("📨 모바일에서 중지 요청 수신")
+                            // 운동 중지 트리거
+                            isRunning = false
+                        }
+                    }
+                }
+            }
+        }
+        
+        val filter = IntentFilter().apply {
+            addAction("com.runningcity.START_WORKOUT_FROM_MOBILE")
+            addAction("com.runningcity.STOP_WORKOUT_FROM_MOBILE")
+        }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        } else {
+            context.registerReceiver(receiver, filter)
+        }
+        
+        onDispose {
+            context.unregisterReceiver(receiver)
+        }
+    }
+    //////////////////////////////////////////////////////////////
+
+    // 🔥 화면 종료 시 정리 (별도 DisposableEffect)
     DisposableEffect(Unit) {
         onDispose {
             if (isRunning) {

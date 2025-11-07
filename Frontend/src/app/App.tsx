@@ -1,7 +1,9 @@
 // src/app/App.tsx
-import { BrowserRouter } from 'react-router-dom';
-import { Providers } from './providers';
-import { AppRoutes } from './routes';
+console.log("✅ React App Loaded");
+
+import { BrowserRouter } from "react-router-dom";
+import { Providers } from "./providers";
+import { AppRoutes } from "./routes";
 
 function App() {
   return (
