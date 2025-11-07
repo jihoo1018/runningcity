@@ -11,8 +11,17 @@ import android.hardware.SensorManager
 import android.os.IBinder
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccessTime
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.sharp.Bolt
+import androidx.compose.material.icons.sharp.Pause
+import androidx.compose.material.icons.sharp.PlayArrow
+import androidx.compose.material.icons.sharp.Speed
+import androidx.compose.material.icons.sharp.Stop
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +31,13 @@ import androidx.wear.compose.material.*
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.WorkoutSessionEntity
+import com.runningcity.presentation.component.InfoItem
+import com.runningcity.presentation.component.RoundOutlineButton
+import com.runningcity.presentation.theme.RunningcityTheme
+import com.runningcity.presentation.theme.accentBlue
+import com.runningcity.presentation.theme.accentGreen
+import com.runningcity.presentation.theme.accentOrange
+import com.runningcity.presentation.theme.accentRed
 import com.runningcity.service.WorkoutService
 import com.runningcity.utils.CsvExporter
 import kotlinx.coroutines.launch
@@ -309,195 +325,336 @@ fun WorkoutScreen(
         }
     }
 
-    Scaffold(
-        timeText = { TimeText() }
-    ) {
-        val scrollState = rememberScrollState()
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-                .verticalScroll(scrollState)
-                .padding(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+    RunningcityTheme {
+        Scaffold(
+            timeText = { TimeText() }
         ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                val scrollState = rememberScrollState()
 
-            Spacer(modifier = Modifier.height(20.dp))
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp, vertical = 10.dp)
+                        .verticalScroll(scrollState),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(14.dp),
 
-            Text(
-                text = "운동 측정",
-                style = MaterialTheme.typography.title3
-            )
+                ) {
+                    Spacer(Modifier.height(6.dp))
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        // Km 단위로 변환할 필요 있을듯
+                        // 소수점 두자리까지
+                        Text(
+                            text = "${String.format("%.1f", totalDistance)}",
+                            style = MaterialTheme.typography.display2,
+                            color = MaterialTheme.colors.onPrimary
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            text = "m",
+                            style = MaterialTheme.typography.caption1,
+                            color = MaterialTheme.colors.onBackground
+                        )
+                    }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 심박수
-            Text(
-                text = "💓 $heartRate",
-                style = MaterialTheme.typography.display2,
-                color = if (heartRate > 0) Color.Red else Color.Gray
-            )
-            Text(text = "bpm", style = MaterialTheme.typography.caption1)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 걸음수
-            Text(
-                text = "👟 $steps",
-                style = MaterialTheme.typography.display2,
-                color = if (steps > 0) Color.Green else Color.Gray
-            )
-            Text(text = "steps", style = MaterialTheme.typography.caption1)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 케이던스
-            Text(
-                text = "🏃 $currentCadence",
-                style = MaterialTheme.typography.display3,
-                color = if (currentCadence > 0) Color(0xFF9C27B0) else Color.Gray
-            )
-            Text(text = "spm", style = MaterialTheme.typography.caption1)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 거리
-            Text(
-                text = "📏 ${String.format("%.1f", totalDistance)}m",
-                style = MaterialTheme.typography.display3,
-                color = if (totalDistance > 0) Color.Cyan else Color.Gray
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // 칼로리
-            Text(
-                text = "🔥 ${String.format("%.1f", totalCalories)}",
-                style = MaterialTheme.typography.display3,
-                color = if (totalCalories > 0) Color(0xFFFF9800) else Color.Gray
-            )
-            Text(text = "kcal", style = MaterialTheme.typography.caption1)
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // GPS 정보
-            Text(
-                text = "📍 GPS (${gpsCount}개)",
-                style = MaterialTheme.typography.caption1
-            )
-            if (gpsAccuracy > 0) {
-                Text(
-                    text = "정확도: ${gpsAccuracy.toInt()}m",
-                    style = MaterialTheme.typography.caption2,
-                    color = Color.Yellow
-                )
-            }
-
-            if (serviceBound) {
-                Text(
-                    text = "🔔 백그라운드 추적 중",
-                    style = MaterialTheme.typography.caption2,
-                    color = Color.Green
-                )
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // 버튼
-            if (isRunning) {
-                Button(
-                    onClick = {
-                        if (isPaused) {
-                            val intent = Intent(context, WorkoutService::class.java).apply {
-                                action = WorkoutService.ACTION_RESUME
-                            }
-                            context.startService(intent)
-                            isPaused = false
-                            println("▶️ 운동 재개")
-                        } else {
-                            val intent = Intent(context, WorkoutService::class.java).apply {
-                                action = WorkoutService.ACTION_PAUSE
-                            }
-                            context.startService(intent)
-                            isPaused = true
-                            println("⏸️ 운동 일시정지")
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                    ) {
+                        InfoItem(
+                            icon = Icons.Rounded.FavoriteBorder,
+                            iconDesc = "심박수",
+                            iconColor = MaterialTheme.colors.accentRed,
+                            text = "$heartRate",
+                            title = "bpm"
+                        )
+                        // 러닝 페이스 표시
+                        // 표기 방식: mm:ss
+                        InfoItem(
+                            icon = Icons.Rounded.AccessTime,
+                            iconDesc = "페이스",
+                            iconColor = MaterialTheme.colors.accentGreen,
+                            text = "$heartRate",
+                            title = "pace"
+                        )
+                    }
+                    // 총 달린 시간 표기 넣어주세용 (total time)
+                    if(isPaused) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                        ) {
+                            InfoItem(
+                                icon = Icons.Sharp.Speed,
+                                iconDesc = "케이던스",
+                                iconColor = MaterialTheme.colors.accentBlue,
+                                text = "$currentCadence",
+                                title = "SPM"
+                            )
+                            InfoItem(
+                                icon = Icons.Sharp.Bolt,
+                                iconDesc = "칼로리",
+                                iconColor = MaterialTheme.colors.accentOrange,
+                                text = "$totalCalories",
+                                title = "kcal"
+                            )
                         }
-                    },
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    colors = ButtonDefaults.secondaryButtonColors()
-                ) {
-                    Text(if (isPaused) "▶️ 재개" else "⏸️ 일시정지")
-                }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Button(
-                    onClick = {
-                        isRunning = false
-                        isPaused = false
-                        println("⏹️ 운동 종료")
-                    },
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Red
-                    )
-                ) {
-                    Text("⏹️ 종료")
-                }
-            } else {
-                Button(
-                    onClick = {
-                        isRunning = true
-                        isPaused = false
-                        println("▶️ 운동 시작")
-                    },
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    colors = ButtonDefaults.primaryButtonColors()
-                ) {
-                    Text("▶️ 시작")
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if(isPaused) {
+                            RoundOutlineButton(
+                                onClick = {
+                                    val intent = Intent(context, WorkoutService::class.java).apply {
+                                        action = WorkoutService.ACTION_RESUME
+                                    }
+                                    context.startService(intent)
+                                    isPaused = false
+                                    println("▶️ 운동 재개")
+                                },
+                                icon = Icons.Sharp.PlayArrow,
+                                iconDesc = "재개"
+                            )
+                            RoundOutlineButton(
+                                onClick = {
+                                    isRunning = false
+                                    isPaused = false
+                                    println("⏹️ 운동 종료")
+                                },
+                                icon = Icons.Sharp.Stop,
+                                iconDesc = "종료",
+                                iconColor = MaterialTheme.colors.background,
+                                bgColor = MaterialTheme.colors.onPrimary,
+                                border = false
+                            )
+                        } else {
+                            RoundOutlineButton(
+                                onClick = {
+                                    val intent = Intent(context, WorkoutService::class.java).apply {
+                                        action = WorkoutService.ACTION_PAUSE
+                                    }
+                                    context.startService(intent)
+                                    isPaused = true
+                                    println("⏸️ 운동 일시정지")
+                                },
+                                icon = Icons.Sharp.Pause,
+                                iconDesc = "일시정지"
+                            )
+                        }
+                    }
                 }
             }
-
-            if (isRunning) {
-                Spacer(modifier = Modifier.height(4.dp))
-
-                if (isPaused) {
-                    Text(
-                        text = "⏸️ 일시정지 중",
-                        style = MaterialTheme.typography.caption2,
-                        color = Color.Yellow
-                    )
-                } else {
-                    Text(
-                        text = "🏃 측정 중...",
-                        style = MaterialTheme.typography.caption2,
-                        color = Color.Green
-                    )
-                }
-
-                if (pausedDuration > 0) {
-                    Text(
-                        text = "⏸️ 누적: ${pausedDuration}초",
-                        style = MaterialTheme.typography.caption2,
-                        color = Color.Gray
-                    )
-                }
-
-                Text(
-                    text = "Key: $clientSecretKey",
-                    style = MaterialTheme.typography.caption2,
-                    color = Color.Gray
-                )
-                Text(
-                    text = "Seq: $workoutSessionSeq",
-                    style = MaterialTheme.typography.caption2,
-                    color = Color.Gray
-                )
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
+
+//    Scaffold(
+//        timeText = { TimeText() }
+//    ) {
+//        val scrollState = rememberScrollState()
+//
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color.Black)
+//                .verticalScroll(scrollState)
+//                .padding(8.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Top
+//        ) {
+//
+//            Spacer(modifier = Modifier.height(20.dp))
+//
+//
+//            Text(
+//                text = "운동 측정",
+//                style = MaterialTheme.typography.title3
+//            )
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            InfoItem(
+//                icon = Icons.Rounded.Favorite,
+//                iconDesc = "심박수",
+//                tint = MaterialTheme.colors.accentRed,
+//                text = "$heartRate",
+//                title = "심박수"
+//            )
+//
+//            // 심박수
+//            Text(
+//                text = "💓 $heartRate",
+//                style = MaterialTheme.typography.display2,
+//                color = if (heartRate > 0) Color.Red else Color.Gray
+//            )
+//            Text(text = "bpm", style = MaterialTheme.typography.caption1)
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            // 걸음수
+//            Text(
+//                text = "👟 $steps",
+//                style = MaterialTheme.typography.display2,
+//                color = if (steps > 0) Color.Green else Color.Gray
+//            )
+//            Text(text = "steps", style = MaterialTheme.typography.caption1)
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            // 케이던스
+//            Text(
+//                text = "🏃 $currentCadence",
+//                style = MaterialTheme.typography.display3,
+//                color = if (currentCadence > 0) Color(0xFF9C27B0) else Color.Gray
+//            )
+//            Text(text = "spm", style = MaterialTheme.typography.caption1)
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            // 거리
+//            Text(
+//                text = "📏 ${String.format("%.1f", totalDistance)}m",
+//                style = MaterialTheme.typography.display3,
+//                color = if (totalDistance > 0) Color.Cyan else Color.Gray
+//            )
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            // 칼로리
+//            Text(
+//                text = "🔥 ${String.format("%.1f", totalCalories)}",
+//                style = MaterialTheme.typography.display3,
+//                color = if (totalCalories > 0) Color(0xFFFF9800) else Color.Gray
+//            )
+//            Text(text = "kcal", style = MaterialTheme.typography.caption1)
+//
+//            Spacer(modifier = Modifier.height(8.dp))
+//
+//            // GPS 정보
+//            Text(
+//                text = "📍 GPS (${gpsCount}개)",
+//                style = MaterialTheme.typography.caption1
+//            )
+//            if (gpsAccuracy > 0) {
+//                Text(
+//                    text = "정확도: ${gpsAccuracy.toInt()}m",
+//                    style = MaterialTheme.typography.caption2,
+//                    color = Color.Yellow
+//                )
+//            }
+//
+//            if (serviceBound) {
+//                Text(
+//                    text = "🔔 백그라운드 추적 중",
+//                    style = MaterialTheme.typography.caption2,
+//                    color = Color.Green
+//                )
+//            }
+//
+//            Spacer(modifier = Modifier.height(12.dp))
+//
+//            // 버튼
+//            if (isRunning) {
+//                Button(
+//                    onClick = {
+//                        if (isPaused) {
+//                            val intent = Intent(context, WorkoutService::class.java).apply {
+//                                action = WorkoutService.ACTION_RESUME
+//                            }
+//                            context.startService(intent)
+//                            isPaused = false
+//                            println("▶️ 운동 재개")
+//                        } else {
+//                            val intent = Intent(context, WorkoutService::class.java).apply {
+//                                action = WorkoutService.ACTION_PAUSE
+//                            }
+//                            context.startService(intent)
+//                            isPaused = true
+//                            println("⏸️ 운동 일시정지")
+//                        }
+//                    },
+//                    modifier = Modifier.fillMaxWidth(0.9f),
+//                    colors = ButtonDefaults.secondaryButtonColors()
+//                ) {
+//                    Text(if (isPaused) "▶️ 재개" else "⏸️ 일시정지")
+//                }
+//
+//                Spacer(modifier = Modifier.height(4.dp))
+//
+//                Button(
+//                    onClick = {
+//                        isRunning = false
+//                        isPaused = false
+//                        println("⏹️ 운동 종료")
+//                    },
+//                    modifier = Modifier.fillMaxWidth(0.9f),
+//                    colors = ButtonDefaults.buttonColors(
+//                        backgroundColor = Color.Red
+//                    )
+//                ) {
+//                    Text("⏹️ 종료")
+//                }
+//            } else {
+//                Button(
+//                    onClick = {
+//                        isRunning = true
+//                        isPaused = false
+//                        println("▶️ 운동 시작")
+//                    },
+//                    modifier = Modifier.fillMaxWidth(0.9f),
+//                    colors = ButtonDefaults.primaryButtonColors()
+//                ) {
+//                    Text("▶️ 시작")
+//                }
+//            }
+//
+//            if (isRunning) {
+//                Spacer(modifier = Modifier.height(4.dp))
+//
+//                if (isPaused) {
+//                    Text(
+//                        text = "⏸️ 일시정지 중",
+//                        style = MaterialTheme.typography.caption2,
+//                        color = Color.Yellow
+//                    )
+//                } else {
+//                    Text(
+//                        text = "🏃 측정 중...",
+//                        style = MaterialTheme.typography.caption2,
+//                        color = Color.Green
+//                    )
+//                }
+//
+//                if (pausedDuration > 0) {
+//                    Text(
+//                        text = "⏸️ 누적: ${pausedDuration}초",
+//                        style = MaterialTheme.typography.caption2,
+//                        color = Color.Gray
+//                    )
+//                }
+//
+//                Text(
+//                    text = "Key: $clientSecretKey",
+//                    style = MaterialTheme.typography.caption2,
+//                    color = Color.Gray
+//                )
+//                Text(
+//                    text = "Seq: $workoutSessionSeq",
+//                    style = MaterialTheme.typography.caption2,
+//                    color = Color.Gray
+//                )
+//            }
+//
+//            Spacer(modifier = Modifier.height(20.dp))
+//        }
+//    }
+//}
