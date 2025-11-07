@@ -3,7 +3,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react({
@@ -20,34 +19,55 @@ export default defineConfig({
     },
   },
 
-  // ✅ Android WebView 설정 추가
-  base: './', // 상대 경로로 변경 (중요!)
+  base: "./", // ✅ WebView용 상대 경로 유지
 
   build: {
     sourcemap: true,
-    outDir: 'dist', // 빌드 결과물 폴더
-    assetsDir: 'assets', // 정적 파일 폴더
-
-    // 단일 파일로 번들링 (WebView 최적화)
+    outDir: "dist",
+    assetsDir: "assets",
     rollupOptions: {
       output: {
         manualChunks: undefined,
-      }
+      },
     },
-
-    // 파일 크기 경고 제한 완화
     chunkSizeWarningLimit: 1000,
   },
 
-  // 개발 서버 설정 (모바일에서 테스트 시)
+  // ✅ Android WebView 호환 설정
   server: {
-    host: '0.0.0.0', // 같은 네트워크의 모바일에서 접근 가능
+    host: "0.0.0.0", // ✅ 모든 네트워크 IP에서 접근 허용
     port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080', // 백엔드 프록시
-        changeOrigin: true,
-      },
+    strictPort: true,
+    cors: true,
+
+    allowedHosts: [
+      "nonconjunctive-cami-outdoor.ngrok-free.dev",
+      "localhost",
+      "70.12.247.82",
+      "10.0.2.2",
+    ],
+    hmr: {
+      protocol: "ws",
+      host: "70.12.247.82", // ✅ 또는 "10.0.2.2" (둘 다 시도 가능)
+      clientPort: 5173,
     },
-  }
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+      "Access-Control-Allow-Headers": "*",
+      "Cache-Control": "no-store",
+    },
+  },
+  // server: {
+  //   allowedHosts: ["nonconjunctive-cami-outdoor.ngrok-free.dev"],
+  //   host: true, // ✅ 외부 접속 허용 (기본적으로 localhost만 허용)
+  //   // host: '0.0.0.0', // 같은 네트워크의 모바일에서 접근 가능
+  //   port: 5173,
+  //   proxy: {
+  //     "/api": {
+  //       target: "http://localhost:8080", // 백엔드 프록시
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 });
