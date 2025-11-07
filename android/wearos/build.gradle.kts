@@ -97,6 +97,12 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
+    //////////////////////////////////////////////////////////////
+    // 워치 -> 모바일 데이터 전달하기 위해 추가한 부분
+    // Gson for JSON serialization (워치 -> 모바일 데이터 전송용)
+    implementation("com.google.code.gson:gson:2.10.1")
+    //////////////////////////////////////////////////////////////
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
