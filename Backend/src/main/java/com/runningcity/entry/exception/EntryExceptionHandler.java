@@ -40,7 +40,7 @@ public class EntryExceptionHandler {
             ));
         }
 
-        CommonResponseCode responseCode = CommonResponseCode.ENTRY_VALIDATION_ERROR;
+        CommonResponseCode responseCode = CommonResponseCode.ENTRY_BAD_REQUEST;
         ApiResponse<Void> response = ApiResponse.fail(responseCode, errorDetails);
 
         return ResponseEntity.status(responseCode.getHttpStatus()).body(response);
