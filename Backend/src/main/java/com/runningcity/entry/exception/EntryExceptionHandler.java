@@ -1,4 +1,4 @@
-package com.runningcity.global.exception;
+package com.runningcity.entry.exception;
 
 import com.runningcity.global.response.ApiResponse;
 import com.runningcity.global.response.CommonResponseCode;
@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice(basePackages = "com.runningcity.entry")
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CommonExceptionHandler {
+public class EntryExceptionHandler {
 
     /**
      * 잠입 기지 요청 검증 실패 시 발생하는 예외 처리
