@@ -24,6 +24,13 @@
     <!-- 걸음수 및 운동 인식 -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
+    <!-- android health-service 권한 설정관련  -->
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_DISTANCE" />
+    <uses-permission android:name="android.permission.health.READ_SPEED" />
+    <uses-permission android:name="android.permission.health.READ_EXERCISE" />
+
     <!-- GPS 위치 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -51,10 +58,10 @@
         android:theme="@android:style/Theme.DeviceDefault">
         <!-- 🔥 Service 추가! -->
         <service
-            android:name=".service.WorkoutService"
+            android:name=".service.WorkoutService_backup"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="location" />
+            android:foregroundServiceType="location|health" />
 
         <!-- 컴플리케이션 서비스 -->
         <service

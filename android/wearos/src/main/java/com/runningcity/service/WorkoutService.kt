@@ -1,43 +1,39 @@
 package com.runningcity.service
 
-import android.Manifest
 import android.app.*
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Binder
 import android.os.IBinder
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.health.services.client.HealthServices
+import androidx.health.services.client.ExerciseClient
+import androidx.health.services.client.ExerciseUpdateCallback
+import androidx.health.services.client.clearUpdateCallback
+import androidx.health.services.client.data.*
+import androidx.health.services.client.endExercise
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.local.entity.CadenceRecordEntity
 import com.runningcity.data.local.entity.CalorieRecordEntity
+import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.LocationRecordEntity
 import kotlinx.coroutines.*
+import java.time.Duration
 
-class WorkoutService : Service(), SensorEventListener {
+/**
+ * Health Services 1.0.0 기반 운동 추적 서비스
+ * 버전: androidx.health:health-services-client:1.0.0-rc02 (stable)
+ */
+
+class WorkoutService : Service() {
 
     private val binder = WorkoutBinder()
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    // GPS 관련
-    private var gpsListener: LocationListener? = null
-    private var networkListener: LocationListener? = null
-    private lateinit var locationManager: LocationManager
-    private var lastProvider: String? = null
-
-    // 센서 관련
-    private lateinit var sensorManager: SensorManager
-    private var stepCounterSensor: Sensor? = null
-    private var lastStepCount = 0f
-    private var sessionSteps = 0
+    // Health Services 클라이언트
+    private lateinit var exerciseClient: ExerciseClient
+    private var isExerciseActive = false
+    private var exerciseCallback: ExerciseUpdateCallback? = null
 
     // 세션 및 상태
     var clientSecretKey: String = ""
@@ -48,6 +44,7 @@ class WorkoutService : Service(), SensorEventListener {
     // 시간
     private var pausedTime = 0L
     private var totalPausedDuration = 0L
+    private var startTime = 0L
 
     // 거리 및 위치
     private var totalDistance = 0f
@@ -61,9 +58,14 @@ class WorkoutService : Service(), SensorEventListener {
     // 케이던스
     private var currentCadence = 0
     private var lastCadenceUpdate = 0L
-    private val cadenceWindow = mutableListOf<Pair<Long, Int>>()
 
-    // 고도 리스트 (평균용)
+    // 걸음수
+    private var sessionSteps = 0L
+
+    // 심박수
+    private var currentHeartRate = 0
+
+    // 고도 리스트
     private val elevationList = mutableListOf<Double>()
 
     // 콜백 리스너
@@ -91,21 +93,24 @@ class WorkoutService : Service(), SensorEventListener {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        // Health Services 초기화
+        val healthServicesClient = HealthServices.getClient(this)
+        exerciseClient = healthServicesClient.exerciseClient
+
+        println("✅ Health Services 초기화 완료 (v1.0.0)")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START -> {
                 startForegroundService()
-                startLocationTracking()
-                startSensorTracking()
+                startHealthServicesTracking()
             }
             ACTION_PAUSE -> pauseWorkout()
             ACTION_RESUME -> resumeWorkout()
             ACTION_STOP -> {
-                stopSensorTracking()
-                stopLocationTracking()
+                stopHealthServicesTracking()
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()
             }
@@ -119,145 +124,241 @@ class WorkoutService : Service(), SensorEventListener {
         startForeground(NOTIFICATION_ID, notification)
     }
 
-    /** 📍 위치 추적 시작 */
-    private fun startLocationTracking() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        resetDistance()
-        setupLocationListeners()
+    /** 🏃 Health Services 운동 시작 */
+    private fun startHealthServicesTracking() {
+        serviceScope.launch {
+            try {
+                startTime = System.currentTimeMillis()
+                resetDistance()
 
-        val gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val netEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            if (gpsEnabled) {
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 1000L, 3f, gpsListener!!
+                // 1.0.0 버전 ExerciseConfig 생성 - 생성자 직접 사용
+                val config = ExerciseConfig(
+                    exerciseType = ExerciseType.RUNNING,
+                    dataTypes = setOf(
+                        DataType.HEART_RATE_BPM,
+                        DataType.LOCATION,
+                        DataType.CALORIES_TOTAL,
+                        DataType.STEPS_TOTAL,
+                        DataType.SPEED,
+                        DataType.DISTANCE_TOTAL
+                    ),
+                    isAutoPauseAndResumeEnabled = false,
+                    isGpsEnabled = true
                 )
-            }
-            if (netEnabled) {
-                locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 5000L, 10f, networkListener!!
-                )
-            }
-        }
-        isTracking = true
-    }
 
-    /** 👟 센서 시작 */
-    private fun startSensorTracking() {
-        stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-        stepCounterSensor?.let {
-            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
-        }
-    }
+                // 콜백 생성
+                val callback = object : ExerciseUpdateCallback {
+                    override fun onExerciseUpdateReceived(update: ExerciseUpdate) {
+                        if (!isPaused) {
+                            processExerciseUpdate(update)
+                        }
+                    }
 
-    override fun onSensorChanged(event: SensorEvent?) {
-        if (event == null || isPaused) return
-        if (event.sensor.type == Sensor.TYPE_STEP_COUNTER) {
-            val currentSteps = event.values[0]
-            if (lastStepCount == 0f) {
-                lastStepCount = currentSteps
-            } else {
-                val diff = (currentSteps - lastStepCount).toInt()
-                if (diff > 0) {
-                    sessionSteps += diff
-                    lastStepCount = currentSteps
-                    calculateCadence()
-                    onStepsUpdate?.invoke(sessionSteps)
+                    override fun onLapSummaryReceived(lapSummary: ExerciseLapSummary) {
+                        // 사용 안 함
+                    }
+
+                    override fun onRegistered() {
+                        println("✅ Exercise Callback 등록 완료")
+                    }
+
+                    override fun onRegistrationFailed(throwable: Throwable) {
+                        println("❌ Exercise Callback 등록 실패: ${throwable.message}")
+                    }
+
+                    override fun onAvailabilityChanged(
+                        dataType: DataType<*, *>,
+                        availability: Availability
+                    ) {
+                        println("📍 센서 상태 변경: $dataType = $availability")
+                    }
                 }
+
+                // 콜백 저장
+                exerciseCallback = callback
+
+                // 1.0.0 버전 - setUpdateCallback 사용
+                exerciseClient.setUpdateCallback(callback)
+
+                // 운동 시작 - 1.0.0 버전에서는 startExerciseAsync 사용
+                exerciseClient.startExerciseAsync(config).get()
+                isTracking = true
+                isExerciseActive = true
+
+                println("✅ Health Services 운동 시작")
+
+            } catch (e: Exception) {
+                println("❌ Health Services 시작 실패: ${e.message}")
+                e.printStackTrace()
             }
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+    /** 📊 실시간 데이터 처리 */
+    private fun processExerciseUpdate(update: ExerciseUpdate) {
+        serviceScope.launch {
+            try {
+                val latestMetrics = update.latestMetrics
+                val timestamp = System.currentTimeMillis()
 
-    /** ⏱️ 케이던스 계산 */
-    private fun calculateCadence() {
-        val now = System.currentTimeMillis()
-        cadenceWindow.add(now to 1)
-        cadenceWindow.removeAll { now - it.first > 60000 }
+                // 1️⃣ 심박수 처리
+                try {
+                    val heartRateData = latestMetrics.getData(DataType.HEART_RATE_BPM)
+                    val heartRateList = heartRateData.toList()
+                    if (heartRateList.isNotEmpty()) {
+                        currentHeartRate = heartRateList.last().value.toInt()
 
-        val oldest = cadenceWindow.firstOrNull()?.first ?: return
-        val seconds = (now - oldest) / 1000.0
-        if (seconds > 0) {
-            val steps = cadenceWindow.size
-            currentCadence = ((steps / seconds) * 60).toInt()
-            if (now - lastCadenceUpdate > 5000) {
-                lastCadenceUpdate = now
-                onCadenceUpdate?.invoke(currentCadence)
-                saveCadenceToDb()
+                        if (workoutSessionSeq != 0L) {
+                            saveHeartRateToDb(
+                                heartRate = currentHeartRate,
+                                timestamp = System.currentTimeMillis()
+                            )
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("❌ 심박수 처리 실패: ${e.message}")
+                }
+
+                // 2️⃣ 위치 처리
+                try {
+                    val locationData = latestMetrics.getData(DataType.LOCATION)
+                    val locationList = locationData.toList()
+                    if (locationList.isNotEmpty()) {
+                        val locationValue = locationList.last().value
+
+                        val location = Location("HealthServices").apply {
+                            latitude = locationValue.latitude
+                            longitude = locationValue.longitude
+
+                            // 1.0.0에서 altitude는 nullable
+                            altitude = locationValue.altitude ?: 0.0
+
+                            // bearing을 accuracy로 임시 사용 (정확도 정보가 없으면)
+                            accuracy = locationValue.bearing?.toFloat() ?: 10f
+
+                            time = System.currentTimeMillis()
+                        }
+
+                        // 속도는 별도 DataType에서 가져오기
+                        val speedData = latestMetrics.getData(DataType.SPEED)
+                        val speedList = speedData.toList()
+                        if (speedList.isNotEmpty()) {
+                            location.speed = speedList.last().value.toFloat()
+                        }
+
+                        withContext(Dispatchers.Main) {
+                            handleLocation(location)
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("❌ 위치 처리 실패: ${e.message}")
+                }
+
+                // 3️⃣ 누적 걸음수
+                try {
+                    latestMetrics.getData(DataType.STEPS_TOTAL)?.let { dataPoint ->
+                        val newSteps = dataPoint.total.toLong()  // ✅ total 사용!
+                        if (newSteps != sessionSteps) {
+                            sessionSteps = newSteps
+                            withContext(Dispatchers.Main) {
+                                onStepsUpdate?.invoke(sessionSteps.toInt())
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("❌ 걸음수 처리 실패: ${e.message}")
+                }
+
+                // 4️⃣ 총 거리 업데이트
+                try {
+                    latestMetrics.getData(DataType.DISTANCE_TOTAL)?.let { dataPoint ->
+                        val healthDistance = dataPoint.total.toFloat()  // ✅ total 사용!
+                        if (healthDistance > totalDistance) {
+                            totalDistance = healthDistance
+                            withContext(Dispatchers.Main) {
+                                onDistanceUpdate?.invoke(totalDistance)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("❌ 거리 처리 실패: ${e.message}")
+                }
+
+
+                // 5️⃣ 케이던스 계산
+                if (timestamp - lastCadenceUpdate > 5000) {
+                    calculateCadenceFromSteps()
+                    lastCadenceUpdate = timestamp
+                }
+
+                // 알림 업데이트
+                updateNotification("📡 Health Services | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal | ${currentCadence}spm")
+
+            } catch (e: Exception) {
+                println("❌ Exercise Update 처리 실패: ${e.message}")
+                e.printStackTrace()
             }
         }
     }
 
-    /** 📍 위치 리스너 설정 */
-    private fun setupLocationListeners() {
-        gpsListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) =
-                handleLocation(location, "GPS")
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
-        }
-
-        networkListener = object : LocationListener {
-            override fun onLocationChanged(location: Location) =
-                handleLocation(location, "Network")
-            override fun onProviderEnabled(provider: String) {}
-            override fun onProviderDisabled(provider: String) {}
-        }
-    }
-
-    /** 🧮 위치 계산 핵심 */
-    private fun handleLocation(location: Location, source: String) {
+    /** 📍 위치 처리 */
+    private fun handleLocation(location: Location) {
         if (isPaused) return
 
-        // ✅ 1. 정확도 & 속도 필터링
-        if (location.accuracy > 25f || location.speed > 10f) return
+        // 정확도 필터링
+        if (location.accuracy > 25f) return
 
-        // ✅ 2. GPS 우선 (GPS 수신 중에는 Network 무시)
-        if (source == "Network" && lastProvider == "GPS") return
-        lastProvider = source
-
-        // ✅ 3. 첫 위치는 기준점만 저장 (거리 계산 제외)
+        // 첫 위치는 기준점만 저장
         if (lastLocation == null) {
             lastLocation = location
+            saveLocationToDb(location)
             return
         }
 
-        // ✅ 4. 거리 계산 (튀는 값 필터링)
+        // 거리 계산
         val distance = lastLocation!!.distanceTo(location)
-        if (distance in 0f..50f) { // 50m 이상 튀면 무시
+        if (distance in 0f..50f) {
             totalDistance += distance
             onDistanceUpdate?.invoke(totalDistance)
         }
 
-        // ✅ 5. 고도 수집
-        elevationList.add(location.altitude)
+        // 고도 수집
+        if (location.altitude != 0.0) {
+            elevationList.add(location.altitude)
+        }
 
-        // ✅ 6. 칼로리 계산
+        // 칼로리 계산
         calculateCalories(location)
 
-        // ✅ 7. 상태 업데이트
+        // 상태 업데이트
         lastLocation = location
-        updateNotification("📡 $source | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal | ${currentCadence}spm")
-
         onLocationUpdate?.invoke(location)
         saveLocationToDb(location)
+    }
+
+    /** ⏱️ 케이던스 계산 */
+    private fun calculateCadenceFromSteps() {
+        val now = System.currentTimeMillis()
+        val elapsedSeconds = (now - startTime - totalPausedDuration * 1000) / 1000.0
+
+        if (elapsedSeconds > 0 && sessionSteps > 0) {
+            currentCadence = ((sessionSteps / elapsedSeconds) * 60).toInt()
+            onCadenceUpdate?.invoke(currentCadence)
+            saveCadenceToDb()
+        }
     }
 
     /** 🔥 칼로리 계산 */
     private fun calculateCalories(location: Location) {
         val now = System.currentTimeMillis()
         if (now - lastCalorieUpdate < 5000) return
+
         val met = calculateMET(location)
         val timeHr = 5.0 / 3600.0
         val cal = met * userWeight * timeHr
         totalCalories += cal
         lastCalorieUpdate = now
+
         onCalorieUpdate?.invoke(totalCalories)
         saveCalorieToDb(totalCalories, cal)
     }
@@ -274,7 +375,27 @@ class WorkoutService : Service(), SensorEventListener {
         }
     }
 
-    /** 💾 DB 저장들 */
+    /** 💾 DB 저장 메서드들 */
+    private fun saveHeartRateToDb(heartRate: Int, timestamp: Long) {
+        if (workoutSessionSeq == 0L) return
+        serviceScope.launch {
+            try {
+                val dao = WorkoutDatabase.getDatabase(applicationContext).workoutDao()
+                dao.insertHeartRate(
+                    HeartRateRecordEntity(
+                        workoutSessionSeq = workoutSessionSeq,
+                        createdAt = timestamp,
+                        heartRate = heartRate,
+                        syncedToServer = false,
+                        savedAt = System.currentTimeMillis()
+                    )
+                )
+            } catch (e: Exception) {
+                println("❌ 심박수 저장 실패: ${e.message}")
+            }
+        }
+    }
+
     private fun saveLocationToDb(location: Location) {
         if (workoutSessionSeq == 0L) return
         serviceScope.launch {
@@ -283,7 +404,7 @@ class WorkoutService : Service(), SensorEventListener {
                 dao.insertLocation(
                     LocationRecordEntity(
                         workoutSessionSeq = workoutSessionSeq,
-                        createdAt = System.currentTimeMillis(),
+                        createdAt = location.time,
                         latitude = location.latitude,
                         longitude = location.longitude,
                         accuracy = location.accuracy,
@@ -332,38 +453,71 @@ class WorkoutService : Service(), SensorEventListener {
         }
     }
 
-    /** 📴 센서/위치 정리 */
-    private fun stopSensorTracking() = sensorManager.unregisterListener(this)
-
-    private fun stopLocationTracking() {
-        gpsListener?.let { locationManager.removeUpdates(it) }
-        networkListener?.let { locationManager.removeUpdates(it) }
-        isTracking = false
-    }
-
     /** ⏸️ 일시정지 */
     private fun pauseWorkout() {
         if (!isTracking || isPaused) return
-        isTracking = false
-        isPaused = true
-        pausedTime = System.currentTimeMillis()
-        updateNotification("⏸️ 일시정지 | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal")
+
+        serviceScope.launch {
+            try {
+                // 1.0.0 버전에서는 pauseExerciseAsync().get() 사용
+                exerciseClient.pauseExerciseAsync().get()
+                isPaused = true
+                pausedTime = System.currentTimeMillis()
+
+                updateNotification("⏸️ 일시정지 | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal")
+                println("⏸️ 운동 일시정지")
+            } catch (e: Exception) {
+                println("❌ 일시정지 실패: ${e.message}")
+            }
+        }
     }
 
     /** ▶️ 재개 */
     private fun resumeWorkout() {
         if (!isPaused) return
-        isPaused = false
-        isTracking = true
 
-        // ✅ 위치 리셋 → 거리 튐 방지
-        lastLocation = null
+        serviceScope.launch {
+            try {
+                // 1.0.0 버전에서는 resumeExerciseAsync().get() 사용
+                exerciseClient.resumeExerciseAsync().get()
+                isPaused = false
 
-        if (pausedTime > 0) {
-            totalPausedDuration += (System.currentTimeMillis() - pausedTime) / 1000
-            pausedTime = 0L
+                // 위치 리셋
+                lastLocation = null
+
+                if (pausedTime > 0) {
+                    totalPausedDuration += (System.currentTimeMillis() - pausedTime) / 1000
+                    pausedTime = 0L
+                }
+
+                updateNotification("▶️ 운동 중 | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal")
+                println("▶️ 운동 재개")
+            } catch (e: Exception) {
+                println("❌ 재개 실패: ${e.message}")
+            }
         }
-        updateNotification("▶️ 운동 중 | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal")
+    }
+
+    /** 🛑 Health Services 정리 */
+    private fun stopHealthServicesTracking() {
+        if (!isExerciseActive) return
+
+        serviceScope.launch {
+            try {
+                exerciseClient.endExercise()
+
+                // ✅ 콜백 인스턴스 직접 전달 (Class 아님!)
+                exerciseCallback?.let { callback ->
+                    exerciseClient.clearUpdateCallback(callback)
+                }
+
+                isTracking = false
+                isExerciseActive = false
+                println("✅ Health Services 종료")
+            } catch (e: Exception) {
+                println("❌ Health Services 종료 실패: ${e.message}")
+            }
+        }
     }
 
     /** 🔔 알림 관련 */
@@ -396,8 +550,8 @@ class WorkoutService : Service(), SensorEventListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopSensorTracking()
-        stopLocationTracking()
+        stopHealthServicesTracking()
+        serviceScope.cancel()
     }
 
     /** 🔄 리셋 */
@@ -409,20 +563,19 @@ class WorkoutService : Service(), SensorEventListener {
         totalPausedDuration = 0L
         totalCalories = 0.0
         lastCalorieUpdate = System.currentTimeMillis()
-        sessionSteps = 0
-        lastStepCount = 0f
+        sessionSteps = 0L
         currentCadence = 0
         lastCadenceUpdate = 0L
-        cadenceWindow.clear()
         elevationList.clear()
+        currentHeartRate = 0
     }
 
-    // Getter들
+    // ✅ 기존 Getter들 (100% 호환)
     fun getTotalDistance(): Float = totalDistance
     fun getTotalPausedDuration(): Long = totalPausedDuration
     fun isPaused(): Boolean = isPaused
     fun getTotalCalories(): Double = totalCalories
-    fun getTotalSteps(): Int = sessionSteps
+    fun getTotalSteps(): Int = sessionSteps.toInt()
     fun getCurrentCadence(): Int = currentCadence
     fun getElevationList(): List<Double> = elevationList.toList()
 }

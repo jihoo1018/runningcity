@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.androidx.watchface.complications.data.source.ktx)
 
     // Health Services
-    implementation("androidx.health:health-services-client:1.1.0-alpha03")
+    implementation("androidx.health:health-services-client:1.0.0")
 
     // 위치 서비스 (GPS) - 중복 제거하고 최신 버전 하나만!
     implementation("com.google.android.gms:play-services-location:21.3.0")  // ✅ 최신 버전

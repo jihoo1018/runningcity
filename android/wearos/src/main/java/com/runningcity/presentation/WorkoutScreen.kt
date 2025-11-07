@@ -22,7 +22,7 @@ import androidx.wear.compose.material.*
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.WorkoutSessionEntity
-import com.runningcity.service.WorkoutService
+import com.runningcity.service.WorkoutService_backup
 import com.runningcity.utils.CsvExporter
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -62,13 +62,13 @@ fun WorkoutScreen(
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-    var workoutService by remember { mutableStateOf<WorkoutService?>(null) }
+    var workoutService by remember { mutableStateOf<WorkoutService_backup?>(null) }
     var serviceBound by remember { mutableStateOf(false) }
 
     val serviceConnection = remember {
         object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                val binder = service as WorkoutService.WorkoutBinder
+                val binder = service as WorkoutService_backup.WorkoutBinder
                 workoutService = binder.getService()
                 serviceBound = true
                 println("✅ Service 연결됨")
@@ -159,13 +159,13 @@ fun WorkoutScreen(
                 println("✅ 심박수 센서 등록")
             }
 
-            val serviceIntent = Intent(context, WorkoutService::class.java).apply {
-                action = WorkoutService.ACTION_START
+            val serviceIntent = Intent(context, WorkoutService_backup::class.java).apply {
+                action = WorkoutService_backup.ACTION_START
             }
             context.startForegroundService(serviceIntent)
 
             context.bindService(
-                Intent(context, WorkoutService::class.java),
+                Intent(context, WorkoutService_backup::class.java),
                 serviceConnection,
                 Context.BIND_AUTO_CREATE
             )
@@ -189,8 +189,8 @@ fun WorkoutScreen(
 
                 val elevationList = workoutService?.getElevationList() ?: emptyList()
 
-                val serviceIntent = Intent(context, WorkoutService::class.java).apply {
-                    action = WorkoutService.ACTION_STOP
+                val serviceIntent = Intent(context, WorkoutService_backup::class.java).apply {
+                    action = WorkoutService_backup.ACTION_STOP
                 }
                 context.startService(serviceIntent)
 
@@ -286,8 +286,8 @@ fun WorkoutScreen(
             if (isRunning) {
                 sensorManager.unregisterListener(heartRateListener)
 
-                val serviceIntent = Intent(context, WorkoutService::class.java).apply {
-                    action = WorkoutService.ACTION_STOP
+                val serviceIntent = Intent(context, WorkoutService_backup::class.java).apply {
+                    action = WorkoutService_backup.ACTION_STOP
                 }
                 context.startService(serviceIntent)
 
@@ -410,15 +410,15 @@ fun WorkoutScreen(
                 Button(
                     onClick = {
                         if (isPaused) {
-                            val intent = Intent(context, WorkoutService::class.java).apply {
-                                action = WorkoutService.ACTION_RESUME
+                            val intent = Intent(context, WorkoutService_backup::class.java).apply {
+                                action = WorkoutService_backup.ACTION_RESUME
                             }
                             context.startService(intent)
                             isPaused = false
                             println("▶️ 운동 재개")
                         } else {
-                            val intent = Intent(context, WorkoutService::class.java).apply {
-                                action = WorkoutService.ACTION_PAUSE
+                            val intent = Intent(context, WorkoutService_backup::class.java).apply {
+                                action = WorkoutService_backup.ACTION_PAUSE
                             }
                             context.startService(intent)
                             isPaused = true
