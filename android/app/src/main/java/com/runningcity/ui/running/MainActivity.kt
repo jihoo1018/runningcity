@@ -17,6 +17,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -60,7 +61,6 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             ) { padding ->
-
                 // ✅ React WebView 로드
 //                webView = RunningWebView(
 //                    url = "http://localhost:5173",
@@ -68,10 +68,13 @@ class MainActivity : ComponentActivity() {
 //                    modifierPadding = padding
 //                )
                 webView = RunningWebView(
-                    url = "https://nonconjunctive-cami-outdoor.ngrok-free.dev",
+                    url = "http://70.12.247.82:5173",
+//                    url = "http://localhost:5173",
+//                    url = "http://10.0.2.2:5173",
+//                    url = "https://nonconjunctive-cami-outdoor.ngrok-free.dev",
+//                    extraHeaders = mapOf("ngrok-skip-browser-warning" to "true"),
                     viewModel = viewModel,
                     modifierPadding = padding,
-                    extraHeaders = mapOf("ngrok-skip-browser-warning" to "true")
                 )
 
 

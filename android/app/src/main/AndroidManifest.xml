@@ -44,6 +44,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Runningcity"
         android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
         <!--앱 전반의 설정
 | 속성                                                  | 설명                                                                  |
@@ -61,7 +62,7 @@
 
         <!--  위치 추적용 서비스 등록 -->
         <service
-            android:name=".location.LocationService"
+            android:name=".data.location.LocationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" /> <!-- foregroundServiceType="location" : Android 10(API 29)+ 에서 필수 설정 -->
@@ -75,10 +76,10 @@
 -->
 
         <!-- BroadcastReceiver 등록 (Manifest 내) -->
-        <receiver
-            android:name=".location.LocationUpdateReceiver"
-            android:exported="false">
-        </receiver>
+<!--        <receiver-->
+<!--            android:name=".data.location.LocationUpdateReceiver"-->
+<!--            android:exported="false">-->
+<!--        </receiver>-->
 
 
         <!-- 기본 Activity (앱 진입점) -->

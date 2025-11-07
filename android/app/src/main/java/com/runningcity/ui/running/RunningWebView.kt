@@ -1,9 +1,8 @@
 package com.runningcity.ui.running
 
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.net.http.SslError
+import android.util.Log
+import android.webkit.*
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -12,20 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 
-/**
- * 🌐 RunningWebView
- * ────────────────────────────────────────────────
- * - React 웹앱을 Compose 내부에서 렌더링
- * - WebAppInterface 연결 (React ↔ Kotlin)
- * - ngrok 보안 경고 자동 우회
- * ────────────────────────────────────────────────
- */
 @Composable
 fun RunningWebView(
     url: String,
     viewModel: RunningViewModel,
     modifierPadding: PaddingValues,
-    extraHeaders: Map<String, String>? = null // ✅ 추가
+    extraHeaders: Map<String, String>? = null
 ): WebView {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
@@ -34,56 +25,59 @@ fun RunningWebView(
         modifier = Modifier.padding(modifierPadding),
         factory = {
             webView.apply {
-                // ⚙️ WebView 설정
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
+                settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                 settings.allowFileAccess = true
                 settings.allowContentAccess = true
-                settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                 settings.cacheMode = WebSettings.LOAD_DEFAULT
+                settings.userAgentString += " RunningCityApp"
 
-                webViewClient = WebViewClient()
-                webChromeClient = WebChromeClient()
+                clearCache(true)
+                clearHistory()
 
-                // 🔗 React ↔ Android 통신 브릿지 등록
-                addJavascriptInterface(
-                    WebAppInterface(context, this, viewModel),
-                    "Android"
-                )
-
-                // 🌍 React 서버 로드 (ngrok 헤더 포함)
-                if (url.isNotEmpty()) {
-                    if (extraHeaders != null) {
-                        loadUrl(url, extraHeaders)
-                    } else {
-                        loadUrl(url)
+                // ✅ JS 콘솔 출력
+                webChromeClient = object : WebChromeClient() {
+                    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
+                        Log.d("WebViewConsole", "🧩 ${consoleMessage?.message()}")
+                        return true
                     }
                 }
+
+                // ✅ SSL 무시 + 에러 로깅
+                webViewClient = object : WebViewClient() {
+                    override fun onReceivedSslError(
+                        view: WebView?,
+                        handler: SslErrorHandler?,
+                        error: SslError?
+                    ) {
+                        Log.w("WebViewSSL", "⚠️ SSL Error ignored: ${error?.primaryError}")
+                        handler?.proceed()
+                    }
+
+                    override fun onReceivedError(
+                        view: WebView?,
+                        request: WebResourceRequest?,
+                        error: WebResourceError?
+                    ) {
+                        Log.e("WebViewError", "❌ ${error?.description}")
+                    }
+
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        Log.d("WebView", "✅ Finished loading: $url")
+                    }
+                }
+
+                // ✅ React ↔ Android 브릿지 등록
+                addJavascriptInterface(WebAppInterface(context, this, viewModel), "Android")
+
+                // ✅ URL 로드
+                Log.d("WebViewLoad", "🌍 Loading URL: $url")
+                if (extraHeaders != null) loadUrl(url, extraHeaders) else loadUrl(url)
             }
         },
-        update = {
-            it.evaluateJavascript("console.log('🔁 WebView Updated');", null)
-        }
+        update = { it.loadUrl(url) }
     )
 
     return webView
 }
-
-
-/*
-//React 쪽 대응 코드 예시
-// Android → React
-window.receiveFromAndroid = (data) => {
-  const run = typeof data === "string" ? JSON.parse(data) : data;
-  console.log("📡 from Android:", run);
-};
-
-// React → Android
-function startRun() {
-  window.Android.startRunning();
-}
-
-function stopRun() {
-  window.Android.stopRunning();
-}
-*/
