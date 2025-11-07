@@ -2,6 +2,7 @@ package com.runningcity.presentation
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +12,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.wear.compose.material.*
+import com.runningcity.service.DataSyncService
 import com.runningcity.utils.PermissionManager
 
 class RunningActivity : ComponentActivity() {
@@ -22,6 +25,11 @@ class RunningActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         permissionManager = PermissionManager(this)
+        ////////////////////////////////////////////////////////////////////
+        // 비동기로 워치 -> 모바일 데이터 전송을 위해 추가한 부분        
+        // DataSyncService 시작 (모바일 메시지 수신 대기)
+        startDataSyncService()
+        ////////////////////////////////////////////////////////////////////
 
         setContent {
             MaterialTheme {
@@ -29,6 +37,41 @@ class RunningActivity : ComponentActivity() {
             }
         }
     }
+    
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)  // 새로운 Intent로 업데이트
+        
+        // 자동 시작 Intent 처리
+        intent?.let {
+            val autoStart = it.getBooleanExtra("autoStart", false)
+            val sessionId = it.getLongExtra("sessionId", 0L)
+            
+            if (autoStart && sessionId > 0) {
+                println("🚀 onNewIntent: 자동 시작 요청 수신 (sessionId: $sessionId)")
+                
+                // 브로드캐스트 전송 (WorkoutScreen이 받을 수 있도록)
+                val broadcastIntent = android.content.Intent("com.runningcity.START_WORKOUT_FROM_MOBILE")
+                broadcastIntent.putExtra("sessionId", sessionId)
+                sendBroadcast(broadcastIntent)
+            }
+        }
+    }
+    
+    ////////////////////////////////////////////////////////////////////
+    // 비동기로 워치 -> 모바일 데이터 전송을 위해 추가한 부분
+    /**
+     * DataSyncService 시작 - 모바일로부터 동기화 요청을 받을 수 있도록
+     */
+    private fun startDataSyncService() {
+        try {
+            val intent = Intent(this, DataSyncService::class.java)
+            ContextCompat.startForegroundService(this, intent)
+        } catch (e: Exception) {
+            println("⚠️ DataSyncService 시작 실패: ${e.message}")
+        }
+    }
+    ////////////////////////////////////////////////////////////////////
 
     // ✅ Navigation 추가
     @Composable
@@ -36,18 +79,45 @@ class RunningActivity : ComponentActivity() {
         var currentScreen by remember { mutableStateOf<AppScreen>(AppScreen.Permission) }
         var resultSessionSeq by remember { mutableStateOf(0L) }
         var hasPermissions by remember { mutableStateOf(permissionManager.hasAllPermissions()) }
+        var autoStartSessionId by remember { mutableStateOf<Long?>(null) }
+        var intentProcessed by remember { mutableStateOf(false) }
+        
+        // Intent에서 자동 시작 정보 확인
+        LaunchedEffect(Unit) {
+            if (!intentProcessed) {
+                val autoStart = this@RunningActivity.intent.getBooleanExtra("autoStart", false)
+                val sessionId = this@RunningActivity.intent.getLongExtra("sessionId", 0L)
+                
+                if (autoStart && sessionId > 0) {
+                    println("🚀 자동 시작 요청 수신 (sessionId: $sessionId)")
+                    autoStartSessionId = sessionId
+                    intentProcessed = true
+                    
+                    // 브로드캐스트 전송 (WorkoutScreen이 받을 수 있도록)
+                    val broadcastIntent = android.content.Intent("com.runningcity.START_WORKOUT_FROM_MOBILE")
+                    broadcastIntent.putExtra("sessionId", sessionId)
+                    this@RunningActivity.sendBroadcast(broadcastIntent)
+                    
+                    // 권한이 있으면 바로 운동 화면으로
+                    if (hasPermissions) {
+                        currentScreen = AppScreen.Workout
+                    }
+                }
+            }
+        }
 
         when (currentScreen) {
             is AppScreen.Permission -> {
                 if (hasPermissions) {
-                    // 권한 있으면 바로 홈으로
-                    currentScreen = AppScreen.Home
+                    // 권한 있으면 바로 홈으로 (또는 자동 시작이면 운동 화면으로)
+                    currentScreen = if (autoStartSessionId != null) AppScreen.Workout else AppScreen.Home
                 } else {
                     // 권한 요청 화면
                     TestPermissionScreen(
                         onPermissionsGranted = {
                             hasPermissions = true
-                            currentScreen = AppScreen.Home
+                            // 자동 시작이면 운동 화면으로, 아니면 홈으로
+                            currentScreen = if (autoStartSessionId != null) AppScreen.Workout else AppScreen.Home
                         }
                     )
                 }
