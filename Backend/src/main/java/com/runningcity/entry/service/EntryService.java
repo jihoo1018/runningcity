@@ -4,6 +4,7 @@ import com.runningcity.entry.dto.EntryDetailResponse;
 import com.runningcity.entry.dto.EntryListResponse;
 import com.runningcity.entry.entity.Entry;
 import com.runningcity.entry.repository.EntryRepository;
+import com.runningcity.entry.scheduler.EntryGroupHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,15 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EntryService {
+
     private final EntryRepository entryRepository;
+    private final EntryGroupHolder entryGroupHolder;
+
+    /** 오늘 활성화 잠입 기지 목록 조회 */
+    public List<EntryListResponse> getTodayEntryList() {
+        Long currentGroup = entryGroupHolder.getCurrentGroup();
+        return this.getEntryListByGroupNo(currentGroup);
+    }
 
     /** groupNo 기준 목록 조회 */
     public List<EntryListResponse> getEntryListByGroupNo(Long groupNo) {
