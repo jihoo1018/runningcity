@@ -97,9 +97,16 @@ deploy_dev_backend:
           set -euo pipefail
           sed -i 's/\r$//' gradlew || true
           chmod +x ./gradlew
-          ./gradlew --no-daemon clean jibDockerBuild -Djib.to.image=local/backend:develop
+          ./gradlew --no-daemon clean jibBuildTar
         "
 
+      test -f Backend/build/jib-image.tar || { echo '❌ jib-image.tar not found'; exit 1; }
+      OUT=\$(docker load -i Backend/build/jib-image.tar)
+      IMG=\$(echo "\$OUT" | awk '/Loaded image:/{print \$3}')
+      if [ -z "\$IMG" ]; then IMG=\$(echo "\$OUT" | awk '/Loaded image ID:/{print \$4}'); fi
+      [ -n "\$IMG" ] || { echo "❌ docker load: image ref not found"; echo "\$OUT"; exit 1; }
+      docker tag "\$IMG" local/backend:develop
+      
       docker compose -f deploy/docker-compose.dev.yml up -d --no-deps backend-dev
 
       ok=false
