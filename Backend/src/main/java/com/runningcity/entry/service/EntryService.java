@@ -32,9 +32,17 @@ public class EntryService {
                 .collect(Collectors.toList());
     }
 
+    /** 전체 목록 조회 */
+    public List<EntryListResponse> getAllEntryList() {
+        return entryRepository.findAll()
+                .stream()
+                .map(EntryListResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
     /** baseId 단일 조회 */
-    public EntryDetailResponse getEntryById(Long baseId) {
-        Entry entry = entryRepository.findById(baseId)
+    public EntryDetailResponse getEntryByBaseId(Long baseId) {
+        Entry entry = entryRepository.findByBaseId(baseId)
                 .orElseThrow(() -> new IllegalArgumentException("baseId '" + baseId +"'에 해당하는 잠입 기지가 존재하지 않습니다."));
         return EntryDetailResponse.fromEntity(entry);
     }

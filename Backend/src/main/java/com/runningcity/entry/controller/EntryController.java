@@ -22,6 +22,28 @@ public class EntryController {
     private final EntryService entryService;
 
     /**
+     * 오늘 활성화 잠입 기지 리스트 조회 API
+     * @param
+     * @return
+     */
+    @GetMapping("/list")
+    public ApiResponse<List<EntryListResponse>> getAllEntryList(@PathVariable Long groupNo) {
+        List<EntryListResponse> list = entryService.getAllEntryList();
+        return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, list);
+    }
+
+    /**
+     * 오늘 활성화 잠입 기지 리스트 조회 API
+     * @param
+     * @return
+     */
+    @GetMapping("/today")
+    public ApiResponse<List<EntryListResponse>> getTodayEntryList() {
+        List<EntryListResponse> list = entryService.getTodayEntryList();
+        return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, list);
+    }
+
+    /**
      * 잠입 기지 리스트 조회 API
      * @param
      * @return
@@ -39,7 +61,7 @@ public class EntryController {
      */
     @GetMapping("/{baseId}")
     public ApiResponse<EntryDetailResponse> getEntryDetail(@PathVariable Long baseId) {
-        EntryDetailResponse entryRes = entryService.getEntryById(baseId);
+        EntryDetailResponse entryRes = entryService.getEntryByBaseId(baseId);
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_SUCCESS, entryRes);
     }
 
