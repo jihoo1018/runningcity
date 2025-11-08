@@ -109,26 +109,31 @@ deploy_dev_backend:
 
       OUT="$(docker load -i Backend/build/jib-image.tar 2>&1 || true)"
       echo "$OUT"
-      IMG="$(echo "$OUT" | awk '"'"'/Loaded image:/{print $3}'"'"')"
-      if [ -z "$IMG" ]; then
-        IMG_ID="$(echo "$OUT" | awk '"'"'/Loaded image ID:/{print $4}'"'"')"
-        [ -n "$IMG_ID" ] || { echo "❌ docker load: image ref not found"; exit 1; }
-        docker tag "$IMG_ID" local/backend:develop
-      else
+    
+      IMG="$(printf '%s\n' "$OUT" | sed -n 's/^Loaded image: //p' | head -n1)"
+        if [ -n "$IMG" ]; then
         docker tag "$IMG" local/backend:develop
+      else
+        IMG_ID="$(printf '%s\n' "$OUT" | sed -n 's/^Loaded image ID: //p' | head -n1)"
+        if [ -z "$IMG_ID" ]; then
+          echo "❌ docker load: image ref not found"; exit 1
+        fi
+        docker tag "$IMG_ID" local/backend:develop
       fi
-      
+        
       docker compose -f deploy/docker-compose.dev.yml up -d --no-deps backend-dev
-
+        
       ok=false
       for i in {1..30}; do
         if docker run --rm --network "${COMPOSE_PROJECT_NAME}_default" \
-             curlimages/curl:8.10.1 -fsS http://backend-dev:8080/api/v1/actuator/health >/dev/null; then
-          ok=true; break
+            curlimages/curl:8.10.1 -fsS http://backend-dev:8080/api/v1/actuator/health >/dev/null; then
+          ok=true; echo "✅ Backend UP"; break
         fi
         sleep 2
       done
-      $ok || (echo "❌ Backend health check failed" && exit 1)
+      if [ "$ok" != true ]; then
+        echo "❌ Backend health check failed"; exit 1
+      fi
 
 # store-assets
 deploy_dev_store_assets:
