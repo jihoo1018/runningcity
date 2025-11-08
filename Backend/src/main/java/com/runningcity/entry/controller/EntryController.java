@@ -28,14 +28,7 @@ public class EntryController {
      */
     @GetMapping("/list/{groupNo}")
     public ApiResponse<List<EntryListResponse>> getEntryListByGroupNo(@PathVariable Long groupNo) {
-        List<EntryListResponse> list = null;
-        try {
-            list = entryService.getEntryListByGroupNo(groupNo);
-        } catch (BaseException e) {
-            throw new EntryException(CommonResponseCode.ENTRY_BAD_REQUEST);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+        List<EntryListResponse> list = entryService.getEntryListByGroupNo(groupNo);
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, list);
     }
 
@@ -46,16 +39,7 @@ public class EntryController {
      */
     @GetMapping("/{baseId}")
     public ApiResponse<EntryDetailResponse> getEntryDetail(@PathVariable Long baseId) {
-        EntryDetailResponse entryRes = null;
-        try {
-            entryRes = entryService.getEntryById(baseId);
-        } catch (IllegalArgumentException e) {
-            throw new EntryException(CommonResponseCode.ENTRY_NOT_FOUND);
-        } catch (BaseException e) {
-            throw new EntryException(CommonResponseCode.ENTRY_BAD_REQUEST);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+        EntryDetailResponse entryRes = entryService.getEntryById(baseId);
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_SUCCESS, entryRes);
     }
 

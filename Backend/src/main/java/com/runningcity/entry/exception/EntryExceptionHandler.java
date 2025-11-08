@@ -1,6 +1,8 @@
 package com.runningcity.entry.exception;
 
+import com.runningcity.global.exception.BaseException;
 import com.runningcity.global.response.ApiResponse;
+import com.runningcity.global.response.BaseResponseCode;
 import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.global.response.ErrorDetail;
 import lombok.extern.slf4j.Slf4j;
