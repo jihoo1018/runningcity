@@ -10,6 +10,4 @@ import java.time.Instant;
 @Builder
 public class CreateSessionResponse {
     private Long sessionId;
-    private Instant startAt;
-    private String status; // "ACTIVE"
 }

@@ -12,7 +12,7 @@ public class CreateSessionRequest {
     private String type;        // "NORMAL" | "ENTRY"
 
     @NotBlank(message = "디바이스 유형은 필수입니다.")
-    private String deviceType;  // "ANDROID_PHONE" | "WEAR_OS"
+    private String deviceType;  // "PHONE" | "WATCH"
 
     // 선택
     private Long baseId;
