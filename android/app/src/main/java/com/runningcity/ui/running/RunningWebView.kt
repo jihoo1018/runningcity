@@ -33,6 +33,12 @@ fun RunningWebView(
                 settings.cacheMode = WebSettings.LOAD_DEFAULT
                 settings.userAgentString += " RunningCityApp"
 
+                settings.setSupportZoom(true)
+                settings.builtInZoomControls = true
+                settings.displayZoomControls = false // 확대 버튼 UI 숨기기 (선택)
+                settings.useWideViewPort = true
+                settings.loadWithOverviewMode = true
+
                 clearCache(true)
                 clearHistory()
 
