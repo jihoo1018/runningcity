@@ -1,5 +1,6 @@
 package com.runningcity.run.dto;
 
+import com.runningcity.run.dto.common.GpsPointLike;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -8,7 +9,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class WatchUploadRequest {
+public class WatchUploadRequest  {
 
     @NotBlank
     private String clientSecretKey;        // 멱등키(워치 생성 UUID)
@@ -60,7 +61,7 @@ public class WatchUploadRequest {
     }
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-    public static class GpsPoint {
+    public static class GpsPoint implements GpsPointLike {
         @Positive int seq;
         @DecimalMin("-90.0") @DecimalMax("90.0") double latitude;
         @DecimalMin("-180.0") @DecimalMax("180.0") double longitude;
