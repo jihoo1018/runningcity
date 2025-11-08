@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +39,16 @@ public class EntryService {
                 .stream()
                 .map(EntryListResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    /** groupNo 기준으로 묶은 전체 목록 조회 */
+    public Map<Integer, List<EntryListResponse>> getAllGroupedByGroupNo() {
+        List<Entry> allEntries = entryRepository.findAll();
+        return allEntries.stream()
+                .collect(Collectors.groupingBy(
+                        Entry::getGroupNo,
+                        Collectors.mapping(EntryListResponse::fromEntity, Collectors.toList())
+                ));
     }
 
     /** baseId 단일 조회 */

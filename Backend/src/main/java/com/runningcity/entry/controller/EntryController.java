@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/entry")
@@ -22,14 +23,14 @@ public class EntryController {
     private final EntryService entryService;
 
     /**
-     * 오늘 활성화 잠입 기지 리스트 조회 API
+     * 그룹별로 묶인 전체 잠입 기지 리스트 조회 API
      * @param
      * @return
      */
-    @GetMapping("/list")
-    public ApiResponse<List<EntryListResponse>> getAllEntryList(@PathVariable Long groupNo) {
-        List<EntryListResponse> list = entryService.getAllEntryList();
-        return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, list);
+    @GetMapping("/all")
+    public ApiResponse<Map<Integer, List<EntryListResponse>>> getAllEntryList() {
+//        List<EntryListResponse> list = entryService.getAllEntryList();
+        return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, entryService.getAllGroupedByGroupNo());
     }
 
     /**
