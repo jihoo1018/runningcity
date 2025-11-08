@@ -38,8 +38,8 @@ services:
     image: nginx:alpine
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - /srv/frontend/current:/var/www/current:ro
-      - /srv/store-assets:/var/www/store-assets:ro
+      - /srv/frontend:/var/www:ro
+      - /srv/store-assets:/var/www-store-assets:ro
     ports:
       - 80:80
     depends_on:
