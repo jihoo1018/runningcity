@@ -38,12 +38,13 @@ class RunningActivity : ComponentActivity() {
         }
     }
     
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)  // 새로운 Intent로 업데이트
-        
+
         // 자동 시작 Intent 처리
         intent?.let {
+
             val autoStart = it.getBooleanExtra("autoStart", false)
             val sessionId = it.getLongExtra("sessionId", 0L)
             
