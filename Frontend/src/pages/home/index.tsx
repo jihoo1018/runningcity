@@ -77,15 +77,20 @@ const HomePage = () => {
   return (
     <div
       style={{
-        width: "100vw",
-        height: "100vh",
+        width: "100%",
+        height: "100%",
+        minWidth: "100vw",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#f3f4f6",
         overflow: "hidden", // WebView 스크롤 방지
-        position: "fixed", // 위치 고정
+        position: "absolute", // fixed 대신 absolute 사용 (WebView 호환성)
         top: 0,
         left: 0,
+        right: 0,
+        bottom: 0,
+        boxSizing: "border-box",
       }}
     >
       {/* 메인 콘텐츠 영역 - 전체 화면 사용 */}
@@ -120,8 +125,8 @@ const HomePage = () => {
         {/* 캐릭터 영역 - 화면 중앙에 크게 */}
         <div
           style={{
-            width: "60vw", // 더 크게 설정
-            height: "70vh", // 화면 높이 기준
+            width: "60%", // vw 대신 % 사용
+            height: "70%", // vh 대신 % 사용
             maxWidth: "300px",
             maxHeight: "400px",
             minWidth: "200px",

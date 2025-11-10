@@ -84,10 +84,17 @@ export default function RecordListPage() {
     return (
       <div
         style={{
-          width: '100vw',
-          height: '100vh',
+          width: '100%',
+          height: '100%',
+          minWidth: '100vw',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
         }}
       >
         <div style={{ padding: 16, flex: 1 }}>로딩중...</div>
@@ -100,10 +107,17 @@ export default function RecordListPage() {
     return (
       <div
         style={{
-          width: '100vw',
-          height: '100vh',
+          width: '100%',
+          height: '100%',
+          minWidth: '100vw',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
         }}
       >
         <div style={{ padding: 16, flex: 1 }}>데이터가 없습니다.</div>
@@ -128,11 +142,18 @@ export default function RecordListPage() {
   return (
     <div
       style={{
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
+        minWidth: '100vw',
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: '#f3f4f6',
+        backgroundColor: '#f3f4f6',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
       }}
     >
       {/* 스크롤 영역 */}
