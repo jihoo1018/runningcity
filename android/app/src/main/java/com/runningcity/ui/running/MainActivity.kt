@@ -9,13 +9,17 @@ import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.runningcity.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -50,52 +54,50 @@ class MainActivity : ComponentActivity() {
             val coroutineScope = rememberCoroutineScope()
             var webView by remember { mutableStateOf<WebView?>(null) }
 
-            Scaffold(
-                topBar = {
-                    CenterAlignedTopAppBar(
-                        title = { Text("🏙️ RunningCity") },
-                        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    )
-                }
-            ) { padding ->
-                // ✅ React WebView 로드
-//                webView = RunningWebView(
-//                    url = "http://localhost:5173",
-//                    viewModel = viewModel,
-//                    modifierPadding = padding
-//                )
-                webView = RunningWebView(
-                    url = "http://70.12.247.82:5173",
-//                    url = "http://localhost:5173",
-//                    url = "http://10.0.2.2:5173",
-//                    url = "https://nonconjunctive-cami-outdoor.ngrok-free.dev",
-//                    extraHeaders = mapOf("ngrok-skip-browser-warning" to "true"),
-                    viewModel = viewModel,
-                    modifierPadding = padding,
-                )
+            // ✅ React WebView 로드
+            //
+            // 📱 작동 방식:
+            // 1. 배포된 웹사이트 URL을 WebView에 로드
+            // 2. WebView 내부의 JavaScript에서 window.Android.* 호출 가능
+            // 3. Android Bridge를 통해 네이티브 기능 사용 가능
+            //    - GPS, 심박수, 진동, 토스트 등 모든 Android 기능 사용 가능
+            //
+            // 🔧 URL 설정 (build.gradle.kts에서 BuildConfig로 관리):
+            // - Debug: 개발 서버 URL
+            // - Release: 배포된 서버 URL (APK 설치 시 자동으로 이 URL 사용)
+
+            // BuildConfig에서 URL 가져오기 (build.gradle.kts에서 설정)
+            val webViewUrl = BuildConfig.WEBVIEW_URL
+
+            webView = RunningWebView(
+                url = webViewUrl,
+                viewModel = viewModel,
+                modifier = Modifier.fillMaxSize(), // WebView가 화면 전체를 차지하도록 합니다.
+            )
 
 
-                // 🔁 ViewModel → React 실시간 데이터 전송
-                LaunchedEffect(viewModel) {
-                    viewModel.uiState.collectLatest { state ->
-                        // 📦 JSON 형태로 변환
-                        val json = """
-                            {
-                              "isRunning": ${state.isRunning},
-                              "distanceKm": ${state.distanceKm},
-                              "durationSec": ${state.durationSec},
-                              "avgPace": ${"%.2f".format(state.avgPace)}
-                            }
-                        """.trimIndent()
-
-                        // JS 함수 호출 (React 수신용)
-                        val jsCode = "window.receiveFromAndroid($json);"
-                        coroutineScope.launch {
-                            webView?.evaluateJavascript(jsCode, null)
+            // 🔁 ViewModel → React 실시간 데이터 전송
+            LaunchedEffect(viewModel) {
+                viewModel.uiState.collectLatest { state ->
+                    // 📦 JSON 형태로 변환
+                    val json = """
+                        {
+                            "type": "RUNNING_STATE",
+                            "isRunning": ${state.isRunning},
+                            "distanceKm": ${state.distanceKm},
+                            "durationSec": ${state.durationSec},
+                            "avgPace": ${"%.2f".format(state.avgPace)}
                         }
+                    """.trimIndent()
+
+                    // JS 함수 호출 (React 수신용 - onAndroidMessage 사용)
+                    val jsCode = """
+                        if (typeof window.onAndroidMessage === 'function') {
+                            window.onAndroidMessage($json);
+                        }
+                    """.trimIndent()
+                    coroutineScope.launch {
+                        webView?.evaluateJavascript(jsCode, null)
                     }
                 }
             }

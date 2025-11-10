@@ -15,23 +15,39 @@ import androidx.compose.ui.viewinterop.AndroidView
 fun RunningWebView(
     url: String,
     viewModel: RunningViewModel,
-    modifierPadding: PaddingValues,
+    modifier: Modifier = Modifier,
     extraHeaders: Map<String, String>? = null
 ): WebView {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
 
     AndroidView(
-        modifier = Modifier.padding(modifierPadding),
+        modifier = modifier,
         factory = {
             webView.apply {
-                settings.javaScriptEnabled = true
-                settings.domStorageEnabled = true
-                settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-                settings.allowFileAccess = true
-                settings.allowContentAccess = true
-                settings.cacheMode = WebSettings.LOAD_DEFAULT
-                settings.userAgentString += " RunningCityApp"
+                settings.apply {
+                    javaScriptEnabled = true
+                    domStorageEnabled = true
+                    mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                    allowFileAccess = true
+                    allowContentAccess = true
+                    cacheMode = WebSettings.LOAD_DEFAULT
+                    
+                    // ✅ CSS 및 리소스 로딩을 위한 중요 설정
+                    useWideViewPort = true
+                    loadWithOverviewMode = true
+                    setSupportZoom(false)
+                    builtInZoomControls = false
+                    displayZoomControls = false
+                    
+                    // ✅ 리소스 로딩 최적화
+                    blockNetworkImage = false
+                    blockNetworkLoads = false
+                    loadsImagesAutomatically = true
+                    
+                    // ✅ User Agent 설정
+                    userAgentString += " RunningCityApp"
+                }
 
                 settings.setSupportZoom(true)
                 settings.builtInZoomControls = true
@@ -50,7 +66,7 @@ fun RunningWebView(
                     }
                 }
 
-                // ✅ SSL 무시 + 에러 로깅
+                // ✅ SSL 무시 + 에러 로깅 + 리소스 로딩 추적
                 webViewClient = object : WebViewClient() {
                     override fun onReceivedSslError(
                         view: WebView?,
@@ -66,11 +82,52 @@ fun RunningWebView(
                         request: WebResourceRequest?,
                         error: WebResourceError?
                     ) {
-                        Log.e("WebViewError", "❌ ${error?.description}")
+                        val url = request?.url?.toString() ?: "unknown"
+                        val errorCode = error?.errorCode ?: -1
+                        val description = error?.description ?: "unknown error"
+                        Log.e("WebViewError", "❌ Failed to load: $url | Code: $errorCode | $description")
+                        
+                        // CSS 파일 로딩 실패 시 특별 로깅
+                        if (url.contains(".css") || url.contains("styles")) {
+                            Log.e("WebViewCSS", "🚨 CSS 파일 로딩 실패: $url")
+                        }
+                    }
+                    
+                    override fun onReceivedHttpError(
+                        view: WebView?,
+                        request: WebResourceRequest?,
+                        errorResponse: WebResourceResponse?
+                    ) {
+                        val url = request?.url?.toString() ?: "unknown"
+                        val statusCode = errorResponse?.statusCode ?: -1
+                        Log.w("WebViewHTTP", "⚠️ HTTP Error: $url | Status: $statusCode")
+                    }
+                    
+                    override fun shouldInterceptRequest(
+                        view: WebView?,
+                        request: WebResourceRequest?
+                    ): WebResourceResponse? {
+                        val url = request?.url?.toString() ?: ""
+                        // CSS 파일 로딩 추적
+                        if (url.contains(".css") || url.contains("styles")) {
+                            Log.d("WebViewCSS", "📦 CSS 파일 로딩 시도: $url")
+                        }
+                        return super.shouldInterceptRequest(view, request)
                     }
 
                     override fun onPageFinished(view: WebView?, url: String?) {
                         Log.d("WebView", "✅ Finished loading: $url")
+                        
+                        // 페이지 로드 후 CSS가 제대로 적용되었는지 확인
+                        view?.evaluateJavascript("""
+                            (function() {
+                                var styles = document.querySelectorAll('link[rel="stylesheet"], style');
+                                console.log('📦 Loaded stylesheets: ' + styles.length);
+                                for (var i = 0; i < styles.length; i++) {
+                                    console.log('  - ' + (styles[i].href || styles[i].innerHTML.substring(0, 50)));
+                                }
+                            })();
+                        """.trimIndent(), null)
                     }
                 }
 
