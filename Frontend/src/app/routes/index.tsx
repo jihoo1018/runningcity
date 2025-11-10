@@ -4,6 +4,7 @@ import HomePage from "../../pages/home";
 import NicknamePage from "../../pages/nickname";
 import OnboardingPage from "../../pages/onboarding";
 import RecordListPage from "../../pages/recordlist";
+import ReportDetailPage from '../../pages/report/detail';
 import EntryPage from "../../pages/entry";
 
 export function AppRoutes() {
@@ -13,6 +14,7 @@ export function AppRoutes() {
       <Route path="/nickname" element={<NicknamePage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
       <Route path="/recordlist" element={<RecordListPage />} />
+      <Route path="/report/:sid" element={<ReportDetailPage />} />
       <Route path="/entry" element={<EntryPage />} />
     </Routes>
   );

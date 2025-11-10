@@ -1,55 +1,82 @@
 package com.runningcity.presentation
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.DirectionsRun
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
+import com.runningcity.presentation.theme.RunningcityTheme
+import com.runningcity.R
+import com.runningcity.utils.PermissionManager  // ✅ import 추가!
 
+//@Preview(
+//    name = "RunningCity Theme Preview",
+//    device = "id:wearos_small_round",
+//    showSystemUi = true,
+//    backgroundColor = 0xFF13161C,
+//    showBackground = true
+//)
 @Composable
 fun HomeScreen(
-    onStartWorkout: () -> Unit
+    onStartWorkout: () -> Unit  // ✅ 파라미터는 이것만!
 ) {
-    Scaffold(
-        timeText = { TimeText() }
-    ) {
+    RunningcityTheme {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black),
+                .padding(10.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "🏃 러닝시티",
-                    style = MaterialTheme.typography.title1,
-                    color = Color.Green
+                    text = stringResource(id = R.string.app_name),
+                    style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.onBackground
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(Modifier.height(16.dp))
+
+                val shape: Shape = MaterialTheme.shapes.small
+                val btnBg = MaterialTheme.colors.surface
+                val borderColor = MaterialTheme.colors.primary
+                val contentColor = MaterialTheme.colors.onPrimary
 
                 Button(
                     onClick = onStartWorkout,
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    colors = ButtonDefaults.primaryButtonColors()
+                    shape = shape,
+                    modifier = Modifier
+                        .widthIn(min = 100.dp)
+                        .height(58.dp)
+                        .border(1.dp, borderColor, shape),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = btnBg,
+                        contentColor = contentColor
+                    ),
                 ) {
-                    Text("▶️ 운동 시작")
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.run_button),
+                            style = MaterialTheme.typography.display1,
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.DirectionsRun,
+                            contentDescription = "Run start"
+                        )
+                    }
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-//                // 추가 메뉴 (선택사항)
-//                Button(
-//                    modifier = Modifier.fillMaxWidth(0.8f),
-//                    colors = ButtonDefaults.secondaryButtonColors()
-//                ) {
-//                    Text("📊 기록 보기")
-//                }
             }
         }
     }

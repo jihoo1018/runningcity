@@ -1,6 +1,10 @@
 package com.runningcity
 
 import android.os.Bundle
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -9,11 +13,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.unit.dp
 import com.google.gson.Gson
 import com.runningcity.data.WorkoutDataBatch
 import com.runningcity.ui.theme.RunningcityTheme
 import com.runningcity.utils.WatchCommunicationHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -23,17 +30,69 @@ import kotlinx.coroutines.launch
  */
 class MainActivity : ComponentActivity() {
 
+    private lateinit var webView: WebView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Compose UI 표시
+        // 2단계에서 만든 레이아웃 설정
         setContent {
             RunningcityTheme {
-                WorkoutControlScreen()
+                // Surface가 화면 전체를 채웁니다.
+                Surface(
+                    modifier = Modifier.fillMaxSize(), // 👈 1단계: Surface가 전체 화면을 채우도록 함
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    // 웹뷰 컴포저블을 호출합니다.
+                    FullSizeWebView(url = BuildConfig.WEBVIEW_URL)
+                    
+                    // 워치 통신 라이프사이클 유지
+                    WatchCommunicationLifecycle()
+                }
             }
         }
     }
+
+    /**
+     * 🌐 전체 화면을 차지하는 WebView를 표시하는 Composable
+     * @param url 로드할 웹사이트 주소
+     */
+    @Composable
+    fun FullSizeWebView(url: String) {
+        val context = LocalContext.current
+
+        AndroidView(
+            // 🌟 이 Modifier가 화면 전체를 꽉 채우는 핵심입니다 🌟
+            modifier = Modifier.fillMaxSize(), 
+            factory = {
+                // WebView 객체를 생성하고 초기 설정
+                WebView(context).apply {
+                    // 1. 웹뷰 클라이언트 및 크롬 클라이언트 설정
+                    this.webViewClient = WebViewClient()
+                    this.webChromeClient = WebChromeClient()
+                    
+                    // 2. 웹뷰 설정 (JavaScript, Viewport, Cache 등)
+                    this.settings.apply {
+                        javaScriptEnabled = true
+                        useWideViewPort = true
+                        loadWithOverviewMode = true
+                        domStorageEnabled = true
+                        cacheMode = WebSettings.LOAD_DEFAULT 
+                    }
+                    
+                    // 3. React 웹사이트 주소 로드!
+                    loadUrl(url)
+                }
+            },
+            // URL이 변경될 때만 새로 로드
+            update = { webView ->
+                if (webView.url != url) {
+                    webView.loadUrl(url)
+                }
+            }
+        )
+    }
     
+    /* // 워치 통신 부분 일단 지워둠
     override fun onResume() {
         super.onResume()
         
@@ -42,66 +101,55 @@ class MainActivity : ComponentActivity() {
             WatchCommunicationHelper.sendMobileReady(this@MainActivity)
         }
     }
+    */
 }
 
 /**
- * WorkoutControlScreen
- * - 운동 시작/중지 UI
+ * ⌚ 워치 통신 시작 및 수신 로직을 관리하는 Composable
+ * - MobileReady 전송 (onResume 역할) 및 Broadcast Receiver 등록/해제를 담당합니다.
  */
 @Composable
-fun WorkoutControlScreen() {
-    var isRunning by remember { mutableStateOf(false) }
-    var currentSessionId by remember { mutableStateOf<Long?>(null) }
-    var statusMessage by remember { mutableStateOf("") }
-    var isForeground by remember { mutableStateOf(true) }
-    
-    // 워치에서 받은 운동 데이터 저장 (백엔드로 전송할 데이터)
-    var receivedWorkoutData by remember { mutableStateOf<WorkoutDataBatch?>(null) }
-    
+fun WatchCommunicationLifecycle() {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val gson = remember { Gson() }
     
-    // 워치에서 메시지 수신
+    // 이 상태 변수들은 데이터 로깅이나 UI가 없으므로 필요 없으나, 
+    // Receiver 내부 로직을 위해 isForeground 상태만 임시로 유지합니다.
+    var isForeground by remember { mutableStateOf(true) }
+
+    // Component 라이프사이클에 맞춰 Broadcast Receiver를 등록하고 해제합니다.
     DisposableEffect(Unit) {
+        // 1. (onResume 역할) 모바일 앱이 열렸을 때 워치에 준비 완료 알림
+        isForeground = true
+        CoroutineScope(Dispatchers.IO).launch {
+            WatchCommunicationHelper.sendMobileReady(context)
+        }
+        
+        // 2. Broadcast Receiver 등록 (워치로부터 메시지 수신)
         val receiver = object : android.content.BroadcastReceiver() {
             override fun onReceive(ctx: android.content.Context?, intent: android.content.Intent?) {
                 when (intent?.action) {
                     "com.runningcity.WATCH_DATA_READY" -> {
-                        // 모바일이 포그라운드 상태면 즉시 준비 완료 응답
                         if (isForeground) {
                             scope.launch {
                                 WatchCommunicationHelper.sendMobileReady(context)
                             }
                         }
                     }
+                    // 운동 종료 수신 로직 (워치 통신 디버깅용)
                     "com.runningcity.WORKOUT_STOPPED_FROM_WATCH" -> {
-                        // 워치에서 운동 종료
                         val sessionId = intent.getLongExtra("sessionId", 0L)
-                        if (sessionId > 0 && currentSessionId == sessionId) {
-                            println("⏹️ 워치에서 운동 종료됨 (sessionId: $sessionId)")
-                            isRunning = false
-                            statusMessage = "워치에서 운동이 종료되었습니다"
-                            currentSessionId = null
-                        }
+                        println("⏹️ 워치에서 운동 종료됨 (sessionId: $sessionId)")
                     }
+                    // 운동 데이터 수신 로직 (워치 통신 디버깅용)
                     "com.runningcity.WORKOUT_DATA_RECEIVED" -> {
-                        // 워치에서 운동 데이터 수신
                         val jsonString = intent.getStringExtra("workoutData")
                         if (jsonString != null) {
                             try {
                                 val workoutData = gson.fromJson(jsonString, WorkoutDataBatch::class.java)
-                                receivedWorkoutData = workoutData
-                                println("✅ 운동 데이터 수신 및 저장 완료")
-                                println("   - clientSecretKey: ${workoutData.clientSecretKey}")
-                                println("   - sessionId: ${workoutData.sessionId}")
-                                println("   - heartRateRecords: ${workoutData.heartRateRecords.size}개")
-                                println("   - gpsPoints: ${workoutData.gpsPoints.size}개")
-                                println("   - cadenceRecords: ${workoutData.cadenceRecords.size}개")
-                                
-                                // TODO: 여기서 백엔드로 데이터 전송
-                                // sendToBackend(workoutData)
-                                
+                                println("✅ 운동 데이터 수신 완료: ${workoutData.sessionId} (${workoutData.heartRateRecords.size}개)")
+                                // TODO: 여기서 백엔드로 데이터 전송 로직을 구현합니다.
                             } catch (e: Exception) {
                                 println("❌ 운동 데이터 파싱 실패: ${e.message}")
                             }
@@ -117,149 +165,17 @@ fun WorkoutControlScreen() {
             addAction("com.runningcity.WORKOUT_DATA_RECEIVED")
         }
         
+        // Broadcast Receiver 등록
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             context.registerReceiver(receiver, filter, android.content.Context.RECEIVER_NOT_EXPORTED)
         } else {
             context.registerReceiver(receiver, filter)
         }
-        
-        onDispose {
-            context.unregisterReceiver(receiver)
-        }
-    }
-    
-    // 포그라운드/백그라운드 상태 추적
-    DisposableEffect(Unit) {
-        isForeground = true
+
+        // 컴포저블이 화면에서 사라질 때 (onPause 역할)
         onDispose {
             isForeground = false
-        }
-    }
-
-    // UI 구성
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Running City",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 48.dp)
-        )
-
-        // 시작/중지 버튼
-        Button(
-            onClick = {
-                scope.launch {
-                    if (!isRunning) {
-                        // 운동 시작
-                        // TODO: 나중에 서버에서 세션 ID를 받아올 예정
-                        val sessionId = System.currentTimeMillis() // 임시 세션 ID
-                        
-                        val success = WatchCommunicationHelper.sendStartWorkout(context, sessionId)
-                        if (success) {
-                            isRunning = true
-                            currentSessionId = sessionId
-                            statusMessage = "워치에서 운동 시작됨 (세션: $sessionId)"
-                        } else {
-                            statusMessage = "워치 연결 실패"
-                        }
-                    } else {
-                        // 운동 중지
-                        val success = WatchCommunicationHelper.sendStopWorkout(context)
-                        if (success) {
-                            isRunning = false
-                            statusMessage = "워치에서 운동 중지됨"
-                            currentSessionId = null
-                        } else {
-                            statusMessage = "워치 연결 실패"
-                        }
-                    }
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (isRunning) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
-            )
-        ) {
-            Text(
-                text = if (isRunning) "운동 중지" else "운동 시작",
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // 상태 메시지
-        if (statusMessage.isNotEmpty()) {
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                )
-            ) {
-                Text(
-                    text = statusMessage,
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
-        
-        // 세션 ID 표시
-        if (currentSessionId != null) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "세션 ID: $currentSessionId",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
-        
-        // 받은 운동 데이터 표시
-        if (receivedWorkoutData != null) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text(
-                        text = "📊 받은 운동 데이터",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                    receivedWorkoutData?.let { data ->
-                        Text(
-                            text = "clientSecretKey: ${data.clientSecretKey}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "sessionId: ${data.sessionId ?: "null"}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "심박수: ${data.heartRateRecords.size}개",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "GPS: ${data.gpsPoints.size}개",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Text(
-                            text = "케이던스: ${data.cadenceRecords.size}개",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
-            }
+            context.unregisterReceiver(receiver)
         }
     }
 }

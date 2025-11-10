@@ -11,11 +11,13 @@ stages: [deploy]
       # 잡 산출물도 러너 소유로 바꿔 cleanup 실패 방지
       docker run --rm -v "$PWD:/w" alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /w || true"
 
-# frontend static
+# frontend(블루-그린)
 deploy_dev_front_static:
   stage: deploy
   environment: develop
   tags: ["run-dev-runner"]
+  variables:
+    COMPOSE_PROJECT_NAME: "runningcity-dev"
   extends: .default_chown
   needs:
     - job: deploy_dev_backend
@@ -31,44 +33,56 @@ deploy_dev_front_static:
     - export COMPOSE_PROJECT_NAME=runningcity-dev
     - |
       set -euo pipefail
-
       docker volume create npm_cache || true
       
-      mkdir -p deploy/nginx/static
-      rm -rf deploy/nginx/static/* || true
-      
+      mkdir -p /tmp/fe_build
+      rm -rf /tmp/fe_build/* || true
+
       docker run --rm \
         -v "$PWD/Frontend:/src:ro" \
-        -v "$PWD/deploy/nginx/static:/out" \
+        -v "/tmp/fe_build:/out" \
         -v npm_cache:/root/.npm \
-        -w /work \
         node:20 bash -lc '
           set -euo pipefail
-          mkdir -p /work
+          rm -rf /work && mkdir -p /work
           cp -a /src/. /work/
           cd /work
           npm ci --no-audit --no-fund
           npm run build
           cp -a dist/. /out/
         '
-
-      docker run --rm \
-        -v "$PWD/deploy/nginx/static:/out" \
-        alpine:3.20 sh -lc "chown -R $(id -u):$(id -g) /out || true"
       
-      printf '{ "version":"%s", "builtAt":"%s", "baseUrl":"%s" }\n' \
-        "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" "${DEV_WEB_BASE_URL:-http://localhost}" \
-        > deploy/nginx/static/version.json
+      export REL="dev-${CI_COMMIT_SHORT_SHA}-$(date +%Y%m%d%H%M%S)"
+      mkdir -p "/srv/frontend/releases/$REL"
+      rsync -av --delete /tmp/fe_build/ "/srv/frontend/releases/$REL/"
+      
+      printf '{ "version":"%s", "builtAt":"%s" }\n' \
+        "$CI_COMMIT_SHORT_SHA" "$(date -u +%FT%TZ)" \
+        > "/srv/frontend/releases/$REL/version.json"
+      
+      /usr/local/bin/fe_switch.sh "$REL" "$CI_PROJECT_DIR"
 
-      docker compose -f deploy/docker-compose.dev.yml up -d --no-deps nginx
-      sleep 2
-      docker exec nginx wget -qO- http://localhost/version.json >/dev/null || echo "⚠️ nginx version.json not found"
+      ok=false
+      for i in {1..15}; do
+        if docker run --rm --network "${COMPOSE_PROJECT_NAME}_default" \
+            curlimages/curl:8.10.1 -fsS http://nginx/version.json >/dev/null; then
+          ok=true; break
+        fi
+        sleep 2
+      done
+      if [ "$ok" != true ]; then
+        echo "❌ Nginx check failed"; exit 1
+      fi
+      
+      /usr/local/bin/fe_cleanup.sh || true
 
 # backend
 deploy_dev_backend:
   stage: deploy
   environment: develop
   tags: ["run-dev-runner"]
+  variables:
+    COMPOSE_PROJECT_NAME: "runningcity-dev"
   extends: .default_chown
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
@@ -80,7 +94,6 @@ deploy_dev_backend:
     - export COMPOSE_PROJECT_NAME=runningcity-dev
     - |
       set -euo pipefail
-      
       docker volume create gradle_cache || true
       
       docker run --rm \
@@ -93,16 +106,47 @@ deploy_dev_backend:
           chmod +x ./gradlew
           ./gradlew --no-daemon clean jibBuildTar
         "
-      docker load -i Backend/build/jib-image.tar
 
+      OUT="$(docker load -i Backend/build/jib-image.tar 2>&1 || true)"
+      echo "$OUT"
+    
+      IMG="$(printf '%s\n' "$OUT" | sed -n 's/^Loaded image: //p' | head -n1)"
+        if [ -n "$IMG" ]; then
+        docker tag "$IMG" local/backend:develop
+      else
+        IMG_ID="$(printf '%s\n' "$OUT" | sed -n 's/^Loaded image ID: //p' | head -n1)"
+        if [ -z "$IMG_ID" ]; then
+          echo "❌ docker load: image ref not found"; exit 1
+        fi
+        docker tag "$IMG_ID" local/backend:develop
+      fi
+        
       docker compose -f deploy/docker-compose.dev.yml up -d --no-deps backend-dev
-      echo "⌛ Waiting for backend health..."
+        
+      ok=false
       for i in {1..30}; do
         if docker run --rm --network "${COMPOSE_PROJECT_NAME}_default" \
-            curlimages/curl:8.10.1 -fsS \
-            http://backend-dev:8080/api/v1/actuator/health >/dev/null 2>&1; then
-          echo "✅ Backend UP"
-          break
+            curlimages/curl:8.10.1 -fsS http://backend-dev:8080/api/v1/actuator/health >/dev/null; then
+          ok=true; echo "✅ Backend UP"; break
         fi
         sleep 2
       done
+      if [ "$ok" != true ]; then
+        echo "❌ Backend health check failed"; exit 1
+      fi
+
+# store-assets
+deploy_dev_store_assets:
+  stage: deploy
+  environment: develop
+  tags: ["run-dev-runner"]
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      changes:
+        - "AssetsStore/**"
+        - ".gitlab-ci.yml"
+  script:
+    - |
+      set -euo pipefail
+      mkdir -p /srv/store-assets
+      rsync -av --delete AssetsStore/ /srv/store-assets/
