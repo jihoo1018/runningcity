@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MiniMap } from "./MiniMap";
-import { EntryDetail } from "../shared/api/entry";
+import { EntryDetail } from "@/shared/api/entry";
 
 /** 거리 계산 함수 (Haversine 공식) */
 const calculateDistanceKm = (
@@ -53,9 +53,9 @@ export const EntryDetailModalContent = ({
   }, [userPosition, entry]);
 
   /** TODO 2km 반경 내인지 판별 */
-  // const isInsideZone = distance !== null && distance <= 2;
+  const isInsideZone = distance !== null && distance <= 2;
   // TODO 테스트시에만 무조건 true로, 실제는 위 코드 써야함
-  const isInsideZone = true;
+  // const isInsideZone = true;
 
   /** ✅ 잠입 버튼 클릭 시 동작 */
   const showLevelModalHandler = () => {
@@ -133,7 +133,7 @@ export const EntryDetailModalContent = ({
             transition: "0.2s ease-in-out",
           }}
         >
-          {isInsideZone ? "개인 잠입" : "2km 이내 접근 필요"}
+          {isInsideZone ? "개인 잠입 시작" : "2km 이내 접근 필요"}
         </button>
       </div>
     </div>
