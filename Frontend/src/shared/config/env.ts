@@ -5,4 +5,6 @@ export const ENV = {
   NODE_ENV: import.meta.env?.NODE_ENV || "development",
   DEV: import.meta.env?.DEV || false,
   PROD: import.meta.env?.PROD || false,
+  KAKAO_MAP_APP_KEY: import.meta.env?.VITE_KAKAO_MAP_APP_KEY as string,
+  // MOCK_API: Boolean(import.meta.env?.VITE_MOCK_API === "1" || import.meta.env?.VITE_MOCK_API === "true"),
 } as const;
