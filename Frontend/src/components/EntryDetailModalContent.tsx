@@ -1,26 +1,15 @@
 import { useEffect, useState } from "react";
 import { MiniMap } from "./MiniMap";
+import { EntryDetail } from "../shared/api/entry";
 
-type EntryDetail = {
-  baseId: number;
-  courseNm: string;
-  region: string;
-  latitude: number;
-  longitude: number;
-  difficulty?: string;
-  duration?: string;
-  courseDesc?: string;
-  address?: string;
-  dataSource?: string;
-};
-
+/** 거리 계산 함수 (Haversine 공식) */
 const calculateDistanceKm = (
   lat1: number,
   lon1: number,
   lat2: number,
   lon2: number
 ) => {
-  const R = 6371;
+  const R = 6371; // 지구 반경 (km)
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
@@ -32,62 +21,94 @@ const calculateDistanceKm = (
   return R * c;
 };
 
-export const EntryDetailModalContent = ({ entry }: { entry: EntryDetail }) => {
-  const [userPos, setUserPos] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+type EntryDetailModalContentProps = {
+  entry: EntryDetail;
+  userPosition: { lat: number; lng: number } | null;
+  onShowLevelModal: (entry: EntryDetail) => void; // ✅ 부모에 모달 전환 요청
+};
+
+export const EntryDetailModalContent = ({
+  entry,
+  userPosition,
+  onShowLevelModal,
+}: EntryDetailModalContentProps) => {
   const [distance, setDistance] = useState<number | null>(null);
 
-  // ✅ 실시간 위치 추적
   useEffect(() => {
-    if (!navigator.geolocation) return;
+    if (!userPosition) {
+      console.log("userPosition 없음");
+      return;
+    }
 
-    const watchId = navigator.geolocation.watchPosition(
-      (pos) => {
-        const { latitude, longitude } = pos.coords;
-        setUserPos({ lat: latitude, lng: longitude });
+    console.log("✅ 위치 업데이트됨:", userPosition);
 
-        const dist = calculateDistanceKm(
-          latitude,
-          longitude,
-          entry.latitude,
-          entry.longitude
-        );
-        setDistance(dist);
-      },
-      (err) => {
-        console.warn("위치 추적 실패:", err);
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 1000,
-        timeout: 10000,
-      }
+    const dist = calculateDistanceKm(
+      userPosition.lat,
+      userPosition.lng,
+      entry.latitude,
+      entry.longitude
     );
+    console.log("📏 계산된 거리:", dist);
+    setDistance(dist);
+  }, [userPosition, entry]);
 
-    // ✅ 컴포넌트 unmount 시 추적 중단
-    return () => {
-      navigator.geolocation.clearWatch(watchId);
-    };
-  }, [entry]);
+  /** TODO 2km 반경 내인지 판별 */
+  // const isInsideZone = distance !== null && distance <= 2;
+  // TODO 테스트시에만 무조건 true로, 실제는 위 코드 써야함
+  const isInsideZone = true;
 
-  const isInsideZone = distance !== null && distance <= 2;
+  /** ✅ 잠입 버튼 클릭 시 동작 */
+  const showLevelModalHandler = () => {
+    if (!isInsideZone) return;
+    onShowLevelModal(entry); // ✅ 부모로 이벤트 전달
+  };
 
   return (
     <div style={{ fontSize: "14px", color: "#374151" }}>
-      {/* 지도 */}
+      {/* 지도 표시 */}
       <MiniMap
         latitude={entry.latitude}
         longitude={entry.longitude}
         name={entry.courseNm}
       />
 
-      {/* 거리 표시 */}
-      <div style={{ marginTop: "12px", textAlign: "center" }}>
+      {/* 상세 정보 */}
+      <div style={{ marginTop: "12px" }}>
+        <p>
+          <strong>지역:</strong> {entry.region}
+        </p>
+        {entry.courseDesc && (
+          <p>
+            <strong>코스 설명:</strong> {entry.courseDesc}
+          </p>
+        )}
+        {entry.difficulty && (
+          <p>
+            <strong>난이도:</strong> {entry.difficulty}
+          </p>
+        )}
+        {entry.duration && (
+          <p>
+            <strong>소요 시간:</strong> {entry.duration}
+          </p>
+        )}
+        {entry.address && (
+          <p>
+            <strong>주소:</strong> {entry.address}
+          </p>
+        )}
+      </div>
+
+      {/* 거리 및 잠입 버튼 */}
+      <div style={{ textAlign: "center", marginTop: "16px" }}>
         {distance !== null ? (
           <p>
             현재 거리:{" "}
-            <strong style={{ color: isInsideZone ? "#10b981" : "#ef4444" }}>
+            <strong
+              style={{
+                color: isInsideZone ? "#10b981" : "#ef4444",
+              }}
+            >
               {distance.toFixed(2)} km
             </strong>{" "}
             {isInsideZone ? "✅ (범위 내)" : "❌ (범위 밖)"}
@@ -96,37 +117,23 @@ export const EntryDetailModalContent = ({ entry }: { entry: EntryDetail }) => {
           <p>📡 위치 정보 수신 중...</p>
         )}
 
-        {/* ✅ 잠입 버튼 */}
         <button
           disabled={!isInsideZone}
-          onClick={() => {
-            if (isInsideZone) {
-              // ✅ 1️⃣ Android WebView 환경일 경우 → 러닝 시작 명령 보내기
-              if (window.Android?.startRunning) {
-                window.Android.startRunning();
-                console.log("🏃‍♀️ AndroidBridge.startRunning() 호출됨");
-              } else {
-                console.log("⚠️ AndroidBridge 미탑재. (웹환경)");
-              }
-
-              // ✅ 2️⃣ 웹 디버깅용 알림
-              alert(`✅ '${entry.courseNm}' 잠입 개시!`);
-            }
-          }}
+          onClick={showLevelModalHandler}
           style={{
             width: "100%",
             padding: "10px",
-            marginTop: "8px",
-            border: "none",
             borderRadius: "8px",
             backgroundColor: isInsideZone ? "#10b981" : "#9ca3af",
             color: "white",
             fontWeight: "bold",
+            border: "none",
+            marginTop: "10px",
             cursor: isInsideZone ? "pointer" : "not-allowed",
-            transition: "background 0.3s",
+            transition: "0.2s ease-in-out",
           }}
         >
-          잠입 {isInsideZone ? "시작" : "(범위 밖)"}
+          {isInsideZone ? "개인 잠입" : "2km 이내 접근 필요"}
         </button>
       </div>
     </div>
