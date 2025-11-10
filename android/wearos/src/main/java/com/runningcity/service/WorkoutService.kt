@@ -18,13 +18,11 @@ import com.runningcity.data.local.entity.CalorieRecordEntity
 import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.LocationRecordEntity
 import kotlinx.coroutines.*
-import java.time.Duration
 
 /**
  * Health Services 1.0.0 기반 운동 추적 서비스
  * 버전: androidx.health:health-services-client:1.0.0-rc02 (stable)
  */
-
 class WorkoutService : Service() {
 
     private val binder = WorkoutBinder()
@@ -59,6 +57,10 @@ class WorkoutService : Service() {
     private var currentCadence = 0
     private var lastCadenceUpdate = 0L
 
+    // ⭐ 페이스 추가
+    private var currentPace = 0  // 초/km 단위
+    private var lastPaceUpdate = 0L
+
     // 걸음수
     private var sessionSteps = 0L
 
@@ -74,6 +76,8 @@ class WorkoutService : Service() {
     var onCalorieUpdate: ((Double) -> Unit)? = null
     var onCadenceUpdate: ((Int) -> Unit)? = null
     var onStepsUpdate: ((Int) -> Unit)? = null
+    var onHeartRateUpdate: ((Int) -> Unit)? = null
+    var onPaceUpdate: ((Int) -> Unit)? = null  // ⭐ 페이스 콜백 추가
 
     companion object {
         private const val NOTIFICATION_ID = 1001
@@ -131,7 +135,7 @@ class WorkoutService : Service() {
                 startTime = System.currentTimeMillis()
                 resetDistance()
 
-                // 1.0.0 버전 ExerciseConfig 생성 - 생성자 직접 사용
+                // 1.0.0 버전 ExerciseConfig 생성
                 val config = ExerciseConfig(
                     exerciseType = ExerciseType.RUNNING,
                     dataTypes = setOf(
@@ -174,13 +178,8 @@ class WorkoutService : Service() {
                     }
                 }
 
-                // 콜백 저장
                 exerciseCallback = callback
-
-                // 1.0.0 버전 - setUpdateCallback 사용
                 exerciseClient.setUpdateCallback(callback)
-
-                // 운동 시작 - 1.0.0 버전에서는 startExerciseAsync 사용
                 exerciseClient.startExerciseAsync(config).get()
                 isTracking = true
                 isExerciseActive = true
@@ -208,6 +207,10 @@ class WorkoutService : Service() {
                     if (heartRateList.isNotEmpty()) {
                         currentHeartRate = heartRateList.last().value.toInt()
 
+                        withContext(Dispatchers.Main) {
+                            onHeartRateUpdate?.invoke(currentHeartRate)
+                        }
+
                         if (workoutSessionSeq != 0L) {
                             saveHeartRateToDb(
                                 heartRate = currentHeartRate,
@@ -229,13 +232,8 @@ class WorkoutService : Service() {
                         val location = Location("HealthServices").apply {
                             latitude = locationValue.latitude
                             longitude = locationValue.longitude
-
-                            // 1.0.0에서 altitude는 nullable
                             altitude = locationValue.altitude ?: 0.0
-
-                            // bearing을 accuracy로 임시 사용 (정확도 정보가 없으면)
                             accuracy = locationValue.bearing?.toFloat() ?: 10f
-
                             time = System.currentTimeMillis()
                         }
 
@@ -257,7 +255,7 @@ class WorkoutService : Service() {
                 // 3️⃣ 누적 걸음수
                 try {
                     latestMetrics.getData(DataType.STEPS_TOTAL)?.let { dataPoint ->
-                        val newSteps = dataPoint.total.toLong()  // ✅ total 사용!
+                        val newSteps = dataPoint.total.toLong()
                         if (newSteps != sessionSteps) {
                             sessionSteps = newSteps
                             withContext(Dispatchers.Main) {
@@ -272,18 +270,19 @@ class WorkoutService : Service() {
                 // 4️⃣ 총 거리 업데이트
                 try {
                     latestMetrics.getData(DataType.DISTANCE_TOTAL)?.let { dataPoint ->
-                        val healthDistance = dataPoint.total.toFloat()  // ✅ total 사용!
+                        val healthDistance = dataPoint.total.toFloat()
                         if (healthDistance > totalDistance) {
                             totalDistance = healthDistance
                             withContext(Dispatchers.Main) {
                                 onDistanceUpdate?.invoke(totalDistance)
                             }
+                            // ⭐ 거리 업데이트 시 페이스도 계산
+                            updatePace()
                         }
                     }
                 } catch (e: Exception) {
                     println("❌ 거리 처리 실패: ${e.message}")
                 }
-
 
                 // 5️⃣ 케이던스 계산
                 if (timestamp - lastCadenceUpdate > 5000) {
@@ -291,8 +290,19 @@ class WorkoutService : Service() {
                     lastCadenceUpdate = timestamp
                 }
 
-                // 알림 업데이트
-                updateNotification("📡 Health Services | ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal | ${currentCadence}spm")
+                // ⭐ 6️⃣ 페이스 주기적 업데이트 (5초마다)
+                if (timestamp - lastPaceUpdate > 5000) {
+                    updatePace()
+                    lastPaceUpdate = timestamp
+                }
+
+                // 알림 업데이트 - ⭐ 페이스 포함
+                val paceMin = currentPace / 60
+                val paceSec = currentPace % 60
+                updateNotification(
+                    "📡 ${totalDistance.toInt()}m | ${"%.0f".format(totalCalories)}kcal | " +
+                            "${currentCadence}spm | ${paceMin}'${paceSec}\""
+                )
 
             } catch (e: Exception) {
                 println("❌ Exercise Update 처리 실패: ${e.message}")
@@ -305,32 +315,28 @@ class WorkoutService : Service() {
     private fun handleLocation(location: Location) {
         if (isPaused) return
 
-        // 정확도 필터링
         if (location.accuracy > 25f) return
 
-        // 첫 위치는 기준점만 저장
         if (lastLocation == null) {
             lastLocation = location
             saveLocationToDb(location)
             return
         }
 
-        // 거리 계산
         val distance = lastLocation!!.distanceTo(location)
         if (distance in 0f..50f) {
             totalDistance += distance
             onDistanceUpdate?.invoke(totalDistance)
+            // ⭐ 거리 변경 시 페이스도 업데이트
+            updatePace()
         }
 
-        // 고도 수집
         if (location.altitude != 0.0) {
             elevationList.add(location.altitude)
         }
 
-        // 칼로리 계산
         calculateCalories(location)
 
-        // 상태 업데이트
         lastLocation = location
         onLocationUpdate?.invoke(location)
         saveLocationToDb(location)
@@ -345,6 +351,45 @@ class WorkoutService : Service() {
             currentCadence = ((sessionSteps / elapsedSeconds) * 60).toInt()
             onCadenceUpdate?.invoke(currentCadence)
             saveCadenceToDb()
+        }
+    }
+
+    /** 🏃 페이스 계산 (초/km) - ⭐ 신규 추가 */
+    private fun calculateCurrentPace(): Int {
+        // 일시정지 시간을 제외한 실제 운동 시간 (초)
+        val elapsedSeconds = ((System.currentTimeMillis() - startTime) / 1000.0) - totalPausedDuration
+
+        // 거리가 0이거나 시간이 0이면 페이스를 계산할 수 없음
+        if (totalDistance <= 0f || elapsedSeconds <= 0) {
+            return 0
+        }
+
+        // 1km당 걸리는 시간 (초) = (총 운동시간 / 거리(m)) * 1000
+        val pace = ((elapsedSeconds / totalDistance) * 1000).toInt()
+
+        // 비정상적인 값 필터링 (너무 느리거나 빠른 경우)
+        return when {
+            pace < 180 -> 180  // 최소 3분/km (너무 빠름)
+            pace > 1200 -> 1200  // 최대 20분/km (너무 느림)
+            else -> pace
+        }
+    }
+
+    /** 🏃 페이스 업데이트 - ⭐ 신규 추가 */
+    private fun updatePace() {
+        if (isPaused) return  // 일시정지 중에는 페이스 계산 안 함
+
+        val newPace = calculateCurrentPace()
+
+        // 페이스가 변경되었을 때만 업데이트 (너무 빈번한 업데이트 방지)
+        if (newPace != currentPace && newPace > 0) {
+            currentPace = newPace
+
+            // UI 콜백 호출
+            serviceScope.launch(Dispatchers.Main) {
+                onPaceUpdate?.invoke(currentPace)
+                println("🏃 페이스 업데이트: ${currentPace}초/km (${currentPace/60}'${currentPace%60}\")")
+            }
         }
     }
 
@@ -459,7 +504,6 @@ class WorkoutService : Service() {
 
         serviceScope.launch {
             try {
-                // 1.0.0 버전에서는 pauseExerciseAsync().get() 사용
                 exerciseClient.pauseExerciseAsync().get()
                 isPaused = true
                 pausedTime = System.currentTimeMillis()
@@ -478,11 +522,8 @@ class WorkoutService : Service() {
 
         serviceScope.launch {
             try {
-                // 1.0.0 버전에서는 resumeExerciseAsync().get() 사용
                 exerciseClient.resumeExerciseAsync().get()
                 isPaused = false
-
-                // 위치 리셋
                 lastLocation = null
 
                 if (pausedTime > 0) {
@@ -506,7 +547,6 @@ class WorkoutService : Service() {
             try {
                 exerciseClient.endExercise()
 
-                // ✅ 콜백 인스턴스 직접 전달 (Class 아님!)
                 exerciseCallback?.let { callback ->
                     exerciseClient.clearUpdateCallback(callback)
                 }
@@ -568,9 +608,11 @@ class WorkoutService : Service() {
         lastCadenceUpdate = 0L
         elevationList.clear()
         currentHeartRate = 0
+        currentPace = 0  // ⭐ 페이스 초기화 추가
+        lastPaceUpdate = 0L  // ⭐ 추가
     }
 
-    // ✅ 기존 Getter들 (100% 호환)
+    // ✅ Getter들
     fun getTotalDistance(): Float = totalDistance
     fun getTotalPausedDuration(): Long = totalPausedDuration
     fun isPaused(): Boolean = isPaused
@@ -578,4 +620,5 @@ class WorkoutService : Service() {
     fun getTotalSteps(): Int = sessionSteps.toInt()
     fun getCurrentCadence(): Int = currentCadence
     fun getElevationList(): List<Double> = elevationList.toList()
+    fun getCurrentPace(): Int = currentPace  // ⭐ 페이스 Getter 추가
 }
