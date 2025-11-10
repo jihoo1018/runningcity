@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+  --font-sans: "Galmuri11", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
 
 @layer base {
   body {
