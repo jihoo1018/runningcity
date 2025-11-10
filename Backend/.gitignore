@@ -71,4 +71,4 @@ lint/outputs/
 lint/tmp/
 
 application.yml
-
+.env
