@@ -7,9 +7,7 @@ import { Navbar } from "../../widgets/navbar";
 import { MissionModal } from "../../features/mission";
 
 const HomePage = () => {
-  const [gpsData, setGpsData] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+  const [gpsData, setGpsData] = useState<{ lat: number; lng: number } | null>(null);
   // ✅ 모달 열기/닫기 상태
   const [missionOpen, setMissionOpen] = useState(false);
   // 러닝 상태 (Android → React로 동기화)
@@ -89,6 +87,13 @@ const HomePage = () => {
       }}
     >
       {/* 메인 콘텐츠 영역 - 전체 화면 사용 */}
+      <p className="text-game-title">GameTitle</p>
+      <p className="text-title">title</p>
+      <p className="text-subtitle">subtitle</p>
+      <p className="text-content-bold">GameTitle</p>
+      <p className="text-content">GameTitle</p>
+      <p className="text-desc">GameTitle</p>
+      <p className="text-label">GameTitle</p>
       <div
         style={{
           flex: 1,
@@ -169,9 +174,7 @@ const HomePage = () => {
               minWidth: "200px",
               maxWidth: "280px",
               width: "90%",
-              boxShadow: isRunning
-                ? "0 4px 12px rgba(239, 68, 68, 0.4)"
-                : "0 4px 12px rgba(59, 130, 246, 0.4)",
+              boxShadow: isRunning ? "0 4px 12px rgba(239, 68, 68, 0.4)" : "0 4px 12px rgba(59, 130, 246, 0.4)",
               WebkitTapHighlightColor: "transparent",
               touchAction: "manipulation",
               userSelect: "none",
@@ -216,12 +219,7 @@ const HomePage = () => {
       <Navbar activeTab="홈" />
 
       {/* ✅ 미션 모달 */}
-      <MissionModal
-        open={missionOpen}
-        onClose={() => setMissionOpen(false)}
-        onClaimed={(coins) => setWallet((w) => w + coins)}
-        userId={userId}
-      />
+      <MissionModal open={missionOpen} onClose={() => setMissionOpen(false)} onClaimed={(coins) => setWallet((w) => w + coins)} userId={userId} />
     </div>
   );
 };
