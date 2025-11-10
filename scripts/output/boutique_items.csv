@@ -1,0 +1,745 @@
+﻿category,asset_key,path,name,rarity,price_cr,is_gacha_only,description,walk_count,run_count,jump_count,total_files,has_all_animations,obtain_method
+bodies,male_amber,male/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_black,male/black,Black,common,0,True,,1,1,1,3,True,gacha
+bodies,male_blue,male/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_bright_green,male/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+bodies,male_bronze,male/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_brown,male/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+bodies,male_dark_green,male/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_black,male/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_brown,male/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_copper,male/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_gold,male/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_grey,male/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_tan,male/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_fur_white,male/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+bodies,male_green,male/green,Green,common,0,True,,1,1,1,3,True,gacha
+bodies,male_lavender,male/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+bodies,male_light,male/light,Light,common,0,True,,1,1,1,3,True,gacha
+bodies,male_olive,male/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+bodies,male_pale_green,male/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+bodies,male_taupe,male/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+bodies,male_zombie,male/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+bodies,male_zombie_green,male/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_black,male/longsleeve/black,Black,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_blue,male/longsleeve/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_bluegray,male/longsleeve/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_brown,male/longsleeve/brown,Brown,common,500,False,,1,1,1,3,True,store
+clothes,male_longsleeve_charcoal,male/longsleeve/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_forest,male/longsleeve/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_gray,male/longsleeve/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_green,male/longsleeve/green,Green,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_lavender,male/longsleeve/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_leather,male/longsleeve/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_maroon,male/longsleeve/maroon,Maroon,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_navy,male/longsleeve/navy,Navy,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_orange,male/longsleeve/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_pink,male/longsleeve/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_purple,male/longsleeve/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_red,male/longsleeve/red,Red,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_rose,male/longsleeve/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_sky,male/longsleeve/sky,Sky,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_slate,male/longsleeve/slate,Slate,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_tan,male/longsleeve/tan,Tan,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_teal,male/longsleeve/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_walnut,male/longsleeve/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_white,male/longsleeve/white,White,common,0,True,,1,1,1,3,True,gacha
+clothes,male_longsleeve_yellow,male/longsleeve/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_black,male/shorts/black,Black,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_blue,male/shorts/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_bluegray,male/shorts/bluegray,Bluegray,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_brown,male/shorts/brown,Brown,common,500,False,,1,1,1,3,True,store
+clothes,male_shorts_charcoal,male/shorts/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_forest,male/shorts/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_gray,male/shorts/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_green,male/shorts/green,Green,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_lavender,male/shorts/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_leather,male/shorts/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_maroon,male/shorts/maroon,Maroon,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_navy,male/shorts/navy,Navy,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_orange,male/shorts/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_pink,male/shorts/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_purple,male/shorts/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_red,male/shorts/red,Red,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_rose,male/shorts/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_sky,male/shorts/sky,Sky,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_slate,male/shorts/slate,Slate,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_tan,male/shorts/tan,Tan,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_teal,male/shorts/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_walnut,male/shorts/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_white,male/shorts/white,White,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shorts_yellow,male/shorts/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_black,male/shortsleeves/black,Black,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_blue,male/shortsleeves/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_bluegray,male/shortsleeves/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_brown,male/shortsleeves/brown,Brown,common,500,False,,1,1,1,3,True,store
+clothes,male_shortsleeves_charcoal,male/shortsleeves/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_forest,male/shortsleeves/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_gray,male/shortsleeves/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_green,male/shortsleeves/green,Green,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_lavender,male/shortsleeves/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_leather,male/shortsleeves/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_maroon,male/shortsleeves/maroon,Maroon,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_navy,male/shortsleeves/navy,Navy,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_orange,male/shortsleeves/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_pink,male/shortsleeves/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_purple,male/shortsleeves/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_red,male/shortsleeves/red,Red,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_rose,male/shortsleeves/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_sky,male/shortsleeves/sky,Sky,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_slate,male/shortsleeves/slate,Slate,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_tan,male/shortsleeves/tan,Tan,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_teal,male/shortsleeves/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_walnut,male/shortsleeves/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_white,male/shortsleeves/white,White,common,0,True,,1,1,1,3,True,gacha
+clothes,male_shortsleeves_yellow,male/shortsleeves/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_black,male/tshirt/black,Black,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_blue,male/tshirt/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_bluegray,male/tshirt/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_brown,male/tshirt/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_charcoal,male/tshirt/charcoal,Charcoal,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_forest,male/tshirt/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_gray,male/tshirt/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_green,male/tshirt/green,Green,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_lavender,male/tshirt/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_leather,male/tshirt/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_maroon,male/tshirt/maroon,Maroon,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_navy,male/tshirt/navy,Navy,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_orange,male/tshirt/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_pink,male/tshirt/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_purple,male/tshirt/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_red,male/tshirt/red,Red,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_rose,male/tshirt/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_sky,male/tshirt/sky,Sky,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_slate,male/tshirt/slate,Slate,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_tan,male/tshirt/tan,Tan,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_teal,male/tshirt/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_walnut,male/tshirt/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_white,male/tshirt/white,White,common,0,True,,1,1,1,3,True,gacha
+clothes,male_tshirt_yellow,male/tshirt/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_ash,afro/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+hair,afro_black,afro/black,Black,common,0,True,,1,1,1,3,True,gacha
+hair,afro_blonde,afro/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+hair,afro_blue,afro/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_carrot,afro/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_chestnut,afro/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+hair,afro_dark_brown,afro/dark_brown,Dark Brown,common,500,False,,1,1,1,3,True,store
+hair,afro_dark_gray,afro/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_ginger,afro/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_gold,afro/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
+hair,afro_gray,afro/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+hair,afro_green,afro/green,Green,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_light_brown,afro/light_brown,Light Brown,common,500,False,,1,1,1,3,True,store
+hair,afro_navy,afro/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_orange,afro/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_pink,afro/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_platinum,afro/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
+hair,afro_purple,afro/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_raven,afro/raven,Raven,common,0,True,,1,1,1,3,True,gacha
+hair,afro_red,afro/red,Red,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_redhead,afro/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+hair,afro_rose,afro/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
+hair,afro_sandy,afro/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+hair,afro_strawberry,afro/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+hair,afro_violet,afro/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+hair,afro_white,afro/white,White,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_ash,buzzcut/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_black,buzzcut/black,Black,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_blonde,buzzcut/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_blue,buzzcut/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_carrot,buzzcut/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_chestnut,buzzcut/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_dark_brown,buzzcut/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_dark_gray,buzzcut/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_ginger,buzzcut/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_gold,buzzcut/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_gray,buzzcut/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_green,buzzcut/green,Green,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_light_brown,buzzcut/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_navy,buzzcut/navy,Navy,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_orange,buzzcut/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_pink,buzzcut/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_platinum,buzzcut/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_purple,buzzcut/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_raven,buzzcut/raven,Raven,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_red,buzzcut/red,Red,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_redhead,buzzcut/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_rose,buzzcut/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_sandy,buzzcut/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_strawberry,buzzcut/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_violet,buzzcut/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+hair,buzzcut_white,buzzcut/white,White,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_ash,dreadlocks_long/ash,Ash,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_black,dreadlocks_long/black,Black,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_blonde,dreadlocks_long/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_blue,dreadlocks_long/blue,Blue,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_carrot,dreadlocks_long/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_chestnut,dreadlocks_long/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_dark_brown,dreadlocks_long/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_dark_gray,dreadlocks_long/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_ginger,dreadlocks_long/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_gold,dreadlocks_long/gold,Gold,legendary,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_gray,dreadlocks_long/gray,Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_green,dreadlocks_long/green,Green,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_light_brown,dreadlocks_long/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_navy,dreadlocks_long/navy,Navy,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_orange,dreadlocks_long/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_pink,dreadlocks_long/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_platinum,dreadlocks_long/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_purple,dreadlocks_long/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_raven,dreadlocks_long/raven,Raven,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_red,dreadlocks_long/red,Red,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_redhead,dreadlocks_long/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_rose,dreadlocks_long/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_sandy,dreadlocks_long/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_strawberry,dreadlocks_long/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_violet,dreadlocks_long/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+hair,dreadlocks_long_white,dreadlocks_long/white,White,legendary,0,True,,1,1,1,3,True,gacha
+hair,long_ash,long/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+hair,long_black,long/black,Black,common,0,True,,1,1,1,3,True,gacha
+hair,long_blonde,long/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+hair,long_blue,long/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+hair,long_carrot,long/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
+hair,long_chestnut,long/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+hair,long_dark_brown,long/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
+hair,long_dark_gray,long/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,long_ginger,long/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
+hair,long_gold,long/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
+hair,long_gray,long/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+hair,long_green,long/green,Green,epic,0,True,,1,1,1,3,True,gacha
+hair,long_light_brown,long/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
+hair,long_navy,long/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
+hair,long_orange,long/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+hair,long_pink,long/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
+hair,long_platinum,long/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
+hair,long_purple,long/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+hair,long_raven,long/raven,Raven,common,0,True,,1,1,1,3,True,gacha
+hair,long_red,long/red,Red,rare,0,True,,1,1,1,3,True,gacha
+hair,long_redhead,long/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+hair,long_rose,long/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
+hair,long_sandy,long/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+hair,long_strawberry,long/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+hair,long_violet,long/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+hair,long_white,long/white,White,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_ash,messy1/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_black,messy1/black,Black,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_blonde,messy1/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_blue,messy1/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_carrot,messy1/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_chestnut,messy1/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_dark_brown,messy1/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_dark_gray,messy1/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_ginger,messy1/ginger,Ginger,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_gold,messy1/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
+hair,messy1_gray,messy1/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_green,messy1/green,Green,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_light_brown,messy1/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_navy,messy1/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_orange,messy1/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_pink,messy1/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_platinum,messy1/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
+hair,messy1_purple,messy1/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_raven,messy1/raven,Raven,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_red,messy1/red,Red,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_redhead,messy1/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_rose,messy1/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_sandy,messy1/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+hair,messy1_strawberry,messy1/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+hair,messy1_violet,messy1/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+hair,messy1_white,messy1/white,White,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_ash,pixie/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_black,pixie/black,Black,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_blonde,pixie/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_blue,pixie/blue,Blue,epic,0,True,,1,1,1,3,True,gacha
+hair,pixie_carrot,pixie/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_chestnut,pixie/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_dark_brown,pixie/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_dark_gray,pixie/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_ginger,pixie/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_gold,pixie/gold,Gold,legendary,0,True,,1,1,1,3,True,gacha
+hair,pixie_gray,pixie/gray,Gray,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_green,pixie/green,Green,epic,0,True,,1,1,1,3,True,gacha
+hair,pixie_light_brown,pixie/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_navy,pixie/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_orange,pixie/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_pink,pixie/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_platinum,pixie/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
+hair,pixie_purple,pixie/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_raven,pixie/raven,Raven,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_red,pixie/red,Red,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_redhead,pixie/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_rose,pixie/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_sandy,pixie/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+hair,pixie_strawberry,pixie/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_violet,pixie/violet,Violet,rare,0,True,,1,1,1,3,True,gacha
+hair,pixie_white,pixie/white,White,epic,0,True,,1,1,1,3,True,gacha
+head,heads_amber,heads/amber,Amber,common,0,True,,1,1,1,3,True,gacha
+head,heads_black,heads/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,heads_blue,heads/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,heads_bright_green,heads/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,heads_bronze,heads/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,heads_brown,heads/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,heads_dark_green,heads/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,heads_fur_black,heads/fur_black,Fur Black,rare,0,True,,1,1,1,3,True,gacha
+head,heads_fur_brown,heads/fur_brown,Fur Brown,common,0,True,,1,1,1,3,True,gacha
+head,heads_fur_copper,heads/fur_copper,Fur Copper,rare,0,True,,1,1,1,3,True,gacha
+head,heads_fur_gold,heads/fur_gold,Fur Gold,epic,0,True,,1,1,1,3,True,gacha
+head,heads_fur_grey,heads/fur_grey,Fur Grey,common,0,True,,1,1,1,3,True,gacha
+head,heads_fur_tan,heads/fur_tan,Fur Tan,common,0,True,,1,1,1,3,True,gacha
+head,heads_fur_white,heads/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
+head,heads_green,heads/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,heads_lavender,heads/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+head,heads_light,heads/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,heads_olive,heads/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,heads_pale_green,heads/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,heads_taupe,heads/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,heads_zombie,heads/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,heads_zombie_green,heads/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
+head,nose_amber,nose/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,nose_black,nose/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,nose_blue,nose/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,nose_bright_green,nose/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,nose_bronze,nose/bronze,Bronze,common,0,True,,1,1,1,3,True,gacha
+head,nose_brown,nose/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,nose_dark_green,nose/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,nose_fur_black,nose/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,nose_fur_brown,nose/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,nose_fur_copper,nose/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,nose_fur_gold,nose/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,nose_fur_grey,nose/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,nose_fur_tan,nose/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,nose_fur_white,nose/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,nose_green,nose/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,nose_lavender,nose/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,nose_light,nose/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,nose_olive,nose/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,nose_pale_green,nose/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,nose_taupe,nose/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,nose_zombie,nose/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,nose_zombie_green,nose/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_amber,faces/anger/amber,Amber,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_black,faces/anger/black,Black,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_anger_blue,faces/anger/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_bright_green,faces/anger/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_bronze,faces/anger/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_brown,faces/anger/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_anger_dark_green,faces/anger/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_black,faces/anger/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_brown,faces/anger/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_copper,faces/anger/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_gold,faces/anger/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_grey,faces/anger/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_tan,faces/anger/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_fur_white,faces/anger/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_green,faces/anger/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_anger_lavender,faces/anger/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_light,faces/anger/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_anger_olive,faces/anger/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_anger_pale_green,faces/anger/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_anger_taupe,faces/anger/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_anger_zombie,faces/anger/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_anger_zombie_green,faces/anger/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_blush_amber,faces/blush/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_black,faces/blush/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_blush_blue,faces/blush/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_bright_green,faces/blush/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_blush_bronze,faces/blush/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_brown,faces/blush/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_blush_dark_green,faces/blush/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_black,faces/blush/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_brown,faces/blush/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_copper,faces/blush/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_gold,faces/blush/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_grey,faces/blush/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_tan,faces/blush/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_fur_white,faces/blush/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_blush_green,faces/blush/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_blush_lavender,faces/blush/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_light,faces/blush/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_blush_olive,faces/blush/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_blush_pale_green,faces/blush/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_blush_taupe,faces/blush/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_blush_zombie,faces/blush/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_blush_zombie_green,faces/blush/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closed_amber,faces/closed/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_black,faces/closed/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_blue,faces/closed/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_bright_green,faces/closed/bright_green,Bright Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_bronze,faces/closed/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_brown,faces/closed/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_dark_green,faces/closed/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_black,faces/closed/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_brown,faces/closed/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_copper,faces/closed/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_gold,faces/closed/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_grey,faces/closed/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_tan,faces/closed/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_fur_white,faces/closed/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closed_green,faces/closed/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_lavender,faces/closed/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_light,faces/closed/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_olive,faces/closed/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_pale_green,faces/closed/pale_green,Pale Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_taupe,faces/closed/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_closed_zombie,faces/closed/zombie,Zombie,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closed_zombie_green,faces/closed/zombie_green,Zombie Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_amber,faces/closing/amber,Amber,common,0,True,,1,1,1,3,True,gacha
+head,faces_closing_black,faces/closing/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_closing_blue,faces/closing/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_bright_green,faces/closing/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closing_bronze,faces/closing/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_brown,faces/closing/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_closing_dark_green,faces/closing/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_black,faces/closing/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_brown,faces/closing/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_copper,faces/closing/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_gold,faces/closing/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_grey,faces/closing/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_tan,faces/closing/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_fur_white,faces/closing/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closing_green,faces/closing/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_lavender,faces/closing/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closing_light,faces/closing/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_closing_olive,faces/closing/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_closing_pale_green,faces/closing/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_closing_taupe,faces/closing/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_closing_zombie,faces/closing/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_closing_zombie_green,faces/closing/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_amber,faces/eyeroll/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_black,faces/eyeroll/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_blue,faces/eyeroll/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_bright_green,faces/eyeroll/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_bronze,faces/eyeroll/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_brown,faces/eyeroll/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_dark_green,faces/eyeroll/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_black,faces/eyeroll/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_brown,faces/eyeroll/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_copper,faces/eyeroll/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_gold,faces/eyeroll/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_grey,faces/eyeroll/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_tan,faces/eyeroll/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_fur_white,faces/eyeroll/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_green,faces/eyeroll/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_lavender,faces/eyeroll/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_light,faces/eyeroll/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_olive,faces/eyeroll/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_pale_green,faces/eyeroll/pale_green,Pale Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_taupe,faces/eyeroll/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_zombie,faces/eyeroll/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_eyeroll_zombie_green,faces/eyeroll/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_amber,faces/happy/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_black,faces/happy/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_happy_blue,faces/happy/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+head,faces_happy_bright_green,faces/happy/bright_green,Bright Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_bronze,faces/happy/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_brown,faces/happy/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_happy_dark_green,faces/happy/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_black,faces/happy/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_brown,faces/happy/fur_brown,Fur Brown,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_copper,faces/happy/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_gold,faces/happy/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_grey,faces/happy/fur_grey,Fur Grey,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_tan,faces/happy/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_fur_white,faces/happy/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_green,faces/happy/green,Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_lavender,faces/happy/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+head,faces_happy_light,faces/happy/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_happy_olive,faces/happy/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_happy_pale_green,faces/happy/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_happy_taupe,faces/happy/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_happy_zombie,faces/happy/zombie,Zombie,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_happy_zombie_green,faces/happy/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_amber,faces/look_l/amber,Amber,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_black,faces/look_l/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_blue,faces/look_l/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_bright_green,faces/look_l/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_bronze,faces/look_l/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_brown,faces/look_l/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_dark_green,faces/look_l/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_black,faces/look_l/fur_black,Fur Black,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_brown,faces/look_l/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_copper,faces/look_l/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_gold,faces/look_l/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_grey,faces/look_l/fur_grey,Fur Grey,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_tan,faces/look_l/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_fur_white,faces/look_l/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_green,faces/look_l/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_lavender,faces/look_l/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_light,faces/look_l/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_olive,faces/look_l/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_pale_green,faces/look_l/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_taupe,faces/look_l/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_zombie,faces/look_l/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_l_zombie_green,faces/look_l/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_amber,faces/look_r/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_black,faces/look_r/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_blue,faces/look_r/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_bright_green,faces/look_r/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_bronze,faces/look_r/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_brown,faces/look_r/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_dark_green,faces/look_r/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_black,faces/look_r/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_brown,faces/look_r/fur_brown,Fur Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_copper,faces/look_r/fur_copper,Fur Copper,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_gold,faces/look_r/fur_gold,Fur Gold,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_grey,faces/look_r/fur_grey,Fur Grey,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_tan,faces/look_r/fur_tan,Fur Tan,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_fur_white,faces/look_r/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_green,faces/look_r/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_lavender,faces/look_r/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_light,faces/look_r/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_olive,faces/look_r/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_pale_green,faces/look_r/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_taupe,faces/look_r/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_zombie,faces/look_r/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_look_r_zombie_green,faces/look_r/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_amber,faces/neutral/amber,Amber,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_black,faces/neutral/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_blue,faces/neutral/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_bright_green,faces/neutral/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_bronze,faces/neutral/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_brown,faces/neutral/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_dark_green,faces/neutral/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_black,faces/neutral/fur_black,Fur Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_brown,faces/neutral/fur_brown,Fur Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_copper,faces/neutral/fur_copper,Fur Copper,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_gold,faces/neutral/fur_gold,Fur Gold,epic,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_grey,faces/neutral/fur_grey,Fur Grey,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_tan,faces/neutral/fur_tan,Fur Tan,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_fur_white,faces/neutral/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_green,faces/neutral/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_lavender,faces/neutral/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_light,faces/neutral/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_olive,faces/neutral/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_pale_green,faces/neutral/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_taupe,faces/neutral/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_zombie,faces/neutral/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_neutral_zombie_green,faces/neutral/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_sad_amber,faces/sad/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_black,faces/sad/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_sad_blue,faces/sad/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_bright_green,faces/sad/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_sad_bronze,faces/sad/bronze,Bronze,common,0,True,,1,1,1,3,True,gacha
+head,faces_sad_brown,faces/sad/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_sad_dark_green,faces/sad/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_black,faces/sad/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_brown,faces/sad/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_copper,faces/sad/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_gold,faces/sad/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_grey,faces/sad/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_tan,faces/sad/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_fur_white,faces/sad/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_sad_green,faces/sad/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_lavender,faces/sad/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_light,faces/sad/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_sad_olive,faces/sad/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_sad_pale_green,faces/sad/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_sad_taupe,faces/sad/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_sad_zombie,faces/sad/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_sad_zombie_green,faces/sad/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shame_amber,faces/shame/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_black,faces/shame/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_shame_blue,faces/shame/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_bright_green,faces/shame/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shame_bronze,faces/shame/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_brown,faces/shame/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_shame_dark_green,faces/shame/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_black,faces/shame/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_brown,faces/shame/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_copper,faces/shame/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_gold,faces/shame/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_grey,faces/shame/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_tan,faces/shame/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_fur_white,faces/shame/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shame_green,faces/shame/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,faces_shame_lavender,faces/shame/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_light,faces/shame/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_shame_olive,faces/shame/olive,Olive,common,0,True,,1,1,1,3,True,gacha
+head,faces_shame_pale_green,faces/shame/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shame_taupe,faces/shame/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_shame_zombie,faces/shame/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shame_zombie_green,faces/shame/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shock_amber,faces/shock/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_black,faces/shock/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,faces_shock_blue,faces/shock/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_bright_green,faces/shock/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shock_bronze,faces/shock/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_brown,faces/shock/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,faces_shock_dark_green,faces/shock/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_black,faces/shock/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_brown,faces/shock/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_copper,faces/shock/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_gold,faces/shock/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_grey,faces/shock/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_tan,faces/shock/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_fur_white,faces/shock/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shock_green,faces/shock/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_lavender,faces/shock/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+head,faces_shock_light,faces/shock/light,Light,common,0,True,,1,1,1,3,True,gacha
+head,faces_shock_olive,faces/shock/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_pale_green,faces/shock/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,faces_shock_taupe,faces/shock/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,faces_shock_zombie,faces/shock/zombie,Zombie,legendary,0,True,,1,1,1,3,True,gacha
+head,faces_shock_zombie_green,faces/shock/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_blue,eyes/anger/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_brown,eyes/anger/brown,Brown,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_gray,eyes/anger/gray,Gray,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_green,eyes/anger/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_orange,eyes/anger/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_purple,eyes/anger/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_red,eyes/anger/red,Red,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_anger_yellow,eyes/anger/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_blue,eyes/closing/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_brown,eyes/closing/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_gray,eyes/closing/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_green,eyes/closing/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_orange,eyes/closing/orange,Orange,common,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_purple,eyes/closing/purple,Purple,common,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_red,eyes/closing/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_closing_yellow,eyes/closing/yellow,Yellow,common,0,True,,1,1,1,3,True,gacha
+head,eyes_default_blue,eyes/default/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+head,eyes_default_brown,eyes/default/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_default_gray,eyes/default/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_default_green,eyes/default/green,Green,common,0,True,,1,1,1,3,True,gacha
+head,eyes_default_orange,eyes/default/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_default_purple,eyes/default/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_default_red,eyes/default/red,Red,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_default_yellow,eyes/default/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_blue,eyes/eyeroll/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_brown,eyes/eyeroll/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_gray,eyes/eyeroll/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_green,eyes/eyeroll/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_orange,eyes/eyeroll/orange,Orange,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_purple,eyes/eyeroll/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_red,eyes/eyeroll/red,Red,legendary,0,True,,1,1,1,3,True,gacha
+head,eyes_eyeroll_yellow,eyes/eyeroll/yellow,Yellow,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_blue,eyes/look_l/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_brown,eyes/look_l/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_gray,eyes/look_l/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_green,eyes/look_l/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_orange,eyes/look_l/orange,Orange,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_purple,eyes/look_l/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_red,eyes/look_l/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_l_yellow,eyes/look_l/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_blue,eyes/look_r/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_brown,eyes/look_r/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_gray,eyes/look_r/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_green,eyes/look_r/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_orange,eyes/look_r/orange,Orange,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_purple,eyes/look_r/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_red,eyes/look_r/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_look_r_yellow,eyes/look_r/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_blue,eyes/neutral/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_brown,eyes/neutral/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_gray,eyes/neutral/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_green,eyes/neutral/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_orange,eyes/neutral/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_purple,eyes/neutral/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_red,eyes/neutral/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_neutral_yellow,eyes/neutral/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_blue,eyes/sad/blue,Blue,common,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_brown,eyes/sad/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_gray,eyes/sad/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_green,eyes/sad/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_orange,eyes/sad/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_purple,eyes/sad/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_red,eyes/sad/red,Red,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_sad_yellow,eyes/sad/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_blue,eyes/sad2/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_brown,eyes/sad2/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_gray,eyes/sad2/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_green,eyes/sad2/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_orange,eyes/sad2/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_purple,eyes/sad2/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_red,eyes/sad2/red,Red,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_sad2_yellow,eyes/sad2/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_blue,eyes/shame/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_brown,eyes/shame/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_gray,eyes/shame/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_green,eyes/shame/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_orange,eyes/shame/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_purple,eyes/shame/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_red,eyes/shame/red,Red,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_shame_yellow,eyes/shame/yellow,Yellow,epic,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_blue,eyes/shock/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_brown,eyes/shock/brown,Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_gray,eyes/shock/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_green,eyes/shock/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_orange,eyes/shock/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_purple,eyes/shock/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_red,eyes/shock/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyes_shock_yellow,eyes/shock/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_ash,eyebrows/thick/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_black,eyebrows/thick/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_blonde,eyebrows/thick/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_blue,eyebrows/thick/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_carrot,eyebrows/thick/carrot,Carrot,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_chestnut,eyebrows/thick/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_dark_brown,eyebrows/thick/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_dark_gray,eyebrows/thick/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_ginger,eyebrows/thick/ginger,Ginger,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_gold,eyebrows/thick/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_gray,eyebrows/thick/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_green,eyebrows/thick/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_light_brown,eyebrows/thick/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_navy,eyebrows/thick/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_orange,eyebrows/thick/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_pink,eyebrows/thick/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_platinum,eyebrows/thick/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_purple,eyebrows/thick/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_raven,eyebrows/thick/raven,Raven,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_red,eyebrows/thick/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_redhead,eyebrows/thick/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_rose,eyebrows/thick/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_sandy,eyebrows/thick/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_strawberry,eyebrows/thick/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_violet,eyebrows/thick/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thick_white,eyebrows/thick/white,White,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_ash,eyebrows/thin/ash,Ash,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_black,eyebrows/thin/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_blonde,eyebrows/thin/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_blue,eyebrows/thin/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_carrot,eyebrows/thin/carrot,Carrot,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_chestnut,eyebrows/thin/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_dark_brown,eyebrows/thin/dark_brown,Dark Brown,common,500,False,,1,1,1,3,True,store
+head,eyebrows_thin_dark_gray,eyebrows/thin/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_ginger,eyebrows/thin/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_gold,eyebrows/thin/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_gray,eyebrows/thin/gray,Gray,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_green,eyebrows/thin/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_light_brown,eyebrows/thin/light_brown,Light Brown,common,500,False,,1,1,1,3,True,store
+head,eyebrows_thin_navy,eyebrows/thin/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_orange,eyebrows/thin/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_pink,eyebrows/thin/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_platinum,eyebrows/thin/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_purple,eyebrows/thin/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_raven,eyebrows/thin/raven,Raven,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_red,eyebrows/thin/red,Red,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_redhead,eyebrows/thin/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_rose,eyebrows/thin/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_sandy,eyebrows/thin/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_strawberry,eyebrows/thin/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_violet,eyebrows/thin/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
+head,eyebrows_thin_white,eyebrows/thin/white,White,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_amber,ears/medium/amber,Amber,common,500,False,,1,1,1,3,True,store
+head,ears_medium_black,ears/medium/black,Black,common,0,True,,1,1,1,3,True,gacha
+head,ears_medium_blue,ears/medium/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_bright_green,ears/medium/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
+head,ears_medium_bronze,ears/medium/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_brown,ears/medium/brown,Brown,common,500,False,,1,1,1,3,True,store
+head,ears_medium_dark_green,ears/medium/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_fur_black,ears/medium/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
+head,ears_medium_fur_brown,ears/medium/fur_brown,Fur Brown,common,500,False,,1,1,1,3,True,store
+head,ears_medium_fur_copper,ears/medium/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
+head,ears_medium_fur_gold,ears/medium/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
+head,ears_medium_fur_grey,ears/medium/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_fur_tan,ears/medium/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_fur_white,ears/medium/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
+head,ears_medium_green,ears/medium/green,Green,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_lavender,ears/medium/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
+head,ears_medium_light,ears/medium/light,Light,common,500,False,,1,1,1,3,True,store
+head,ears_medium_olive,ears/medium/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_pale_green,ears/medium/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
+head,ears_medium_taupe,ears/medium/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
+head,ears_medium_zombie,ears/medium/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
+head,ears_medium_zombie_green,ears/medium/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha

@@ -135,3 +135,41 @@ DROP TRIGGER IF EXISTS trg_run_route_updated_at ON run_route;
 CREATE TRIGGER trg_run_route_updated_at
     BEFORE UPDATE ON run_route
     FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+
+-- =========================================
+-- entry (잠입 기지)
+-- =========================================
+CREATE TABLE IF NOT EXISTS entry (
+     base_id        BIGSERIAL PRIMARY KEY,   -- JPA @Id + GenerationType.IDENTITY
+     course_nm      VARCHAR(255),            -- 코스명
+     course_desc    TEXT,                    -- 코스 설명
+     region         VARCHAR(100),            -- 지역
+     distance_km    DOUBLE PRECISION,        -- 거리 km
+     difficulty     VARCHAR(50),             -- 난이도
+     duration       VARCHAR(50),             -- 소요시간
+     address        VARCHAR(255),            -- 주소
+     latitude       DOUBLE PRECISION,        -- 위도
+     longitude      DOUBLE PRECISION,        -- 경도
+     data_source    VARCHAR(100),            -- 데이터 출처
+     group_no       INTEGER,                 -- 그룹 번호
+
+     created_at     timestamptz DEFAULT now(),  -- 생성 시간
+     updated_at     timestamptz DEFAULT now()   -- 수정 시간
+    );
+
+-- 인덱스: 지역별/그룹별/좌표 검색 속도 향상용
+CREATE INDEX IF NOT EXISTS entry_region_idx   ON entry(region);
+CREATE INDEX IF NOT EXISTS entry_group_idx    ON entry(group_no);
+CREATE INDEX IF NOT EXISTS entry_latlon_idx   ON entry(latitude, longitude);
+
+-- updated_at 자동 갱신 트리거 (run_session과 동일 패턴)
+DROP TRIGGER IF EXISTS trg_entry_updated_at ON entry;
+
+CREATE TRIGGER trg_entry_updated_at
+    BEFORE UPDATE ON entry
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
+
+-- =========================================
+-- 부티크(상점 , 뽑기) 관련
+-- =========================================
