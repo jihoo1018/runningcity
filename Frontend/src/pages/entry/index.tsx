@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MapView, MapMarker } from "../../components/MapView"; // 카카오 지도
-import { MiniMap } from "../../components/MiniMap";
+// import { MiniMap } from "../../components/MiniMap";
+import { EntryDetailModalContent } from "../../components/EntryDetailModalContent";
 
 import { Modal } from "../../components/Modal"; // 모달
 
@@ -68,7 +69,7 @@ const EntryPage = () => {
   const [viewMode, setViewMode] = useState<"today" | "all">("today");
   const [selectedEntry, setSelectedEntry] = useState<EntryDetail | null>(null);
 
-  const BASE_URL = "http://localhost:8080/api/v1/entry";
+  const BASE_URL = "/api/v1/entry";
 
   /** ✅ API 호출 */
   const fetchEntries = async (mode: "today" | "all") => {
@@ -325,28 +326,34 @@ const EntryPage = () => {
           title={selectedEntry.courseNm}
           onClose={() => setSelectedEntry(null)}
         >
-          <div
-            style={{ fontSize: "14px", lineHeight: "1.6", color: "#374151" }}
-          >
-            {Object.entries(selectedEntry).map(([key, value]) => (
-              <div key={key} style={{ marginBottom: "6px" }}>
-                <strong
-                  style={{ textTransform: "capitalize", color: "#2563eb" }}
-                >
-                  {key}:
-                </strong>{" "}
-                <span>{value ?? "정보 없음"}</span>
-              </div>
-            ))}
-
-            {/* ✅ 미니 지도 표시 */}
-            <MiniMap
-              latitude={selectedEntry.latitude}
-              longitude={selectedEntry.longitude}
-              name={selectedEntry.courseNm}
-            />
-          </div>
+          <EntryDetailModalContent entry={selectedEntry} />
         </Modal>
+        // <Modal
+        //   title={selectedEntry.courseNm}
+        //   onClose={() => setSelectedEntry(null)}
+        // >
+        //   <div
+        //     style={{ fontSize: "14px", lineHeight: "1.6", color: "#374151" }}
+        //   >
+        //     {Object.entries(selectedEntry).map(([key, value]) => (
+        //       <div key={key} style={{ marginBottom: "6px" }}>
+        //         <strong
+        //           style={{ textTransform: "capitalize", color: "#2563eb" }}
+        //         >
+        //           {key}:
+        //         </strong>{" "}
+        //         <span>{value ?? "정보 없음"}</span>
+        //       </div>
+        //     ))}
+
+        //     {/* ✅ 미니 지도 표시 */}
+        //     <MiniMap
+        //       latitude={selectedEntry.latitude}
+        //       longitude={selectedEntry.longitude}
+        //       name={selectedEntry.courseNm}
+        //     />
+        //   </div>
+        // </Modal>
       )}
     </div>
   );
