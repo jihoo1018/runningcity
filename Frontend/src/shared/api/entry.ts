@@ -56,6 +56,16 @@ export async function fetchGetAllEntryList(): Promise<GroupedEntryResponse> {
   return res.data;
 }
 
+export async function fetchGetEntryDetail(
+  baseId: number
+): Promise<EntryDetail> {
+  const res = await apiGet<ApiResponse<EntryDetail>>(`/api/v1/entry/${baseId}`);
+  if (res.status !== 200 || res.code !== "ENTRY_2000") {
+    throw new Error(res.message || "기지 상세 조회 실패");
+  }
+  return res.data;
+}
+
 /** ✅ 개인 잠입 세션 시작 */
 export async function fetchStartEntry(baseId: number): Promise<CreateSession> {
   const res = await apiPost<ApiResponse<CreateSession>>(`/api/v1/sessions`, {

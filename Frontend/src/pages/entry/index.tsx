@@ -10,6 +10,7 @@ import {
   GroupedEntryResponse,
   fetchGetEntryList,
   fetchGetAllEntryList,
+  fetchGetEntryDetail,
 } from "@/shared/api/entry";
 
 export type ApiResponse<T> = {
@@ -58,7 +59,7 @@ const EntryPage = () => {
     lng: number;
   } | null>(null);
 
-  const BASE_URL = "/api/v1/entry";
+  // const BASE_URL = "/api/v1/entry";
 
   /** ✅ 위치 수동 초기화 (한 번만) */
   useEffect(() => {
@@ -165,11 +166,12 @@ const EntryPage = () => {
         return;
       }
 
-      const res = await fetch(`${BASE_URL}/${baseId}`);
-      const json: ApiResponse<EntryDetail> = await res.json();
-      if (json.status !== 200) throw new Error(json.message);
-
-      setSelectedEntry(json.data);
+      // const res = await fetch(`${BASE_URL}/${baseId}`);
+      // const json: ApiResponse<EntryDetail> = await res.json();
+      // if (json.status !== 200) throw new Error(json.message);
+      // setSelectedEntry(json.data);
+      const data = await fetchGetEntryDetail(baseId);
+      setSelectedEntry(data);
     } catch (e: any) {
       alert("상세 정보를 불러오지 못했습니다.");
     }
