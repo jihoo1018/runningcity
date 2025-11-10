@@ -53,6 +53,7 @@ android {
     }
 }
 
+
 dependencies {
     // Compose BOM 공통
     implementation(platform(libs.androidx.compose.bom))

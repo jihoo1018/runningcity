@@ -9,12 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
 import com.runningcity.presentation.theme.RunningcityTheme
 import com.runningcity.R
+import com.runningcity.utils.PermissionManager  // ✅ import 추가!
 
 //@Preview(
 //    name = "RunningCity Theme Preview",
@@ -23,10 +22,9 @@ import com.runningcity.R
 //    backgroundColor = 0xFF13161C,
 //    showBackground = true
 //)
-
 @Composable
 fun HomeScreen(
-    onStartWorkout: () -> Unit
+    onStartWorkout: () -> Unit  // ✅ 파라미터는 이것만!
 ) {
     RunningcityTheme {
         Box(
@@ -46,14 +44,12 @@ fun HomeScreen(
 
                 Spacer(Modifier.height(16.dp))
 
-                // 버튼 모양/색 정의
                 val shape: Shape = MaterialTheme.shapes.small
                 val btnBg = MaterialTheme.colors.surface
                 val borderColor = MaterialTheme.colors.primary
                 val contentColor = MaterialTheme.colors.onPrimary
 
                 Button(
-//                    onClick = {},
                     onClick = onStartWorkout,
                     shape = shape,
                     modifier = Modifier
@@ -83,12 +79,5 @@ fun HomeScreen(
                 }
             }
         }
-        // 추가 메뉴 (선택사항)
-//                Button(
-//                    modifier = Modifier.fillMaxWidth(0.8f),
-//                    colors = ButtonDefaults.secondaryButtonColors()
-//                ) {
-//                    Text("📊 기록 보기")
-//                }
     }
 }

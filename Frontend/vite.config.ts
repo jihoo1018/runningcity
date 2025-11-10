@@ -40,10 +40,15 @@ export default defineConfig({
     strictPort: true,
     cors: true,
 
-    allowedHosts: ["nonconjunctive-cami-outdoor.ngrok-free.dev", "localhost", "70.12.247.82", "10.0.2.2"],
+    allowedHosts: [
+      "nonconjunctive-cami-outdoor.ngrok-free.dev",
+      "localhost",
+      "", // 각자의 IP 주소로 수정
+      "10.0.2.2",
+    ],
     hmr: {
       protocol: "ws",
-      host: "70.12.247.82", // ✅ 또는 "10.0.2.2" (둘 다 시도 가능)
+      host: "", // 각자의 IP 주소로 수정
       clientPort: 5173,
     },
     headers: {
