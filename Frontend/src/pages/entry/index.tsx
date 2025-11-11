@@ -57,7 +57,10 @@ const EntryPage = () => {
   const [userPosition, setUserPosition] = useState<{
     lat: number;
     lng: number;
-  } | null>(null);
+  } | null>({
+    lat: 37.501280686148306,
+    lng: 127.03960748829459,
+  });
 
   // const BASE_URL = "/api/v1/entry";
 
@@ -98,18 +101,21 @@ const EntryPage = () => {
     setError("");
 
     try {
-      // ✅ userPosition이 없을 때 기본값 사용
-      const { lat: userLat, lng: userLng } = userPosition || {
-        lat: 37.5665,
-        lng: 126.978,
-      };
-
       const data =
         mode === "today"
           ? await fetchGetEntryList()
           : await fetchGetAllEntryList();
-
-      setEntries(data); // 거리 계산은 나중에 userPosition 업데이트 때 실행
+      // ✅ userPosition이 있다면 즉시 거리 계산
+      if (userPosition) {
+        const updated = recalcDistances(
+          data,
+          userPosition.lat,
+          userPosition.lng
+        );
+        setEntries(updated);
+      } else {
+        setEntries(data);
+      }
     } catch (err: any) {
       console.error(err);
       setError(err.message || "데이터를 불러오는데 실패했습니다.");
@@ -159,8 +165,14 @@ const EntryPage = () => {
   ): Record<string, Entry[]> | Entry[] | null => {
     if (!entries) return null;
 
-    const calcDistance = (entry: Entry) =>
-      calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
+    const calcDistance = (entry: Entry) => {
+      return calculateDistanceKm(
+        userLat,
+        userLng,
+        entry.latitude,
+        entry.longitude
+      );
+    };
 
     if (Array.isArray(entries)) {
       // today 모드
@@ -216,12 +228,14 @@ const EntryPage = () => {
   return (
     <div
       style={{
-        width: "100vw",
+        width: "100%",
+        height: "100%",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#1D2330",
+        color: "#E6FFFF",
         padding: "20px",
         boxSizing: "border-box",
       }}
@@ -239,8 +253,8 @@ const EntryPage = () => {
         <button
           onClick={() => handleModeChange("today")}
           style={{
-            backgroundColor: viewMode === "today" ? "#3b82f6" : "#d4d4d4",
-            color: viewMode === "today" ? "white" : "black",
+            backgroundColor: viewMode === "today" ? "#00E6FF" : "#1D2330",
+            color: viewMode === "today" ? "#1D2330" : "#94B8B8",
             textAlign: "center",
             width: "40%",
             border: "1px solid",
@@ -253,8 +267,8 @@ const EntryPage = () => {
         <button
           onClick={() => handleModeChange("all")}
           style={{
-            backgroundColor: viewMode === "all" ? "#3b82f6" : "#d4d4d4",
-            color: viewMode === "all" ? "white" : "black",
+            backgroundColor: viewMode === "all" ? "#00E6FF" : "#1D2330",
+            color: viewMode === "all" ? "#1D2330" : "#94B8B8",
             textAlign: "center",
             width: "40%",
             border: "1px solid",
@@ -298,9 +312,10 @@ const EntryPage = () => {
                   <div
                     key={groupNo}
                     style={{
-                      backgroundColor: "#fff",
+                      backgroundColor: "none",
+                      border: "1px solid #E6FFFF",
                       borderRadius: "8px",
-                      marginBottom: "12px",
+                      marginBottom: "8px",
                       padding: "10px",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                     }}
@@ -328,7 +343,11 @@ const EntryPage = () => {
                           </div>
                           <div style={{ textAlign: "right" }}>
                             <div>
-                              {entry.computedDistanceKm?.toFixed(2)} km 거리
+                              {entry.computedDistanceKm
+                                ? `${entry.computedDistanceKm.toFixed(
+                                    2
+                                  )} km 거리`
+                                : "거리 계산 중..."}
                             </div>
                           </div>
                         </li>
@@ -341,9 +360,10 @@ const EntryPage = () => {
                     key={entry.baseId}
                     onClick={() => fetchEntryDetail(entry.baseId)}
                     style={{
-                      backgroundColor: "#fff",
+                      backgroundColor: "none",
+                      border: "1px solid #E6FFFF",
                       borderRadius: "8px",
-                      marginBottom: "10px",
+                      marginBottom: "8px",
                       padding: "10px",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                       cursor: "pointer",

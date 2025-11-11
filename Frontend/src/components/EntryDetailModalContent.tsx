@@ -64,7 +64,12 @@ export const EntryDetailModalContent = ({
   };
 
   return (
-    <div style={{ fontSize: "14px", color: "#374151" }}>
+    <div
+      style={{
+        fontSize: "12px",
+        color: "#E6FFFF",
+      }}
+    >
       {/* 지도 표시 */}
       <MiniMap
         latitude={entry.latitude}
@@ -124,10 +129,10 @@ export const EntryDetailModalContent = ({
             width: "100%",
             padding: "10px",
             borderRadius: "8px",
-            backgroundColor: isInsideZone ? "#10b981" : "#9ca3af",
-            color: "white",
-            fontWeight: "bold",
             border: "none",
+            color: isInsideZone ? "#1D2330" : "#94B8B8",
+            backgroundColor: isInsideZone ? "#E6FFFF" : "none",
+            fontWeight: "bold",
             marginTop: "10px",
             cursor: isInsideZone ? "pointer" : "not-allowed",
             transition: "0.2s ease-in-out",

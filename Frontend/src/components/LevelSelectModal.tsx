@@ -49,7 +49,7 @@ export const LevelSelectModal = ({
           padding: "10px",
         }}
       >
-        <p style={{ fontSize: "14px", color: "#4b5563", marginBottom: "8px" }}>
+        <p style={{ fontSize: "12px", color: "#E6FFFF", marginBottom: "8px" }}>
           난이도를 선택하여 잠입을 시작하세요 👇
         </p>
 
@@ -60,16 +60,14 @@ export const LevelSelectModal = ({
             width: "100%",
             padding: "12px",
             borderRadius: "8px",
-            backgroundColor: "#86efac",
+            backgroundColor: "#00E6FF",
             border: "none",
-            color: "#065f46",
+            color: "#1D2330",
             fontWeight: "bold",
             cursor: "pointer",
           }}
         >
           🔹 난이도 하(근처 정찰)
-          <br />
-          크레딧 +5
         </button>
 
         {/* <button
@@ -86,7 +84,6 @@ export const LevelSelectModal = ({
           }}
         >
           🔸 난이도 중(일반 잠입)
-          <br /> 크레딧 +10
         </button>
 
         <button
@@ -103,8 +100,6 @@ export const LevelSelectModal = ({
           }}
         >
           🔺 난이도 상(전면 교전)
-          <br />
-          크레딧 +20
         </button> */}
       </div>
     </Modal>
