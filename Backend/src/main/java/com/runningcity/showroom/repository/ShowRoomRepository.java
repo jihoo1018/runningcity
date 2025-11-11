@@ -1,0 +1,23 @@
+package com.runningcity.showroom.repository;
+
+
+import com.runningcity.showroom.entity.UserInventory;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Set;
+
+public interface ShowRoomRepository extends JpaRepository<UserInventory, Long> {
+
+    /**
+     * 특정 유저가 구매한 아이템 ID 목록 조회
+     * StoreResponse의 isPurchased 판단에 사용
+     *
+     * @param userId 사용자 ID
+     * @return 구매한 아이템 ID Set (중복 없음)
+     */
+    @Query("SELECT ui.itemId FROM UserInventory ui WHERE ui.userId = :userId")
+    Set<Long> findPurchasedItemIds(@Param("userId") Long userId);
+
+}

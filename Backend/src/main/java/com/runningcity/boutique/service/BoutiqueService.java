@@ -1,6 +1,6 @@
 package com.runningcity.boutique.service;
 
-import com.runningcity.Inventory.repository.UserInventoryRepository;
+import com.runningcity.showroom.repository.ShowRoomRepository;
 import com.runningcity.boutique.dto.StoreResponse;
 import com.runningcity.boutique.entity.Boutique;
 import com.runningcity.boutique.repository.BoutiqueRepository;
@@ -15,7 +15,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class BoutiqueService {
     private final BoutiqueRepository boutiqueRepository;
-    private final UserInventoryRepository userInventoryRepository;
+    private final ShowRoomRepository showRoomRepository;
 
     /**
      * 스토어 아이템 전체 목록 조회 (구매 여부 포함)
@@ -29,7 +29,7 @@ public class BoutiqueService {
         List<Boutique> storeItems = boutiqueRepository
                 .findByObtainMethod("store");
         // 2️ 사용자가 구매한 아이템 ID 목록 조회
-        Set<Long> purchasedItemIds = userInventoryRepository
+        Set<Long> purchasedItemIds = showRoomRepository
                 .findPurchasedItemIds(userId);
         // 3️ DTO 변환 (구매 여부 포함)
         return storeItems
