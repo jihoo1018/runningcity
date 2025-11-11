@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "./typography.css";
+@import "./colors.css";
+@import "./global.css";
 
 @layer base {
   body {
