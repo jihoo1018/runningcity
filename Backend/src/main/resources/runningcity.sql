@@ -6,11 +6,14 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 -- users (기존 그대로, 기본값 already OK)
 -- =========================================
 CREATE TABLE IF NOT EXISTS users (
-                                     user_id                  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                                     google_id                VARCHAR(255)  NOT NULL UNIQUE,
+    user_id                  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    google_id                VARCHAR(255)  NOT NULL UNIQUE,
     email                    VARCHAR(100)  NOT NULL UNIQUE,
     nickname                 VARCHAR(50),
     profile_image_url        VARCHAR(500),
+
+    password                VARCHAR(255),
+    user_code               TEXT,
 
     has_completed_onboarding BOOLEAN       NOT NULL DEFAULT FALSE,
     level                    INTEGER       NOT NULL DEFAULT 1,
@@ -39,7 +42,7 @@ CREATE TABLE IF NOT EXISTS run_session (
     device_type        TEXT         NOT NULL CHECK (device_type IN ('PHONE','WATCH')),
 
     -- 시간 (클라 ms → timestamptz 변환 저장)
-    start_time         timestamptz,                           -- ← NULL 허용 (보정 가능)
+    start_time         timestamptz,
     end_time           timestamptz,
 
     -- ===== summary (이름/타입 100% 일치) =====

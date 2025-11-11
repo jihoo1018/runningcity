@@ -49,19 +49,19 @@ class RunningViewModel @Inject constructor(
      * - 내부적으로 StartSessionUseCase 실행 (GPS 시작 등)
      * - StateFlow 값 갱신 → Compose & WebView에 반영됨
      */
-    fun startSession() {
+    fun startSession(sessionId: Long) {
         if (_uiState.value.isRunning) {
-            Log.d("RunningViewModel", "⚠️ 이미 러닝 중입니다.")
+            Log.d("RunningViewModel", "⚠️ sessionId: ${sessionId}, 이미 러닝 중입니다. ")
             return
         }
 
         viewModelScope.launch {
             try {
-                Log.d("RunningViewModel", "🏁 러닝 세션 시작")
+                Log.d("RunningViewModel", "🏁 sessionId: ${sessionId}, 러닝 세션 시작")
                 startSessionUseCase() // 실제 GPS 로직 실행
                 _uiState.value = _uiState.value.copy(isRunning = true)
             } catch (e: Exception) {
-                Log.e("RunningViewModel", "❌ 러닝 시작 실패: ${e.message}")
+                Log.e("RunningViewModel", "❌ sessionId: ${sessionId}, 러닝 시작 실패: ${e.message}")
             }
         }
     }
@@ -74,18 +74,18 @@ class RunningViewModel @Inject constructor(
      * - 내부적으로 StopSessionUseCase 실행 (GPS 중지 등)
      * - 종료 시 isRunning = false 로 상태 갱신
      */
-    fun stopSession() {
+    fun stopSession(sessionId: Long) {
         if (!_uiState.value.isRunning) {
-            Log.d("RunningViewModel", "⚠️ 이미 중지 상태입니다.")
+            Log.d("RunningViewModel", "⚠️ sessionId: ${sessionId}, 이미 중지 상태입니다.")
             return
         }
 
         viewModelScope.launch {
             try {
-                Log.d("RunningViewModel", "🛑 러닝 세션 중지")
+                Log.d("RunningViewModel", "🛑 sessionId: ${sessionId}, 러닝 세션 중지")
                 stopSessionUseCase()
             } catch (e: Exception) {
-                Log.e("RunningViewModel", "❌ 러닝 중지 실패: ${e.message}")
+                Log.e("RunningViewModel", "❌ sessionId: ${sessionId}, 러닝 중지 실패: ${e.message}")
             } finally {
                 _uiState.value = _uiState.value.copy(isRunning = false)
             }
@@ -118,7 +118,7 @@ class RunningViewModel @Inject constructor(
     // ----------------------------------------------------------------------
     // 🔄 상태 토글 (디버그 or 테스트용)
     // ----------------------------------------------------------------------
-    fun toggleSession() {
-        if (_uiState.value.isRunning) stopSession() else startSession()
+    fun toggleSession(sessionId: Long) {
+        if (_uiState.value.isRunning) stopSession(sessionId) else startSession(sessionId)
     }
 }

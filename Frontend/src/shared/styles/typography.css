@@ -1,0 +1,77 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+  --font-sans: "Galmuri11", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* scale */
+  --text-game-title: 36px;
+  --text-title: 24px;
+  --text-subtitle: 20px;
+  --text-button: 14px;
+  --text-content: 12px;
+  --text-desc: 10px;
+
+  --leading-tight: 1.25;
+  --leading-base: 1.5;
+
+  --track-tight: -0.01em;
+  --track-normal: 0;
+}
+
+@utility text-game-title {
+  font-size: var(--text-game-title);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+@utility text-title {
+  font-size: var(--text-title);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+}
+
+@utility text-subtitle {
+  font-size: var(--text-subtitle);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-normal);
+}
+
+@utility text-button {
+  font-size: var(--text-button);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-normal);
+}
+
+@utility text-content-bold {
+  font-size: var(--text-content);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-normal);
+}
+
+@utility text-content {
+  font-size: var(--text-content);
+  line-height: var(--text-leading-base);
+  font-weight: 400;
+  letter-spacing: var(--track-normal);
+}
+
+@utility text-desc {
+  font-size: var(--text-desc);
+  line-height: var(--text-leading-base);
+  font-weight: 400;
+  letter-spacing: var(--track-normal);
+}
+
+@utility text-label {
+  font-size: var(--text-desc);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-normal);
+}
