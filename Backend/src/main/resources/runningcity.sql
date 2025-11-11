@@ -6,11 +6,14 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 -- users (기존 그대로, 기본값 already OK)
 -- =========================================
 CREATE TABLE IF NOT EXISTS users (
-                                     user_id                  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                                     google_id                VARCHAR(255)  NOT NULL UNIQUE,
+    user_id                  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    google_id                VARCHAR(255)  NOT NULL UNIQUE,
     email                    VARCHAR(100)  NOT NULL UNIQUE,
     nickname                 VARCHAR(50),
     profile_image_url        VARCHAR(500),
+
+    password                VARCHAR(255),
+    user_code               TEXT,
 
     has_completed_onboarding BOOLEAN       NOT NULL DEFAULT FALSE,
     level                    INTEGER       NOT NULL DEFAULT 1,
@@ -29,17 +32,17 @@ CREATE TABLE IF NOT EXISTS users (
 --  - 멱등: (user_id, client_secret_key) ← client_secret_key 있을 때만 (UNIQUE에서 NULL은 중복 허용)
 -- =========================================
 CREATE TABLE IF NOT EXISTS run_session (
-                                           session_id         BIGINT       GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+   session_id         BIGINT       GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 
-                                           user_id            BIGINT       NOT NULL,                 -- FK → users.user_id
-                                           client_secret_key  TEXT,                                  -- from clientSecretKey
+   user_id            BIGINT       NOT NULL,                 -- FK → users.user_id
+   client_secret_key  TEXT,                                  -- from clientSecretKey
 
                                            type               TEXT         NOT NULL CHECK (type IN ('NORMAL','ENTRY')),
     base_id            BIGINT,
     device_type        TEXT         NOT NULL CHECK (device_type IN ('PHONE','WATCH')),
 
     -- 시간 (클라 ms → timestamptz 변환 저장)
-    start_time         timestamptz,                           -- ← NULL 허용 (보정 가능)
+    start_time         timestamptz,
     end_time           timestamptz,
 
     -- ===== summary (이름/타입 100% 일치) =====
