@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ReportRepository extends JpaRepository<RunSession, Long> {
 
@@ -24,4 +25,12 @@ public interface ReportRepository extends JpaRepository<RunSession, Long> {
             @Param("start") Instant start,
             @Param("end")   Instant end
     );
+
+    @Query("""
+        select rs from RunSession rs
+        where rs.sessionId = :sessionId
+          and rs.userId    = :userId
+          and rs.endTime is not null
+    """)
+    Optional<RunSession> findFinalizedByIdAndUserId(Long sessionId, Long userId);
 }

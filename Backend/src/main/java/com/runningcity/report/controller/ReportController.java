@@ -1,23 +1,24 @@
 package com.runningcity.report.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.runningcity.global.response.ApiResponse;
+import com.runningcity.global.response.CommonResponseCode;
+import com.runningcity.report.dto.ReportDetailResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.runningcity.report.dto.ReportResponse;
 import com.runningcity.report.service.ReportService;
 
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/report")   // ← 여기만 바꿈
 public class ReportController {
 
-    private final ReportService service;
+    private final ReportService reportService;
     private static final long userId = 1L;
 
-    public ReportController(ReportService service) {
-        this.service = service;
-    }
 
     @GetMapping    // ← /report?userId=...&year=...&month=...
     public ReportResponse getMonthly(
@@ -25,6 +26,18 @@ public class ReportController {
             @RequestParam int month
             // ,@AuthenticationPrincipal UserDetails userDetails
     ) {
-        return service.getMonthly(userId, year, month);
+        return reportService.getMonthly(userId, year, month);
+    }
+
+
+    @GetMapping("/{sid}")
+    public ResponseEntity<ApiResponse<ReportDetailResponse>> getReportDetail(
+            @PathVariable("sid") Long sessionId
+            // ,@AuthenticationPrincipal(expression = "userId") Long userId // 프로젝트에 맞춰 수정
+    ) {
+
+        ReportDetailResponse data = reportService.getReportDetail(userId, sessionId);
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS, data));
     }
 }
+
