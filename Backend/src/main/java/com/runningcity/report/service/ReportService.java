@@ -1,9 +1,10 @@
 package com.runningcity.report.service;
 
+import com.runningcity.run.entity.RunSession;
 import org.springframework.stereotype.Service;
 
 import com.runningcity.report.dto.ReportResponse;
-import com.runningcity.report.entity.Report;
+
 import com.runningcity.report.repository.ReportRepository;
 
 import java.time.*;
@@ -18,21 +19,23 @@ public class ReportService {
         this.repository = repository;
     }
 
-    public ReportResponse getMonthly(String userId, int year, int month) {
-        ZoneId zone = ZoneId.of("Asia/Seoul");
+    public ReportResponse getMonthly(Long userId, int year, int month) {
+        ZoneId KST = ZoneId.of("Asia/Seoul");
         LocalDate first = LocalDate.of(year, month, 1);
         LocalDate firstNext = first.plusMonths(1);
 
-        OffsetDateTime start = first.atStartOfDay(zone).toOffsetDateTime();
-        OffsetDateTime end = firstNext.atStartOfDay(zone).toOffsetDateTime();
+        // 조회 범위만 Instant로 통일
+        Instant start = first.atStartOfDay(KST).toInstant();
+        Instant end   = first.plusMonths(1).atStartOfDay(KST).toInstant();
 
-        List<Report> sessions = repository.findMonthlySessions(userId, start, end);
+
+        List<RunSession> sessions = repository.findMonthlySessions(userId, start, end);
 
         // calendar
         LocalDate endDate = first.withDayOfMonth(first.lengthOfMonth());
         Map<Integer, Boolean> hasRecordByDay = new HashMap<>();
-        for (Report rs : sessions) {
-            LocalDate d = rs.getStartTime().atZoneSameInstant(zone).toLocalDate();
+        for (RunSession rs : sessions) {
+            LocalDate d = rs.getStartTime().atZone(KST).toLocalDate();
             hasRecordByDay.put(d.getDayOfMonth(), true);
         }
         List<ReportResponse.CalendarDay> calendarDays = new ArrayList<>();
@@ -61,7 +64,8 @@ public class ReportService {
         // records
         List<ReportResponse.RunningRecordDto> records = sessions.stream()
                 .map(rs -> new ReportResponse.RunningRecordDto(
-                        rs.getStartTime().atZoneSameInstant(zone).toLocalDate().toString(),
+                        rs.getSessionId(),
+                        rs.getStartTime().atZone(KST).toLocalDate().toString(),
                         rs.getTotalDistance() != null ? rs.getTotalDistance() / 1000.0 : 0.0,
                         toPaceString(rs.getAvgPace()),
                         toTimeString(rs.getDuration()),

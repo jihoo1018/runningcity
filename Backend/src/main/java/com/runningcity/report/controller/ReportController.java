@@ -13,6 +13,7 @@ import com.runningcity.report.service.ReportService;
 public class ReportController {
 
     private final ReportService service;
+    private static final long userId = 1L;
 
     public ReportController(ReportService service) {
         this.service = service;
@@ -20,9 +21,9 @@ public class ReportController {
 
     @GetMapping    // ← /report?userId=...&year=...&month=...
     public ReportResponse getMonthly(
-            @RequestParam String userId,
             @RequestParam int year,
             @RequestParam int month
+            // ,@AuthenticationPrincipal UserDetails userDetails
     ) {
         return service.getMonthly(userId, year, month);
     }

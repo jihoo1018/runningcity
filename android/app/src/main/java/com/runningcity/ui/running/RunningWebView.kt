@@ -2,6 +2,7 @@ package com.runningcity.ui.running
 
 import android.net.http.SslError
 import android.util.Log
+import android.view.ViewGroup
 import android.webkit.*
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -47,7 +48,15 @@ fun RunningWebView(
                     
                     // ✅ User Agent 설정
                     userAgentString += " RunningCityApp"
+
+                    // HMR 등 타이밍 이슈 완화
+                    setSupportMultipleWindows(false)
                 }
+                CookieManager.getInstance().setAcceptCookie(true)
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
 
                 settings.setSupportZoom(true)
                 settings.builtInZoomControls = true
@@ -86,7 +95,7 @@ fun RunningWebView(
                         val errorCode = error?.errorCode ?: -1
                         val description = error?.description ?: "unknown error"
                         Log.e("WebViewError", "❌ Failed to load: $url | Code: $errorCode | $description")
-                        
+
                         // CSS 파일 로딩 실패 시 특별 로깅
                         if (url.contains(".css") || url.contains("styles")) {
                             Log.e("WebViewCSS", "🚨 CSS 파일 로딩 실패: $url")

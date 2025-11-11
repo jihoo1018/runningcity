@@ -48,7 +48,7 @@ export default defineConfig({
     ],
     hmr: {
       protocol: "ws",
-      host: "",  // 각자의 IP 주소로 수정
+      host: "", // 각자의 IP 주소로 수정
       clientPort: 5173,
     },
     headers: {
