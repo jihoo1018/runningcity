@@ -109,39 +109,7 @@ const EntryPage = () => {
           ? await fetchGetEntryList()
           : await fetchGetAllEntryList();
 
-      // ✅ 위치 기준으로 거리 계산
-      const calcDistance = (entry: Entry) =>
-        calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
-
-      if (mode === "today") {
-        // TypeScript에게 data가 Entry[] 타입임을 확실히 알려주기
-        const entries = data as Entry[];
-
-        const entriesWithDistance: Entry[] = entries.map((entry) => ({
-          ...entry,
-          computedDistanceKm: calcDistance(entry),
-        }));
-
-        entriesWithDistance.sort(
-          (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
-        );
-        setEntries(entriesWithDistance);
-      } else {
-        // 여긴 GroupedEntryResponse 타입
-        const grouped = data as GroupedEntryResponse;
-
-        const updated: Record<string, Entry[]> = {};
-        Object.entries(grouped).forEach(([groupNo, list]) => {
-          updated[groupNo] = list.map((entry) => ({
-            ...entry,
-            computedDistanceKm: calcDistance(entry),
-          }));
-          updated[groupNo].sort(
-            (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
-          );
-        });
-        setEntries(updated);
-      }
+      setEntries(data); // 거리 계산은 나중에 userPosition 업데이트 때 실행
     } catch (err: any) {
       console.error(err);
       setError(err.message || "데이터를 불러오는데 실패했습니다.");
@@ -183,16 +151,58 @@ const EntryPage = () => {
     setLevelModalEntry(entry); // 새 난이도 모달 열기
   };
 
+  /** ✅ 거리 계산 함수 (공통) */
+  const recalcDistances = (
+    entries: Record<string, Entry[]> | Entry[] | null,
+    userLat: number,
+    userLng: number
+  ): Record<string, Entry[]> | Entry[] | null => {
+    if (!entries) return null;
+
+    const calcDistance = (entry: Entry) =>
+      calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
+
+    if (Array.isArray(entries)) {
+      // today 모드
+      const updated = entries.map((e) => ({
+        ...e,
+        computedDistanceKm: calcDistance(e),
+      }));
+      updated.sort(
+        (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
+      );
+      return updated;
+    } else {
+      // all 모드
+      const grouped: Record<string, Entry[]> = {};
+      Object.entries(entries).forEach(([groupNo, list]) => {
+        grouped[groupNo] = list.map((e) => ({
+          ...e,
+          computedDistanceKm: calcDistance(e),
+        }));
+        grouped[groupNo].sort(
+          (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
+        );
+      });
+      return grouped;
+    }
+  };
+
   /** ✅ 최초 진입 시 오늘의 기지 불러오기 */
   useEffect(() => {
     fetchEntries("today");
   }, []);
 
-  /** ✅ userPosition이 갱신되면 거리 자동 갱신 */
+  /** ✅ userPosition 변경 시 거리 재계산 (서버 호출 X) */
   useEffect(() => {
-    if (userPosition) {
-      console.log("📍 위치 변경 감지:", userPosition);
-      fetchEntries(viewMode); // 현재 모드(today/all) 유지하면서 다시 계산
+    if (userPosition && entries) {
+      console.log("📍 위치 변경 감지 → 거리 재계산:", userPosition);
+      const updated = recalcDistances(
+        entries,
+        userPosition.lat,
+        userPosition.lng
+      );
+      setEntries(updated);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPosition]);
