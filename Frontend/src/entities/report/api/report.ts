@@ -2,7 +2,7 @@
 import { apiGet } from "@/shared/api/http";
 import { ENV } from "@/shared/config/env";
 import type { ApiResponse, ReportDetail, ReportMonthPayload } from "../model/types";
-import { fetchReportDetailMock, fetchReportMonthMock } from "./report.mock";
+// import { fetchReportDetailMock, fetchReportMonthMock } from "./report.mock";
 
 export async function fetchReportDetail(sid: number): Promise<ReportDetail> {
 //    if (ENV.MOCK_API) return fetchReportDetailMock(sid); // ✅ 목 스위치
