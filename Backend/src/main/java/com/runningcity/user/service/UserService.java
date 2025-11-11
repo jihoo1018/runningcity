@@ -34,26 +34,16 @@ public class UserService {
             throw new BaseException(CommonResponseCode.NICKNAME_DUPLICATE);
         }
 
-        // 3. 닉네임 수정 (빌더 패턴 사용)
-        User updatedUser = User.builder()
-                .userId(user.getUserId())
-                .googleId(user.getGoogleId())
-                .email(user.getEmail())
-                .nickname(request.getNickname()) // 수정
-                .profileImageUrl(user.getProfileImageUrl())
-                .hasCompletedOnboarding(user.getHasCompletedOnboarding())
-                .level(user.getLevel())
-                .totalRunningEnergy(user.getTotalRunningEnergy())
-                .isActive(user.getIsActive())
-                .build();
+        // 3. 닉네임 수정 (기존 엔티티 직접 수정 - JPA 변경 감지 활용)
+        user.updateNickname(request.getNickname());
 
-        // 4. 저장
-        userRepository.save(updatedUser);
+        // 4. 저장 (JPA 변경 감지로 자동 업데이트)
+        userRepository.save(user);
 
         // 5. 응답 생성
         return NicknameUpdateResponse.builder()
-                .userId(updatedUser.getUserId())
-                .nickname(updatedUser.getNickname())
+                .userId(user.getUserId())
+                .nickname(user.getNickname())
                 .build();
     }
 }
