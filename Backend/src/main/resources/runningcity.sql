@@ -286,3 +286,40 @@ CREATE TABLE user_equipped_items (
     -- 한 슬롯(카테고리+서브카테고리)에는 1개만 착용 가능
      UNIQUE (user_id, category, subcategory)
 );
+
+-- =========================================
+-- 사용자 온보딩 선호도 설정 테이블
+-- =========================================
+CREATE TABLE IF NOT EXISTS user_preferences (
+    preference_id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE,
+    
+    -- 온보딩 필수 입력 항목
+    has_running_history BOOLEAN NOT NULL,
+    fitness_level VARCHAR(20) NOT NULL,
+    target_distance_km REAL NOT NULL,
+    resting_heart_rate INT,
+    has_smart_watch BOOLEAN NOT NULL,
+    
+    created_at timestamptz NOT NULL DEFAULT now(),
+    updated_at timestamptz NOT NULL DEFAULT now(),
+    
+    CONSTRAINT fk_user_preferences_user 
+        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT user_preferences_fitness_level_check CHECK (
+        fitness_level IN ('BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'EXPERT', 'ELITE')
+    ),
+    CONSTRAINT user_preferences_resting_heart_rate_check CHECK (
+        resting_heart_rate IS NULL OR (resting_heart_rate BETWEEN 40 AND 120)
+    ),
+    CONSTRAINT user_preferences_target_distance_check CHECK (
+        target_distance_km >= 1.0 AND target_distance_km <= 40.0
+    )
+);
+
+-- user_preferences updated_at 자동 갱신 트리거
+DROP TRIGGER IF EXISTS trg_user_preferences_updated_at ON user_preferences;
+CREATE TRIGGER trg_user_preferences_updated_at
+    BEFORE UPDATE ON user_preferences
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
