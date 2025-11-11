@@ -15,7 +15,7 @@ bodies,male_fur_tan,male/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
 bodies,male_fur_white,male/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
 bodies,male_green,male/green,Green,common,0,True,,1,1,1,3,True,gacha
 bodies,male_lavender,male/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_light,male/light,Light,common,0,True,,1,1,1,3,True,gacha
+bodies,male_light,male/light,Light,common,500,False,,1,1,1,3,True,store
 bodies,male_olive,male/olive,Olive,common,0,True,,1,1,1,3,True,gacha
 bodies,male_pale_green,male/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
 bodies,male_taupe,male/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
