@@ -20,7 +20,8 @@ public class UserResponse {
     private String profileImageUrl;
     private Boolean hasCompletedOnboarding;
     private Integer level;
-    private Long totalRunningEnergy;
+    private Long totalExp;
+    private Long totalCredit;
     private Boolean isActive;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;

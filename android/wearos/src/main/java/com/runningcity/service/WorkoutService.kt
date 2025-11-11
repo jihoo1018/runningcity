@@ -155,6 +155,7 @@ class WorkoutService : Service() {
                     override fun onExerciseUpdateReceived(update: ExerciseUpdate) {
                         if (!isPaused) {
                             processExerciseUpdate(update)
+
                         }
                     }
 
@@ -193,19 +194,37 @@ class WorkoutService : Service() {
         }
     }
 
-    /** 📊 실시간 데이터 처리 */
+    /** 📊 실시간 데이터 처리 (디버깅 로그 포함 버전) */
     private fun processExerciseUpdate(update: ExerciseUpdate) {
         serviceScope.launch {
             try {
                 val latestMetrics = update.latestMetrics
                 val timestamp = System.currentTimeMillis()
 
-                // 1️⃣ 심박수 처리
+                // 🧭 [1] 거리 / 속도 / 위치 데이터 전체 상태 로그
+                try {
+                    val distanceData = latestMetrics.getData(DataType.DISTANCE_TOTAL)
+                    val speedData = latestMetrics.getData(DataType.SPEED)
+                    val locationData = latestMetrics.getData(DataType.LOCATION)
+
+                    val distanceValue = distanceData?.total ?: 0.0
+                    val speedCount = speedData?.toList()?.size ?: 0
+                    val locationCount = locationData?.toList()?.size ?: 0
+
+                    println(
+                        "📏 [DEBUG] DISTANCE_TOTAL=${"%.2f".format(distanceValue)}m, " +
+                                "SPEED count=$speedCount, LOCATION count=$locationCount"
+                    )
+                } catch (e: Exception) {
+                    println("❌ [DEBUG] 거리/속도/위치 데이터 접근 실패: ${e.message}")
+                }
+                // 🩸 [2] 심박수 처리
                 try {
                     val heartRateData = latestMetrics.getData(DataType.HEART_RATE_BPM)
                     val heartRateList = heartRateData.toList()
                     if (heartRateList.isNotEmpty()) {
                         currentHeartRate = heartRateList.last().value.toInt()
+                        println("💓 [DEBUG] HEART_RATE = $currentHeartRate bpm")
 
                         withContext(Dispatchers.Main) {
                             onHeartRateUpdate?.invoke(currentHeartRate)
@@ -222,13 +241,12 @@ class WorkoutService : Service() {
                     println("❌ 심박수 처리 실패: ${e.message}")
                 }
 
-                // 2️⃣ 위치 처리
+                // 📍 [3] 위치 처리
                 try {
                     val locationData = latestMetrics.getData(DataType.LOCATION)
                     val locationList = locationData.toList()
                     if (locationList.isNotEmpty()) {
                         val locationValue = locationList.last().value
-
                         val location = Location("HealthServices").apply {
                             latitude = locationValue.latitude
                             longitude = locationValue.longitude
@@ -237,27 +255,35 @@ class WorkoutService : Service() {
                             time = System.currentTimeMillis()
                         }
 
-                        // 속도는 별도 DataType에서 가져오기
+                        // 속도 데이터
                         val speedData = latestMetrics.getData(DataType.SPEED)
                         val speedList = speedData.toList()
                         if (speedList.isNotEmpty()) {
                             location.speed = speedList.last().value.toFloat()
                         }
 
+                        println(
+                            "📍 [DEBUG] LOCATION(lat=${location.latitude}, lon=${location.longitude}, " +
+                                    "alt=${"%.1f".format(location.altitude)}, speed=${"%.2f".format(location.speed)})"
+                        )
+
                         withContext(Dispatchers.Main) {
                             handleLocation(location)
                         }
+                    } else {
+                        println("⚠️ [DEBUG] 위치 데이터 없음 (GPS 신호 미수신)")
                     }
                 } catch (e: Exception) {
                     println("❌ 위치 처리 실패: ${e.message}")
                 }
 
-                // 3️⃣ 누적 걸음수
+                // 🚶 [4] 걸음수 처리
                 try {
                     latestMetrics.getData(DataType.STEPS_TOTAL)?.let { dataPoint ->
                         val newSteps = dataPoint.total.toLong()
                         if (newSteps != sessionSteps) {
                             sessionSteps = newSteps
+                            println("👣 [DEBUG] STEPS_TOTAL = $sessionSteps")
                             withContext(Dispatchers.Main) {
                                 onStepsUpdate?.invoke(sessionSteps.toInt())
                             }
@@ -267,16 +293,17 @@ class WorkoutService : Service() {
                     println("❌ 걸음수 처리 실패: ${e.message}")
                 }
 
-                // 4️⃣ 총 거리 업데이트
+                // 🛣️ [5] 거리 처리
                 try {
                     latestMetrics.getData(DataType.DISTANCE_TOTAL)?.let { dataPoint ->
                         val healthDistance = dataPoint.total.toFloat()
                         if (healthDistance > totalDistance) {
                             totalDistance = healthDistance
+                            println("📈 [DEBUG] DISTANCE_TOTAL 업데이트: ${"%.2f".format(totalDistance)}m")
+
                             withContext(Dispatchers.Main) {
                                 onDistanceUpdate?.invoke(totalDistance)
                             }
-                            // ⭐ 거리 업데이트 시 페이스도 계산
                             updatePace()
                         }
                     }
@@ -284,19 +311,19 @@ class WorkoutService : Service() {
                     println("❌ 거리 처리 실패: ${e.message}")
                 }
 
-                // 5️⃣ 케이던스 계산
+                // ⚙️ [6] 케이던스 계산 (5초 주기)
                 if (timestamp - lastCadenceUpdate > 5000) {
                     calculateCadenceFromSteps()
                     lastCadenceUpdate = timestamp
                 }
 
-                // ⭐ 6️⃣ 페이스 주기적 업데이트 (5초마다)
+                // ⚙️ [7] 페이스 계산 (5초 주기)
                 if (timestamp - lastPaceUpdate > 5000) {
                     updatePace()
                     lastPaceUpdate = timestamp
                 }
 
-                // 알림 업데이트 - ⭐ 페이스 포함
+                // 🔔 [8] 알림 업데이트 (디버그용)
                 val paceMin = currentPace / 60
                 val paceSec = currentPace % 60
                 updateNotification(
@@ -310,6 +337,7 @@ class WorkoutService : Service() {
             }
         }
     }
+
 
     /** 📍 위치 처리 */
     private fun handleLocation(location: Location) {
