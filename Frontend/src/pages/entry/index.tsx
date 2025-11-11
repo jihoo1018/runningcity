@@ -4,32 +4,14 @@ import { MapView, MapMarker } from "../../components/MapView";
 import { EntryDetailModalContent } from "../../components/EntryDetailModalContent";
 import { Modal } from "../../components/Modal";
 import { LevelSelectModal } from "../../components/LevelSelectModal";
-import { EntryDetail } from "../../shared/api/entry";
-
-type Entry = {
-  baseId: number;
-  courseNm: string;
-  region: string;
-  latitude: number;
-  longitude: number;
-  groupNo: number;
-  computedDistanceKm?: number;
-};
-
-// type EntryDetail = {
-//   baseId: number;
-//   courseNm: string;
-//   region: string;
-//   latitude: number;
-//   longitude: number;
-//   groupNo: number;
-//   distanceKm?: number;
-//   difficulty?: string;
-//   duration?: string;
-//   courseDesc?: string;
-//   address?: string;
-//   dataSource?: string;
-// };
+import {
+  Entry,
+  EntryDetail,
+  GroupedEntryResponse,
+  fetchGetEntryList,
+  fetchGetAllEntryList,
+  fetchGetEntryDetail,
+} from "@/shared/api/entry";
 
 export type ApiResponse<T> = {
   status: number;
@@ -77,7 +59,7 @@ const EntryPage = () => {
     lng: number;
   } | null>(null);
 
-  const BASE_URL = "/api/v1/entry";
+  // const BASE_URL = "/api/v1/entry";
 
   /** ✅ 위치 수동 초기화 (한 번만) */
   useEffect(() => {
@@ -122,18 +104,20 @@ const EntryPage = () => {
         lng: 126.978,
       };
 
-      const endpoint =
-        mode === "today" ? `${BASE_URL}/list/today` : `${BASE_URL}/list/all`;
-      const res = await fetch(endpoint);
-      const json: ApiResponse<any> = await res.json();
-      if (json.status !== 200) throw new Error(json.message);
+      const data =
+        mode === "today"
+          ? await fetchGetEntryList()
+          : await fetchGetAllEntryList();
 
       // ✅ 위치 기준으로 거리 계산
       const calcDistance = (entry: Entry) =>
         calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
 
       if (mode === "today") {
-        const entriesWithDistance: Entry[] = json.data.map((entry: Entry) => ({
+        // TypeScript에게 data가 Entry[] 타입임을 확실히 알려주기
+        const entries = data as Entry[];
+
+        const entriesWithDistance: Entry[] = entries.map((entry) => ({
           ...entry,
           computedDistanceKm: calcDistance(entry),
         }));
@@ -143,17 +127,20 @@ const EntryPage = () => {
         );
         setEntries(entriesWithDistance);
       } else {
-        const grouped: Record<string, Entry[]> = {};
-        Object.entries(json.data).forEach(([groupNo, list]) => {
-          grouped[groupNo] = (list as Entry[]).map((entry) => ({
+        // 여긴 GroupedEntryResponse 타입
+        const grouped = data as GroupedEntryResponse;
+
+        const updated: Record<string, Entry[]> = {};
+        Object.entries(grouped).forEach(([groupNo, list]) => {
+          updated[groupNo] = list.map((entry) => ({
             ...entry,
             computedDistanceKm: calcDistance(entry),
           }));
-          grouped[groupNo].sort(
+          updated[groupNo].sort(
             (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
           );
         });
-        setEntries(grouped);
+        setEntries(updated);
       }
     } catch (err: any) {
       console.error(err);
@@ -179,11 +166,12 @@ const EntryPage = () => {
         return;
       }
 
-      const res = await fetch(`${BASE_URL}/${baseId}`);
-      const json: ApiResponse<EntryDetail> = await res.json();
-      if (json.status !== 200) throw new Error(json.message);
-
-      setSelectedEntry(json.data);
+      // const res = await fetch(`${BASE_URL}/${baseId}`);
+      // const json: ApiResponse<EntryDetail> = await res.json();
+      // if (json.status !== 200) throw new Error(json.message);
+      // setSelectedEntry(json.data);
+      const data = await fetchGetEntryDetail(baseId);
+      setSelectedEntry(data);
     } catch (e: any) {
       alert("상세 정보를 불러오지 못했습니다.");
     }
@@ -380,6 +368,7 @@ const EntryPage = () => {
       {levelModalEntry && (
         <LevelSelectModal
           entryName={levelModalEntry.courseNm}
+          baseId={levelModalEntry.baseId}
           onClose={() => setLevelModalEntry(null)}
         />
       )}

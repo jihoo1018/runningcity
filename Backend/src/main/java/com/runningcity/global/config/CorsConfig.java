@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns("*") // 모든 도메인에서 접근 허용 (개발용, 나중에 배포 시 도메인 제한 권장)
                 .allowedMethods("GET","POST","PATCH","PUT","DELETE","OPTIONS") // 허용할 HTTP 메서드 지정
            .allowedHeaders("*")
-//          .allowCredentials(true)
+          .allowCredentials(true)
 //          .exposedHeaders("Authorization")
            .maxAge(3600);
     }
