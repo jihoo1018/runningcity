@@ -11,7 +11,14 @@ export default defineConfig({
         plugins: [["babel-plugin-react-compiler"]],
       },
     }),
-    svgr(),
+    svgr({
+      svgrOptions: {
+        exportType: "named",
+        ref: true,
+        titleProp: true,
+      },
+      include: "**/*.svg",
+    }),
     tailwindcss(),
   ],
   resolve: {
