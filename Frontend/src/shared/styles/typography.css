@@ -6,12 +6,12 @@
     "Segoe UI Symbol", "Noto Color Emoji";
 
   /* scale */
-  --text-game-title: 36px;
-  --text-title: 24px;
-  --text-subtitle: 20px;
-  --text-button: 14px;
-  --text-content: 12px;
-  --text-desc: 10px;
+  --text-game-title: 44px;
+  --text-title: 38px;
+  --text-subtitle: 24px;
+  --text-button: 16px;
+  --text-content: 14px;
+  --text-desc: 12px;
 
   --leading-tight: 1.25;
   --leading-base: 1.5;
