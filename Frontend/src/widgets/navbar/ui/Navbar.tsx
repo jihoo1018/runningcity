@@ -52,7 +52,7 @@ const Navbar = ({ activeTab = "홈" }: NavbarProps) => {
         label="기록"
         onClick={() => {
           handleNavClick("기록"); // 토스트
-          navigate("/recordlist"); // 페이지 이동
+          navigate("/report"); // 페이지 이동
         }}
         isActive={activeTab === "기록"}
       />
