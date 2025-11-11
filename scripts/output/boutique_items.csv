@@ -15,7 +15,7 @@ bodies,male_fur_tan,male/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
 bodies,male_fur_white,male/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
 bodies,male_green,male/green,Green,common,0,True,,1,1,1,3,True,gacha
 bodies,male_lavender,male/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_light,male/light,Light,common,500,False,,1,1,1,3,True,store
+bodies,male_light,male/light,Light,common,3,False,,1,1,1,3,True,store
 bodies,male_olive,male/olive,Olive,common,0,True,,1,1,1,3,True,gacha
 bodies,male_pale_green,male/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
 bodies,male_taupe,male/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
@@ -24,7 +24,7 @@ bodies,male_zombie_green,male/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,Tru
 clothes,male_longsleeve_black,male/longsleeve/black,Black,common,0,True,,1,1,1,3,True,gacha
 clothes,male_longsleeve_blue,male/longsleeve/blue,Blue,common,0,True,,1,1,1,3,True,gacha
 clothes,male_longsleeve_bluegray,male/longsleeve/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_brown,male/longsleeve/brown,Brown,common,500,False,,1,1,1,3,True,store
+clothes,male_longsleeve_brown,male/longsleeve/brown,Brown,common,3,False,,1,1,1,3,True,store
 clothes,male_longsleeve_charcoal,male/longsleeve/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
 clothes,male_longsleeve_forest,male/longsleeve/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
 clothes,male_longsleeve_gray,male/longsleeve/gray,Gray,common,0,True,,1,1,1,3,True,gacha
@@ -48,7 +48,7 @@ clothes,male_longsleeve_yellow,male/longsleeve/yellow,Yellow,rare,0,True,,1,1,1,
 clothes,male_shorts_black,male/shorts/black,Black,common,0,True,,1,1,1,3,True,gacha
 clothes,male_shorts_blue,male/shorts/blue,Blue,common,0,True,,1,1,1,3,True,gacha
 clothes,male_shorts_bluegray,male/shorts/bluegray,Bluegray,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_brown,male/shorts/brown,Brown,common,500,False,,1,1,1,3,True,store
+clothes,male_shorts_brown,male/shorts/brown,Brown,common,3,False,,1,1,1,3,True,store
 clothes,male_shorts_charcoal,male/shorts/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
 clothes,male_shorts_forest,male/shorts/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
 clothes,male_shorts_gray,male/shorts/gray,Gray,common,0,True,,1,1,1,3,True,gacha
@@ -72,7 +72,7 @@ clothes,male_shorts_yellow,male/shorts/yellow,Yellow,rare,0,True,,1,1,1,3,True,g
 clothes,male_shortsleeves_black,male/shortsleeves/black,Black,common,0,True,,1,1,1,3,True,gacha
 clothes,male_shortsleeves_blue,male/shortsleeves/blue,Blue,common,0,True,,1,1,1,3,True,gacha
 clothes,male_shortsleeves_bluegray,male/shortsleeves/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_brown,male/shortsleeves/brown,Brown,common,500,False,,1,1,1,3,True,store
+clothes,male_shortsleeves_brown,male/shortsleeves/brown,Brown,common,3,False,,1,1,1,3,True,store
 clothes,male_shortsleeves_charcoal,male/shortsleeves/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
 clothes,male_shortsleeves_forest,male/shortsleeves/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
 clothes,male_shortsleeves_gray,male/shortsleeves/gray,Gray,common,0,True,,1,1,1,3,True,gacha
@@ -123,13 +123,13 @@ hair,afro_blonde,afro/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
 hair,afro_blue,afro/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
 hair,afro_carrot,afro/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
 hair,afro_chestnut,afro/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,afro_dark_brown,afro/dark_brown,Dark Brown,common,500,False,,1,1,1,3,True,store
+hair,afro_dark_brown,afro/dark_brown,Dark Brown,common,3,False,,1,1,1,3,True,store
 hair,afro_dark_gray,afro/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
 hair,afro_ginger,afro/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
 hair,afro_gold,afro/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
 hair,afro_gray,afro/gray,Gray,common,0,True,,1,1,1,3,True,gacha
 hair,afro_green,afro/green,Green,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_light_brown,afro/light_brown,Light Brown,common,500,False,,1,1,1,3,True,store
+hair,afro_light_brown,afro/light_brown,Light Brown,common,3,False,,1,1,1,3,True,store
 hair,afro_navy,afro/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
 hair,afro_orange,afro/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
 hair,afro_pink,afro/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
@@ -701,13 +701,13 @@ head,eyebrows_thin_blonde,eyebrows/thin/blonde,Blonde,common,0,True,,1,1,1,3,Tru
 head,eyebrows_thin_blue,eyebrows/thin/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_carrot,eyebrows/thin/carrot,Carrot,common,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_chestnut,eyebrows/thin/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_dark_brown,eyebrows/thin/dark_brown,Dark Brown,common,500,False,,1,1,1,3,True,store
+head,eyebrows_thin_dark_brown,eyebrows/thin/dark_brown,Dark Brown,common,3,False,,1,1,1,3,True,store
 head,eyebrows_thin_dark_gray,eyebrows/thin/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_ginger,eyebrows/thin/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_gold,eyebrows/thin/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_gray,eyebrows/thin/gray,Gray,common,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_green,eyebrows/thin/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_light_brown,eyebrows/thin/light_brown,Light Brown,common,500,False,,1,1,1,3,True,store
+head,eyebrows_thin_light_brown,eyebrows/thin/light_brown,Light Brown,common,3,False,,1,1,1,3,True,store
 head,eyebrows_thin_navy,eyebrows/thin/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_orange,eyebrows/thin/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_pink,eyebrows/thin/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
@@ -721,15 +721,15 @@ head,eyebrows_thin_sandy,eyebrows/thin/sandy,Sandy,common,0,True,,1,1,1,3,True,g
 head,eyebrows_thin_strawberry,eyebrows/thin/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_violet,eyebrows/thin/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
 head,eyebrows_thin_white,eyebrows/thin/white,White,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_amber,ears/medium/amber,Amber,common,500,False,,1,1,1,3,True,store
+head,ears_medium_amber,ears/medium/amber,Amber,common,3,False,,1,1,1,3,True,store
 head,ears_medium_black,ears/medium/black,Black,common,0,True,,1,1,1,3,True,gacha
 head,ears_medium_blue,ears/medium/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
 head,ears_medium_bright_green,ears/medium/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
 head,ears_medium_bronze,ears/medium/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_brown,ears/medium/brown,Brown,common,500,False,,1,1,1,3,True,store
+head,ears_medium_brown,ears/medium/brown,Brown,common,3,False,,1,1,1,3,True,store
 head,ears_medium_dark_green,ears/medium/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
 head,ears_medium_fur_black,ears/medium/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_brown,ears/medium/fur_brown,Fur Brown,common,500,False,,1,1,1,3,True,store
+head,ears_medium_fur_brown,ears/medium/fur_brown,Fur Brown,common,3,False,,1,1,1,3,True,store
 head,ears_medium_fur_copper,ears/medium/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
 head,ears_medium_fur_gold,ears/medium/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
 head,ears_medium_fur_grey,ears/medium/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
@@ -737,7 +737,7 @@ head,ears_medium_fur_tan,ears/medium/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,g
 head,ears_medium_fur_white,ears/medium/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
 head,ears_medium_green,ears/medium/green,Green,rare,0,True,,1,1,1,3,True,gacha
 head,ears_medium_lavender,ears/medium/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_light,ears/medium/light,Light,common,500,False,,1,1,1,3,True,store
+head,ears_medium_light,ears/medium/light,Light,common,3,False,,1,1,1,3,True,store
 head,ears_medium_olive,ears/medium/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
 head,ears_medium_pale_green,ears/medium/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
 head,ears_medium_taupe,ears/medium/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
