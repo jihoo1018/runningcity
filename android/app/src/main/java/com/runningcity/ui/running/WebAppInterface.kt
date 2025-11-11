@@ -38,20 +38,42 @@ class WebAppInterface(
      * 러닝 시작
      */
     @JavascriptInterface
-    fun startRunning() {
-        Log.d("BridgeTest", "✅ React → Android 통신 성공: startRunning() 호출됨")
-        viewModel.startSession()
-        sendToReact("""{"type": "RUNNING_STATE", "state": "STARTED"}""")
+    fun startRunning(sessionId: String) {
+        Log.d("WebAppInterface", "🏃 러닝 시작 요청 수신 — sessionId: $sessionId")
+
+        try {
+            val sessionId = sessionId.toLongOrNull()
+            if (sessionId != null) {
+                // 실제 세션 시작 로직으로 전달
+                viewModel.startSession(sessionId)
+                sendToReact("""{"type": "RUNNING_STATE", "state": "STARTED"}""")
+            } else {
+                Log.e("WebAppInterface", "sessionId 변환 실패: $sessionId")
+            }
+        } catch (e: Exception) {
+            Log.e("WebAppInterface", "startRunning() 예외 발생: ${e.message}")
+        }
+
     }
 
     /**
      * 러닝 종료
      */
     @JavascriptInterface
-    fun stopRunning() {
-        Log.d("BridgeTest", "✅ React → Android 통신 성공: stopRunning() 호출됨")
-        viewModel.stopSession()
-        sendToReact("""{"type": "RUNNING_STATE", "state": "STOPPED"}""")
+    fun stopRunning(sessionId: String) {
+        Log.d("BridgeTest", "✅ React → Android 통신 성공: stopRunning() 호출됨 - sessionId: $sessionId")
+        try {
+            val sessionId = sessionId.toLongOrNull()
+            if (sessionId != null) {
+                // 실제 세션 종료 로직으로 전달
+                viewModel.stopSession(sessionId)
+                sendToReact("""{"type": "RUNNING_STATE", "state": "STOPPED"}""")
+            } else {
+                Log.e("WebAppInterface", "sessionId 변환 실패: $sessionId")
+            }
+        } catch (e: Exception) {
+            Log.e("WebAppInterface", "stopRunning() 예외 발생: ${e.message}")
+        }
     }
 
     /**
