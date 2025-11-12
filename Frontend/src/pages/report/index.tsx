@@ -1,9 +1,6 @@
 // src/pages/recordlist/index.tsx
 
-
-
-import { useEffect, useState } from 'react';
-import Navbar from '../../widgets/navbar/ui/Navbar';
+import { useEffect, useState } from "react";
 
 type CalendarDay = {
   day: number;
@@ -30,7 +27,7 @@ type MonthlyResponse = {
   records: RecordItem[];
 };
 
-const userId = 'google_1234'; // 임시
+const userId = "google_1234"; // 임시
 
 export default function RecordListPage() {
   // ⬇️ 오늘 날짜 기준으로 초기화
@@ -47,8 +44,8 @@ export default function RecordListPage() {
 
   useEffect(() => {
     setLoading(true);
-    const host = window.location.hostname || 'localhost';
-    const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+    const host = window.location.hostname || "localhost";
+    const protocol = window.location.protocol === "https:" ? "https" : "http";
     const url = `${protocol}://${host}:8080/api/v1/report?userId=${userId}&year=${year}&month=${month}`;
     fetch(url)
       .then((res) => res.json())
@@ -88,13 +85,13 @@ export default function RecordListPage() {
     return (
       <div
         style={{
-          width: '100%',
-          height: '100%',
-          minWidth: '100vw',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
+          width: "100%",
+          height: "100%",
+          minWidth: "100vw",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          position: "absolute",
           top: 0,
           left: 0,
           right: 0,
@@ -102,7 +99,6 @@ export default function RecordListPage() {
         }}
       >
         <div style={{ padding: 16, flex: 1 }}>로딩중...</div>
-        <Navbar activeTab="기록" />
       </div>
     );
   }
@@ -111,13 +107,13 @@ export default function RecordListPage() {
     return (
       <div
         style={{
-          width: '100%',
-          height: '100%',
-          minWidth: '100vw',
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
+          width: "100%",
+          height: "100%",
+          minWidth: "100vw",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          position: "absolute",
           top: 0,
           left: 0,
           right: 0,
@@ -125,7 +121,6 @@ export default function RecordListPage() {
         }}
       >
         <div style={{ padding: 16, flex: 1 }}>데이터가 없습니다.</div>
-        <Navbar activeTab="기록" />
       </div>
     );
   }
@@ -139,21 +134,21 @@ export default function RecordListPage() {
 
   // 러닝 타입 한글화
   const toKoreanType = (t: string) => {
-    if (t === 'NORMAL') return '일반';
-    return '침입';
+    if (t === "NORMAL") return "일반";
+    return "침입";
   };
 
   return (
     <div
       style={{
-        width: '100%',
-        height: '100%',
-        minWidth: '100vw',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#f3f4f6',
-        position: 'absolute',
+        width: "100%",
+        height: "100%",
+        minWidth: "100vw",
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#f3f4f6",
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,
@@ -164,20 +159,20 @@ export default function RecordListPage() {
       <div
         style={{
           flex: 1,
-          overflowY: 'auto',
-          padding: '16px 16px 80px',
+          overflowY: "auto",
+          padding: "16px 16px 80px",
           maxWidth: 960,
-          margin: '0 auto',
-          width: '100%',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
+          margin: "0 auto",
+          width: "100%",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         }}
       >
         {/* 상단 헤더 + 달 이동 */}
         <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
+            display: "flex",
+            alignItems: "center",
             gap: 12,
             marginBottom: 12,
           }}
@@ -185,12 +180,12 @@ export default function RecordListPage() {
           <button
             onClick={handlePrevMonth}
             style={{
-              border: 'none',
-              background: '#fff',
+              border: "none",
+              background: "#fff",
               borderRadius: 8,
-              padding: '4px 8px',
-              cursor: 'pointer',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+              padding: "4px 8px",
+              cursor: "pointer",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}
           >
             ◀
@@ -201,12 +196,12 @@ export default function RecordListPage() {
           <button
             onClick={handleNextMonth}
             style={{
-              border: 'none',
-              background: '#fff',
+              border: "none",
+              background: "#fff",
               borderRadius: 8,
-              padding: '4px 8px',
-              cursor: 'pointer',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+              padding: "4px 8px",
+              cursor: "pointer",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}
           >
             ▶
@@ -216,16 +211,13 @@ export default function RecordListPage() {
         {/* 월 요약 */}
         <div
           style={{
-            display: 'flex',
+            display: "flex",
             gap: 12,
             marginBottom: 20,
-            flexWrap: 'wrap',
+            flexWrap: "wrap",
           }}
         >
-          <SummaryCard
-            label="총 거리"
-            value={`${monthSummary.totalDistanceKm} km`}
-          />
+          <SummaryCard label="총 거리" value={`${monthSummary.totalDistanceKm} km`} />
           <SummaryCard label="총 러닝" value={`${monthSummary.totalRuns}회`} />
           <SummaryCard label="평균 페이스" value={monthSummary.avgPace} />
         </div>
@@ -235,10 +227,10 @@ export default function RecordListPage() {
           <h2 style={{ fontSize: 16, marginBottom: 8 }}>캘린더</h2>
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(44px, 1fr))',
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(44px, 1fr))",
               gap: 8,
-              background: '#f7f7f7',
+              background: "#f7f7f7",
               padding: 8,
               borderRadius: 12,
             }}
@@ -248,32 +240,30 @@ export default function RecordListPage() {
                 key={dayObj.day}
                 type="button"
                 style={{
-                    minHeight: 60,
-                    border: 'none',
-                    borderRadius: 8,
-                    cursor: 'pointer',
-                    background: dayObj.hasRecord ? '#e0f2ff' : '#fff',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-start',
-                    padding: '6px 6px',
-                    gap: 4,
+                  minHeight: 60,
+                  border: "none",
+                  borderRadius: 8,
+                  cursor: "pointer",
+                  background: dayObj.hasRecord ? "#e0f2ff" : "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                  padding: "6px 6px",
+                  gap: 4,
                 }}
                 onClick={() => {
                   // 여기서는 그냥 클릭 가능하게만
                 }}
               >
-                <span style={{ fontWeight: 600, fontSize: 13 }}>
-                  {dayObj.day}
-                </span>
+                <span style={{ fontWeight: 600, fontSize: 13 }}>{dayObj.day}</span>
                 {dayObj.hasRecord && (
                   <span
                     style={{
                       fontSize: 10,
-                      background: '#0ea5e9',
-                      color: 'white',
-                      padding: '2px 5px',
+                      background: "#0ea5e9",
+                      color: "white",
+                      padding: "2px 5px",
                       borderRadius: 999,
                     }}
                   >
@@ -289,51 +279,44 @@ export default function RecordListPage() {
         <div>
           <h2 style={{ fontSize: 16, marginBottom: 8 }}>기록 리스트</h2>
           {records.length === 0 ? (
-            <div
-              style={{ padding: 12, background: '#fafafa', borderRadius: 8 }}
-            >
+            <div style={{ padding: 12, background: "#fafafa", borderRadius: 8 }}>
               기록이 없습니다.
             </div>
           ) : (
             <>
-              <ul
-                style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
-              >
+              <ul style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {pagedRecords.map((r) => (
                   <li
                     key={r.date + r.runningTime}
                     style={{
-                      border: '1px solid #eee',
+                      border: "1px solid #eee",
                       borderRadius: 10,
-                      padding: '10px 12px',
-                      display: 'flex',
+                      padding: "10px 12px",
+                      display: "flex",
                       gap: 10,
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      background: '#fff',
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      background: "#fff",
                     }}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontWeight: 600, fontSize: 14 }}>
                         {r.date} · {toKoreanType(r.runningType)}
                       </div>
-                      <div
-                        style={{ fontSize: 12, color: '#555', lineHeight: 1.4 }}
-                      >
-                        {r.distanceKm} km · 페이스 {r.avgPace} · 시간{' '}
-                        {r.runningTime}
+                      <div style={{ fontSize: 12, color: "#555", lineHeight: 1.4 }}>
+                        {r.distanceKm} km · 페이스 {r.avgPace} · 시간 {r.runningTime}
                       </div>
                     </div>
                     <button
                       type="button"
                       style={{
-                        background: '#0ea5e9',
-                        color: 'white',
-                        border: 'none',
+                        background: "#0ea5e9",
+                        color: "white",
+                        border: "none",
                         borderRadius: 6,
-                        padding: '6px 10px',
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap',
+                        padding: "6px 10px",
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
                       }}
                       onClick={() => {
                         // 상세는 다른 사람이 만드니까 비워둠
@@ -348,8 +331,8 @@ export default function RecordListPage() {
               {/* 페이지네이션 */}
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
+                  display: "flex",
+                  justifyContent: "center",
                   gap: 8,
                   marginTop: 16,
                 }}
@@ -358,10 +341,10 @@ export default function RecordListPage() {
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
                   style={{
-                    padding: '4px 10px',
+                    padding: "4px 10px",
                     borderRadius: 6,
-                    border: '1px solid #ddd',
-                    background: page === 1 ? '#eee' : '#fff',
+                    border: "1px solid #ddd",
+                    background: page === 1 ? "#eee" : "#fff",
                   }}
                 >
                   이전
@@ -373,10 +356,10 @@ export default function RecordListPage() {
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
                   style={{
-                    padding: '4px 10px',
+                    padding: "4px 10px",
                     borderRadius: 6,
-                    border: '1px solid #ddd',
-                    background: page === totalPages ? '#eee' : '#fff',
+                    border: "1px solid #ddd",
+                    background: page === totalPages ? "#eee" : "#fff",
                   }}
                 >
                   다음
@@ -386,9 +369,6 @@ export default function RecordListPage() {
           )}
         </div>
       </div>
-
-      {/* 하단 네비바 */}
-      <Navbar activeTab="기록" />
     </div>
   );
 }
@@ -397,15 +377,15 @@ function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
     <div
       style={{
-        flex: '1 1 120px',
-        background: '#fff',
-        border: '1px solid #eee',
+        flex: "1 1 120px",
+        background: "#fff",
+        border: "1px solid #eee",
         borderRadius: 10,
-        padding: '10px 12px',
+        padding: "10px 12px",
         minWidth: 110,
       }}
     >
-      <div style={{ fontSize: 11, color: '#777' }}>{label}</div>
+      <div style={{ fontSize: 11, color: "#777" }}>{label}</div>
       <div style={{ fontSize: 15, fontWeight: 600 }}>{value}</div>
     </div>
   );
