@@ -1,12 +1,19 @@
 package com.runningcity.ui.running
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.widget.Toast
+import com.runningcity.utils.WatchCommunicationHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 /**
@@ -24,7 +31,55 @@ class WebAppInterface(
     private val webView: WebView,
     private val viewModel: RunningViewModel
 ) {
-
+    
+    // 심박수 측정 결과 브로드캐스트 리시버
+    private val heartRateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when (intent?.action) {
+                "com.runningcity.HEART_RATE_MEASURED" -> {
+                    val heartRate = intent.getIntExtra("heartRate", 0)
+                    if (heartRate > 0) {
+                        Log.d("WebAppInterface", "═══════════════════════════════════════")
+                        Log.d("WebAppInterface", "💓 [6단계] 브로드캐스트 수신: 심박수 측정 결과")
+                        Log.d("WebAppInterface", "   📥 수신된 심박수: $heartRate bpm")
+                        Log.d("WebAppInterface", "   📤 React로 전달 중...")
+                        
+                        val jsonMessage = """{"type": "HEART_RATE_MEASURED", "heartRate": $heartRate}"""
+                        sendToReact(jsonMessage)
+                        
+                        Log.d("WebAppInterface", "✅ [7단계] React로 심박수 전달 완료!")
+                        Log.d("WebAppInterface", "   → React에서 input 필드에 자동 입력됨")
+                        Log.d("WebAppInterface", "═══════════════════════════════════════")
+                    } else {
+                        Log.e("WebAppInterface", "❌ 유효하지 않은 심박수 값: $heartRate")
+                    }
+                }
+                "com.runningcity.HEART_RATE_ERROR" -> {
+                    val errorMessage = intent.getStringExtra("errorMessage") ?: "심박수 측정에 실패했습니다"
+                    Log.e("WebAppInterface", "═══════════════════════════════════════")
+                    Log.e("WebAppInterface", "❌ [에러] 브로드캐스트 수신: 심박수 측정 에러")
+                    Log.e("WebAppInterface", "   📥 에러 메시지: $errorMessage")
+                    Log.e("WebAppInterface", "   📤 React로 전달 중...")
+                    
+                    val jsonMessage = """{"type": "HEART_RATE_ERROR", "message": "$errorMessage"}"""
+                    sendToReact(jsonMessage)
+                    
+                    Log.e("WebAppInterface", "✅ React로 에러 메시지 전달 완료")
+                    Log.e("WebAppInterface", "═══════════════════════════════════════")
+                }
+            }
+        }
+    }
+    
+    init {
+        // 브로드캐스트 리시버 등록
+        val filter = IntentFilter().apply {
+            addAction("com.runningcity.HEART_RATE_MEASURED")
+            addAction("com.runningcity.HEART_RATE_ERROR")
+        }
+        context.registerReceiver(heartRateReceiver, filter)
+        Log.d("WebAppInterface", "✅ 심박수 브로드캐스트 리시버 등록 완료")
+    }
 
     /** ✅ Android → React 통신 테스트 함수 */
     fun sendMessageToReact() {
@@ -96,13 +151,28 @@ class WebAppInterface(
 
 
     /**
-     * 심박수 가져오기
+     * 워치에서 심박수 측정 요청
      */
-//    @JavascriptInterface
-//    fun getHeartRate() {
-//        Log.d("BridgeTest", "React -> Android: getHeartRate()")
-//
-//    }
+    @JavascriptInterface
+    fun measureHeartRate() {
+        Log.d("WebAppInterface", "═══════════════════════════════════════")
+        Log.d("WebAppInterface", "💓 [1단계] React → Android: measureHeartRate() 호출됨")
+        Log.d("WebAppInterface", "📤 워치에 심박수 측정 요청 전송 중...")
+        
+        CoroutineScope(Dispatchers.IO).launch {
+            val success = WatchCommunicationHelper.requestHeartRateMeasurement(context)
+            if (!success) {
+                Log.e("WebAppInterface", "❌ [실패] 워치 심박수 측정 요청 실패")
+                Log.e("WebAppInterface", "   → 워치가 연결되어 있는지 확인해주세요")
+                // 실패 시 React에 에러 메시지 전달
+                sendToReact("""{"type": "HEART_RATE_ERROR", "message": "워치 연결을 확인해주세요"}""")
+            } else {
+                Log.d("WebAppInterface", "✅ [2단계] 워치 심박수 측정 요청 전송 완료")
+                Log.d("WebAppInterface", "   → 워치에서 측정을 시작합니다 (약 15초 소요)")
+                Log.d("WebAppInterface", "   → 측정 결과를 기다리는 중...")
+            }
+        }
+    }
 
     /**
      * 진동
