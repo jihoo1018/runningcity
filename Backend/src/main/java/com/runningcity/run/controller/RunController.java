@@ -20,12 +20,13 @@ import java.time.Instant;
 public class RunController {
 
     private final RunService runService;
-    private static final long userId = 1L; // 로그인 없으니 임시 1 고정
+    // private static final long userId = 1L; // 로그인 없으니 임시 1 고정
 
     // RunController에 추가
     @PostMapping
     public ResponseEntity<ApiResponse<CreateSessionResponse>> createSession(
-            @Valid @RequestBody CreateSessionRequest req
+            @Valid @RequestBody CreateSessionRequest req,
+            @RequestParam Long userId
             // @AuthenticationPrincipal UserDetails userDetails
     ) {
         CreateSessionResponse resp = runService.createSession(userId, req);
@@ -37,7 +38,8 @@ public class RunController {
     @PostMapping("/{sid}/finish")
     public ResponseEntity<ApiResponse<Void>> finish(
             @PathVariable("sid") long sessionId,
-            @Valid @RequestBody FinishRequest req
+            @Valid @RequestBody FinishRequest req,
+            @RequestParam Long userId
     ) {
         runService.finishSession(userId, sessionId, req);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS));
@@ -47,7 +49,8 @@ public class RunController {
 
 
     @PostMapping("/watch")
-    public ResponseEntity<ApiResponse<Void>> uploadFromWatch(@Valid @RequestBody WatchUploadRequest req
+    public ResponseEntity<ApiResponse<Void>> uploadFromWatch(@Valid @RequestBody WatchUploadRequest req,
+                                                             @RequestParam Long userId
                                                              //  @AuthenticationPrincipal UserDetails userDetails,
                                                              ) {
         // MVP: 인증 없음. 추후 JWT userId 매칭 추가.
