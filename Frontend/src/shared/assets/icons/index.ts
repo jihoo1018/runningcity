@@ -17,5 +17,5 @@ export { ReactComponent as RunIcon } from "./run.svg";
 export { ReactComponent as SettingIcon } from "./setting.svg";
 export { ReactComponent as SocialIcon } from "./social.svg";
 export { ReactComponent as TimeIcon } from "./time.svg";
-export { ReactComponent as VolumeUpIcon } from "./volume_up.svg";
-export { ReactComponent as VolumeOffIcon } from "./volumeOff.svg";
+export { ReactComponent as VolumeUpIcon } from "./volume_on.svg";
+export { ReactComponent as VolumeOffIcon } from "./volume_off.svg";
