@@ -20,4 +20,7 @@ public interface ShowRoomRepository extends JpaRepository<UserInventory, Long> {
     @Query("SELECT ui.itemId FROM UserInventory ui WHERE ui.userId = :userId")
     Set<Long> findPurchasedItemIds(@Param("userId") Long userId);
 
+    // ✅ 추가: 중복 구매 체크
+    boolean existsByUserIdAndItemId(Long userId, Long itemId);
+
 }
