@@ -7,6 +7,7 @@ import com.runningcity.global.response.CommonResponseCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,7 @@ public class BoutiqueController {
         List<StoreResponse> storeList = boutiqueService.getStoreItems(userId);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,storeList));
     }
+
 
 
 
