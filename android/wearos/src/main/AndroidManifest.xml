@@ -58,7 +58,7 @@
         android:theme="@android:style/Theme.DeviceDefault">
         <!-- 🔥 Service 추가! -->
         <service
-            android:name=".service.WorkoutService_backup"
+            android:name=".service.WorkoutService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location|health" />
@@ -156,7 +156,7 @@
 
         <!-- 메인 액티비티 -->
         <activity
-            android:name=".presentation.RunningActivity"
+            android:name="com.runningcity.presentation.RunningActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""

@@ -21,6 +21,7 @@ public record ReportResponse(
     ) {}
 
     public record RunningRecordDto(
+            Long sessionId,
             String date,
             double distanceKm,
             String avgPace,
