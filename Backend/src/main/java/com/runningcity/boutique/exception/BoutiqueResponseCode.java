@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum BoutiqueResponseCode implements BaseResponseCode {
 
+    //성공
+    ITEM_BUY_SCCESS  (HttpStatus.OK , "BOUTIQUE_000","상품 구매가 성공적으로 완료되었습니다."),
+
     // 4xx (클라이언트 오류)
     ITEM_NOT_FOUND           (HttpStatus.NOT_FOUND,   "BOUTIQUE_001", "상품을 찾을 수 없습니다."),
     ALREADY_PURCHASED        (HttpStatus.CONFLICT,    "BOUTIQUE_002", "이미 구매한 상품입니다."),

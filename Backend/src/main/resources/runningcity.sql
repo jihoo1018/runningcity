@@ -246,12 +246,10 @@ CREATE TABLE IF NOT EXISTS gacha_history (
      history_id BIGSERIAL PRIMARY KEY,        -- 고유 식별자
      user_id BIGINT NOT NULL,                 -- 뽑은 유저
      item_id BIGINT NOT NULL REFERENCES boutique_items(item_id) ON DELETE CASCADE,
-     rarity VARCHAR(20) NOT NULL,             -- 등급 (common, rare, epic, legendary)
-     draw_type VARCHAR(20) DEFAULT 'single',  -- 단일 / 10연 등 구분
+    rarity VARCHAR(20) NOT NULL CHECK (rarity IN ('common', 'rare', 'epic', 'legendary')), -- 등급 (common, rare, epic, legendary)
+    draw_type VARCHAR(20) DEFAULT 'single' CHECK (draw_type IN ('single', 'multi')), ,  -- 단일 / 10연 등 구분
      draw_time timestamptz DEFAULT now(),     -- 뽑은 시간
-     session_id UUID DEFAULT gen_random_uuid(), -- 10연차 단위 묶음
-     obtained BOOLEAN DEFAULT true,           -- 정상 수령 여부 (예: 인벤토리 꽉 찼을 때 false 처리)
-     notes TEXT                               -- 디버깅이나 이벤트 로그용
+     session_id UUID DEFAULT gen_random_uuid() -- 10연차 단위 묶음
      );
 
 -- =========================================================
