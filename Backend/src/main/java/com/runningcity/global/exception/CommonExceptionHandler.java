@@ -21,7 +21,7 @@ import java.util.List;
  * CommonExceptionHandler보다 우선순위가 높아 온보딩 관련 예외를 먼저 처리합니다.
  */
 @Slf4j
-@RestControllerAdvice(basePackages = "com.runningcity.entry")
+@RestControllerAdvice   //(basePackages = "com.runningcity.entry")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CommonExceptionHandler {
 
