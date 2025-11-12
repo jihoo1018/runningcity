@@ -153,7 +153,6 @@ public class DailyMissionService {
         mission.setCurrentKm(0.0);
         mission.setCompleted(false);
         mission.setClaimed(false);
-        mission.setRewardCoins(50);
         mission.setUpdatedAt(nowSeoul());
         return dailyMissionRepository.save(mission);
     }
@@ -176,7 +175,6 @@ public class DailyMissionService {
                 .progressPercent(progress)
                 .completed(mission.isCompleted())
                 .claimed(mission.isClaimed())
-                .rewardCoins(mission.getRewardCoins())
                 .updatedAt(mission.getUpdatedAt())
                 .build();
     }

@@ -27,7 +27,6 @@ public class DailyMissionResponse {
     private int progressPercent;
     private boolean completed;
     private boolean claimed;
-    private int rewardCoins;
 
     private ZonedDateTime updatedAt;
 }
