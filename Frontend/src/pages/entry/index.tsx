@@ -1,57 +1,32 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapView, MapMarker } from "../../components/MapView";
-import { EntryDetailModalContent } from "../../components/EntryDetailModalContent";
+import { MapView, MapMarker } from "../../entities/entry/ui/MapView";
+import { EntryDetailModalContent } from "../../entities/entry/ui/EntryDetailModalContent";
 import { Modal } from "../../components/Modal";
-import { LevelSelectModal } from "../../components/LevelSelectModal";
-import {
-  Entry,
-  EntryDetail,
-  GroupedEntryResponse,
-  fetchGetEntryList,
-  fetchGetAllEntryList,
-  fetchGetEntryDetail,
-} from "@/shared/api/entry";
-
-export type ApiResponse<T> = {
-  status: number;
-  code: string;
-  message: string;
-  data: T;
-  error?: any | null;
-};
+import { LevelSelectModal } from "../../entities/entry/ui/LevelSelectModal";
+import { Entry, EntryDetail, GroupedEntryResponse } from "@/entities/entry/model/types";
+import { fetchGetEntryList, fetchGetAllEntryList, fetchGetEntryDetail } from "@/entities/entry/api";
 
 /** ✅ 위도·경도 간 거리 계산 (Haversine 공식) */
-const calculateDistanceKm = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-) => {
+const calculateDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371; // 지구 반경 (km)
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 };
 
 const EntryPage = () => {
   const navigate = useNavigate();
-  const [entries, setEntries] = useState<
-    Record<string, Entry[]> | Entry[] | null
-  >(null);
+  const [entries, setEntries] = useState<Record<string, Entry[]> | Entry[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [viewMode, setViewMode] = useState<"today" | "all">("today");
   const [selectedEntry, setSelectedEntry] = useState<EntryDetail | null>(null);
-  const [levelModalEntry, setLevelModalEntry] = useState<EntryDetail | null>(
-    null
-  ); // ✅ 난이도 모달 상태
+  const [levelModalEntry, setLevelModalEntry] = useState<EntryDetail | null>(null); // ✅ 난이도 모달 상태
   const [userId, setUserId] = useState(1); // TODO 일단 임시로 userId 1 박아놓기
 
   // ✅ 사용자 위치 상태
@@ -79,7 +54,7 @@ const EntryPage = () => {
           lng: pos.coords.longitude,
         }),
       (err) => console.warn("초기 위치 불러오기 실패:", err),
-      { enableHighAccuracy: true, timeout: 5000 }
+      { enableHighAccuracy: true, timeout: 5000 },
     );
 
     // ✅ 이후 실시간 감시
@@ -90,7 +65,7 @@ const EntryPage = () => {
           lng: pos.coords.longitude,
         }),
       (err) => console.warn("위치 추적 실패:", err),
-      { enableHighAccuracy: true, maximumAge: 2000, timeout: 5000 }
+      { enableHighAccuracy: true, maximumAge: 2000, timeout: 5000 },
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
@@ -102,17 +77,10 @@ const EntryPage = () => {
     setError("");
 
     try {
-      const data =
-        mode === "today"
-          ? await fetchGetEntryList()
-          : await fetchGetAllEntryList();
+      const data = mode === "today" ? await fetchGetEntryList() : await fetchGetAllEntryList();
       // ✅ userPosition이 있다면 즉시 거리 계산
       if (userPosition) {
-        const updated = recalcDistances(
-          data,
-          userPosition.lat,
-          userPosition.lng
-        );
+        const updated = recalcDistances(data, userPosition.lat, userPosition.lng);
         setEntries(updated);
       } else {
         setEntries(data);
@@ -162,17 +130,12 @@ const EntryPage = () => {
   const recalcDistances = (
     entries: Record<string, Entry[]> | Entry[] | null,
     userLat: number,
-    userLng: number
+    userLng: number,
   ): Record<string, Entry[]> | Entry[] | null => {
     if (!entries) return null;
 
     const calcDistance = (entry: Entry) => {
-      return calculateDistanceKm(
-        userLat,
-        userLng,
-        entry.latitude,
-        entry.longitude
-      );
+      return calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
     };
 
     if (Array.isArray(entries)) {
@@ -181,9 +144,7 @@ const EntryPage = () => {
         ...e,
         computedDistanceKm: calcDistance(e),
       }));
-      updated.sort(
-        (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
-      );
+      updated.sort((a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0));
       return updated;
     } else {
       // all 모드
@@ -193,9 +154,7 @@ const EntryPage = () => {
           ...e,
           computedDistanceKm: calcDistance(e),
         }));
-        grouped[groupNo].sort(
-          (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
-        );
+        grouped[groupNo].sort((a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0));
       });
       return grouped;
     }
@@ -210,11 +169,7 @@ const EntryPage = () => {
   useEffect(() => {
     if (userPosition && entries) {
       console.log("📍 위치 변경 감지 → 거리 재계산:", userPosition);
-      const updated = recalcDistances(
-        entries,
-        userPosition.lat,
-        userPosition.lng
-      );
+      const updated = recalcDistances(entries, userPosition.lat, userPosition.lng);
       setEntries(updated);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -287,10 +242,7 @@ const EntryPage = () => {
         <>
           <MapView
             markers={
-              (entries instanceof Array
-                ? entries
-                : Object.values(entries).flat()
-              ).map((e) => ({
+              (entries instanceof Array ? entries : Object.values(entries).flat()).map((e) => ({
                 baseId: e.baseId,
                 name: e.courseNm,
                 latitude: e.latitude,
@@ -338,16 +290,12 @@ const EntryPage = () => {
                         >
                           <div>
                             <strong>{entry.courseNm}</strong>
-                            <div style={{ color: "#6b7280" }}>
-                              {entry.region}
-                            </div>
+                            <div style={{ color: "#6b7280" }}>{entry.region}</div>
                           </div>
                           <div style={{ textAlign: "right" }}>
                             <div>
                               {entry.computedDistanceKm
-                                ? `${entry.computedDistanceKm.toFixed(
-                                    2
-                                  )} km 거리`
+                                ? `${entry.computedDistanceKm.toFixed(2)} km 거리`
                                 : "거리 계산 중..."}
                             </div>
                           </div>
@@ -372,8 +320,7 @@ const EntryPage = () => {
                   >
                     <strong>{entry.courseNm}</strong>
                     <div style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {entry.region} · {entry.computedDistanceKm?.toFixed(2)} km
-                      거리
+                      {entry.region} · {entry.computedDistanceKm?.toFixed(2)} km 거리
                     </div>
                   </div>
                 ))}
@@ -383,10 +330,7 @@ const EntryPage = () => {
 
       {/* ✅ 상세 모달 */}
       {selectedEntry && (
-        <Modal
-          title={selectedEntry.courseNm}
-          onClose={() => setSelectedEntry(null)}
-        >
+        <Modal title={selectedEntry.courseNm} onClose={() => setSelectedEntry(null)}>
           <EntryDetailModalContent
             entry={selectedEntry}
             userPosition={userPosition}

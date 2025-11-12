@@ -1,27 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  getEntryResult,
-  RunningSession,
-  completeEntrySession,
-} from "@/shared/api/session";
-
-type RewardType =
-  | "EXP_SMALL"
-  | "EXP_MEDIUM"
-  | "EXP_LARGE"
-  | "CR_SMALL"
-  | "CR_MEDIUM"
-  | "CR_LARGE"
-  | "EXP_CR";
-
-interface Reward {
-  type: RewardType;
-  name: string;
-  exp?: number;
-  cr?: number;
-  message: string;
-}
+import { useNavigate, useParams } from "react-router-dom";
+import { getEntryResult, completeEntrySession } from "@/entities/entry/api";
+import KakaoRunningPreviewMap from "@/entities/entry/ui/KakaoRunningPreviewMap";
+import { RunningSession, RewardType, Reward, GpsPoint } from "@/entities/entry/model/types";
+import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
 
 // 🎲 리워드 확률표
 const REWARD_TABLE = [
@@ -101,11 +83,12 @@ const EntryResultPage = () => {
   const [chipCount, setChipCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false); // ⚡ 요청 실패 시 상태 저장
+  const { sid } = useParams();
+  const sessionId = Number(sid); // 세션아이디값
 
   // ✅ 세션 데이터 불러오기
   useEffect(() => {
     async function fetchSession() {
-      const sessionId = 2; // TODO 테스트용이라 실제로는 실데이터 넣어야함
       const data = await getEntryResult(sessionId);
       const rewards = getRewards(1); // TODO 나중에 개인/팀 잠입 나눠서 줘야함(1~4명)
       data.rewards = rewards;
@@ -139,14 +122,9 @@ const EntryResultPage = () => {
     const updatedSession = {
       ...resultData,
       rewards: {
-        exp:
-          resultData && resultData.rewards
-            ? resultData.rewards.exp + bonusExp
-            : 0 + bonusExp,
+        exp: resultData && resultData.rewards ? resultData.rewards.exp + bonusExp : 0 + bonusExp,
         credit:
-          resultData && resultData.rewards
-            ? resultData.rewards.credit + bonusCr
-            : 0 + bonusCr,
+          resultData && resultData.rewards ? resultData.rewards.credit + bonusCr : 0 + bonusCr,
       },
     };
 
@@ -171,76 +149,93 @@ const EntryResultPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#0A1A2F] text-white p-6">
-      <h1 className="text-2xl font-bold mb-6">📊 결과 리포트</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0A1A2F] p-6 text-white">
+      <h1 className="mb-6 text-2xl font-bold">📊 결과 리포트</h1>
 
-      <div className="w-full max-w-md bg-[#1B3240] border border-cyan-300 rounded-2xl p-4 mb-6">
+      <div className="mb-6 w-full max-w-md rounded-2xl border border-cyan-300 bg-[#1B3240] p-4">
         {/* 지도 자리 */}
-        <div className="h-40 bg-gray-700 flex items-center justify-center rounded-lg mb-4">
-          <span className="text-lg text-gray-300">🗺 지도</span>
+        <div className="mt-4">
+          <KakaoRunningPreviewMap points={resultData?.gpsPoints ?? []}></KakaoRunningPreviewMap>
         </div>
 
         {/* 요약 정보 */}
-        {resultData ? (
-          <p className="text-gray-300 text-center mb-4">
-            🏃 거리: {(resultData.summary.totalDistance / 1000).toFixed(2)} km
-            <br />
-            ❤️ 평균심박수: {resultData.summary.avgHeartRate} bpm
-            <br />
-            🔥 칼로리: {resultData.summary.totalCalories} kcal
-            <br />
-            시간: {(resultData.summary.duration / 60).toFixed(1)}분
-          </p>
+        {resultData && resultData.summary ? (
+          <div className="mt-4 mb-4 grid grid-cols-3 gap-3 pr-3 pl-3 text-sm">
+            <div>
+              <div className="text-gray-500">평균 페이스</div>
+              <div className="font-medium">{formatPace(resultData.summary.avgPace)}</div>
+            </div>
+            <div>
+              <div className="text-gray-500">시간</div>
+              <div className="font-medium">{formatDuration(resultData.summary.duration)}</div>
+            </div>
+            <div>
+              <div className="text-gray-500">칼로리</div>
+              <div className="font-medium">{resultData.summary.totalCalories ?? "-"}</div>
+            </div>
+            <div>
+              <div className="text-gray-500">고도 상승</div>
+              <div className="font-medium">{resultData.summary.elevation ?? 0}</div>
+            </div>
+            <div>
+              <div className="text-gray-500">평균 심박</div>
+              <div className="font-medium">{resultData.summary.avgHeartRate ?? 0}</div>
+            </div>
+            <div>
+              <div className="text-gray-500">케이던스</div>
+              <div className="font-medium">{resultData.summary.avgCadence ?? 0}</div>
+            </div>
+          </div>
         ) : (
-          <p className="text-gray-400 text-center mb-4">
-            데이터 불러오는 중...
-          </p>
+          // <p className="mb-4 text-center text-gray-300">
+          //   🏃 거리: {(resultData.summary.totalDistance / 1000).toFixed(2)} km
+          //   <br />
+          //   ❤️ 평균심박수: {resultData.summary.avgHeartRate} bpm
+          //   <br />
+          //   🔥 칼로리: {resultData.summary.totalCalories} kcal
+          //   <br />
+          //   시간: {(resultData.summary.duration / 60).toFixed(1)}분
+          // </p>
+          <p className="mb-4 text-center text-gray-400">데이터 불러오는 중...</p>
         )}
 
         {/* 보상 영역 */}
-        <div className="bg-[#13242F] rounded-lg p-4 text-center">
-          <h2 className="text-xl font-semibold mb-2">획득 보상 🎁</h2>
-
-          {/* 🔹 EXP, CR = 기본값 + 추가 리워드 */}
-          <p>
-            누적 경험치:{" "}
-            {resultData && resultData.rewards
-              ? resultData.rewards.exp + bonusExp
-              : 0}{" "}
-            EXP
-          </p>
-          <p>
-            누적 크레딧:{" "}
-            {resultData && resultData.rewards
-              ? resultData.rewards.credit + bonusCr
-              : 0}{" "}
-            CR
-          </p>
-          <p className="mt-2 text-cyan-400">남은 데이터칩: {chipCount} 개</p>
+        <div className="rounded-lg bg-[#13242F] p-4 text-center">
+          <h2 className="mb-2 text-xl font-semibold">획득 보상 🎁</h2>
+          <div className="mt-4 mb-4 grid grid-cols-2 gap-3 border-t pt-3 pr-3 pl-3 text-sm">
+            {/* 🔹 EXP, CR = 기본값 + 추가 리워드 */}
+            <div>
+              <div className="text-gray-500">누적 경험치</div>
+              <div className="font-medium">
+                {resultData && resultData.rewards ? resultData.rewards.exp + bonusExp : 0} EXP
+              </div>
+            </div>
+            <div>
+              <div className="text-gray-500">누적 크레딧</div>
+              <div className="font-medium">
+                {resultData && resultData.rewards ? resultData.rewards.credit + bonusCr : 0} CR
+              </div>
+            </div>
+          </div>
 
           <div className="mt-2 text-gray-300">
+            <p className="mt-2 text-cyan-400">남은 데이터칩: {chipCount} 개</p>
+
             {reward ? (
               <div className="flex flex-col items-center gap-1">
                 {/* EXP 표시 */}
                 {Number(reward.exp) > 0 && (
-                  <p className="text-cyan-300 font-semibold">
-                    +{reward.exp} EXP
-                  </p>
+                  <p className="font-semibold text-cyan-300">+{reward.exp} EXP</p>
                 )}
 
                 {/* CR 표시 */}
                 {Number(reward.cr) > 0 && (
-                  <p className="text-yellow-300 font-semibold">
-                    +{reward.cr} CR
-                  </p>
+                  <p className="font-semibold text-yellow-300">+{reward.cr} CR</p>
                 )}
 
                 {/* EXP, CR 둘 다 0일 때만 표시 */}
                 {!(Number(reward.exp) > 0) && !(Number(reward.cr) > 0) && (
-                  <p className="text-gray-400 text-sm">
-                    {" "}
-                    ⚡ 꽝! 다음 칩을 열어보세요
-                  </p>
+                  <p className="text-sm text-gray-400"> ⚡ 꽝! 다음 칩을 열어보세요</p>
                 )}
               </div>
             ) : (
@@ -254,7 +249,7 @@ const EntryResultPage = () => {
       {chipCount > 0 ? (
         <button
           onClick={handleDraw}
-          className="px-6 py-2 rounded-xl font-semibold bg-cyan-500 hover:bg-cyan-400 text-black transition-all"
+          className="rounded-xl bg-cyan-500 px-6 py-2 font-semibold text-black transition-all hover:bg-cyan-400"
         >
           데이터칩 열기
         </button>
@@ -262,12 +257,12 @@ const EntryResultPage = () => {
         <button
           onClick={handleConfirm}
           disabled={loading}
-          className={`px-6 py-2 rounded-xl font-semibold justify-center items-center transition-all ${
+          className={`items-center justify-center rounded-xl px-6 py-2 font-semibold transition-all ${
             loading
               ? "bg-custom-gray text-custom-black cursor-wait"
               : error
-              ? "bg-accent-red"
-              : "bg-custom-white text-custom-black"
+                ? "bg-accent-red"
+                : "bg-custom-white text-custom-black"
           }`}
         >
           {loading ? "저장 중..." : error ? "재시도" : "확인"}

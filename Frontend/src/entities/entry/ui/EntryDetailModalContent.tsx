@@ -1,22 +1,15 @@
 import { useEffect, useState } from "react";
-import { MiniMap } from "./MiniMap";
-import { EntryDetail } from "@/shared/api/entry";
+import { MiniMap } from "@/entities/entry/ui/MiniMap";
+import { EntryDetail } from "@/entities/entry/model/types";
 
 /** 거리 계산 함수 (Haversine 공식) */
-const calculateDistanceKm = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-) => {
+const calculateDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371; // 지구 반경 (km)
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 };
@@ -46,7 +39,7 @@ export const EntryDetailModalContent = ({
       userPosition.lat,
       userPosition.lng,
       entry.latitude,
-      entry.longitude
+      entry.longitude,
     );
     console.log("📏 계산된 거리:", dist);
     setDistance(dist);
@@ -71,11 +64,7 @@ export const EntryDetailModalContent = ({
       }}
     >
       {/* 지도 표시 */}
-      <MiniMap
-        latitude={entry.latitude}
-        longitude={entry.longitude}
-        name={entry.courseNm}
-      />
+      <MiniMap latitude={entry.latitude} longitude={entry.longitude} name={entry.courseNm} />
 
       {/* 상세 정보 */}
       <div style={{ marginTop: "12px" }}>

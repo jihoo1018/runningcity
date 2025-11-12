@@ -57,9 +57,7 @@ export const MapView = ({ markers, onMarkerClick }: MapViewProps) => {
         });
 
         // 클릭 이벤트 → 상세보기
-        window.kakao.maps.event.addListener(marker, "click", () =>
-          onMarkerClick?.(m.baseId)
-        );
+        window.kakao.maps.event.addListener(marker, "click", () => onMarkerClick?.(m.baseId));
 
         // ✅ 반경 2km 원 추가
         const circle = new window.kakao.maps.Circle({
@@ -79,7 +77,7 @@ export const MapView = ({ markers, onMarkerClick }: MapViewProps) => {
       if (markers.length > 0) {
         const bounds = new window.kakao.maps.LatLngBounds();
         markers.forEach((m) =>
-          bounds.extend(new window.kakao.maps.LatLng(m.latitude, m.longitude))
+          bounds.extend(new window.kakao.maps.LatLng(m.latitude, m.longitude)),
         );
         map.setBounds(bounds);
       }
@@ -93,7 +91,7 @@ export const MapView = ({ markers, onMarkerClick }: MapViewProps) => {
       ref={mapRef}
       style={{
         width: "100%",
-        height: "400px",
+        height: "200vw",
         borderRadius: "10px",
         marginBottom: "20px",
         boxShadow: "0 2px 4px rgba(0,0,0,0.1)",

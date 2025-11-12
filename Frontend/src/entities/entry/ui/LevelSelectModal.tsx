@@ -1,6 +1,7 @@
 import React from "react";
-import { Modal } from "./Modal";
-import { fetchStartEntry } from "@/shared/api/entry";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "../../../components/Modal";
+import { fetchStartEntry } from "@/entities/entry/api";
 
 type LevelSelectModalProps = {
   entryName: string;
@@ -9,33 +10,28 @@ type LevelSelectModalProps = {
   onClose: () => void;
 };
 
-export const LevelSelectModal = ({
-  entryName,
-  baseId,
-  userId,
-  onClose,
-}: LevelSelectModalProps) => {
+export const LevelSelectModal = ({ entryName, baseId, userId, onClose }: LevelSelectModalProps) => {
+  const navigate = useNavigate();
   /** ✅ 난이도 클릭 이벤트 */
   const handleSelectLevel = async (level: "LOW" | "MID" | "HIGH") => {
-    console.log(`🎮 난이도 선택: ${level}`);
+    // console.log(`🎮 난이도 선택: ${level}`);
 
     try {
       // ✅ 1️⃣ 서버로 세션 생성 요청
       const data = await fetchStartEntry(userId, baseId);
-      console.log("✅ 세션 생성 성공:", data);
+      // console.log("✅ 세션 생성 성공:", data);
 
       // ✅ 2️⃣ Android WebView 브릿지 호출 (러닝 시작)
       if (window.Android?.startRunning) {
         window.Android.startRunning();
-        console.log("📲 AndroidBridge.startRunning() 호출됨");
+        // console.log("📲 AndroidBridge.startRunning() 호출됨");
       }
 
-      // ✅ 나중에 서버 응답 데이터 활용 가능 (예: 세션 ID 저장 등)
-
       onClose(); // 모달 닫기
+      navigate(`/entry/${data.sessionId}`); // TODO 달리기 화면 중간에 잇기 -> 지금은 바로 결과화면으로...
     } catch (err) {
       console.error("❌ 세션 생성 실패:", err);
-      alert("서버에 세션을 생성하지 못했습니다.");
+      // alert("서버에 세션을 생성하지 못했습니다.");
     }
   };
 
