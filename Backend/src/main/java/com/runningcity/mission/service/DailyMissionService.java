@@ -5,12 +5,14 @@ import com.runningcity.mission.dto.DailyMissionResponse;
 import com.runningcity.mission.entity.DailyMission;
 import com.runningcity.mission.repository.DailyMissionRepository;
 import com.runningcity.mission.repository.RunSessionReadRepository;
+import com.runningcity.mission.repository.UserAccountWriteRepository;
 import com.runningcity.onboarding.entity.UserPreference;
 import com.runningcity.onboarding.repository.UserPreferenceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Service
 @Transactional
@@ -18,18 +20,25 @@ public class DailyMissionService {
 
     private static final double DEFAULT_TARGET_KM = 5.0;
 
+    // 🔴 개발용: run_session에 기록 없으면 이 값으로 오늘 뛴 거리로 간주
+    private static final boolean DEV_FAKE_TODAY_KM = true;
+    private static final double DEV_FAKE_KM_VALUE = 5.0;
+
     private final DailyMissionRepository dailyMissionRepository;
     private final UserPreferenceRepository userPreferenceRepository;
     private final RunSessionReadRepository runSessionReadRepository;
+    private final UserAccountWriteRepository userAccountWriteRepository;
 
     public DailyMissionService(
             DailyMissionRepository dailyMissionRepository,
             UserPreferenceRepository userPreferenceRepository,
-            RunSessionReadRepository runSessionReadRepository
+            RunSessionReadRepository runSessionReadRepository,
+            UserAccountWriteRepository userAccountWriteRepository
     ) {
         this.dailyMissionRepository = dailyMissionRepository;
         this.userPreferenceRepository = userPreferenceRepository;
         this.runSessionReadRepository = runSessionReadRepository;
+        this.userAccountWriteRepository = userAccountWriteRepository;
     }
 
     private ZonedDateTime nowSeoul() {
@@ -90,6 +99,26 @@ public class DailyMissionService {
             throw new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_ALREADY_CLAIMED.getMessage());
         }
 
+        /*
+         * ===== 보상 로직 =====
+         * 기본 EXP = 거리 × 10
+         * 연속 운동 보너스 = 일수 × 5 (최대 50)
+         * 크레딧 전환 = 총 EXP ÷ 20 (결과는 내림)
+         */
+        long baseExp = Math.round(todayRunKm * 10);   // ex) 5km -> 50 EXP
+
+        // TODO: 실제 연속운동일수 저장되면 여기서 조회
+        int consecutiveDays = 0;
+        long streakBonus = Math.min(consecutiveDays * 5L, 50L);
+
+        long totalExpToAdd = baseExp + streakBonus;
+
+        long creditToAdd = totalExpToAdd / 20; // 5% 전환
+
+        // users 테이블에 경험치/크레딧 적립
+        userAccountWriteRepository.addExpAndCredit(userId, totalExpToAdd, creditToAdd);
+
+        // 미션 상태 마무리
         mission.setClaimed(true);
         mission.setUpdatedAt(nowSeoul());
 
@@ -159,17 +188,25 @@ public class DailyMissionService {
         return userPreferenceRepository.findByUser_UserId(userId)
                 .map(UserPreference::getTargetDistanceKm)
                 .filter(km -> km != null && km > 0)
-                .orElse((float)DEFAULT_TARGET_KM);
+                .orElse((float) DEFAULT_TARGET_KM);
     }
 
     /**
      * run_session 테이블에서 오늘 뛴 거리 합계 읽기
+     * + 개발 중이면 0일 때 강제로 값 채우기
      */
     private double loadTodayRunKm(Long userId, ZonedDateTime start, ZonedDateTime end) {
-        return runSessionReadRepository.sumTodayDistance(
+        double real = runSessionReadRepository.sumTodayDistance(
                 userId,
                 start.toOffsetDateTime(),
                 end.toOffsetDateTime()
         );
+
+        // 개발모드 켜져있고, 오늘 기록이 전혀 없으면 가짜 값 사용
+        if (DEV_FAKE_TODAY_KM && real <= 0.0001) {
+            return DEV_FAKE_KM_VALUE;
+        }
+
+        return real;
     }
 }
