@@ -17,11 +17,12 @@ import com.runningcity.report.service.ReportService;
 public class ReportController {
 
     private final ReportService reportService;
-    private static final long userId = 1L;
+    // private static final long userId = 1L;
 
 
     @GetMapping    // ← /report?userId=...&year=...&month=...
     public ReportResponse getMonthly(
+            @RequestParam Long userId,
             @RequestParam int year,
             @RequestParam int month
             // ,@AuthenticationPrincipal UserDetails userDetails
@@ -32,6 +33,7 @@ public class ReportController {
 
     @GetMapping("/{sid}")
     public ResponseEntity<ApiResponse<ReportDetailResponse>> getReportDetail(
+            @RequestParam Long userId,
             @PathVariable("sid") Long sessionId
             // ,@AuthenticationPrincipal(expression = "userId") Long userId // 프로젝트에 맞춰 수정
     ) {
