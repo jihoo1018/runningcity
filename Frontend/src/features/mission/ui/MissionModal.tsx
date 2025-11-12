@@ -16,13 +16,13 @@ type DailyMissionResponse = {
   progressPercent: number;
   completed: boolean;
   claimed: boolean;
-  rewardCoins: number;
+  // ✅ rewardCoins 제거
 };
 
 interface MissionModalProps {
   open: boolean;
   onClose: () => void;
-  onClaimed?: (coins: number) => void;
+  onClaimed?: () => void; // ✅ 인자 없이
   userId: number;
 }
 
@@ -71,12 +71,14 @@ export default function MissionModal({
       void load();
     }
   }, [open]);
+
   const displayDate =
     mission?.date && mission.date.trim()
       ? mission.date
       : mission?.serverTime
       ? mission.serverTime.slice(0, 10)
       : new Date().toISOString().slice(0, 10);
+
   const claim = async () => {
     if (!mission) return;
 
@@ -92,12 +94,11 @@ export default function MissionModal({
     try {
       setLoading(true);
       setError(null);
-      const res = await apiPost<ApiResponse<DailyMissionResponse>>(
+      await apiPost<ApiResponse<DailyMissionResponse>>(
         `/api/v1/users/${userId}/daily-missions/today/claim`
       );
-      const coins = res.data.rewardCoins ?? 0;
-      showToast(`보상 수령! 🎉`, "success");
-      onClaimed?.(coins);
+      showToast("보상 수령! 🎉", "success");
+      onClaimed?.();
       await load();
     } catch (e) {
       showToast(`요청 실패: ${getErr(e)}`);
@@ -106,7 +107,7 @@ export default function MissionModal({
       setLoading(false);
     }
   };
-  
+
   if (!open) return null;
 
   return (
