@@ -1,4 +1,3 @@
-// src/features/mission/MissionModal.tsx
 import React, { useEffect, useMemo, useState } from "react";
 import { apiGet, apiPost } from "../../../shared/api";
 
@@ -40,18 +39,22 @@ export default function MissionModal({
   const [mission, setMission] = useState<DailyMissionResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ type: "error" | "success"; message: string } | null>(null);
+
+  const showToast = (msg: string, type: "error" | "success" = "error") => {
+    setToast({ message: msg, type });
+    setTimeout(() => setToast(null), 2500);
+  };
 
   const progressWidth = useMemo(
     () => `${mission?.progressPercent ?? 0}%`,
     [mission]
   );
 
-  
   const load = async () => {
     try {
       setLoading(true);
       setError(null);
-      // GET /api/v1/users/{userId}/daily-missions/today
       const res = await apiGet<ApiResponse<DailyMissionResponse>>(
         `/api/v1/users/${userId}/daily-missions/today`
       );
@@ -68,72 +71,42 @@ export default function MissionModal({
       void load();
     }
   }, [open]);
-
-  
-  const addKm = async (delta: number) => {
-    if (!mission) return;
-    try {
-      setLoading(true);
-      setError(null);
-      // PATCH /api/v1/users/{userId}/daily-missions/today/progress
-      await apiPost<void>(
-        `/api/v1/users/${userId}/daily-missions/today/progress`,
-        { additionalKm: delta },
-        "PATCH"
-      );
-      await load();
-    } catch (e) {
-      setError(getErr(e));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  
+  const displayDate =
+    mission?.date && mission.date.trim()
+      ? mission.date
+      : mission?.serverTime
+      ? mission.serverTime.slice(0, 10)
+      : new Date().toISOString().slice(0, 10);
   const claim = async () => {
     if (!mission) return;
+
     if (mission.claimed) {
-      alert("오늘은 이미 보상을 받았습니다!");
+      showToast("수령 불가능: 오늘은 이미 보상을 받았습니다.");
       return;
     }
     if (!mission.completed) {
-      alert("미션을 먼저 완료하세요.");
+      showToast("수령 불가능: 미션을 먼저 완료하세요.");
       return;
     }
 
     try {
       setLoading(true);
       setError(null);
-      // POST /api/v1/users/{userId}/daily-missions/today/claim
       const res = await apiPost<ApiResponse<DailyMissionResponse>>(
         `/api/v1/users/${userId}/daily-missions/today/claim`
       );
       const coins = res.data.rewardCoins ?? 0;
-      alert(`보상 ${coins} 코인을 수령했습니다! 🎉`);
+      showToast(`보상 수령! 🎉`, "success");
       onClaimed?.(coins);
       await load();
     } catch (e) {
-      alert(`요청 실패: ${getErr(e)}`);
+      showToast(`요청 실패: ${getErr(e)}`);
       setError(getErr(e));
     } finally {
       setLoading(false);
     }
   };
-
-  // 🔸 이건 네 백엔드에 /reset 없으면 어차피 404라서 나중에 지워도 됨
-  const reset = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      await apiPost<void>(`/api/v1/users/${userId}/daily-missions/reset`);
-      await load();
-    } catch (e) {
-      setError(getErr(e));
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   if (!open) return null;
 
   return (
@@ -145,6 +118,19 @@ export default function MissionModal({
             ✕
           </button>
         </div>
+
+        {/* 토스트 */}
+        {toast && (
+          <div
+            style={{
+              ...styles.toast,
+              background: toast.type === "error" ? "#ffebee" : "#e8f5e9",
+              color: toast.type === "error" ? "#c62828" : "#2e7d32",
+            }}
+          >
+            {toast.message}
+          </div>
+        )}
 
         {loading && <div style={styles.badge}>Loading...</div>}
         {error && (
@@ -160,14 +146,14 @@ export default function MissionModal({
         )}
 
         {!mission ? (
-          <button style={styles.button} onClick={load}>
+          <button style={styles.button} onClick={load} disabled={loading}>
             불러오기
           </button>
         ) : (
           <>
             <div style={styles.kv}>
               <div>
-                <b>날짜</b> {mission.date}
+                <b>날짜</b> {displayDate}
               </div>
               <div>
                 <b>목표 거리</b> {fmt(mission.targetKm)} km
@@ -183,9 +169,6 @@ export default function MissionModal({
                 {mission.completed ? "완료" : "진행중"} /{" "}
                 {mission.claimed ? "수령완료" : "미수령"}
               </div>
-              <div>
-                <b>보상</b> {mission.rewardCoins} 코인
-              </div>
             </div>
 
             <div style={{ margin: "12px 0" }}>
@@ -196,39 +179,11 @@ export default function MissionModal({
 
             <div style={styles.actions}>
               <button
-                style={styles.button}
-                onClick={() => addKm(0.5)}
-                disabled={loading}
-              >
-                +0.5 km
-              </button>
-              <button
-                style={styles.button}
-                onClick={() => addKm(1)}
-                disabled={loading}
-              >
-                +1.0 km
-              </button>
-              <button
                 style={{ ...styles.button, background: "#1e88e5" }}
                 onClick={claim}
-                disabled={loading || !mission.completed || mission.claimed}
+                disabled={loading}
               >
                 보상 수령
-              </button>
-              <button
-                style={{ ...styles.button, background: "#8e24aa" }}
-                onClick={reset}
-                disabled={loading}
-              >
-                초기화
-              </button>
-              <button
-                style={{ ...styles.button, background: "#455a64" }}
-                onClick={load}
-                disabled={loading}
-              >
-                새로고침
               </button>
             </div>
           </>
@@ -249,6 +204,7 @@ const styles: Record<string, React.CSSProperties> = {
     zIndex: 50,
   },
   modal: {
+    position: "relative",
     width: 560,
     maxWidth: "92vw",
     background: "#fff",
@@ -310,5 +266,14 @@ const styles: Record<string, React.CSSProperties> = {
     background: "#e3f2fd",
     color: "#1565c0",
     marginBottom: 8,
+  },
+  toast: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    padding: "6px 10px",
+    borderRadius: 8,
+    fontSize: 13,
+    boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
   },
 };

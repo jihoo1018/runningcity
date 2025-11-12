@@ -57,6 +57,12 @@ export default defineConfig({
       "Access-Control-Allow-Headers": "*",
       "Cache-Control": "no-store",
     },
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080", // 스프링 주소
+        changeOrigin: true,
+      },
+    },
   },
   // server: {
   //   allowedHosts: ["nonconjunctive-cami-outdoor.ngrok-free.dev"],
