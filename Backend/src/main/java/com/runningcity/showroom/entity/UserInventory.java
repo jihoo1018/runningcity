@@ -45,9 +45,6 @@ public class UserInventory {
      * entity의 상태를 변경하는 주체는 자신이어야 해서 여기에 위치함이 맞음
      */
     public void increaseQuantity(int amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("증가량은 1 이상이어야 합니다.");
-        }
         this.quantity += amount;
     }
 
