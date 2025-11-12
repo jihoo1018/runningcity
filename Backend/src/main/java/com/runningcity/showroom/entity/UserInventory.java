@@ -1,5 +1,8 @@
 package com.runningcity.showroom.entity;
 
+import com.runningcity.boutique.exception.BoutiqueResponseCode;
+import com.runningcity.global.exception.BaseException;
+import com.runningcity.global.response.CommonResponseCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,5 +50,37 @@ public class UserInventory {
     public void increaseQuantity(int amount) {
         this.quantity += amount;
     }
+    /**
+     * 새로운 인벤토리 아이템 생성
+     * @param userId 유저 ID
+     * @param itemId 아이템 ID
+     * @return 생성된 인벤토리
+     */
+    public static UserInventory create(Long userId, Long itemId) {
+        validateUserId(userId);
+        validateItemId(itemId);
+
+        UserInventory inventory = new UserInventory();
+        inventory.userId = userId;
+        inventory.itemId = itemId;
+        return inventory;
+    }
+    // ============================================
+    // 검증 메서드
+    // ============================================
+
+    private static void validateUserId(Long userId) {
+        if (userId == null || userId <= 0) {
+            throw new BaseException(CommonResponseCode.USER_NOT_FOUND);
+        }
+    }
+
+    private static void validateItemId(Long itemId) {
+        if (itemId == null || itemId <= 0) {
+            throw new BaseException(BoutiqueResponseCode.ITEM_NOT_FOUND);
+        }
+    }
+
+
 
 }

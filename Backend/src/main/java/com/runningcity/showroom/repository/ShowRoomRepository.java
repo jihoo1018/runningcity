@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface ShowRoomRepository extends JpaRepository<UserInventory, Long> {
@@ -20,7 +21,11 @@ public interface ShowRoomRepository extends JpaRepository<UserInventory, Long> {
     @Query("SELECT ui.itemId FROM UserInventory ui WHERE ui.userId = :userId")
     Set<Long> findPurchasedItemIds(@Param("userId") Long userId);
 
-    // ✅ 추가: 중복 구매 체크
+    // 중복 구매 체크
     boolean existsByUserIdAndItemId(Long userId, Long itemId);
 
+    /**
+     * 유저의 특정 아이템 조회
+     */
+    Optional<UserInventory> findByUserIdAndItemId(Long userId, Long itemId);
 }
