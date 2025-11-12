@@ -1,6 +1,8 @@
 package com.runningcity.auth.service;
 
 import com.runningcity.auth.dto.CheckEmailResponse;
+import com.runningcity.auth.dto.LoginRequest;
+import com.runningcity.auth.dto.LoginSuccessData;
 import com.runningcity.auth.dto.SignupRequest;
 import com.runningcity.auth.exception.AuthResponseCode;
 import com.runningcity.auth.repository.UserAuthRepository;
@@ -75,4 +77,27 @@ public class AuthService {
             throw new BaseException(AuthResponseCode.INTERNAL_ERROR);
         }
     }
+
+
+    public LoginSuccessData login(LoginRequest req) {
+        User u = userRepository.findByEmail(req.getEmail())
+                .orElseThrow(() -> new BaseException(AuthResponseCode.UNAUTHORIZED_INVALID_CREDENTIALS));
+
+        if (u.getPassword() == null || !passwordEncoder.matches(req.getPassword(), u.getPassword())) {
+            throw new BaseException(AuthResponseCode.UNAUTHORIZED_INVALID_CREDENTIALS);
+        }
+        if (Boolean.FALSE.equals(u.getIsActive())) {
+            throw new BaseException(AuthResponseCode.UNAUTHORIZED_INVALID_CREDENTIALS);
+        }
+
+        return LoginSuccessData.builder()
+                .userId(u.getUserId())
+                .userNickname(u.getNickname())
+                .userCode(u.getUserCode())
+                .totalexp(u.getTotalExp())
+                .build();
+    }
+
+
+
 }
