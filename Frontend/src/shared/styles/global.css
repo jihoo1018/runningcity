@@ -10,6 +10,12 @@
   user-select: none;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 /* body, html 전체 화면 설정 */
 html,
 body {
@@ -39,8 +45,7 @@ body {
   display: flex;
   flex-direction: column;
 
-  overflow-y: auto; /* 세로 스크롤만 허용 */
-  overflow-x: hidden; /* 가로 스크롤 방지 */
+  overflow: hidden;
   overscroll-behavior-y: none; /* 바운스/풀투리프레시 방지 */
   -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
 }

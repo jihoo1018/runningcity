@@ -2,13 +2,16 @@
 @import "./fonts.css";
 
 @theme {
-  --font-sans: "Galmuri11", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, "Segoe UI Emoji",
+  --font-sans:
+    "Galmuri11", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR",
+    "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
 
   /* scale */
   --text-game-title: 44px;
   --text-title: 38px;
   --text-subtitle: 24px;
+  --text-modal-title: 20px;
   --text-button: 16px;
   --text-content: 14px;
   --text-desc: 12px;
@@ -36,6 +39,13 @@
 
 @utility text-subtitle {
   font-size: var(--text-subtitle);
+  line-height: var(--text-leading-tight);
+  font-weight: 700;
+  letter-spacing: var(--track-normal);
+}
+
+@utility text-modal-title {
+  font-size: var(--text-modal-title);
   line-height: var(--text-leading-tight);
   font-weight: 700;
   letter-spacing: var(--track-normal);
