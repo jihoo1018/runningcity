@@ -1,23 +1,30 @@
 package com.runningcity.report.service;
 
+import com.runningcity.global.exception.BaseException;
+import com.runningcity.report.repository.ReportNativeRepository;
 import com.runningcity.run.entity.RunSession;
+import lombok.*;
 import org.springframework.stereotype.Service;
 
 import com.runningcity.report.dto.ReportResponse;
 
 import com.runningcity.report.repository.ReportRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.runningcity.report.dto.ReportDetailResponse;
+import com.runningcity.report.exception.ReportResponseCode;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.*;
 import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 public class ReportService {
 
-    private final ReportRepository repository;
+    private final ReportRepository reportRepository;
+    private final ReportNativeRepository nativeRepository;
 
-    public ReportService(ReportRepository repository) {
-        this.repository = repository;
-    }
 
     public ReportResponse getMonthly(Long userId, int year, int month) {
         ZoneId KST = ZoneId.of("Asia/Seoul");
@@ -29,7 +36,7 @@ public class ReportService {
         Instant end   = first.plusMonths(1).atStartOfDay(KST).toInstant();
 
 
-        List<RunSession> sessions = repository.findMonthlySessions(userId, start, end);
+        List<RunSession> sessions = reportRepository.findMonthlySessions(userId, start, end);
 
         // calendar
         LocalDate endDate = first.withDayOfMonth(first.lengthOfMonth());
@@ -103,4 +110,73 @@ public class ReportService {
         }
         return String.format("0:%02d:%02d", m, s);
     }
+
+    /** 단건 상세 */
+    @Transactional(readOnly = true)
+    public ReportDetailResponse getReportDetail(long userId, long sessionId) {
+
+        RunSession rs = reportRepository.findFinalizedByIdAndUserId(sessionId, userId)
+                .orElseThrow(() -> new BaseException(ReportResponseCode.REPORT_SESSION_NOT_FOUND));
+
+        // summary 매핑
+        ReportDetailResponse.Summary summary = ReportDetailResponse.Summary.builder()
+                .totalSteps(rs.getTotalSteps())
+                .totalDistance(rs.getTotalDistance())
+                .totalCalories(rs.getTotalCalories())
+                .avgHeartRate(rs.getAvgHeartRate())
+                .duration(rs.getDuration())
+                .avgCadence(rs.getAvgCadence())
+                .avgPace(rs.getAvgPace())
+                .elevation(rs.getElevation())
+                .build();
+
+        // rewards_meta → credit/exp만 추출(없으면 null)
+        ReportDetailResponse.Rewards rewards = extractRewards(rs.getRewardsMeta());
+
+        // route GeoJSON (없으면 null)
+        Optional<String> geojsonOpt = nativeRepository.findRouteGeoJson(sessionId);
+        ReportDetailResponse.Route route = geojsonOpt
+                .filter(s -> !s.isBlank())
+                .map(s -> ReportDetailResponse.Route.builder().geojson(s).build())
+                .orElse(null);
+
+        return ReportDetailResponse.builder()
+                .type(rs.getType())          // "NORMAL" | "ENTRY"
+                .summary(summary)
+                .rewards(rewards)
+                .route(route)
+                .build();
+    }
+
+    private ReportDetailResponse.Rewards extractRewards(JsonNode rewardsMeta) {
+        if (rewardsMeta == null || rewardsMeta.isNull()) return null;
+
+        Integer credit = null, exp = null;
+        if (rewardsMeta.hasNonNull("credit")) {
+            credit = safeInt(rewardsMeta.get("credit"));
+        }
+        if (rewardsMeta.hasNonNull("exp")) {
+            exp = safeInt(rewardsMeta.get("exp"));
+        }
+        if (credit == null && exp == null) return null;
+
+        return ReportDetailResponse.Rewards.builder()
+                .credit(credit)
+                .exp(exp)
+                .build();
+    }
+
+    private Integer safeInt(JsonNode node) {
+        try {
+            if (node == null || node.isNull()) return null;
+            if (node.isInt()) return node.intValue();
+            if (node.isNumber()) return node.numberValue().intValue();
+            if (node.isTextual()) return Integer.valueOf(node.textValue());
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
 }
