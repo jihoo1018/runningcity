@@ -79,25 +79,24 @@ public class AuthService {
     }
 
 
+    @Transactional(readOnly = true)
     public LoginSuccessData login(LoginRequest req) {
-        User u = userRepository.findByEmail(req.getEmail())
-                .orElseThrow(() -> new BaseException(AuthResponseCode.UNAUTHORIZED_INVALID_CREDENTIALS));
+        User user = userRepository.findByEmail(req.getEmail())
+                .orElseThrow(() -> new BaseException(AuthResponseCode.EMAIL_NOT_FOUND));
 
-        if (u.getPassword() == null || !passwordEncoder.matches(req.getPassword(), u.getPassword())) {
-            throw new BaseException(AuthResponseCode.UNAUTHORIZED_INVALID_CREDENTIALS);
+        if (user.getPassword() == null || !passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new BaseException(AuthResponseCode.PASSWORD_MISMATCH);
         }
-        if (Boolean.FALSE.equals(u.getIsActive())) {
-            throw new BaseException(AuthResponseCode.UNAUTHORIZED_INVALID_CREDENTIALS);
+
+        if (Boolean.FALSE.equals(user.getIsActive())) {
+            throw new BaseException(AuthResponseCode.INACTIVE_USER);
         }
 
         return LoginSuccessData.builder()
-                .userId(u.getUserId())
-                .userNickname(u.getNickname())
-                .userCode(u.getUserCode())
-                .totalexp(u.getTotalExp())
+                .userId(user.getUserId())
+                .userNickname(user.getNickname())
+                .userCode(user.getUserCode())
+                .totalexp(user.getTotalExp())
                 .build();
     }
-
-
-
 }
