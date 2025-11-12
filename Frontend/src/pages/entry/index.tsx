@@ -52,6 +52,7 @@ const EntryPage = () => {
   const [levelModalEntry, setLevelModalEntry] = useState<EntryDetail | null>(
     null
   ); // ✅ 난이도 모달 상태
+  const [userId, setUserId] = useState(1); // TODO 일단 임시로 userId 1 박아놓기
 
   // ✅ 사용자 위치 상태
   const [userPosition, setUserPosition] = useState<{
@@ -399,6 +400,7 @@ const EntryPage = () => {
         <LevelSelectModal
           entryName={levelModalEntry.courseNm}
           baseId={levelModalEntry.baseId}
+          userId={userId}
           onClose={() => setLevelModalEntry(null)}
         />
       )}

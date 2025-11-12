@@ -5,7 +5,7 @@ import { ApiResponse } from "./types";
 export interface RunningSession {
   clientSecretKey: string; // UUID 키
   sessionId: number | null; // 세션 ID (nullable)
-  userId: string; // 사용자 ID
+  userId: number; // 사용자 ID
   startTime: number; // 시작 시각 (밀리초)
   endTime: number; // 종료 시각 (밀리초)
   summary: SummaryData; // 요약 데이터
@@ -60,20 +60,29 @@ export interface GpsPoint {
   createdAt: number; // 측정 시각 (밀리초)
 }
 
+// TODO 나중에 지우기. 임시로 clientSecretKey 발급하기 위한 함수
+function generateUUID(): string {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 // 잠입 결과 데이터 받는 함수
 export async function getEntryResult(
   sessionId: number
 ): Promise<RunningSession> {
   const data: RunningSession = {
-    clientSecretKey: "run_a1b2c3d4",
+    clientSecretKey: generateUUID(),
     sessionId,
-    userId: "default_user",
+    userId: 1,
     startTime: 1699876530000,
     endTime: 1699878330000,
-    rewards: {
-      exp: 800,
-      credit: Math.floor(800 / 20),
-    },
+    // rewards: {
+    //   exp: 800,
+    //   credit: Math.floor(800 / 20),
+    // },
     dataChipCnt: Math.floor(5000.0 / 1000),
     summary: {
       totalSteps: 5280,
@@ -132,7 +141,7 @@ export async function completeEntrySession(
   runningSession: RunningSession
 ): Promise<boolean> {
   const res = await apiPost<ApiResponse<boolean>>(
-    `/api/v1/sessions/${runningSession.sessionId}/finish`,
+    `/api/v1/sessions/${runningSession.sessionId}/finish?userId=${runningSession.userId}`,
     runningSession
   );
   if (res.status !== 200 || res.code !== "COMMON_2000") {

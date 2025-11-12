@@ -67,12 +67,18 @@ export async function fetchGetEntryDetail(
 }
 
 /** ✅ 개인 잠입 세션 시작 */
-export async function fetchStartEntry(baseId: number): Promise<CreateSession> {
-  const res = await apiPost<ApiResponse<CreateSession>>(`/api/v1/sessions`, {
-    type: "ENTRY",
-    deviceType: "WATCH",
-    baseId: baseId,
-  });
+export async function fetchStartEntry(
+  userId: number,
+  baseId: number
+): Promise<CreateSession> {
+  const res = await apiPost<ApiResponse<CreateSession>>(
+    `/api/v1/sessions?userId=${userId}`,
+    {
+      type: "ENTRY",
+      deviceType: "WATCH",
+      baseId: baseId,
+    }
+  );
   if (res.status !== 200 || res.code !== "COMMON_2000") {
     throw new Error(res.message || "잠입 세션 생성 실패");
   }

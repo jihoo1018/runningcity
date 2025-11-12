@@ -69,6 +69,29 @@ function drawReward(): Reward {
   };
 }
 
+function getRewards(cnt: number) {
+  let exp = 0;
+  switch (
+    cnt // 잠입 인원수
+  ) {
+    case 2:
+      exp = 1100;
+      break;
+    case 3:
+      exp = 1300;
+      break;
+    case 4:
+      exp = 1500;
+      break;
+    default:
+      exp = 800;
+  }
+  return {
+    exp: exp,
+    credit: Math.floor(exp / 20),
+  };
+}
+
 const EntryResultPage = () => {
   const navigate = useNavigate();
   const [reward, setReward] = useState<Reward | null>(null);
@@ -82,8 +105,10 @@ const EntryResultPage = () => {
   // ✅ 세션 데이터 불러오기
   useEffect(() => {
     async function fetchSession() {
-      const sessionId = 1; // TODO 테스트용이라 실제로는 실데이터 넣어야함
+      const sessionId = 2; // TODO 테스트용이라 실제로는 실데이터 넣어야함
       const data = await getEntryResult(sessionId);
+      const rewards = getRewards(1); // TODO 나중에 개인/팀 잠입 나눠서 줘야함(1~4명)
+      data.rewards = rewards;
       setResultData(data);
       setChipCount(data.dataChipCnt ?? 5);
     }
@@ -178,7 +203,7 @@ const EntryResultPage = () => {
 
           {/* 🔹 EXP, CR = 기본값 + 추가 리워드 */}
           <p>
-            누적 에너지:{" "}
+            누적 경험치:{" "}
             {resultData && resultData.rewards
               ? resultData.rewards.exp + bonusExp
               : 0}{" "}

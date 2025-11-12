@@ -5,12 +5,14 @@ import { fetchStartEntry } from "@/shared/api/entry";
 type LevelSelectModalProps = {
   entryName: string;
   baseId: number;
+  userId: number;
   onClose: () => void;
 };
 
 export const LevelSelectModal = ({
   entryName,
   baseId,
+  userId,
   onClose,
 }: LevelSelectModalProps) => {
   /** ✅ 난이도 클릭 이벤트 */
@@ -19,7 +21,7 @@ export const LevelSelectModal = ({
 
     try {
       // ✅ 1️⃣ 서버로 세션 생성 요청
-      const data = await fetchStartEntry(baseId);
+      const data = await fetchStartEntry(userId, baseId);
       console.log("✅ 세션 생성 성공:", data);
 
       // ✅ 2️⃣ Android WebView 브릿지 호출 (러닝 시작)
