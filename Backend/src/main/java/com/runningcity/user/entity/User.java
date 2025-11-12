@@ -1,5 +1,7 @@
 package com.runningcity.user.entity;
 
+import com.runningcity.global.exception.BaseException;
+import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.onboarding.entity.UserPreference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -88,6 +90,34 @@ public class User {
      */
     public void updateNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    // ============================================
+    // ✅ 크레딧 관련 비즈니스 메서드 (추가)
+    // ============================================
+
+    /**
+     * 크레딧 차감 (상점 구매 시)
+     * @param amount 차감할 크레딧
+     * @throws IllegalArgumentException 크레딧 부족 시
+     */
+    public void deductCredit(Integer amount) {
+        if (amount == null || amount <= 0) {
+            throw new BaseException(CommonResponseCode.INVALID_CREDIT_AMOUNT);
+        }
+        if (this.totalCredit < amount) {
+            throw new BaseException(CommonResponseCode.INSUFFICIENT_CREDIT);
+        }
+        this.totalCredit -= amount;
+    }
+
+    /**
+     * 크레딧 충분 여부 확인
+     * @param amount 필요한 크레딧
+     * @return 구매 가능 여부
+     */
+    public boolean hasEnoughCredit(Long amount) {
+        return this.totalCredit >= amount;
     }
 }
 
