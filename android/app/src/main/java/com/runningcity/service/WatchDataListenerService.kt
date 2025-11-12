@@ -44,6 +44,8 @@ class WatchDataListenerService : WearableListenerService() {
         private const val PATH_SESSION_END = "/session_end"
         private const val PATH_WATCH_DATA_READY = "/watch_data_ready"
         private const val PATH_WORKOUT_STOPPED = "/workout_stopped"
+        private const val PATH_HEART_RATE_MEASURED = "/heart_rate_measured"
+        private const val PATH_HEART_RATE_ERROR = "/heart_rate_error"
     }
 
     override fun onCreate() {
@@ -263,6 +265,49 @@ class WatchDataListenerService : WearableListenerService() {
                     Log.e(TAG, "❌ sessionId 파싱 실패: $sessionIdStr")
                 }
             }
+            PATH_HEART_RATE_MEASURED -> {
+                Log.d(TAG, "═══════════════════════════════════════")
+                Log.d(TAG, "💓 [3단계] 워치로부터 심박수 측정 결과 수신!")
+                Log.d(TAG, "   📥 원본 데이터: ${String(messageEvent.data, Charsets.UTF_8)}")
+                
+                val heartRateStr = String(messageEvent.data, Charsets.UTF_8)
+                val heartRate = heartRateStr.toIntOrNull()
+                
+                if (heartRate != null) {
+                    Log.d(TAG, "✅ [4단계] 심박수 파싱 성공: $heartRate bpm")
+                    Log.d(TAG, "   📤 WebAppInterface로 브로드캐스트 전송 중...")
+                    
+                    // 브로드캐스트로 WebAppInterface에 전달
+                    val intent = android.content.Intent("com.runningcity.HEART_RATE_MEASURED")
+                    intent.putExtra("heartRate", heartRate)
+                    sendBroadcast(intent)
+                    
+                    Log.d(TAG, "✅ [5단계] 브로드캐스트 전송 완료")
+                    Log.d(TAG, "   → WebAppInterface가 React로 전달할 예정")
+                    Log.d(TAG, "═══════════════════════════════════════")
+                } else {
+                    Log.e(TAG, "❌ [실패] 심박수 파싱 실패")
+                    Log.e(TAG, "   원본 문자열: '$heartRateStr'")
+                    Log.e(TAG, "   → 정수로 변환할 수 없습니다")
+                }
+            }
+            
+            PATH_HEART_RATE_ERROR -> {
+                Log.e(TAG, "═══════════════════════════════════════")
+                Log.e(TAG, "❌ [에러] 워치로부터 심박수 측정 에러 수신!")
+                val errorMessage = String(messageEvent.data, Charsets.UTF_8)
+                Log.e(TAG, "   📥 에러 메시지: $errorMessage")
+                Log.e(TAG, "   📤 WebAppInterface로 브로드캐스트 전송 중...")
+                
+                // 브로드캐스트로 WebAppInterface에 전달
+                val intent = android.content.Intent("com.runningcity.HEART_RATE_ERROR")
+                intent.putExtra("errorMessage", errorMessage)
+                sendBroadcast(intent)
+                
+                Log.e(TAG, "✅ 브로드캐스트 전송 완료")
+                Log.e(TAG, "═══════════════════════════════════════")
+            }
+            
             "/ping" -> {
                 Log.d(TAG, "🏓 Ping 수신 - 워치 연결 확인됨")
             }
