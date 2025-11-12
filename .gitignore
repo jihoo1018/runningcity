@@ -6,7 +6,7 @@
 # frontend
 Frontend/node_modules/
 Frontend/dist/
-Frontend/src/**/*.d.ts
+#Frontend/src/**/*.d.ts
 Frontend/src/**/*.js
 Frontend/vite.config.js
 

@@ -1,10 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
 
     <!-- 모바일 최적화: 줌 방지, 전체 화면 사용 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
 
     <!-- PWA 설정 -->
@@ -19,12 +22,19 @@
     <!-- <link rel="manifest" href="./manifest.json" /> -->
 
     <link rel="preload" href="./fonts/Galmuri11.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="./fonts/Galmuri11-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="./fonts/Galmuri11-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <title>러닝시티 - 러너즈 프로토콜</title>
   </head>
   <body>
     <div id="root"></div>
+    <div id="modal-root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

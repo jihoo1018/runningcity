@@ -1,3 +1,4 @@
-// src/shared/ui/index.ts
-export { default as Button } from './Button';
-export { default as NavButton } from './NavButton';
+export { default as Button } from "./Button";
+export { default as NavButton } from "./NavButton";
+export { default as CommonButton } from "./CommonButton";
+export { Modal as Modal } from "./Modal";

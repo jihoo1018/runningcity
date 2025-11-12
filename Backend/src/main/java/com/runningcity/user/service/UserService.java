@@ -4,6 +4,7 @@ import com.runningcity.global.exception.BaseException;
 import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.user.dto.NicknameUpdateRequest;
 import com.runningcity.user.dto.NicknameUpdateResponse;
+import com.runningcity.user.dto.UserResponse;
 import com.runningcity.user.entity.User;
 import com.runningcity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    /**
+     * 사용자 조회
+     * @param userId 사용자 ID
+     * @return 사용자 정보
+     */
+    public UserResponse getUserById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BaseException(CommonResponseCode.USER_NOT_FOUND));
+        
+        return UserResponse.from(user);
+    }
 
     /**
      * 사용자 닉네임 수정

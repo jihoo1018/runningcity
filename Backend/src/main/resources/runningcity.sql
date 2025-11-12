@@ -323,3 +323,50 @@ CREATE TRIGGER trg_user_preferences_updated_at
     BEFORE UPDATE ON user_preferences
     FOR EACH ROW
     EXECUTE FUNCTION set_updated_at();
+
+-- =========================================
+-- 친구 관계 테이블 (friendship)
+-- =========================================
+CREATE TABLE IF NOT EXISTS friendship (
+    friendship_id BIGSERIAL PRIMARY KEY,
+    
+    requester_id BIGINT NOT NULL,  -- 요청 보낸 사람
+    addressee_id BIGINT NOT NULL,  -- 요청 받은 사람
+    
+    -- 상태: PENDING(대기), ACCEPTED(수락), REJECTED(거절), CANCELLED(취소), BLOCKED(차단)
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' 
+        CHECK (status IN ('PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED', 'BLOCKED')),
+    
+    created_at timestamptz NOT NULL DEFAULT now(), -- 생성 시간
+    updated_at timestamptz NOT NULL DEFAULT now(), -- 수정 시간
+    
+    CONSTRAINT fk_friendship_requester 
+        FOREIGN KEY (requester_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_friendship_addressee 
+        FOREIGN KEY (addressee_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    
+    -- 자기 자신과 친구 요청 방지
+    CONSTRAINT friendship_no_self_request 
+        CHECK (requester_id != addressee_id),
+    
+    -- 중복 요청 방지: 같은 사람에게 중복 요청 불가
+    CONSTRAINT friendship_unique_request 
+        UNIQUE (requester_id, addressee_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_friendship_requester_status 
+    ON friendship(requester_id, status, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_friendship_addressee_status 
+    ON friendship(addressee_id, status, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_friendship_accepted_requester 
+    ON friendship(requester_id) WHERE status = 'ACCEPTED';
+CREATE INDEX IF NOT EXISTS idx_friendship_accepted_addressee 
+    ON friendship(addressee_id) WHERE status = 'ACCEPTED';
+
+DROP TRIGGER IF EXISTS trg_friendship_updated_at ON friendship;
+CREATE TRIGGER trg_friendship_updated_at
+    BEFORE UPDATE ON friendship
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
