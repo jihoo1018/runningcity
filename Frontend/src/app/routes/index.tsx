@@ -10,6 +10,7 @@ import { MainLayout } from "../layout/MainLayout";
 import BoutiquePage from "@/pages/boutique";
 import ShowroomPage from "@/pages/showroom";
 import { ModalLayer } from "../modal/ModalLayer";
+import FriendshipPage from "@/pages/friendship";
 
 export function AppRoutes() {
   const location = useLocation();
@@ -26,6 +27,7 @@ export function AppRoutes() {
           <Route path="/entry" element={<EntryPage />} />
           <Route path="/boutique" element={<BoutiquePage />} />
           <Route path="/showroom" element={<ShowroomPage />} />
+          <Route path="/friendship" element={<FriendshipPage />} />
         </Route>
 
         <Route path="/m/*" element={<Navigate to="/" replace />} />
