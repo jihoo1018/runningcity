@@ -34,6 +34,8 @@ public enum CommonResponseCode implements BaseResponseCode {
     NICKNAME_DUPLICATE(HttpStatus.CONFLICT, "USER_4090", "이미 사용 중인 닉네임입니다."),
     NICKNAME_INVALID_LENGTH(HttpStatus.BAD_REQUEST, "USER_4001", "닉네임은 2자 이상 10자 이하여야 합니다."),
     NICKNAME_INVALID_CHARACTER(HttpStatus.BAD_REQUEST, "USER_4002", "닉네임은 한글, 영문, 숫자만 사용 가능합니다."),
+    INVALID_CREDIT_AMOUNT(HttpStatus.BAD_REQUEST, "USER_4003", "차감할 크레딧은 0보다 커야 합니다."),
+    INSUFFICIENT_CREDIT(HttpStatus.BAD_REQUEST, "USER_4004", "크레딧이 부족합니다."),
 
     // Mission 관련 에러
     DAILY_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION_4040", "해당 일일 미션을 찾을 수 없습니다."),

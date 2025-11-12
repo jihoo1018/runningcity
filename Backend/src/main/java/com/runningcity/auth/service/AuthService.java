@@ -1,6 +1,8 @@
 package com.runningcity.auth.service;
 
 import com.runningcity.auth.dto.CheckEmailResponse;
+import com.runningcity.auth.dto.LoginRequest;
+import com.runningcity.auth.dto.LoginSuccessData;
 import com.runningcity.auth.dto.SignupRequest;
 import com.runningcity.auth.exception.AuthResponseCode;
 import com.runningcity.auth.repository.UserAuthRepository;
@@ -74,5 +76,27 @@ public class AuthService {
             // user_code UNIQUE 극희박 충돌 등
             throw new BaseException(AuthResponseCode.INTERNAL_ERROR);
         }
+    }
+
+
+    @Transactional(readOnly = true)
+    public LoginSuccessData login(LoginRequest req) {
+        User user = userRepository.findByEmail(req.getEmail())
+                .orElseThrow(() -> new BaseException(AuthResponseCode.EMAIL_NOT_FOUND));
+
+        if (user.getPassword() == null || !passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new BaseException(AuthResponseCode.PASSWORD_MISMATCH);
+        }
+
+        if (Boolean.FALSE.equals(user.getIsActive())) {
+            throw new BaseException(AuthResponseCode.INACTIVE_USER);
+        }
+
+        return LoginSuccessData.builder()
+                .userId(user.getUserId())
+                .userNickname(user.getNickname())
+                .userCode(user.getUserCode())
+                .totalexp(user.getTotalExp())
+                .build();
     }
 }

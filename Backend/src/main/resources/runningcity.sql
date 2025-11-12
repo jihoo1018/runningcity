@@ -86,7 +86,7 @@ CREATE INDEX IF NOT EXISTS run_session_end_time_idx  ON run_session (end_time);
 -- 2) gps_points
 -- =========================================
 CREATE TABLE IF NOT EXISTS gps_points (
-                                          session_id      BIGINT NOT NULL REFERENCES run_session(session_id) ON DELETE CASCADE,
+    session_id      BIGINT NOT NULL REFERENCES run_session(session_id) ON DELETE CASCADE,
     seq             INTEGER NOT NULL CHECK (seq > 0),
 
     created_at      timestamptz NOT NULL,
@@ -246,13 +246,13 @@ CREATE TABLE IF NOT EXISTS gacha_history (
      history_id BIGSERIAL PRIMARY KEY,        -- 고유 식별자
      user_id BIGINT NOT NULL,                 -- 뽑은 유저
      item_id BIGINT NOT NULL REFERENCES boutique_items(item_id) ON DELETE CASCADE,
-    rarity VARCHAR(20) NOT NULL,             -- 등급 (common, rare, epic, legendary)
-    draw_type VARCHAR(20) DEFAULT 'single',  -- 단일 / 10연 등 구분
-    draw_time timestamptz DEFAULT now(),     -- 뽑은 시간
-    session_id UUID DEFAULT gen_random_uuid(), -- 10연차 단위 묶음
-    obtained BOOLEAN DEFAULT true,           -- 정상 수령 여부 (예: 인벤토리 꽉 찼을 때 false 처리)
-    notes TEXT                               -- 디버깅이나 이벤트 로그용
-    );
+     rarity VARCHAR(20) NOT NULL,             -- 등급 (common, rare, epic, legendary)
+     draw_type VARCHAR(20) DEFAULT 'single',  -- 단일 / 10연 등 구분
+     draw_time timestamptz DEFAULT now(),     -- 뽑은 시간
+     session_id UUID DEFAULT gen_random_uuid(), -- 10연차 단위 묶음
+     obtained BOOLEAN DEFAULT true,           -- 정상 수령 여부 (예: 인벤토리 꽉 찼을 때 false 처리)
+     notes TEXT                               -- 디버깅이나 이벤트 로그용
+     );
 
 -- =========================================================
 -- 🎯 유저가 소유하고 있는 아이템들(중복 허용)
@@ -321,5 +321,52 @@ CREATE TABLE IF NOT EXISTS user_preferences (
 DROP TRIGGER IF EXISTS trg_user_preferences_updated_at ON user_preferences;
 CREATE TRIGGER trg_user_preferences_updated_at
     BEFORE UPDATE ON user_preferences
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
+
+-- =========================================
+-- 친구 관계 테이블 (friendship)
+-- =========================================
+CREATE TABLE IF NOT EXISTS friendship (
+    friendship_id BIGSERIAL PRIMARY KEY,
+    
+    requester_id BIGINT NOT NULL,  -- 요청 보낸 사람
+    addressee_id BIGINT NOT NULL,  -- 요청 받은 사람
+    
+    -- 상태: PENDING(대기), ACCEPTED(수락), REJECTED(거절), CANCELLED(취소), BLOCKED(차단)
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING' 
+        CHECK (status IN ('PENDING', 'ACCEPTED', 'REJECTED', 'CANCELLED', 'BLOCKED')),
+    
+    created_at timestamptz NOT NULL DEFAULT now(), -- 생성 시간
+    updated_at timestamptz NOT NULL DEFAULT now(), -- 수정 시간
+    
+    CONSTRAINT fk_friendship_requester 
+        FOREIGN KEY (requester_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_friendship_addressee 
+        FOREIGN KEY (addressee_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    
+    -- 자기 자신과 친구 요청 방지
+    CONSTRAINT friendship_no_self_request 
+        CHECK (requester_id != addressee_id),
+    
+    -- 중복 요청 방지: 같은 사람에게 중복 요청 불가
+    CONSTRAINT friendship_unique_request 
+        UNIQUE (requester_id, addressee_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_friendship_requester_status 
+    ON friendship(requester_id, status, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_friendship_addressee_status 
+    ON friendship(addressee_id, status, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_friendship_accepted_requester 
+    ON friendship(requester_id) WHERE status = 'ACCEPTED';
+CREATE INDEX IF NOT EXISTS idx_friendship_accepted_addressee 
+    ON friendship(addressee_id) WHERE status = 'ACCEPTED';
+
+DROP TRIGGER IF EXISTS trg_friendship_updated_at ON friendship;
+CREATE TRIGGER trg_friendship_updated_at
+    BEFORE UPDATE ON friendship
     FOR EACH ROW
     EXECUTE FUNCTION set_updated_at();
