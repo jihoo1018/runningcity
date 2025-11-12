@@ -21,7 +21,7 @@ public class DailyMissionService {
     private static final double DEFAULT_TARGET_KM = 5.0;
 
     // 🔴 개발용: run_session에 기록 없으면 이 값으로 오늘 뛴 거리로 간주
-    private static final boolean DEV_FAKE_TODAY_KM = true;
+    private static final boolean DEV_FAKE_TODAY_KM = false;
     private static final double DEV_FAKE_KM_VALUE = 5.0;
 
     private final DailyMissionRepository dailyMissionRepository;
