@@ -4,6 +4,7 @@ import com.runningcity.global.response.ApiResponse;
 import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.user.dto.NicknameUpdateRequest;
 import com.runningcity.user.dto.NicknameUpdateResponse;
+import com.runningcity.user.dto.UserResponse;
 import com.runningcity.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,22 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    /**
+     * 사용자 조회 API
+     * @param userId 사용자 ID
+     * @return 사용자 정보
+     */
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<UserResponse> getUser(
+            @PathVariable("userId") Long userId
+            // TODO: JWT에서 userId 추출하여 PathVariable과 일치하는지 검증 필요
+            // @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        UserResponse response = userService.getUserById(userId);
+        return ApiResponse.success(CommonResponseCode.SUCCESS, response);
+    }
 
     /**
      * 사용자 닉네임 수정 API
