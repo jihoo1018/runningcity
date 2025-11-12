@@ -1,4 +1,4 @@
-// src/entities/report/ui/loadKakaoMapsSDK.ts
+// src/shared/lib/kakao/loadKakaoMapsSDK.ts
 import { ENV } from "@/shared/config/env";
 declare global { interface Window { kakao?: any } }
 
