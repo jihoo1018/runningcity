@@ -11,7 +11,8 @@ public enum AuthResponseCode implements BaseResponseCode {
     PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "AUTH_4001", "비밀번호가 일치하지 않습니다."),
     BAD_REQUEST_PARAM(HttpStatus.BAD_REQUEST, "AUTH_4000", "요청 파라미터가 올바르지 않습니다."),
     ENCODING_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH_5001", "비밀번호 인코딩 중 오류가 발생했습니다."),
-    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH_5000", "회원가입 처리 중 서버 오류가 발생했습니다.");
+    INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH_5000", "회원가입 처리 중 서버 오류가 발생했습니다."),
+    UNAUTHORIZED_INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "AUTH_4011", "이메일 또는 비밀번호가 올바르지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
