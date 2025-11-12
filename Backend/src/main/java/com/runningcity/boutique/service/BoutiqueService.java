@@ -14,6 +14,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class BoutiqueService {
+
     private final BoutiqueRepository boutiqueRepository;
     private final ShowRoomRepository showRoomRepository;
 

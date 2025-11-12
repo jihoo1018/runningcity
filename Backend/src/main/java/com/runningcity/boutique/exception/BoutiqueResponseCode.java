@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum BoutiqueResponseCode implements BaseResponseCode {
+
     // 4xx (클라이언트 오류)
     SESSION_NOT_FOUND        (HttpStatus.NOT_FOUND,           "RUN_4040", "세션을 찾을 수 없습니다.");
 
