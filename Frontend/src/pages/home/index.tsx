@@ -1,10 +1,9 @@
-// src/pages/home/index.tsx
-
 import { useState, useEffect } from "react";
 import { Button } from "../../shared/ui";
 import { AndroidBridge, initializeAndroidListener } from "../../shared/lib";
 import { Navbar } from "../../widgets/navbar";
 import { MissionModal } from "../../features/mission";
+import { FloatingMenu } from "./ui/FloatingMenu";
 
 const HomePage = () => {
   const [gpsData, setGpsData] = useState<{ lat: number; lng: number } | null>(null);
@@ -55,50 +54,8 @@ const HomePage = () => {
     }
   };
 
-  const handleSettings = () => {
-    AndroidBridge.showToast("설정");
-  };
-
-  const handleFriends = () => {
-    AndroidBridge.showToast("친구");
-  };
-
-  const handleNotifications = () => {
-    AndroidBridge.showToast("알림");
-  };
-
-  const handleQuest = () => {
-    //AndroidBridge.showToast('퀘스트');
-    setMissionOpen(true);
-  };
-
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        minWidth: "100vw",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#f3f4f6",
-        overflow: "hidden", // WebView 스크롤 방지
-        position: "absolute", // fixed 대신 absolute 사용 (WebView 호환성)
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        boxSizing: "border-box",
-      }}
-    >
-      {/* 메인 콘텐츠 영역 - 전체 화면 사용 */}
-      <p className="text-game-title">GameTitle</p>
-      <p className="text-title">title</p>
-      <p className="text-subtitle">subtitle</p>
-      <p className="text-content-bold">GameTitle</p>
-      <p className="text-content">GameTitle</p>
-      <p className="text-desc">GameTitle</p>
-      <p className="text-label">GameTitle</p>
+    <div>
       <div
         style={{
           flex: 1,
@@ -121,10 +78,7 @@ const HomePage = () => {
             zIndex: 10,
           }}
         >
-          <Button label="설정" onClick={handleSettings} variant="circle" />
-          <Button label="친구" onClick={handleFriends} variant="circle" />
-          <Button label="알림" onClick={handleNotifications} variant="circle" />
-          <Button label="퀘스트" onClick={handleQuest} variant="circle" />
+          <FloatingMenu />
         </div>
 
         {/* 캐릭터 영역 - 화면 중앙에 크게 */}
@@ -179,7 +133,9 @@ const HomePage = () => {
               minWidth: "200px",
               maxWidth: "280px",
               width: "90%",
-              boxShadow: isRunning ? "0 4px 12px rgba(239, 68, 68, 0.4)" : "0 4px 12px rgba(59, 130, 246, 0.4)",
+              boxShadow: isRunning
+                ? "0 4px 12px rgba(239, 68, 68, 0.4)"
+                : "0 4px 12px rgba(59, 130, 246, 0.4)",
               WebkitTapHighlightColor: "transparent",
               touchAction: "manipulation",
               userSelect: "none",
@@ -221,10 +177,15 @@ const HomePage = () => {
       </div>
 
       {/* 하단 네비게이션 바 */}
-      <Navbar activeTab="홈" />
+      {/* <Navbar activeTab="홈" /> */}
 
       {/* ✅ 미션 모달 */}
-      <MissionModal open={missionOpen} onClose={() => setMissionOpen(false)} onClaimed={(coins) => setWallet((w) => w + coins)} userId={userId} />
+      <MissionModal
+        open={missionOpen}
+        onClose={() => setMissionOpen(false)}
+        onClaimed={(coins) => setWallet((w) => w + coins)}
+        userId={userId}
+      />
     </div>
   );
 };
