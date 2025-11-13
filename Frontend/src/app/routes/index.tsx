@@ -25,7 +25,7 @@ export function AppRoutes() {
     <>
       <Routes location={background || location}>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<RunningPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/report" element={<RecordListPage />} />
           <Route path="/report/:sid" element={<ReportDetailPage />} />
           <Route path="/entry" element={<EntryPage />} />
