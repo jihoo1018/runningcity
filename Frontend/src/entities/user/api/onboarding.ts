@@ -2,9 +2,7 @@
 
 import { apiPost } from '@/shared/api/http';
 import { ApiResponse } from '@/shared/api/types';
-
-// 온보딩 관련 타입
-export type FitnessLevel = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT' | 'ELITE';
+import type { FitnessLevel } from '../model/types';
 
 export interface OnboardingRequest {
   hasRunningHistory: boolean;
