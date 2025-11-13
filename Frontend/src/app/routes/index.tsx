@@ -13,6 +13,7 @@ import BoutiquePage from "@/pages/boutique";
 import ShowroomPage from "@/pages/showroom";
 import ShowroomMePage from "@/pages/showroom/me";
 import ShowroomEditPage from "@/pages/showroom/edit";
+import RunningPage from "@/pages/running";
 
 import { ModalLayer } from "../modal/ModalLayer";
 import AuthLandingPage from "@/pages/auth";
@@ -41,13 +42,14 @@ export function AppRoutes() {
           <Route path="/showroom" element={<ShowroomPage />} />
           <Route path="/showroom/me/clothes" element={<ShowroomMePage />} />
           <Route path="/showroom/me/edit" element={<ShowroomEditPage />} />
+          <Route path="/running" element={<RunningPage />} />
         </Route>
 
         <Route path="/m/*" element={<Navigate to="/" replace />} />
 
         <Route path="/nickname" element={<NicknamePage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
-      
+
         {/* 인증 관련 페이지: 비로그인 사용자만 접근 가능 */}
         <Route
           path="/auth"
@@ -73,6 +75,7 @@ export function AppRoutes() {
             </RequireGuest>
           }
         />
+        
       </Routes>
 
       {background && (
