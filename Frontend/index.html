@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -8,25 +8,33 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
+    <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
 
     <!-- PWA 설정 -->
-    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" /> -->
 
     <!-- Android 테마 색상 -->
-    <meta name="theme-color" content="#1f2937" />
+    <meta name="theme-color" content="#1d2330" />
 
     <!-- ✅ Manifest 연결 -->
-    <link rel="manifest" href="./manifest.json" />
+    <!-- <link rel="manifest" href="./manifest.json" /> -->
+
+    <link rel="preload" href="./fonts/Galmuri11.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="./fonts/Galmuri11-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <title>러닝시티 - 러너즈 프로토콜</title>
   </head>
   <body>
     <div id="root"></div>
+    <div id="modal-root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

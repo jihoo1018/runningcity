@@ -1,7 +1,7 @@
 // src/entities/report/ui/ReportRouteMap.tsx
 
 import { useEffect, useRef } from "react";
-import { loadKakaoMapsSDK } from "./loadKakaoMapsSDK";
+import { loadKakaoMapsSDK } from "@/shared/lib/kakao/loadKakaoMapsSDK";
 
 type Props = {
   geojson?: string | undefined;

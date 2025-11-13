@@ -27,7 +27,7 @@ public class EntryController {
      * @param
      * @return
      */
-    @GetMapping("/all")
+    @GetMapping("/list/all")
     public ApiResponse<Map<Integer, List<EntryListResponse>>> getAllEntryList() {
 //        List<EntryListResponse> list = entryService.getAllEntryList();
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, entryService.getAllGroupedByGroupNo());
@@ -38,7 +38,7 @@ public class EntryController {
      * @param
      * @return
      */
-    @GetMapping("/today")
+    @GetMapping("/list/today")
     public ApiResponse<List<EntryListResponse>> getTodayEntryList() {
         List<EntryListResponse> list = entryService.getTodayEntryList();
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, list);
