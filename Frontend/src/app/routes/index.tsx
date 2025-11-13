@@ -1,4 +1,3 @@
-// src/app/routes/index.tsx
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import type { Location } from "react-router-dom";
 import HomePage from "@/pages/home";
@@ -14,8 +13,8 @@ import ShowroomPage from "@/pages/showroom";
 import ShowroomMePage from "@/pages/showroom/me";
 import ShowroomEditPage from "@/pages/showroom/edit";
 import RunningPage from "@/pages/running";
-
 import { ModalLayer } from "../modal/ModalLayer";
+import FriendshipPage from "@/pages/friendship";
 import AuthLandingPage from "@/pages/auth";
 import LoginPage from "@/pages/login";
 import SignupPage from "@/pages/signup";
@@ -40,6 +39,7 @@ export function AppRoutes() {
           <Route path="/entry/:sid" element={<EntryResultPage />} />
           <Route path="/boutique" element={<BoutiquePage />} />
           <Route path="/showroom" element={<ShowroomPage />} />
+          <Route path="/friendship" element={<FriendshipPage />} />
           <Route path="/showroom/me/clothes" element={<ShowroomMePage />} />
           <Route path="/showroom/me/edit" element={<ShowroomEditPage />} />
           <Route path="/running" element={<RunningPage />} />
@@ -75,7 +75,6 @@ export function AppRoutes() {
             </RequireGuest>
           }
         />
-        
       </Routes>
 
       {background && (

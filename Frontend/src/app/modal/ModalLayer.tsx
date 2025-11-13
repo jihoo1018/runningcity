@@ -2,20 +2,24 @@ import { Suspense, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { REGISTRY } from "./registry";
-import type { FlowKey, StepKey } from "./types";
+import type { FlowKey, ModalProps, StepKey } from "./types";
 
 export function ModalLayer() {
   const { flow, step } = useParams<{ flow: FlowKey; step: StepKey }>();
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as any;
+
   const background = state?.background;
-  const stack = (state?.stack as Array<{ flow: FlowKey; step: StepKey }>) ?? [];
+  const stack = state?.stack ?? [];
+  const payload = state?.payload;
 
   if (!flow || !step) return null;
 
-  const Flow = REGISTRY[flow];
-  const Comp = Flow?.[step as StepKey<typeof flow>];
+  const FlowMap = REGISTRY as Record<FlowKey, Record<string, React.ComponentType<ModalProps>>>;
+
+  const Flow = FlowMap[flow];
+  const Comp = Flow?.[step];
   if (!Comp) return null;
 
   if (!background) return <Navigate to="/" replace />;
@@ -38,7 +42,7 @@ export function ModalLayer() {
       aria-modal="true"
     >
       <Suspense fallback={null}>
-        <Comp onClose={handleClose} />
+        <Comp onClose={handleClose} payload={payload} />
       </Suspense>
     </div>
   );

@@ -1,28 +1,35 @@
+import { Link } from "react-router-dom";
 import { cn } from "../lib/cn";
 
-type props = {
-  variant: "outline" | "solid";
+type LinkButtonProps = {
+  variant?: "outline" | "solid";
   children: React.ReactNode;
   className?: string;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+  href: string;
+} & React.AnchorHTMLAttributes<HTMLAnchorElement>;
 
-const CommonButton = ({ children, variant = "outline", className, ...rest }: props) => {
+export const CommonLinkButton = ({
+  children,
+  variant = "outline",
+  className,
+  href,
+  ...rest
+}: LinkButtonProps) => {
   return (
-    <button
+    <Link
+      to={href}
       {...rest}
       className={cn(
-        "text-button flex w-full justify-center rounded-lg px-5 py-3",
+        "text-button flex w-full justify-center rounded-lg px-5 py-3 transition-colors",
         variant === "outline" &&
           "border-primary bg-section-bg active:bg-primary active:text-custom-black border",
         variant === "solid" && "bg-custom-white text-custom-black active:opacity-80",
-        rest.disabled &&
+        rest["aria-disabled"] &&
           "border-custom-gray/50 text-custom-gray/50 bg-section-bg pointer-events-none cursor-not-allowed border",
         className,
       )}
     >
       {children}
-    </button>
+    </Link>
   );
 };
-
-export default CommonButton;
