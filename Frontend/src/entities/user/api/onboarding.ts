@@ -1,7 +1,7 @@
-// src/shared/api/onboarding.ts
+// src/entities/user/api/onboarding.ts
 
-import { apiPost } from './http';
-import { ApiResponse } from './types';
+import { apiPost } from '@/shared/api/http';
+import { ApiResponse } from '@/shared/api/types';
 
 // 온보딩 관련 타입
 export type FitnessLevel = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT' | 'ELITE';
@@ -34,8 +34,9 @@ export async function completeOnboarding(
   data: OnboardingRequest
 ): Promise<OnboardingResponse> {
   const response = await apiPost<ApiResponse<OnboardingResponse>, OnboardingRequest>(
-    `/api/v1/users/${userId}/onboarding`,
+    `/users/${userId}/onboarding`,
     data
   );
   return response.data;
 }
+
