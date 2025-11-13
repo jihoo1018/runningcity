@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="entry")
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Entry { // 잠입 기지

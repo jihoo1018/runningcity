@@ -1,5 +1,8 @@
 package com.runningcity.showroom.service;
 
+import com.runningcity.entry.dto.EntryListResponse;
+import com.runningcity.showroom.dto.UserEquippedItemResponse;
+import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
 import com.runningcity.showroom.repository.ShowRoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ShowRoomService {
 
     private final ShowRoomRepository showRoomRepository;
+
 
     /**
      * 인벤토리에 신규 아이템 추가
@@ -41,6 +48,21 @@ public class ShowRoomService {
     @Transactional(readOnly = true)
     public boolean hasItem(Long userId, Long itemId) {
         return showRoomRepository.existsByUserIdAndItemId(userId, itemId);
+    }
+
+
+    /**
+     * 유저가 현재 착용한 아이템 리스트 조회
+     *
+     * @param userId 유저 ID
+     * @return 유저가 현재 착용한 아이템 리스트
+     */
+    public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
+
+        return showRoomRepository.findByUserId(userId)
+                .stream()
+                .map(UserEquippedItemResponse::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }
