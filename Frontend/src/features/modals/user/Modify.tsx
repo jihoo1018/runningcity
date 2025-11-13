@@ -3,7 +3,7 @@ import { Modal } from "@/shared/ui";
 import { ModalProps } from "@/app/modal/types";
 import { RunIcon } from "@/shared/assets/icons";
 import { useState } from "react";
-import { updateNickname } from "@/shared/api";
+import { updateNickname } from "@/entities/user/api";
 import { useModalRouter } from "@/app/modal/useModalRouter";
 
 export default function UserModify({ onClose }: ModalProps) {
