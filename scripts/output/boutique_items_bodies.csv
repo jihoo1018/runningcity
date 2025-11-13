@@ -1,0 +1,23 @@
+﻿category,subcategory,style,color,name,asset_key,base_path,rarity,price_cr,obtain_method,name_ko
+bodies,male,,light,남성 라이트 바디,male_light,\AssetsStore\spritesheets\bodies\male\{animation}\light.png,common,3,store,남성 라이트 바디
+bodies,male,,amber,남성 앰버 바디,male_amber,\AssetsStore\spritesheets\bodies\male\{animation}\amber.png,rare,0,gacha,남성 앰버 바디
+bodies,male,,black,남성 블랙 바디,male_black,\AssetsStore\spritesheets\bodies\male\{animation}\black.png,common,0,gacha,남성 블랙 바디
+bodies,male,,blue,남성 블루 바디,male_blue,\AssetsStore\spritesheets\bodies\male\{animation}\blue.png,rare,0,gacha,남성 블루 바디
+bodies,male,,bright_green,남성 브라이트 그린 바디,male_bright_green,\AssetsStore\spritesheets\bodies\male\{animation}\bright_green.png,epic,0,gacha,남성 브라이트 그린 바디
+bodies,male,,bronze,남성 브론즈 바디,male_bronze,\AssetsStore\spritesheets\bodies\male\{animation}\bronze.png,epic,0,gacha,남성 브론즈 바디
+bodies,male,,brown,남성 브라운 바디,male_brown,\AssetsStore\spritesheets\bodies\male\{animation}\brown.png,common,0,gacha,남성 브라운 바디
+bodies,male,,dark_green,남성 다크 그린 바디,male_dark_green,\AssetsStore\spritesheets\bodies\male\{animation}\dark_green.png,common,0,gacha,남성 다크 그린 바디
+bodies,male,,fur_black,남성 퍼 블랙 바디,male_fur_black,\AssetsStore\spritesheets\bodies\male\{animation}\fur_black.png,common,0,gacha,남성 퍼 블랙 바디
+bodies,male,,fur_brown,남성 퍼 브라운 바디,male_fur_brown,\AssetsStore\spritesheets\bodies\male\{animation}\fur_brown.png,common,0,gacha,남성 퍼 브라운 바디
+bodies,male,,fur_copper,남성 퍼 코퍼 바디,male_fur_copper,\AssetsStore\spritesheets\bodies\male\{animation}\fur_copper.png,epic,0,gacha,남성 퍼 코퍼 바디
+bodies,male,,fur_gold,남성 퍼 골드 바디,male_fur_gold,\AssetsStore\spritesheets\bodies\male\{animation}\fur_gold.png,legendary,0,gacha,남성 퍼 골드 바디
+bodies,male,,fur_grey,남성 퍼 그레이 바디,male_fur_grey,\AssetsStore\spritesheets\bodies\male\{animation}\fur_grey.png,common,0,gacha,남성 퍼 그레이 바디
+bodies,male,,fur_tan,남성 퍼 탄 바디,male_fur_tan,\AssetsStore\spritesheets\bodies\male\{animation}\fur_tan.png,common,0,gacha,남성 퍼 탄 바디
+bodies,male,,fur_white,남성 퍼 화이트 바디,male_fur_white,\AssetsStore\spritesheets\bodies\male\{animation}\fur_white.png,common,0,gacha,남성 퍼 화이트 바디
+bodies,male,,green,남성 그린 바디,male_green,\AssetsStore\spritesheets\bodies\male\{animation}\green.png,rare,0,gacha,남성 그린 바디
+bodies,male,,lavender,남성 라벤더 바디,male_lavender,\AssetsStore\spritesheets\bodies\male\{animation}\lavender.png,epic,0,gacha,남성 라벤더 바디
+bodies,male,,olive,남성 올리브 바디,male_olive,\AssetsStore\spritesheets\bodies\male\{animation}\olive.png,rare,0,gacha,남성 올리브 바디
+bodies,male,,pale_green,남성 페일 그린 바디,male_pale_green,\AssetsStore\spritesheets\bodies\male\{animation}\pale_green.png,common,0,gacha,남성 페일 그린 바디
+bodies,male,,taupe,남성 토프 바디,male_taupe,\AssetsStore\spritesheets\bodies\male\{animation}\taupe.png,rare,0,gacha,남성 토프 바디
+bodies,male,,zombie,남성 좀비 바디,male_zombie,\AssetsStore\spritesheets\bodies\male\{animation}\zombie.png,legendary,0,gacha,남성 좀비 바디
+bodies,male,,zombie_green,남성 좀비 그린 바디,male_zombie_green,\AssetsStore\spritesheets\bodies\male\{animation}\zombie_green.png,legendary,0,gacha,남성 좀비 그린 바디
