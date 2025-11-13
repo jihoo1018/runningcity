@@ -1,8 +1,11 @@
 // src/entities/showroom/model/types.ts
-export type ApiResponse<T> = {
-  status: number;
-  code: string;
-  message: string;
-  data: T;
-  error: unknown | null;
+
+export type Showroom = {
+  baseId: number;
+  courseNm: string;
+  region: string;
+  latitude: number;
+  longitude: number;
+  groupNo: number;
+  computedDistanceKm?: number; // 클라이언트 계산용
 };

@@ -1,6 +1,8 @@
-type Props = { tab: "me" | "friend" | "global" };
+import { Showroom } from "../model/type";
 
-export const CharacterCard = ({ tab }: Props) => {
+type Props = { tab: "me" | "friend" | "global"; data: Showroom };
+
+export const CharacterCard = ({ tab, data }: Props) => {
   return (
     <div className="border-primary w-80 overflow-hidden rounded-xl border">
       {/* LV 영역 */}
