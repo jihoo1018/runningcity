@@ -20,7 +20,7 @@ public class MyShowroomController {
 
     // 내 사무실 조회
     @GetMapping("/{userId}")
-    public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getMyShowroom(@PathVariable Long userId
+    public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getMyShowroom(@PathVariable("userId") Long userId
     ){
         List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,userEquippedItemList));

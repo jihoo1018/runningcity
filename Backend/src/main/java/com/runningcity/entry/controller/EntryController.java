@@ -50,7 +50,7 @@ public class EntryController {
      * @return
      */
     @GetMapping("/list/{groupNo}")
-    public ApiResponse<List<EntryListResponse>> getEntryListByGroupNo(@PathVariable Long groupNo) {
+    public ApiResponse<List<EntryListResponse>> getEntryListByGroupNo(@PathVariable("groupNo") Long groupNo) {
         List<EntryListResponse> list = entryService.getEntryListByGroupNo(groupNo);
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_LIST_SUCCESS, list);
     }
@@ -61,7 +61,7 @@ public class EntryController {
      * @return
      */
     @GetMapping("/{baseId}")
-    public ApiResponse<EntryDetailResponse> getEntryDetail(@PathVariable Long baseId) {
+    public ApiResponse<EntryDetailResponse> getEntryDetail(@PathVariable("baseId") Long baseId) {
         EntryDetailResponse entryRes = entryService.getEntryByBaseId(baseId);
         return ApiResponse.success(CommonResponseCode.ENTRY_GET_SUCCESS, entryRes);
     }
