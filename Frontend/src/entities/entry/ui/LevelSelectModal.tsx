@@ -1,39 +1,37 @@
 import React from "react";
-import { Modal } from "./Modal";
-import { fetchStartEntry } from "@/shared/api/entry";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "../../../components/Modal";
+import { fetchStartEntry } from "@/entities/entry/api";
 
 type LevelSelectModalProps = {
   entryName: string;
   baseId: number;
+  userId: number;
   onClose: () => void;
 };
 
-export const LevelSelectModal = ({
-  entryName,
-  baseId,
-  onClose,
-}: LevelSelectModalProps) => {
+export const LevelSelectModal = ({ entryName, baseId, userId, onClose }: LevelSelectModalProps) => {
+  const navigate = useNavigate();
   /** ✅ 난이도 클릭 이벤트 */
   const handleSelectLevel = async (level: "LOW" | "MID" | "HIGH") => {
-    console.log(`🎮 난이도 선택: ${level}`);
+    // console.log(`🎮 난이도 선택: ${level}`);
 
     try {
       // ✅ 1️⃣ 서버로 세션 생성 요청
-      const data = await fetchStartEntry(baseId);
-      console.log("✅ 세션 생성 성공:", data);
+      const data = await fetchStartEntry(userId, baseId);
+      // console.log("✅ 세션 생성 성공:", data);
 
       // ✅ 2️⃣ Android WebView 브릿지 호출 (러닝 시작)
       if (window.Android?.startRunning) {
         window.Android.startRunning();
-        console.log("📲 AndroidBridge.startRunning() 호출됨");
+        // console.log("📲 AndroidBridge.startRunning() 호출됨");
       }
 
-      // ✅ 나중에 서버 응답 데이터 활용 가능 (예: 세션 ID 저장 등)
-
       onClose(); // 모달 닫기
+      navigate(`/entry/${data.sessionId}`); // TODO 달리기 화면 중간에 잇기 -> 지금은 바로 결과화면으로...
     } catch (err) {
       console.error("❌ 세션 생성 실패:", err);
-      alert("서버에 세션을 생성하지 못했습니다.");
+      // alert("서버에 세션을 생성하지 못했습니다.");
     }
   };
 
@@ -49,7 +47,7 @@ export const LevelSelectModal = ({
           padding: "10px",
         }}
       >
-        <p style={{ fontSize: "14px", color: "#4b5563", marginBottom: "8px" }}>
+        <p style={{ fontSize: "12px", color: "#E6FFFF", marginBottom: "8px" }}>
           난이도를 선택하여 잠입을 시작하세요 👇
         </p>
 
@@ -60,16 +58,14 @@ export const LevelSelectModal = ({
             width: "100%",
             padding: "12px",
             borderRadius: "8px",
-            backgroundColor: "#86efac",
+            backgroundColor: "#00E6FF",
             border: "none",
-            color: "#065f46",
+            color: "#1D2330",
             fontWeight: "bold",
             cursor: "pointer",
           }}
         >
           🔹 난이도 하(근처 정찰)
-          <br />
-          크레딧 +5
         </button>
 
         {/* <button
@@ -86,7 +82,6 @@ export const LevelSelectModal = ({
           }}
         >
           🔸 난이도 중(일반 잠입)
-          <br /> 크레딧 +10
         </button>
 
         <button
@@ -103,8 +98,6 @@ export const LevelSelectModal = ({
           }}
         >
           🔺 난이도 상(전면 교전)
-          <br />
-          크레딧 +20
         </button> */}
       </div>
     </Modal>

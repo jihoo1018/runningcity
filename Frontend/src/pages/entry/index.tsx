@@ -1,63 +1,42 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapView, MapMarker } from "../../components/MapView";
-import { EntryDetailModalContent } from "../../components/EntryDetailModalContent";
+import { MapView, MapMarker } from "../../entities/entry/ui/MapView";
+import { EntryDetailModalContent } from "../../entities/entry/ui/EntryDetailModalContent";
 import { Modal } from "../../components/Modal";
-import { LevelSelectModal } from "../../components/LevelSelectModal";
-import {
-  Entry,
-  EntryDetail,
-  GroupedEntryResponse,
-  fetchGetEntryList,
-  fetchGetAllEntryList,
-  fetchGetEntryDetail,
-} from "@/shared/api/entry";
-
-export type ApiResponse<T> = {
-  status: number;
-  code: string;
-  message: string;
-  data: T;
-  error?: any | null;
-};
+import { LevelSelectModal } from "../../entities/entry/ui/LevelSelectModal";
+import { Entry, EntryDetail, GroupedEntryResponse } from "@/entities/entry/model/types";
+import { fetchGetEntryList, fetchGetAllEntryList, fetchGetEntryDetail } from "@/entities/entry/api";
 
 /** ✅ 위도·경도 간 거리 계산 (Haversine 공식) */
-const calculateDistanceKm = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-) => {
+const calculateDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371; // 지구 반경 (km)
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 };
 
 const EntryPage = () => {
   const navigate = useNavigate();
-  const [entries, setEntries] = useState<
-    Record<string, Entry[]> | Entry[] | null
-  >(null);
+  const [entries, setEntries] = useState<Record<string, Entry[]> | Entry[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [viewMode, setViewMode] = useState<"today" | "all">("today");
   const [selectedEntry, setSelectedEntry] = useState<EntryDetail | null>(null);
-  const [levelModalEntry, setLevelModalEntry] = useState<EntryDetail | null>(
-    null
-  ); // ✅ 난이도 모달 상태
+  const [levelModalEntry, setLevelModalEntry] = useState<EntryDetail | null>(null); // ✅ 난이도 모달 상태
+  const [userId, setUserId] = useState(1); // TODO 일단 임시로 userId 1 박아놓기
 
   // ✅ 사용자 위치 상태
   const [userPosition, setUserPosition] = useState<{
     lat: number;
     lng: number;
-  } | null>(null);
+  } | null>({
+    lat: 37.501280686148306,
+    lng: 127.03960748829459,
+  });
 
   // const BASE_URL = "/api/v1/entry";
 
@@ -75,7 +54,7 @@ const EntryPage = () => {
           lng: pos.coords.longitude,
         }),
       (err) => console.warn("초기 위치 불러오기 실패:", err),
-      { enableHighAccuracy: true, timeout: 5000 }
+      { enableHighAccuracy: true, timeout: 5000 },
     );
 
     // ✅ 이후 실시간 감시
@@ -86,7 +65,7 @@ const EntryPage = () => {
           lng: pos.coords.longitude,
         }),
       (err) => console.warn("위치 추적 실패:", err),
-      { enableHighAccuracy: true, maximumAge: 2000, timeout: 5000 }
+      { enableHighAccuracy: true, maximumAge: 2000, timeout: 5000 },
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
@@ -98,49 +77,13 @@ const EntryPage = () => {
     setError("");
 
     try {
-      // ✅ userPosition이 없을 때 기본값 사용
-      const { lat: userLat, lng: userLng } = userPosition || {
-        lat: 37.5665,
-        lng: 126.978,
-      };
-
-      const data =
-        mode === "today"
-          ? await fetchGetEntryList()
-          : await fetchGetAllEntryList();
-
-      // ✅ 위치 기준으로 거리 계산
-      const calcDistance = (entry: Entry) =>
-        calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
-
-      if (mode === "today") {
-        // TypeScript에게 data가 Entry[] 타입임을 확실히 알려주기
-        const entries = data as Entry[];
-
-        const entriesWithDistance: Entry[] = entries.map((entry) => ({
-          ...entry,
-          computedDistanceKm: calcDistance(entry),
-        }));
-
-        entriesWithDistance.sort(
-          (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
-        );
-        setEntries(entriesWithDistance);
-      } else {
-        // 여긴 GroupedEntryResponse 타입
-        const grouped = data as GroupedEntryResponse;
-
-        const updated: Record<string, Entry[]> = {};
-        Object.entries(grouped).forEach(([groupNo, list]) => {
-          updated[groupNo] = list.map((entry) => ({
-            ...entry,
-            computedDistanceKm: calcDistance(entry),
-          }));
-          updated[groupNo].sort(
-            (a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0)
-          );
-        });
+      const data = mode === "today" ? await fetchGetEntryList() : await fetchGetAllEntryList();
+      // ✅ userPosition이 있다면 즉시 거리 계산
+      if (userPosition) {
+        const updated = recalcDistances(data, userPosition.lat, userPosition.lng);
         setEntries(updated);
+      } else {
+        setEntries(data);
       }
     } catch (err: any) {
       console.error(err);
@@ -183,16 +126,51 @@ const EntryPage = () => {
     setLevelModalEntry(entry); // 새 난이도 모달 열기
   };
 
+  /** ✅ 거리 계산 함수 (공통) */
+  const recalcDistances = (
+    entries: Record<string, Entry[]> | Entry[] | null,
+    userLat: number,
+    userLng: number,
+  ): Record<string, Entry[]> | Entry[] | null => {
+    if (!entries) return null;
+
+    const calcDistance = (entry: Entry) => {
+      return calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
+    };
+
+    if (Array.isArray(entries)) {
+      // today 모드
+      const updated = entries.map((e) => ({
+        ...e,
+        computedDistanceKm: calcDistance(e),
+      }));
+      updated.sort((a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0));
+      return updated;
+    } else {
+      // all 모드
+      const grouped: Record<string, Entry[]> = {};
+      Object.entries(entries).forEach(([groupNo, list]) => {
+        grouped[groupNo] = list.map((e) => ({
+          ...e,
+          computedDistanceKm: calcDistance(e),
+        }));
+        grouped[groupNo].sort((a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0));
+      });
+      return grouped;
+    }
+  };
+
   /** ✅ 최초 진입 시 오늘의 기지 불러오기 */
   useEffect(() => {
     fetchEntries("today");
   }, []);
 
-  /** ✅ userPosition이 갱신되면 거리 자동 갱신 */
+  /** ✅ userPosition 변경 시 거리 재계산 (서버 호출 X) */
   useEffect(() => {
-    if (userPosition) {
-      console.log("📍 위치 변경 감지:", userPosition);
-      fetchEntries(viewMode); // 현재 모드(today/all) 유지하면서 다시 계산
+    if (userPosition && entries) {
+      console.log("📍 위치 변경 감지 → 거리 재계산:", userPosition);
+      const updated = recalcDistances(entries, userPosition.lat, userPosition.lng);
+      setEntries(updated);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPosition]);
@@ -206,12 +184,14 @@ const EntryPage = () => {
   return (
     <div
       style={{
-        width: "100vw",
+        width: "100%",
+        height: "100%",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        backgroundColor: "#f9fafb",
+        backgroundColor: "#1D2330",
+        color: "#E6FFFF",
         padding: "20px",
         boxSizing: "border-box",
       }}
@@ -229,8 +209,8 @@ const EntryPage = () => {
         <button
           onClick={() => handleModeChange("today")}
           style={{
-            backgroundColor: viewMode === "today" ? "#3b82f6" : "#d4d4d4",
-            color: viewMode === "today" ? "white" : "black",
+            backgroundColor: viewMode === "today" ? "#00E6FF" : "#1D2330",
+            color: viewMode === "today" ? "#1D2330" : "#94B8B8",
             textAlign: "center",
             width: "40%",
             border: "1px solid",
@@ -243,8 +223,8 @@ const EntryPage = () => {
         <button
           onClick={() => handleModeChange("all")}
           style={{
-            backgroundColor: viewMode === "all" ? "#3b82f6" : "#d4d4d4",
-            color: viewMode === "all" ? "white" : "black",
+            backgroundColor: viewMode === "all" ? "#00E6FF" : "#1D2330",
+            color: viewMode === "all" ? "#1D2330" : "#94B8B8",
             textAlign: "center",
             width: "40%",
             border: "1px solid",
@@ -262,10 +242,7 @@ const EntryPage = () => {
         <>
           <MapView
             markers={
-              (entries instanceof Array
-                ? entries
-                : Object.values(entries).flat()
-              ).map((e) => ({
+              (entries instanceof Array ? entries : Object.values(entries).flat()).map((e) => ({
                 baseId: e.baseId,
                 name: e.courseNm,
                 latitude: e.latitude,
@@ -288,9 +265,10 @@ const EntryPage = () => {
                   <div
                     key={groupNo}
                     style={{
-                      backgroundColor: "#fff",
+                      backgroundColor: "none",
+                      border: "1px solid #E6FFFF",
                       borderRadius: "8px",
-                      marginBottom: "12px",
+                      marginBottom: "8px",
                       padding: "10px",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                     }}
@@ -312,13 +290,13 @@ const EntryPage = () => {
                         >
                           <div>
                             <strong>{entry.courseNm}</strong>
-                            <div style={{ color: "#6b7280" }}>
-                              {entry.region}
-                            </div>
+                            <div style={{ color: "#6b7280" }}>{entry.region}</div>
                           </div>
                           <div style={{ textAlign: "right" }}>
                             <div>
-                              {entry.computedDistanceKm?.toFixed(2)} km 거리
+                              {entry.computedDistanceKm
+                                ? `${entry.computedDistanceKm.toFixed(2)} km 거리`
+                                : "거리 계산 중..."}
                             </div>
                           </div>
                         </li>
@@ -331,9 +309,10 @@ const EntryPage = () => {
                     key={entry.baseId}
                     onClick={() => fetchEntryDetail(entry.baseId)}
                     style={{
-                      backgroundColor: "#fff",
+                      backgroundColor: "none",
+                      border: "1px solid #E6FFFF",
                       borderRadius: "8px",
-                      marginBottom: "10px",
+                      marginBottom: "8px",
                       padding: "10px",
                       boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
                       cursor: "pointer",
@@ -341,8 +320,7 @@ const EntryPage = () => {
                   >
                     <strong>{entry.courseNm}</strong>
                     <div style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {entry.region} · {entry.computedDistanceKm?.toFixed(2)} km
-                      거리
+                      {entry.region} · {entry.computedDistanceKm?.toFixed(2)} km 거리
                     </div>
                   </div>
                 ))}
@@ -352,10 +330,7 @@ const EntryPage = () => {
 
       {/* ✅ 상세 모달 */}
       {selectedEntry && (
-        <Modal
-          title={selectedEntry.courseNm}
-          onClose={() => setSelectedEntry(null)}
-        >
+        <Modal title={selectedEntry.courseNm} onClose={() => setSelectedEntry(null)}>
           <EntryDetailModalContent
             entry={selectedEntry}
             userPosition={userPosition}
@@ -369,6 +344,7 @@ const EntryPage = () => {
         <LevelSelectModal
           entryName={levelModalEntry.courseNm}
           baseId={levelModalEntry.baseId}
+          userId={userId}
           onClose={() => setLevelModalEntry(null)}
         />
       )}

@@ -49,6 +49,74 @@ object MobileCommunicationHelper {
     }
     
     /**
+     * 모바일에 심박수 측정 결과 전송
+     */
+    suspend fun sendHeartRateMeasurement(context: Context, heartRate: Int): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            val message = heartRate.toString().toByteArray()
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/heart_rate_measured", message).await()
+                    Log.d(TAG, "✅ 모바일에 심박수 전송 성공 (heartRate: $heartRate, node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * 모바일에 심박수 측정 에러 전송
+     */
+    suspend fun sendHeartRateError(context: Context, errorMessage: String): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            val message = errorMessage.toByteArray()
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/heart_rate_error", message).await()
+                    Log.d(TAG, "✅ 모바일에 심박수 에러 전송 성공 (error: $errorMessage, node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
      * 모바일에 운동 종료 알림
      * (모바일에서 시작한 운동을 워치에서 종료할 때 호출)
      */

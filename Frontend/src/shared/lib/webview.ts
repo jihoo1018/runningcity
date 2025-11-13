@@ -8,6 +8,7 @@ interface AndroidInterface {
   stopRunning: () => void;
   getGPSData: () => string;
   getHeartRate: () => number;
+  measureHeartRate: () => void;
   showToast: (message: string) => void;
   vibrate: (duration: number) => void;
   // 필요한 기능 추가
@@ -80,6 +81,26 @@ export const AndroidBridge = {
     }
     console.log("[DEV] 심박수 요청");
     return 75; // 더미 데이터
+  },
+
+  /**
+   * 워치에서 심박수 측정 요청
+   */
+  measureHeartRate(): void {
+    if (this.isAndroid()) {
+      window.Android!.measureHeartRate();
+    } else {
+      console.log("[DEV] 심박수 측정 요청 (브라우저 환경)");
+      // 개발 환경에서는 더미 데이터로 시뮬레이션
+      setTimeout(() => {
+        if (window.onAndroidMessage) {
+          window.onAndroidMessage({
+            type: "HEART_RATE_MEASURED",
+            heartRate: 72,
+          });
+        }
+      }, 2000);
+    }
   },
 
   /**

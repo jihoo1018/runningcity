@@ -1,6 +1,7 @@
   server:
     servlet:
       context-path: /api/v1  # 모든 API 앞에 /api/v1 prefix 적용
+
     #compression:            # JSON 응답 gzip 압축. 대역폭 절감, 응답속도 개선.
       #enabled: true
       #mime-types: application/json
@@ -11,6 +12,14 @@
       username: ${DB_USERNAME}
       password: ${DB_PASSWORD}
       driver-class-name: org.postgresql.Driver
+    data:
+      redis:
+        host: ${REDIS_HOST}
+        port: ${REDIS_PORT}
+        password: ${REDIS_PASSWORD}
+        timeout: 3000ms
+    cache:
+      type: redis  # ✅ 추가
 
     mvc:              # 비동기 핸들러가 영구 대기하지 않게
       async:
@@ -26,6 +35,7 @@
           jdbc.time_zone: UTC
         #database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG16Dialect
 
+
     jackson:
       time-zone: UTC
       serialization:
@@ -34,3 +44,5 @@
   logging:
     level:
       org.springframework.web: DEBUG
+      org.springframework.data.redis: DEBUG  # ✅ Redis 로그
+      com.runningcity: DEBUG  # ✅ 내 코드 로그

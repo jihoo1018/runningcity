@@ -1,22 +1,15 @@
 import { useEffect, useState } from "react";
-import { MiniMap } from "./MiniMap";
-import { EntryDetail } from "@/shared/api/entry";
+import { MiniMap } from "@/entities/entry/ui/MiniMap";
+import { EntryDetail } from "@/entities/entry/model/types";
 
 /** 거리 계산 함수 (Haversine 공식) */
-const calculateDistanceKm = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-) => {
+const calculateDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
   const R = 6371; // 지구 반경 (km)
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 };
@@ -46,16 +39,16 @@ export const EntryDetailModalContent = ({
       userPosition.lat,
       userPosition.lng,
       entry.latitude,
-      entry.longitude
+      entry.longitude,
     );
     console.log("📏 계산된 거리:", dist);
     setDistance(dist);
   }, [userPosition, entry]);
 
   /** TODO 2km 반경 내인지 판별 */
-  const isInsideZone = distance !== null && distance <= 2;
+  // const isInsideZone = distance !== null && distance <= 2;
   // TODO 테스트시에만 무조건 true로, 실제는 위 코드 써야함
-  // const isInsideZone = true;
+  const isInsideZone = true;
 
   /** ✅ 잠입 버튼 클릭 시 동작 */
   const showLevelModalHandler = () => {
@@ -64,13 +57,14 @@ export const EntryDetailModalContent = ({
   };
 
   return (
-    <div style={{ fontSize: "14px", color: "#374151" }}>
+    <div
+      style={{
+        fontSize: "12px",
+        color: "#E6FFFF",
+      }}
+    >
       {/* 지도 표시 */}
-      <MiniMap
-        latitude={entry.latitude}
-        longitude={entry.longitude}
-        name={entry.courseNm}
-      />
+      <MiniMap latitude={entry.latitude} longitude={entry.longitude} name={entry.courseNm} />
 
       {/* 상세 정보 */}
       <div style={{ marginTop: "12px" }}>
@@ -124,10 +118,10 @@ export const EntryDetailModalContent = ({
             width: "100%",
             padding: "10px",
             borderRadius: "8px",
-            backgroundColor: isInsideZone ? "#10b981" : "#9ca3af",
-            color: "white",
-            fontWeight: "bold",
             border: "none",
+            color: isInsideZone ? "#1D2330" : "#94B8B8",
+            backgroundColor: isInsideZone ? "#E6FFFF" : "none",
+            fontWeight: "bold",
             marginTop: "10px",
             cursor: isInsideZone ? "pointer" : "not-allowed",
             transition: "0.2s ease-in-out",
