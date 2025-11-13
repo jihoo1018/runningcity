@@ -1,5 +1,6 @@
 package com.runningcity.boutique.entity;
 import com.runningcity.boutique.enums.ItemCategory;
+import com.runningcity.boutique.enums.ObtainMethod;
 import com.runningcity.boutique.enums.RarityType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,8 +43,9 @@ public class Boutique {
     @Column(name = "is_gacha_only")
     private Boolean isGachaOnly;
 
-    @Column(name = "obtain_method", length = 20)
-    private String obtainMethod; // gacha / store
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ObtainMethod obtainMethod; // gacha / store
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
