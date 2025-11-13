@@ -1,6 +1,9 @@
 services:
   redis-dev:
     image: redis:7-alpine
+    command: ["redis-server", "--requirepass", "${DEV_REDIS_PASSWORD}"]
+    environment:
+      - REDIS_PASSWORD=${DEV_REDIS_PASSWORD}
     ports:
       - 6379:6379
     profiles: ["infra"]
