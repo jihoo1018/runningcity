@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { IconButton as BaseIconButton, IconLink as BaseIconLink } from "./IconAction";
 import {
   BackIcon,
@@ -8,6 +7,7 @@ import {
   SettingIcon,
   SocialIcon,
 } from "../assets/icons";
+import { cn } from "../lib/cn";
 
 type Variant = "ghost" | "round";
 type Size = "sm" | "md" | "lg";
@@ -21,7 +21,10 @@ const SIZE: Record<Size, string> = {
 function getVariantClass(variant: Variant) {
   return variant === "ghost"
     ? ["bg-transparent", "text-custom-gray"]
-    : ["rounded-full border", "bg-section-bg border-custom-gray text-custom-gray"];
+    : [
+        "rounded-full border border-2",
+        "bg-section-bg border-custom-gray/80 text-custom-gray shadow-primary/25 shadow-lg",
+      ];
 }
 
 /* -------------------- BUTTON -------------------- */
@@ -40,7 +43,7 @@ export const IconButton: React.FC<ButtonProps> = ({
     <BaseIconButton
       placement="row"
       gap={8}
-      className={clsx(
+      className={cn(
         "inline-flex items-center justify-center transition-colors",
         SIZE[size],
         ...getVariantClass(variant),
@@ -67,7 +70,7 @@ export const IconLinkButton: React.FC<LinkProps> = ({
     <BaseIconLink
       placement="row"
       gap={8}
-      className={clsx(
+      className={cn(
         "inline-flex items-center justify-center transition-colors",
         SIZE[size],
         ...getVariantClass(variant),
