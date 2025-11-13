@@ -12,6 +12,7 @@ import BoutiquePage from "@/pages/boutique";
 import ShowroomPage from "@/pages/showroom";
 import ShowroomMePage from "@/pages/showroom/me";
 import ShowroomEditPage from "@/pages/showroom/edit";
+import RunningPage from "@/pages/running";
 
 import { ModalLayer } from "../modal/ModalLayer";
 
@@ -39,6 +40,7 @@ export function AppRoutes() {
 
         <Route path="/nickname" element={<NicknamePage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/running" element={<RunningPage />} />
       </Routes>
 
       {background && (
