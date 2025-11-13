@@ -342,8 +342,10 @@ public class BoutiqueService {
                     .itemId(item.getItemId())
                     .itemName(item.getName())
                     .category(item.getCategory())
+                    .subcategory(item.getSubcategory())
+                    .style(item.getStyle())
                     .rarity(item.getRarity())
-                    .path(item.getPath())
+                    .path(item.getBasePath())
                     .isNew(isNew)
                     .build());
 

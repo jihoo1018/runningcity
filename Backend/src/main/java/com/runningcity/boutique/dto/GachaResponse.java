@@ -1,8 +1,6 @@
 package com.runningcity.boutique.dto;
 
-import com.runningcity.boutique.enums.DrawType;
-import com.runningcity.boutique.enums.ItemCategory;
-import com.runningcity.boutique.enums.RarityType;
+import com.runningcity.boutique.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +32,8 @@ public class GachaResponse {
         private Long itemId;          // 아이템 ID
         private String itemName;      // 아이템 이름
         private ItemCategory category; // 카테고리 (bodies, clothes, hair, head)
+        private SubCategory subcategory;
+        private Style style;
         private RarityType rarity;    // 등급 (common, rare, epic, legendary)
         private String path;          // 애셋 경로
         private Boolean isNew;        // 신규 획득 여부 (true: 처음, false: 중복)
