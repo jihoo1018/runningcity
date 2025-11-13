@@ -5,7 +5,7 @@ import com.runningcity.mission.dto.DailyMissionResponse;
 import com.runningcity.mission.entity.DailyMission;
 import com.runningcity.mission.repository.DailyMissionRepository;
 import com.runningcity.mission.repository.RunSessionReadRepository;
-import com.runningcity.mission.repository.UserAccountWriteRepository;
+import com.runningcity.user.repository.UserRepository;
 import com.runningcity.onboarding.entity.UserPreference;
 import com.runningcity.onboarding.repository.UserPreferenceRepository;
 import org.springframework.stereotype.Service;
@@ -27,18 +27,18 @@ public class DailyMissionService {
     private final DailyMissionRepository dailyMissionRepository;
     private final UserPreferenceRepository userPreferenceRepository;
     private final RunSessionReadRepository runSessionReadRepository;
-    private final UserAccountWriteRepository userAccountWriteRepository;
+    private final UserRepository userRepository;
 
     public DailyMissionService(
             DailyMissionRepository dailyMissionRepository,
             UserPreferenceRepository userPreferenceRepository,
             RunSessionReadRepository runSessionReadRepository,
-            UserAccountWriteRepository userAccountWriteRepository
+            UserRepository userRepository
     ) {
         this.dailyMissionRepository = dailyMissionRepository;
         this.userPreferenceRepository = userPreferenceRepository;
         this.runSessionReadRepository = runSessionReadRepository;
-        this.userAccountWriteRepository = userAccountWriteRepository;
+        this.userRepository = userRepository;
     }
 
     private ZonedDateTime nowSeoul() {
@@ -116,7 +116,7 @@ public class DailyMissionService {
         long creditToAdd = totalExpToAdd / 20; // 5% 전환
 
         // users 테이블에 경험치/크레딧 적립
-        userAccountWriteRepository.addExpAndCredit(userId, totalExpToAdd, creditToAdd);
+        userRepository.addExpAndCredit(userId, totalExpToAdd, creditToAdd);
 
         // 미션 상태 마무리
         mission.setClaimed(true);
