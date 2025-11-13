@@ -1,6 +1,7 @@
 // src\entities\showroom\ui\CustomizeLayout.tsx
 
 import React from "react";
+import { BackIconButton, CloseIconButton } from "@/shared/ui/IconButtons";
 
 type Props = {
   mode: "clothes" | "character";
@@ -22,18 +23,16 @@ export const CustomizeLayout = ({
   onBack,
 }: Props) => {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col">
       {/* 상단 */}
-      <div className="flex justify-between p-4">
-        <button className="h-20 w-20 rounded-full bg-gray-200" onClick={onBack}>
-          뒤로가기
-        </button>
+      <div className="flex justify-between">
+        <BackIconButton variant="ghost" onClick={onBack} />
 
         <div className="flex gap-4">
           {/* 옷 버튼 → mode 변경 */}
           <button
-            className={`h-20 w-20 rounded-full ${
-              mode === "clothes" ? "bg-gray-800 text-white" : "bg-gray-200"
+            className={`h-12 w-12 rounded-xl ${
+              mode === "clothes" ? "bg-primary text-custom-black" : "text-custom-white border"
             }`}
             onClick={() => {
               setMode("clothes");
@@ -45,15 +44,15 @@ export const CustomizeLayout = ({
 
           {/* 캐릭터 버튼 → mode 변경 */}
           <button
-            className={`h-20 w-20 rounded-full ${
-              mode === "character" ? "bg-gray-800 text-white" : "bg-gray-200"
+            className={`h-12 w-12 rounded-xl ${
+              mode === "character" ? "bg-primary text-custom-black" : "text-custom-white border"
             }`}
             onClick={() => {
               setMode("character");
               setTab("머리"); // 기본 탭
             }}
           >
-            캐릭터
+            얼굴
           </button>
         </div>
       </div>
@@ -66,7 +65,7 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 탭 */}
-      <div className="flex justify-around bg-gray-200 p-2">
+      <div className="flex justify-around">
         {tabList.map((item) => (
           <button
             key={item}
@@ -81,7 +80,7 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 아이템 영역 */}
-      <div className="flex-1 bg-gray-200 p-4">{children}</div>
+      <div className="flex-1">{children}</div>
     </div>
   );
 };

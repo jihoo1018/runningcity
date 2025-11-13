@@ -18,9 +18,9 @@ export const ItemGrid = ({ items, onPrev, onNext }: ItemGridProps) => {
       </button>
 
       {/* grid */}
-      <div className="mt-4 grid grid-cols-3 gap-4 bg-gray-300 p-4">
+      <div className="border-primary mt-1 grid grid-cols-3 gap-4 p-4">
         {items.map((item, idx) => (
-          <div key={idx} className="flex h-20 w-20 items-center justify-center border bg-gray-100">
+          <div key={idx} className="flex h-20 w-20 items-center justify-center border">
             {item || ""}
           </div>
         ))}
