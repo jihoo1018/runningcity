@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateNickname } from '../../shared/api/nickname';
+import { updateNickname } from '@/entities/user/api';
 
 const NicknamePage = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const NicknamePage = () => {
   const [error, setError] = useState('');
 
   // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
-  const userId = 9; // 임시 하드코딩
+  const userId = 13; // 임시 하드코딩
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -81,76 +81,22 @@ const NicknamePage = () => {
   };
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        minWidth: '100vw',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#e5e5e5',
-        padding: '20px',
-        boxSizing: 'border-box',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          maxWidth: '400px',
-          backgroundColor: '#d4d4d4',
-          border: '2px solid #9ca3af',
-          borderRadius: '8px',
-          padding: '40px 30px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '24px',
-        }}
-      >
+    <div className="w-full h-full min-w-screen min-h-screen flex flex-col items-center justify-center bg-custom-black p-5 box-border absolute top-0 left-0 right-0 bottom-0">
+      <div className="w-full max-w-[350px] bg-section-bg border border-primary rounded-xl p-4 flex flex-col gap-4 shadow-[0_4px_12px_rgba(0,230,255,0.1)]">
         {/* 헤더 */}
-        <div style={{ textAlign: 'center' }}>
-          <h1
-            style={{
-              fontSize: '25px',
-              fontWeight: 'normal',
-              color: '#4b5563',
-              margin: '0 0 8px 0',
-              fontFamily: 'Arial, sans-serif',
-            }}
-          >
-            [ 러닝시티: 러너즈 프로토콜 ]
+        <div className="text-center pb-2 border-b border-primary">
+          <h1 className="text-subtitle text-custom-white mb-1">
+            닉네임 입력
           </h1>
-          <p
-            style={{
-              fontSize: '14px',
-              color: '#6b7280',
-              margin: 0,
-              fontFamily: 'Arial, sans-serif',
-            }}
-          >
-            닉네임을 입력해 주세요
+          <p className="text-desc text-custom-gray m-0">
+            러닝 활동에 사용할 닉네임을 입력해주세요
           </p>
         </div>
 
         {/* 입력 폼 */}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label
-              style={{
-                display: 'block',
-                fontSize: '12px',
-                color: '#6b7280',
-                marginBottom: '8px',
-                fontFamily: 'Arial, sans-serif',
-              }}
-            >
+            <label className="block text-label text-custom-white mb-2">
               닉네임
             </label>
             <input
@@ -163,45 +109,23 @@ const NicknamePage = () => {
               placeholder="닉네임을 입력해 주세요"
               maxLength={10}
               disabled={isLoading}
-              style={{
-                width: '100%',
-                padding: '12px',
-                fontSize: '14px',
-                border: error ? '2px solid #ef4444' : '2px solid #9ca3af',
-                borderRadius: '4px',
-                outline: 'none',
-                boxSizing: 'border-box',
-                backgroundColor: isLoading ? '#e5e7eb' : '#ffffff',
-                fontFamily: 'Arial, sans-serif',
-              }}
+              className={`w-full p-2.5 text-content border rounded-lg outline-none box-border transition-colors duration-200 ${
+                error
+                  ? 'border-accent-red bg-custom-black text-custom-white'
+                  : isLoading
+                  ? 'border-custom-gray bg-section-bg text-custom-gray opacity-50'
+                  : 'border-custom-gray bg-custom-black text-custom-white focus:border-primary'
+              }`}
             />
             {/* 글자수 표시 */}
-            <div
-              style={{
-                fontSize: '11px',
-                color: '#9ca3af',
-                textAlign: 'right',
-                marginTop: '4px',
-                fontFamily: 'Arial, sans-serif',
-              }}
-            >
+            <div className="text-desc text-custom-gray text-right mt-1">
               {nickname.length}/10자
             </div>
           </div>
 
           {/* 에러 메시지 */}
           {error && (
-            <div
-              style={{
-                fontSize: '12px',
-                color: '#dc2626',
-                backgroundColor: '#fee2e2',
-                padding: '10px',
-                borderRadius: '4px',
-                border: '1px solid #dc2626',
-                fontFamily: 'Arial, sans-serif',
-              }}
-            >
+            <div className="text-desc text-accent-red bg-[rgba(255,73,53,0.1)] p-2 rounded-lg border border-accent-red">
               ⚠ {error}
             </div>
           )}
@@ -210,38 +134,20 @@ const NicknamePage = () => {
           <button
             type="submit"
             disabled={isLoading || !nickname.trim()}
-            style={{
-              width: '100%',
-              padding: '14px',
-              fontSize: '14px',
-              fontWeight: 'normal',
-              color: isLoading || !nickname.trim() ? '#6b7280' : '#1f2937',
-              backgroundColor: isLoading || !nickname.trim() ? '#e5e7eb' : '#a3a3a3',
-              border: '2px solid #6b7280',
-              borderRadius: '4px',
-              cursor: isLoading || !nickname.trim() ? 'not-allowed' : 'pointer',
-              minHeight: '48px',
-              fontFamily: 'Arial, sans-serif',
-            }}
+            className={`w-full p-3 text-button rounded-lg transition-all duration-200 ${
+              isLoading || !nickname.trim()
+                ? 'text-custom-gray bg-section-bg border border-custom-gray cursor-not-allowed opacity-50'
+                : 'text-custom-black bg-primary border border-primary cursor-pointer'
+            }`}
           >
-            {isLoading ? '[ 처리중... ]' : '[ 확인 ]'}
+            {isLoading ? '처리 중...' : '확인'}
           </button>
         </form>
 
         {/* 안내 문구 */}
-        <div
-          style={{
-            fontSize: '11px',
-            color: '#6b7280',
-            textAlign: 'left',
-            paddingTop: '12px',
-            borderTop: '1px dashed #9ca3af',
-            fontFamily: 'Arial, sans-serif',
-            lineHeight: '1.6',
-          }}
-        >
-          * 한글, 영문, 숫자만 사용 가능<br />
-          * 2~10자 입력
+        <div className="text-desc text-custom-gray text-left pt-2 border-t border-dashed border-custom-gray leading-base">
+          • 한글, 영문, 숫자만 사용 가능<br />
+          • 2~10자 입력
         </div>
       </div>
     </div>
