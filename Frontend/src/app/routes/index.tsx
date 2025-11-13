@@ -6,6 +6,7 @@ import OnboardingPage from "@/pages/onboarding";
 import RecordListPage from "@/pages/report";
 import ReportDetailPage from "@/pages/report/detail";
 import EntryPage from "@/pages/entry";
+import EntryResultPage from "@/pages/entry/result";
 import { MainLayout } from "../layout/MainLayout";
 import BoutiquePage from "@/pages/boutique";
 import ShowroomPage from "@/pages/showroom";
@@ -24,6 +25,7 @@ export function AppRoutes() {
           <Route path="/report" element={<RecordListPage />} />
           <Route path="/report/:sid" element={<ReportDetailPage />} />
           <Route path="/entry" element={<EntryPage />} />
+          <Route path="/entry/:sid" element={<EntryResultPage />} />
           <Route path="/boutique" element={<BoutiquePage />} />
           <Route path="/showroom" element={<ShowroomPage />} />
         </Route>
