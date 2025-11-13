@@ -1,7 +1,7 @@
-// src/shared/api/nickname.ts
+// src/entities/user/api/nickname.ts
 
-import { apiPost } from './http';
-import { ApiResponse } from './types';
+import { apiPost } from '@/shared/api/http';
+import { ApiResponse } from '@/shared/api/types';
 
 export interface NicknameUpdateRequest {
   nickname: string;
@@ -20,7 +20,7 @@ export async function updateNickname(
   nickname: string
 ): Promise<NicknameUpdateResponse> {
   const response = await apiPost<ApiResponse<NicknameUpdateResponse>, NicknameUpdateRequest>(
-    `/api/v1/users/${userId}/nickname`,
+    `/users/${userId}/nickname`,
     { nickname }
   );
   return response.data;

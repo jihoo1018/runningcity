@@ -61,7 +61,11 @@ class WebAppInterface(
                     Log.e("WebAppInterface", "   📥 에러 메시지: $errorMessage")
                     Log.e("WebAppInterface", "   📤 React로 전달 중...")
                     
-                    val jsonMessage = """{"type": "HEART_RATE_ERROR", "message": "$errorMessage"}"""
+                    // JSONObject를 사용하여 안전하게 JSON 생성 (특수문자 이스케이프 처리)
+                    val jsonMessage = JSONObject().apply {
+                        put("type", "HEART_RATE_ERROR")
+                        put("message", errorMessage)
+                    }.toString()
                     sendToReact(jsonMessage)
                     
                     Log.e("WebAppInterface", "✅ React로 에러 메시지 전달 완료")
@@ -169,8 +173,12 @@ class WebAppInterface(
             if (!success) {
                 Log.e("WebAppInterface", "❌ [실패] 워치 심박수 측정 요청 실패")
                 Log.e("WebAppInterface", "   → 워치가 연결되어 있는지 확인해주세요")
-                // 실패 시 React에 에러 메시지 전달
-                sendToReact("""{"type": "HEART_RATE_ERROR", "message": "워치 연결을 확인해주세요"}""")
+                // 실패 시 React에 에러 메시지 전달 (JSONObject 사용)
+                val jsonMessage = JSONObject().apply {
+                    put("type", "HEART_RATE_ERROR")
+                    put("message", "워치 연결을 확인해주세요")
+                }.toString()
+                sendToReact(jsonMessage)
             } else {
                 Log.d("WebAppInterface", "✅ [2단계] 워치 심박수 측정 요청 전송 완료")
                 Log.d("WebAppInterface", "   → 워치에서 측정을 시작합니다 (약 15초 소요)")
@@ -189,15 +197,13 @@ class WebAppInterface(
 
     /** ✅ Android → React 메세지 전달 */
     private fun sendToReact(message: String) {
+        Log.d("WebAppInterface", "📤 React로 메시지 전송: $message")
         webView.post {
-            webView.evaluateJavascript(
-                "window.onAndroidMessage($message)",
-                null
-            )
+            val jsCode = "if (typeof window.onAndroidMessage === 'function') { window.onAndroidMessage($message); } else { console.error('window.onAndroidMessage is not a function'); }"
+            webView.evaluateJavascript(jsCode) { result ->
+                Log.d("WebAppInterface", "📥 JavaScript 실행 결과: $result")
+            }
         }
-//        Handler(Looper.getMainLooper()).post {
-//            webView.evaluateJavascript("window.onAndroidMessage($message)", null)
-//        }
     }
 
 
