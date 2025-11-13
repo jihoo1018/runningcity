@@ -1,10 +1,13 @@
 package com.runningcity.mission.service;
 
 import com.runningcity.global.response.CommonResponseCode;
-import com.runningcity.mission.dto.DailyMissionProgressRequest;
 import com.runningcity.mission.dto.DailyMissionResponse;
 import com.runningcity.mission.entity.DailyMission;
 import com.runningcity.mission.repository.DailyMissionRepository;
+import com.runningcity.mission.repository.RunSessionReadRepository;
+import com.runningcity.user.repository.UserRepository;
+import com.runningcity.onboarding.entity.UserPreference;
+import com.runningcity.onboarding.repository.UserPreferenceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,10 +18,27 @@ import java.time.ZonedDateTime;
 @Transactional
 public class DailyMissionService {
 
-    private final DailyMissionRepository dailyMissionRepository;
+    private static final double DEFAULT_TARGET_KM = 5.0;
 
-    public DailyMissionService(DailyMissionRepository dailyMissionRepository) {
+    // 🔴 개발용: run_session에 기록 없으면 이 값으로 오늘 뛴 거리로 간주
+    private static final boolean DEV_FAKE_TODAY_KM = false;
+    private static final double DEV_FAKE_KM_VALUE = 5.0;
+
+    private final DailyMissionRepository dailyMissionRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
+    private final RunSessionReadRepository runSessionReadRepository;
+    private final UserRepository userRepository;
+
+    public DailyMissionService(
+            DailyMissionRepository dailyMissionRepository,
+            UserPreferenceRepository userPreferenceRepository,
+            RunSessionReadRepository runSessionReadRepository,
+            UserRepository userRepository
+    ) {
         this.dailyMissionRepository = dailyMissionRepository;
+        this.userPreferenceRepository = userPreferenceRepository;
+        this.runSessionReadRepository = runSessionReadRepository;
+        this.userRepository = userRepository;
     }
 
     private ZonedDateTime nowSeoul() {
@@ -29,117 +49,110 @@ public class DailyMissionService {
         return nowSeoul().toLocalDate().atStartOfDay(ZoneId.of("Asia/Seoul"));
     }
 
+    private ZonedDateTime todayEndSeoul() {
+        return todayStartSeoul().plusDays(1);
+    }
+
     /**
-     * 오늘 미션 조회 (없으면 생성)
+     * 오늘 미션 조회
      */
     public DailyMissionResponse getTodayMission(Long userId) {
-        ZonedDateTime today = todayStartSeoul();
-        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, today)
-                .orElseGet(() -> createDefaultMission(userId, today));
-        return toResponse(mission);
-    }
+        ZonedDateTime todayStart = todayStartSeoul();
+        ZonedDateTime todayEnd = todayEndSeoul();
 
-    /**
-     * 오늘 미션 진행도 추가
-     */
-    public DailyMissionResponse addProgress(Long userId, DailyMissionProgressRequest request) {
-        ZonedDateTime today = todayStartSeoul();
-        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, today)
-                .orElseGet(() -> createDefaultMission(userId, today));
+        double targetKm = loadTargetKm(userId);
+        double todayRunKm = loadTodayRunKm(userId, todayStart, todayEnd);
 
-        double add = request.getAdditionalKm();
-        if (add < 0) {
-            throw new IllegalArgumentException(CommonResponseCode.BAD_REQUEST.getMessage());
-        }
+        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, todayStart)
+                .orElseGet(() -> createDefaultMission(userId, todayStart, targetKm));
 
-        double newKm = Math.max(0, mission.getCurrentKm() + add);
-        mission.setCurrentKm(newKm);
-
-        if (newKm >= mission.getTargetKm()) {
-            mission.setCompleted(true);
-        }
-
+        mission.setTargetKm(targetKm);
+        mission.setCurrentKm(todayRunKm);
+        mission.setCompleted(todayRunKm >= targetKm);
         mission.setUpdatedAt(nowSeoul());
+
         DailyMission saved = dailyMissionRepository.save(mission);
         return toResponse(saved);
     }
 
     /**
-     * (기존) missionId로 보상 수령
-     */
-    public DailyMissionResponse claim(Long userId, Long missionId) {
-        DailyMission mission = dailyMissionRepository.findById(missionId)
-                .orElseThrow(() -> new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_NOT_FOUND.getMessage()));
-
-        if (!mission.getUserId().equals(userId)) {
-            throw new IllegalArgumentException(CommonResponseCode.FORBIDDEN.getMessage());
-        }
-
-        if (!mission.isCompleted()) {
-            throw new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_NOT_COMPLETED.getMessage());
-        }
-
-        if (mission.isClaimed()) {
-            throw new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_ALREADY_CLAIMED.getMessage());
-        }
-
-        mission.setClaimed(true);
-        mission.setUpdatedAt(nowSeoul());
-        DailyMission saved = dailyMissionRepository.save(mission);
-        return toResponse(saved);
-    }
-
-    /**
-     * 오늘 미션 보상 수령
-     * 프론트가 today 기준으로만 호출할 때 쓰는 버전 아마 이버전으로 갈듯 어차피 일일보상은 투데이 기준이라
+     * 오늘 보상 수령
      */
     public DailyMissionResponse claimToday(Long userId) {
-        ZonedDateTime today = todayStartSeoul();
-        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, today)
+        ZonedDateTime todayStart = todayStartSeoul();
+        ZonedDateTime todayEnd = todayEndSeoul();
+
+        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, todayStart)
                 .orElseThrow(() -> new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_NOT_FOUND.getMessage()));
+
+        double targetKm = loadTargetKm(userId);
+        double todayRunKm = loadTodayRunKm(userId, todayStart, todayEnd);
+
+        mission.setTargetKm(targetKm);
+        mission.setCurrentKm(todayRunKm);
+        mission.setCompleted(todayRunKm >= targetKm);
 
         if (!mission.isCompleted()) {
             throw new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_NOT_COMPLETED.getMessage());
         }
-
         if (mission.isClaimed()) {
             throw new IllegalArgumentException(CommonResponseCode.DAILY_MISSION_ALREADY_CLAIMED.getMessage());
         }
 
+        /*
+         * ===== 보상 로직 =====
+         * 기본 EXP = 거리 × 10
+         * 연속 운동 보너스 = 일수 × 5 (최대 50)
+         * 크레딧 전환 = 총 EXP ÷ 20 (결과는 내림)
+         */
+        long baseExp = Math.round(todayRunKm * 10);   // ex) 5km -> 50 EXP
+
+        // TODO: 실제 연속운동일수 저장되면 여기서 조회
+        int consecutiveDays = 0;
+        long streakBonus = Math.min(consecutiveDays * 5L, 50L);
+
+        long totalExpToAdd = baseExp + streakBonus;
+
+        long creditToAdd = totalExpToAdd / 20; // 5% 전환
+
+        // users 테이블에 경험치/크레딧 적립
+        userRepository.addExpAndCredit(userId, totalExpToAdd, creditToAdd);
+
+        // 미션 상태 마무리
         mission.setClaimed(true);
         mission.setUpdatedAt(nowSeoul());
+
         DailyMission saved = dailyMissionRepository.save(mission);
         return toResponse(saved);
     }
 
     /**
-     *  오늘 미션 초기화 - 개발/테스트용
+     * 테스트용 초기화
      */
     public void resetToday(Long userId) {
-        ZonedDateTime today = todayStartSeoul();
-        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, today)
-                .orElseGet(() -> createDefaultMission(userId, today));
+        ZonedDateTime todayStart = todayStartSeoul();
+        double targetKm = loadTargetKm(userId);
+
+        DailyMission mission = dailyMissionRepository.findByUserIdAndDate(userId, todayStart)
+                .orElseGet(() -> createDefaultMission(userId, todayStart, targetKm));
 
         mission.setCurrentKm(0.0);
         mission.setCompleted(false);
         mission.setClaimed(false);
+        mission.setTargetKm(targetKm);
         mission.setUpdatedAt(nowSeoul());
 
         dailyMissionRepository.save(mission);
     }
 
-    /**
-     * 오늘 미션이 없을 때 기본값 생성
-     */
-    private DailyMission createDefaultMission(Long userId, ZonedDateTime date) {
+    private DailyMission createDefaultMission(Long userId, ZonedDateTime date, double targetKm) {
         DailyMission mission = new DailyMission();
         mission.setUserId(userId);
         mission.setDate(date);
-        mission.setTargetKm(5.0);
+        mission.setTargetKm(targetKm);
         mission.setCurrentKm(0.0);
         mission.setCompleted(false);
         mission.setClaimed(false);
-        mission.setRewardCoins(50);
         mission.setUpdatedAt(nowSeoul());
         return dailyMissionRepository.save(mission);
     }
@@ -162,8 +175,36 @@ public class DailyMissionService {
                 .progressPercent(progress)
                 .completed(mission.isCompleted())
                 .claimed(mission.isClaimed())
-                .rewardCoins(mission.getRewardCoins())
                 .updatedAt(mission.getUpdatedAt())
                 .build();
+    }
+
+    /**
+     * 온보딩에서 목표 km 읽기
+     */
+    private double loadTargetKm(Long userId) {
+        return userPreferenceRepository.findByUser_UserId(userId)
+                .map(UserPreference::getTargetDistanceKm)
+                .filter(km -> km != null && km > 0)
+                .orElse((float) DEFAULT_TARGET_KM);
+    }
+
+    /**
+     * run_session 테이블에서 오늘 뛴 거리 합계 읽기
+     * + 개발 중이면 0일 때 강제로 값 채우기
+     */
+    private double loadTodayRunKm(Long userId, ZonedDateTime start, ZonedDateTime end) {
+        double real = runSessionReadRepository.sumTodayDistance(
+                userId,
+                start.toOffsetDateTime(),
+                end.toOffsetDateTime()
+        );
+
+        // 개발모드 켜져있고, 오늘 기록이 전혀 없으면 가짜 값 사용
+        if (DEV_FAKE_TODAY_KM && real <= 0.0001) {
+            return DEV_FAKE_KM_VALUE;
+        }
+
+        return real;
     }
 }

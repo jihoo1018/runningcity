@@ -1,745 +1,745 @@
-﻿category,asset_key,path,name,rarity,price_cr,is_gacha_only,description,walk_count,run_count,jump_count,total_files,has_all_animations,obtain_method
-bodies,male_amber,male/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_black,male/black,Black,common,0,True,,1,1,1,3,True,gacha
-bodies,male_blue,male/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_bright_green,male/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_bronze,male/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_brown,male/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-bodies,male_dark_green,male/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_black,male/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_brown,male/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_copper,male/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_gold,male/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_grey,male/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_tan,male/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_fur_white,male/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_green,male/green,Green,common,0,True,,1,1,1,3,True,gacha
-bodies,male_lavender,male/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_light,male/light,Light,common,3,False,,1,1,1,3,True,store
-bodies,male_olive,male/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-bodies,male_pale_green,male/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-bodies,male_taupe,male/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-bodies,male_zombie,male/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-bodies,male_zombie_green,male/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_black,male/longsleeve/black,Black,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_blue,male/longsleeve/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_bluegray,male/longsleeve/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_brown,male/longsleeve/brown,Brown,common,3,False,,1,1,1,3,True,store
-clothes,male_longsleeve_charcoal,male/longsleeve/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_forest,male/longsleeve/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_gray,male/longsleeve/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_green,male/longsleeve/green,Green,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_lavender,male/longsleeve/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_leather,male/longsleeve/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_maroon,male/longsleeve/maroon,Maroon,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_navy,male/longsleeve/navy,Navy,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_orange,male/longsleeve/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_pink,male/longsleeve/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_purple,male/longsleeve/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_red,male/longsleeve/red,Red,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_rose,male/longsleeve/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_sky,male/longsleeve/sky,Sky,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_slate,male/longsleeve/slate,Slate,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_tan,male/longsleeve/tan,Tan,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_teal,male/longsleeve/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_walnut,male/longsleeve/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_white,male/longsleeve/white,White,common,0,True,,1,1,1,3,True,gacha
-clothes,male_longsleeve_yellow,male/longsleeve/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_black,male/shorts/black,Black,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_blue,male/shorts/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_bluegray,male/shorts/bluegray,Bluegray,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_brown,male/shorts/brown,Brown,common,3,False,,1,1,1,3,True,store
-clothes,male_shorts_charcoal,male/shorts/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_forest,male/shorts/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_gray,male/shorts/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_green,male/shorts/green,Green,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_lavender,male/shorts/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_leather,male/shorts/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_maroon,male/shorts/maroon,Maroon,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_navy,male/shorts/navy,Navy,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_orange,male/shorts/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_pink,male/shorts/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_purple,male/shorts/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_red,male/shorts/red,Red,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_rose,male/shorts/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_sky,male/shorts/sky,Sky,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_slate,male/shorts/slate,Slate,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_tan,male/shorts/tan,Tan,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_teal,male/shorts/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_walnut,male/shorts/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_white,male/shorts/white,White,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shorts_yellow,male/shorts/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_black,male/shortsleeves/black,Black,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_blue,male/shortsleeves/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_bluegray,male/shortsleeves/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_brown,male/shortsleeves/brown,Brown,common,3,False,,1,1,1,3,True,store
-clothes,male_shortsleeves_charcoal,male/shortsleeves/charcoal,Charcoal,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_forest,male/shortsleeves/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_gray,male/shortsleeves/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_green,male/shortsleeves/green,Green,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_lavender,male/shortsleeves/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_leather,male/shortsleeves/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_maroon,male/shortsleeves/maroon,Maroon,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_navy,male/shortsleeves/navy,Navy,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_orange,male/shortsleeves/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_pink,male/shortsleeves/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_purple,male/shortsleeves/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_red,male/shortsleeves/red,Red,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_rose,male/shortsleeves/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_sky,male/shortsleeves/sky,Sky,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_slate,male/shortsleeves/slate,Slate,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_tan,male/shortsleeves/tan,Tan,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_teal,male/shortsleeves/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_walnut,male/shortsleeves/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_white,male/shortsleeves/white,White,common,0,True,,1,1,1,3,True,gacha
-clothes,male_shortsleeves_yellow,male/shortsleeves/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_black,male/tshirt/black,Black,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_blue,male/tshirt/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_bluegray,male/tshirt/bluegray,Bluegray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_brown,male/tshirt/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_charcoal,male/tshirt/charcoal,Charcoal,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_forest,male/tshirt/forest,Forest,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_gray,male/tshirt/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_green,male/tshirt/green,Green,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_lavender,male/tshirt/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_leather,male/tshirt/leather,Leather,epic,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_maroon,male/tshirt/maroon,Maroon,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_navy,male/tshirt/navy,Navy,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_orange,male/tshirt/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_pink,male/tshirt/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_purple,male/tshirt/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_red,male/tshirt/red,Red,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_rose,male/tshirt/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_sky,male/tshirt/sky,Sky,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_slate,male/tshirt/slate,Slate,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_tan,male/tshirt/tan,Tan,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_teal,male/tshirt/teal,Teal,rare,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_walnut,male/tshirt/walnut,Walnut,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_white,male/tshirt/white,White,common,0,True,,1,1,1,3,True,gacha
-clothes,male_tshirt_yellow,male/tshirt/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_ash,afro/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-hair,afro_black,afro/black,Black,common,0,True,,1,1,1,3,True,gacha
-hair,afro_blonde,afro/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-hair,afro_blue,afro/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_carrot,afro/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_chestnut,afro/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,afro_dark_brown,afro/dark_brown,Dark Brown,common,3,False,,1,1,1,3,True,store
-hair,afro_dark_gray,afro/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_ginger,afro/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_gold,afro/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
-hair,afro_gray,afro/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-hair,afro_green,afro/green,Green,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_light_brown,afro/light_brown,Light Brown,common,3,False,,1,1,1,3,True,store
-hair,afro_navy,afro/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_orange,afro/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_pink,afro/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_platinum,afro/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
-hair,afro_purple,afro/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_raven,afro/raven,Raven,common,0,True,,1,1,1,3,True,gacha
-hair,afro_red,afro/red,Red,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_redhead,afro/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-hair,afro_rose,afro/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
-hair,afro_sandy,afro/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-hair,afro_strawberry,afro/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-hair,afro_violet,afro/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-hair,afro_white,afro/white,White,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_ash,buzzcut/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_black,buzzcut/black,Black,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_blonde,buzzcut/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_blue,buzzcut/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_carrot,buzzcut/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_chestnut,buzzcut/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_dark_brown,buzzcut/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_dark_gray,buzzcut/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_ginger,buzzcut/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_gold,buzzcut/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_gray,buzzcut/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_green,buzzcut/green,Green,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_light_brown,buzzcut/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_navy,buzzcut/navy,Navy,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_orange,buzzcut/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_pink,buzzcut/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_platinum,buzzcut/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_purple,buzzcut/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_raven,buzzcut/raven,Raven,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_red,buzzcut/red,Red,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_redhead,buzzcut/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_rose,buzzcut/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_sandy,buzzcut/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_strawberry,buzzcut/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_violet,buzzcut/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-hair,buzzcut_white,buzzcut/white,White,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_ash,dreadlocks_long/ash,Ash,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_black,dreadlocks_long/black,Black,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_blonde,dreadlocks_long/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_blue,dreadlocks_long/blue,Blue,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_carrot,dreadlocks_long/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_chestnut,dreadlocks_long/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_dark_brown,dreadlocks_long/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_dark_gray,dreadlocks_long/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_ginger,dreadlocks_long/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_gold,dreadlocks_long/gold,Gold,legendary,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_gray,dreadlocks_long/gray,Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_green,dreadlocks_long/green,Green,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_light_brown,dreadlocks_long/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_navy,dreadlocks_long/navy,Navy,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_orange,dreadlocks_long/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_pink,dreadlocks_long/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_platinum,dreadlocks_long/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_purple,dreadlocks_long/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_raven,dreadlocks_long/raven,Raven,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_red,dreadlocks_long/red,Red,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_redhead,dreadlocks_long/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_rose,dreadlocks_long/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_sandy,dreadlocks_long/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_strawberry,dreadlocks_long/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_violet,dreadlocks_long/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-hair,dreadlocks_long_white,dreadlocks_long/white,White,legendary,0,True,,1,1,1,3,True,gacha
-hair,long_ash,long/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-hair,long_black,long/black,Black,common,0,True,,1,1,1,3,True,gacha
-hair,long_blonde,long/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-hair,long_blue,long/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-hair,long_carrot,long/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
-hair,long_chestnut,long/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,long_dark_brown,long/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
-hair,long_dark_gray,long/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,long_ginger,long/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
-hair,long_gold,long/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
-hair,long_gray,long/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-hair,long_green,long/green,Green,epic,0,True,,1,1,1,3,True,gacha
-hair,long_light_brown,long/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
-hair,long_navy,long/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
-hair,long_orange,long/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-hair,long_pink,long/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
-hair,long_platinum,long/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
-hair,long_purple,long/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-hair,long_raven,long/raven,Raven,common,0,True,,1,1,1,3,True,gacha
-hair,long_red,long/red,Red,rare,0,True,,1,1,1,3,True,gacha
-hair,long_redhead,long/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-hair,long_rose,long/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
-hair,long_sandy,long/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-hair,long_strawberry,long/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-hair,long_violet,long/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-hair,long_white,long/white,White,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_ash,messy1/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_black,messy1/black,Black,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_blonde,messy1/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_blue,messy1/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_carrot,messy1/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_chestnut,messy1/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_dark_brown,messy1/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_dark_gray,messy1/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_ginger,messy1/ginger,Ginger,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_gold,messy1/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
-hair,messy1_gray,messy1/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_green,messy1/green,Green,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_light_brown,messy1/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_navy,messy1/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_orange,messy1/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_pink,messy1/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_platinum,messy1/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
-hair,messy1_purple,messy1/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_raven,messy1/raven,Raven,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_red,messy1/red,Red,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_redhead,messy1/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_rose,messy1/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_sandy,messy1/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-hair,messy1_strawberry,messy1/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-hair,messy1_violet,messy1/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-hair,messy1_white,messy1/white,White,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_ash,pixie/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_black,pixie/black,Black,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_blonde,pixie/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_blue,pixie/blue,Blue,epic,0,True,,1,1,1,3,True,gacha
-hair,pixie_carrot,pixie/carrot,Carrot,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_chestnut,pixie/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_dark_brown,pixie/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_dark_gray,pixie/dark_gray,Dark Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_ginger,pixie/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_gold,pixie/gold,Gold,legendary,0,True,,1,1,1,3,True,gacha
-hair,pixie_gray,pixie/gray,Gray,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_green,pixie/green,Green,epic,0,True,,1,1,1,3,True,gacha
-hair,pixie_light_brown,pixie/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_navy,pixie/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_orange,pixie/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_pink,pixie/pink,Pink,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_platinum,pixie/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
-hair,pixie_purple,pixie/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_raven,pixie/raven,Raven,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_red,pixie/red,Red,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_redhead,pixie/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_rose,pixie/rose,Rose,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_sandy,pixie/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-hair,pixie_strawberry,pixie/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_violet,pixie/violet,Violet,rare,0,True,,1,1,1,3,True,gacha
-hair,pixie_white,pixie/white,White,epic,0,True,,1,1,1,3,True,gacha
-head,heads_amber,heads/amber,Amber,common,0,True,,1,1,1,3,True,gacha
-head,heads_black,heads/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,heads_blue,heads/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,heads_bright_green,heads/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,heads_bronze,heads/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,heads_brown,heads/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,heads_dark_green,heads/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,heads_fur_black,heads/fur_black,Fur Black,rare,0,True,,1,1,1,3,True,gacha
-head,heads_fur_brown,heads/fur_brown,Fur Brown,common,0,True,,1,1,1,3,True,gacha
-head,heads_fur_copper,heads/fur_copper,Fur Copper,rare,0,True,,1,1,1,3,True,gacha
-head,heads_fur_gold,heads/fur_gold,Fur Gold,epic,0,True,,1,1,1,3,True,gacha
-head,heads_fur_grey,heads/fur_grey,Fur Grey,common,0,True,,1,1,1,3,True,gacha
-head,heads_fur_tan,heads/fur_tan,Fur Tan,common,0,True,,1,1,1,3,True,gacha
-head,heads_fur_white,heads/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
-head,heads_green,heads/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,heads_lavender,heads/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,heads_light,heads/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,heads_olive,heads/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,heads_pale_green,heads/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,heads_taupe,heads/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,heads_zombie,heads/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,heads_zombie_green,heads/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
-head,nose_amber,nose/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,nose_black,nose/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,nose_blue,nose/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,nose_bright_green,nose/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,nose_bronze,nose/bronze,Bronze,common,0,True,,1,1,1,3,True,gacha
-head,nose_brown,nose/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,nose_dark_green,nose/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,nose_fur_black,nose/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,nose_fur_brown,nose/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,nose_fur_copper,nose/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,nose_fur_gold,nose/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,nose_fur_grey,nose/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,nose_fur_tan,nose/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,nose_fur_white,nose/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,nose_green,nose/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,nose_lavender,nose/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,nose_light,nose/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,nose_olive,nose/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,nose_pale_green,nose/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,nose_taupe,nose/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,nose_zombie,nose/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,nose_zombie_green,nose/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_amber,faces/anger/amber,Amber,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_black,faces/anger/black,Black,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_anger_blue,faces/anger/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_bright_green,faces/anger/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_bronze,faces/anger/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_brown,faces/anger/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_anger_dark_green,faces/anger/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_black,faces/anger/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_brown,faces/anger/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_copper,faces/anger/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_gold,faces/anger/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_grey,faces/anger/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_tan,faces/anger/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_fur_white,faces/anger/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_green,faces/anger/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_anger_lavender,faces/anger/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_light,faces/anger/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_anger_olive,faces/anger/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_anger_pale_green,faces/anger/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_anger_taupe,faces/anger/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_anger_zombie,faces/anger/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_anger_zombie_green,faces/anger/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_blush_amber,faces/blush/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_black,faces/blush/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_blush_blue,faces/blush/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_bright_green,faces/blush/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_blush_bronze,faces/blush/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_brown,faces/blush/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_blush_dark_green,faces/blush/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_black,faces/blush/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_brown,faces/blush/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_copper,faces/blush/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_gold,faces/blush/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_grey,faces/blush/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_tan,faces/blush/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_fur_white,faces/blush/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_blush_green,faces/blush/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_blush_lavender,faces/blush/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_light,faces/blush/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_blush_olive,faces/blush/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_blush_pale_green,faces/blush/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_blush_taupe,faces/blush/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_blush_zombie,faces/blush/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_blush_zombie_green,faces/blush/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closed_amber,faces/closed/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_black,faces/closed/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_blue,faces/closed/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_bright_green,faces/closed/bright_green,Bright Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_bronze,faces/closed/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_brown,faces/closed/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_dark_green,faces/closed/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_black,faces/closed/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_brown,faces/closed/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_copper,faces/closed/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_gold,faces/closed/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_grey,faces/closed/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_tan,faces/closed/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_fur_white,faces/closed/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closed_green,faces/closed/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_lavender,faces/closed/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_light,faces/closed/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_olive,faces/closed/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_pale_green,faces/closed/pale_green,Pale Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_taupe,faces/closed/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_closed_zombie,faces/closed/zombie,Zombie,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closed_zombie_green,faces/closed/zombie_green,Zombie Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_amber,faces/closing/amber,Amber,common,0,True,,1,1,1,3,True,gacha
-head,faces_closing_black,faces/closing/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_closing_blue,faces/closing/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_bright_green,faces/closing/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closing_bronze,faces/closing/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_brown,faces/closing/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_closing_dark_green,faces/closing/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_black,faces/closing/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_brown,faces/closing/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_copper,faces/closing/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_gold,faces/closing/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_grey,faces/closing/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_tan,faces/closing/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_fur_white,faces/closing/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closing_green,faces/closing/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_lavender,faces/closing/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closing_light,faces/closing/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_closing_olive,faces/closing/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_closing_pale_green,faces/closing/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_closing_taupe,faces/closing/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_closing_zombie,faces/closing/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_closing_zombie_green,faces/closing/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_amber,faces/eyeroll/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_black,faces/eyeroll/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_blue,faces/eyeroll/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_bright_green,faces/eyeroll/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_bronze,faces/eyeroll/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_brown,faces/eyeroll/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_dark_green,faces/eyeroll/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_black,faces/eyeroll/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_brown,faces/eyeroll/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_copper,faces/eyeroll/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_gold,faces/eyeroll/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_grey,faces/eyeroll/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_tan,faces/eyeroll/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_fur_white,faces/eyeroll/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_green,faces/eyeroll/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_lavender,faces/eyeroll/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_light,faces/eyeroll/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_olive,faces/eyeroll/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_pale_green,faces/eyeroll/pale_green,Pale Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_taupe,faces/eyeroll/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_zombie,faces/eyeroll/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_eyeroll_zombie_green,faces/eyeroll/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_amber,faces/happy/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_black,faces/happy/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_happy_blue,faces/happy/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-head,faces_happy_bright_green,faces/happy/bright_green,Bright Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_bronze,faces/happy/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_brown,faces/happy/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_happy_dark_green,faces/happy/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_black,faces/happy/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_brown,faces/happy/fur_brown,Fur Brown,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_copper,faces/happy/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_gold,faces/happy/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_grey,faces/happy/fur_grey,Fur Grey,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_tan,faces/happy/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_fur_white,faces/happy/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_green,faces/happy/green,Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_lavender,faces/happy/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,faces_happy_light,faces/happy/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_happy_olive,faces/happy/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_happy_pale_green,faces/happy/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_happy_taupe,faces/happy/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_happy_zombie,faces/happy/zombie,Zombie,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_happy_zombie_green,faces/happy/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_amber,faces/look_l/amber,Amber,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_black,faces/look_l/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_blue,faces/look_l/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_bright_green,faces/look_l/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_bronze,faces/look_l/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_brown,faces/look_l/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_dark_green,faces/look_l/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_black,faces/look_l/fur_black,Fur Black,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_brown,faces/look_l/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_copper,faces/look_l/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_gold,faces/look_l/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_grey,faces/look_l/fur_grey,Fur Grey,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_tan,faces/look_l/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_fur_white,faces/look_l/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_green,faces/look_l/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_lavender,faces/look_l/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_light,faces/look_l/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_olive,faces/look_l/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_pale_green,faces/look_l/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_taupe,faces/look_l/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_zombie,faces/look_l/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_l_zombie_green,faces/look_l/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_amber,faces/look_r/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_black,faces/look_r/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_blue,faces/look_r/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_bright_green,faces/look_r/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_bronze,faces/look_r/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_brown,faces/look_r/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_dark_green,faces/look_r/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_black,faces/look_r/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_brown,faces/look_r/fur_brown,Fur Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_copper,faces/look_r/fur_copper,Fur Copper,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_gold,faces/look_r/fur_gold,Fur Gold,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_grey,faces/look_r/fur_grey,Fur Grey,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_tan,faces/look_r/fur_tan,Fur Tan,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_fur_white,faces/look_r/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_green,faces/look_r/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_lavender,faces/look_r/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_light,faces/look_r/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_olive,faces/look_r/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_pale_green,faces/look_r/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_taupe,faces/look_r/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_zombie,faces/look_r/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_look_r_zombie_green,faces/look_r/zombie_green,Zombie Green,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_amber,faces/neutral/amber,Amber,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_black,faces/neutral/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_blue,faces/neutral/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_bright_green,faces/neutral/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_bronze,faces/neutral/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_brown,faces/neutral/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_dark_green,faces/neutral/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_black,faces/neutral/fur_black,Fur Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_brown,faces/neutral/fur_brown,Fur Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_copper,faces/neutral/fur_copper,Fur Copper,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_gold,faces/neutral/fur_gold,Fur Gold,epic,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_grey,faces/neutral/fur_grey,Fur Grey,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_tan,faces/neutral/fur_tan,Fur Tan,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_fur_white,faces/neutral/fur_white,Fur White,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_green,faces/neutral/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_lavender,faces/neutral/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_light,faces/neutral/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_olive,faces/neutral/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_pale_green,faces/neutral/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_taupe,faces/neutral/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_zombie,faces/neutral/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_neutral_zombie_green,faces/neutral/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_sad_amber,faces/sad/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_black,faces/sad/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_sad_blue,faces/sad/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_bright_green,faces/sad/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_sad_bronze,faces/sad/bronze,Bronze,common,0,True,,1,1,1,3,True,gacha
-head,faces_sad_brown,faces/sad/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_sad_dark_green,faces/sad/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_black,faces/sad/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_brown,faces/sad/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_copper,faces/sad/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_gold,faces/sad/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_grey,faces/sad/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_tan,faces/sad/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_fur_white,faces/sad/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_sad_green,faces/sad/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_lavender,faces/sad/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_light,faces/sad/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_sad_olive,faces/sad/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_sad_pale_green,faces/sad/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_sad_taupe,faces/sad/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_sad_zombie,faces/sad/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_sad_zombie_green,faces/sad/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shame_amber,faces/shame/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_black,faces/shame/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_shame_blue,faces/shame/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_bright_green,faces/shame/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shame_bronze,faces/shame/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_brown,faces/shame/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_shame_dark_green,faces/shame/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_black,faces/shame/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_brown,faces/shame/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_copper,faces/shame/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_gold,faces/shame/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_grey,faces/shame/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_tan,faces/shame/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_fur_white,faces/shame/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shame_green,faces/shame/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,faces_shame_lavender,faces/shame/lavender,Lavender,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_light,faces/shame/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_shame_olive,faces/shame/olive,Olive,common,0,True,,1,1,1,3,True,gacha
-head,faces_shame_pale_green,faces/shame/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shame_taupe,faces/shame/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_shame_zombie,faces/shame/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shame_zombie_green,faces/shame/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shock_amber,faces/shock/amber,Amber,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_black,faces/shock/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,faces_shock_blue,faces/shock/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_bright_green,faces/shock/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shock_bronze,faces/shock/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_brown,faces/shock/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,faces_shock_dark_green,faces/shock/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_black,faces/shock/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_brown,faces/shock/fur_brown,Fur Brown,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_copper,faces/shock/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_gold,faces/shock/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_grey,faces/shock/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_tan,faces/shock/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_fur_white,faces/shock/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shock_green,faces/shock/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_lavender,faces/shock/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,faces_shock_light,faces/shock/light,Light,common,0,True,,1,1,1,3,True,gacha
-head,faces_shock_olive,faces/shock/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_pale_green,faces/shock/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,faces_shock_taupe,faces/shock/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,faces_shock_zombie,faces/shock/zombie,Zombie,legendary,0,True,,1,1,1,3,True,gacha
-head,faces_shock_zombie_green,faces/shock/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_blue,eyes/anger/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_brown,eyes/anger/brown,Brown,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_gray,eyes/anger/gray,Gray,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_green,eyes/anger/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_orange,eyes/anger/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_purple,eyes/anger/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_red,eyes/anger/red,Red,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_anger_yellow,eyes/anger/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_blue,eyes/closing/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_brown,eyes/closing/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_gray,eyes/closing/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_green,eyes/closing/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_orange,eyes/closing/orange,Orange,common,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_purple,eyes/closing/purple,Purple,common,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_red,eyes/closing/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_closing_yellow,eyes/closing/yellow,Yellow,common,0,True,,1,1,1,3,True,gacha
-head,eyes_default_blue,eyes/default/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-head,eyes_default_brown,eyes/default/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_default_gray,eyes/default/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_default_green,eyes/default/green,Green,common,0,True,,1,1,1,3,True,gacha
-head,eyes_default_orange,eyes/default/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_default_purple,eyes/default/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_default_red,eyes/default/red,Red,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_default_yellow,eyes/default/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_blue,eyes/eyeroll/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_brown,eyes/eyeroll/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_gray,eyes/eyeroll/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_green,eyes/eyeroll/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_orange,eyes/eyeroll/orange,Orange,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_purple,eyes/eyeroll/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_red,eyes/eyeroll/red,Red,legendary,0,True,,1,1,1,3,True,gacha
-head,eyes_eyeroll_yellow,eyes/eyeroll/yellow,Yellow,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_blue,eyes/look_l/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_brown,eyes/look_l/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_gray,eyes/look_l/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_green,eyes/look_l/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_orange,eyes/look_l/orange,Orange,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_purple,eyes/look_l/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_red,eyes/look_l/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_l_yellow,eyes/look_l/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_blue,eyes/look_r/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_brown,eyes/look_r/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_gray,eyes/look_r/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_green,eyes/look_r/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_orange,eyes/look_r/orange,Orange,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_purple,eyes/look_r/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_red,eyes/look_r/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_look_r_yellow,eyes/look_r/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_blue,eyes/neutral/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_brown,eyes/neutral/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_gray,eyes/neutral/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_green,eyes/neutral/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_orange,eyes/neutral/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_purple,eyes/neutral/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_red,eyes/neutral/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_neutral_yellow,eyes/neutral/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_blue,eyes/sad/blue,Blue,common,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_brown,eyes/sad/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_gray,eyes/sad/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_green,eyes/sad/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_orange,eyes/sad/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_purple,eyes/sad/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_red,eyes/sad/red,Red,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_sad_yellow,eyes/sad/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_blue,eyes/sad2/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_brown,eyes/sad2/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_gray,eyes/sad2/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_green,eyes/sad2/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_orange,eyes/sad2/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_purple,eyes/sad2/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_red,eyes/sad2/red,Red,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_sad2_yellow,eyes/sad2/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_blue,eyes/shame/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_brown,eyes/shame/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_gray,eyes/shame/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_green,eyes/shame/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_orange,eyes/shame/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_purple,eyes/shame/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_red,eyes/shame/red,Red,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_shame_yellow,eyes/shame/yellow,Yellow,epic,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_blue,eyes/shock/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_brown,eyes/shock/brown,Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_gray,eyes/shock/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_green,eyes/shock/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_orange,eyes/shock/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_purple,eyes/shock/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_red,eyes/shock/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyes_shock_yellow,eyes/shock/yellow,Yellow,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_ash,eyebrows/thick/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_black,eyebrows/thick/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_blonde,eyebrows/thick/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_blue,eyebrows/thick/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_carrot,eyebrows/thick/carrot,Carrot,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_chestnut,eyebrows/thick/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_dark_brown,eyebrows/thick/dark_brown,Dark Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_dark_gray,eyebrows/thick/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_ginger,eyebrows/thick/ginger,Ginger,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_gold,eyebrows/thick/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_gray,eyebrows/thick/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_green,eyebrows/thick/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_light_brown,eyebrows/thick/light_brown,Light Brown,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_navy,eyebrows/thick/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_orange,eyebrows/thick/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_pink,eyebrows/thick/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_platinum,eyebrows/thick/platinum,Platinum,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_purple,eyebrows/thick/purple,Purple,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_raven,eyebrows/thick/raven,Raven,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_red,eyebrows/thick/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_redhead,eyebrows/thick/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_rose,eyebrows/thick/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_sandy,eyebrows/thick/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_strawberry,eyebrows/thick/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_violet,eyebrows/thick/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thick_white,eyebrows/thick/white,White,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_ash,eyebrows/thin/ash,Ash,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_black,eyebrows/thin/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_blonde,eyebrows/thin/blonde,Blonde,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_blue,eyebrows/thin/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_carrot,eyebrows/thin/carrot,Carrot,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_chestnut,eyebrows/thin/chestnut,Chestnut,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_dark_brown,eyebrows/thin/dark_brown,Dark Brown,common,3,False,,1,1,1,3,True,store
-head,eyebrows_thin_dark_gray,eyebrows/thin/dark_gray,Dark Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_ginger,eyebrows/thin/ginger,Ginger,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_gold,eyebrows/thin/gold,Gold,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_gray,eyebrows/thin/gray,Gray,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_green,eyebrows/thin/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_light_brown,eyebrows/thin/light_brown,Light Brown,common,3,False,,1,1,1,3,True,store
-head,eyebrows_thin_navy,eyebrows/thin/navy,Navy,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_orange,eyebrows/thin/orange,Orange,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_pink,eyebrows/thin/pink,Pink,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_platinum,eyebrows/thin/platinum,Platinum,legendary,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_purple,eyebrows/thin/purple,Purple,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_raven,eyebrows/thin/raven,Raven,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_red,eyebrows/thin/red,Red,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_redhead,eyebrows/thin/redhead,Redhead,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_rose,eyebrows/thin/rose,Rose,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_sandy,eyebrows/thin/sandy,Sandy,common,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_strawberry,eyebrows/thin/strawberry,Strawberry,rare,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_violet,eyebrows/thin/violet,Violet,epic,0,True,,1,1,1,3,True,gacha
-head,eyebrows_thin_white,eyebrows/thin/white,White,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_amber,ears/medium/amber,Amber,common,3,False,,1,1,1,3,True,store
-head,ears_medium_black,ears/medium/black,Black,common,0,True,,1,1,1,3,True,gacha
-head,ears_medium_blue,ears/medium/blue,Blue,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_bright_green,ears/medium/bright_green,Bright Green,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_bronze,ears/medium/bronze,Bronze,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_brown,ears/medium/brown,Brown,common,3,False,,1,1,1,3,True,store
-head,ears_medium_dark_green,ears/medium/dark_green,Dark Green,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_black,ears/medium/fur_black,Fur Black,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_brown,ears/medium/fur_brown,Fur Brown,common,3,False,,1,1,1,3,True,store
-head,ears_medium_fur_copper,ears/medium/fur_copper,Fur Copper,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_gold,ears/medium/fur_gold,Fur Gold,legendary,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_grey,ears/medium/fur_grey,Fur Grey,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_tan,ears/medium/fur_tan,Fur Tan,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_fur_white,ears/medium/fur_white,Fur White,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_green,ears/medium/green,Green,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_lavender,ears/medium/lavender,Lavender,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_light,ears/medium/light,Light,common,3,False,,1,1,1,3,True,store
-head,ears_medium_olive,ears/medium/olive,Olive,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_pale_green,ears/medium/pale_green,Pale Green,rare,0,True,,1,1,1,3,True,gacha
-head,ears_medium_taupe,ears/medium/taupe,Taupe,common,0,True,,1,1,1,3,True,gacha
-head,ears_medium_zombie,ears/medium/zombie,Zombie,epic,0,True,,1,1,1,3,True,gacha
-head,ears_medium_zombie_green,ears/medium/zombie_green,Zombie Green,epic,0,True,,1,1,1,3,True,gacha
+﻿category,subcategory,style,color,name,asset_key,base_path,rarity,price_cr,obtain_method
+bodies,male,,amber,Male Amber Body,male_amber,\AssetsStore\spritesheets\bodies\male\{animation}\amber.png,rare,0,gacha
+bodies,male,,black,Male Black Body,male_black,\AssetsStore\spritesheets\bodies\male\{animation}\black.png,common,3,store
+bodies,male,,blue,Male Blue Body,male_blue,\AssetsStore\spritesheets\bodies\male\{animation}\blue.png,rare,0,gacha
+bodies,male,,bright_green,Male Bright_Green Body,male_bright_green,\AssetsStore\spritesheets\bodies\male\{animation}\bright_green.png,epic,0,gacha
+bodies,male,,bronze,Male Bronze Body,male_bronze,\AssetsStore\spritesheets\bodies\male\{animation}\bronze.png,epic,0,gacha
+bodies,male,,brown,Male Brown Body,male_brown,\AssetsStore\spritesheets\bodies\male\{animation}\brown.png,common,3,store
+bodies,male,,dark_green,Male Dark_Green Body,male_dark_green,\AssetsStore\spritesheets\bodies\male\{animation}\dark_green.png,rare,0,gacha
+bodies,male,,fur_black,Male Fur_Black Body,male_fur_black,\AssetsStore\spritesheets\bodies\male\{animation}\fur_black.png,common,3,store
+bodies,male,,fur_brown,Male Fur_Brown Body,male_fur_brown,\AssetsStore\spritesheets\bodies\male\{animation}\fur_brown.png,common,3,store
+bodies,male,,fur_copper,Male Fur_Copper Body,male_fur_copper,\AssetsStore\spritesheets\bodies\male\{animation}\fur_copper.png,epic,0,gacha
+bodies,male,,fur_gold,Male Fur_Gold Body,male_fur_gold,\AssetsStore\spritesheets\bodies\male\{animation}\fur_gold.png,legendary,0,gacha
+bodies,male,,fur_grey,Male Fur_Grey Body,male_fur_grey,\AssetsStore\spritesheets\bodies\male\{animation}\fur_grey.png,common,3,store
+bodies,male,,fur_tan,Male Fur_Tan Body,male_fur_tan,\AssetsStore\spritesheets\bodies\male\{animation}\fur_tan.png,common,3,store
+bodies,male,,fur_white,Male Fur_White Body,male_fur_white,\AssetsStore\spritesheets\bodies\male\{animation}\fur_white.png,common,3,store
+bodies,male,,green,Male Green Body,male_green,\AssetsStore\spritesheets\bodies\male\{animation}\green.png,rare,0,gacha
+bodies,male,,lavender,Male Lavender Body,male_lavender,\AssetsStore\spritesheets\bodies\male\{animation}\lavender.png,epic,0,gacha
+bodies,male,,light,Male Light Body,male_light,\AssetsStore\spritesheets\bodies\male\{animation}\light.png,common,3,store
+bodies,male,,olive,Male Olive Body,male_olive,\AssetsStore\spritesheets\bodies\male\{animation}\olive.png,rare,0,gacha
+bodies,male,,pale_green,Male Pale_Green Body,male_pale_green,\AssetsStore\spritesheets\bodies\male\{animation}\pale_green.png,rare,0,gacha
+bodies,male,,taupe,Male Taupe Body,male_taupe,\AssetsStore\spritesheets\bodies\male\{animation}\taupe.png,rare,0,gacha
+bodies,male,,zombie,Male Zombie Body,male_zombie,\AssetsStore\spritesheets\bodies\male\{animation}\zombie.png,legendary,0,gacha
+bodies,male,,zombie_green,Male Zombie_Green Body,male_zombie_green,\AssetsStore\spritesheets\bodies\male\{animation}\zombie_green.png,legendary,0,gacha
+clothes,longsleeve,,black,Longsleeve Black,male_longsleeve_black,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\black.png,common,3,store
+clothes,longsleeve,,blue,Longsleeve Blue,male_longsleeve_blue,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\blue.png,rare,0,gacha
+clothes,longsleeve,,bluegray,Longsleeve Bluegray,male_longsleeve_bluegray,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\bluegray.png,rare,0,gacha
+clothes,longsleeve,,brown,Longsleeve Brown,male_longsleeve_brown,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\brown.png,common,3,store
+clothes,longsleeve,,charcoal,Longsleeve Charcoal,male_longsleeve_charcoal,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\charcoal.png,common,3,store
+clothes,longsleeve,,forest,Longsleeve Forest,male_longsleeve_forest,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\forest.png,common,3,store
+clothes,longsleeve,,gray,Longsleeve Gray,male_longsleeve_gray,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\gray.png,common,3,store
+clothes,longsleeve,,green,Longsleeve Green,male_longsleeve_green,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\green.png,rare,0,gacha
+clothes,longsleeve,,lavender,Longsleeve Lavender,male_longsleeve_lavender,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\lavender.png,epic,0,gacha
+clothes,longsleeve,,leather,Longsleeve Leather,male_longsleeve_leather,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\leather.png,common,3,store
+clothes,longsleeve,,maroon,Longsleeve Maroon,male_longsleeve_maroon,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\maroon.png,common,3,store
+clothes,longsleeve,,navy,Longsleeve Navy,male_longsleeve_navy,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\navy.png,common,3,store
+clothes,longsleeve,,orange,Longsleeve Orange,male_longsleeve_orange,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\orange.png,common,3,store
+clothes,longsleeve,,pink,Longsleeve Pink,male_longsleeve_pink,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\pink.png,rare,0,gacha
+clothes,longsleeve,,purple,Longsleeve Purple,male_longsleeve_purple,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\purple.png,rare,0,gacha
+clothes,longsleeve,,red,Longsleeve Red,male_longsleeve_red,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\red.png,common,3,store
+clothes,longsleeve,,rose,Longsleeve Rose,male_longsleeve_rose,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\rose.png,common,3,store
+clothes,longsleeve,,sky,Longsleeve Sky,male_longsleeve_sky,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\sky.png,common,3,store
+clothes,longsleeve,,slate,Longsleeve Slate,male_longsleeve_slate,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\slate.png,common,3,store
+clothes,longsleeve,,tan,Longsleeve Tan,male_longsleeve_tan,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\tan.png,common,3,store
+clothes,longsleeve,,teal,Longsleeve Teal,male_longsleeve_teal,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\teal.png,common,3,store
+clothes,longsleeve,,walnut,Longsleeve Walnut,male_longsleeve_walnut,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\walnut.png,common,3,store
+clothes,longsleeve,,white,Longsleeve White,male_longsleeve_white,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\white.png,common,3,store
+clothes,longsleeve,,yellow,Longsleeve Yellow,male_longsleeve_yellow,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\yellow.png,common,3,store
+clothes,shorts,,black,Shorts Black,male_shorts_black,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\black.png,common,3,store
+clothes,shorts,,blue,Shorts Blue,male_shorts_blue,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\blue.png,rare,0,gacha
+clothes,shorts,,bluegray,Shorts Bluegray,male_shorts_bluegray,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\bluegray.png,rare,0,gacha
+clothes,shorts,,brown,Shorts Brown,male_shorts_brown,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\brown.png,common,3,store
+clothes,shorts,,charcoal,Shorts Charcoal,male_shorts_charcoal,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\charcoal.png,common,3,store
+clothes,shorts,,forest,Shorts Forest,male_shorts_forest,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\forest.png,common,3,store
+clothes,shorts,,gray,Shorts Gray,male_shorts_gray,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\gray.png,common,3,store
+clothes,shorts,,green,Shorts Green,male_shorts_green,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\green.png,rare,0,gacha
+clothes,shorts,,lavender,Shorts Lavender,male_shorts_lavender,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\lavender.png,epic,0,gacha
+clothes,shorts,,leather,Shorts Leather,male_shorts_leather,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\leather.png,common,3,store
+clothes,shorts,,maroon,Shorts Maroon,male_shorts_maroon,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\maroon.png,common,3,store
+clothes,shorts,,navy,Shorts Navy,male_shorts_navy,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\navy.png,common,3,store
+clothes,shorts,,orange,Shorts Orange,male_shorts_orange,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\orange.png,common,3,store
+clothes,shorts,,pink,Shorts Pink,male_shorts_pink,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\pink.png,rare,0,gacha
+clothes,shorts,,purple,Shorts Purple,male_shorts_purple,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\purple.png,rare,0,gacha
+clothes,shorts,,red,Shorts Red,male_shorts_red,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\red.png,common,3,store
+clothes,shorts,,rose,Shorts Rose,male_shorts_rose,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\rose.png,common,3,store
+clothes,shorts,,sky,Shorts Sky,male_shorts_sky,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\sky.png,common,3,store
+clothes,shorts,,slate,Shorts Slate,male_shorts_slate,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\slate.png,common,3,store
+clothes,shorts,,tan,Shorts Tan,male_shorts_tan,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\tan.png,common,3,store
+clothes,shorts,,teal,Shorts Teal,male_shorts_teal,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\teal.png,common,3,store
+clothes,shorts,,walnut,Shorts Walnut,male_shorts_walnut,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\walnut.png,common,3,store
+clothes,shorts,,white,Shorts White,male_shorts_white,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\white.png,common,3,store
+clothes,shorts,,yellow,Shorts Yellow,male_shorts_yellow,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\yellow.png,common,3,store
+clothes,shortsleeves,,black,Shortsleeves Black,male_shortsleeves_black,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\black.png,common,3,store
+clothes,shortsleeves,,blue,Shortsleeves Blue,male_shortsleeves_blue,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\blue.png,rare,0,gacha
+clothes,shortsleeves,,bluegray,Shortsleeves Bluegray,male_shortsleeves_bluegray,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\bluegray.png,rare,0,gacha
+clothes,shortsleeves,,brown,Shortsleeves Brown,male_shortsleeves_brown,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\brown.png,common,3,store
+clothes,shortsleeves,,charcoal,Shortsleeves Charcoal,male_shortsleeves_charcoal,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\charcoal.png,common,3,store
+clothes,shortsleeves,,forest,Shortsleeves Forest,male_shortsleeves_forest,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\forest.png,common,3,store
+clothes,shortsleeves,,gray,Shortsleeves Gray,male_shortsleeves_gray,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\gray.png,common,3,store
+clothes,shortsleeves,,green,Shortsleeves Green,male_shortsleeves_green,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\green.png,rare,0,gacha
+clothes,shortsleeves,,lavender,Shortsleeves Lavender,male_shortsleeves_lavender,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\lavender.png,epic,0,gacha
+clothes,shortsleeves,,leather,Shortsleeves Leather,male_shortsleeves_leather,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\leather.png,common,3,store
+clothes,shortsleeves,,maroon,Shortsleeves Maroon,male_shortsleeves_maroon,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\maroon.png,common,3,store
+clothes,shortsleeves,,navy,Shortsleeves Navy,male_shortsleeves_navy,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\navy.png,common,3,store
+clothes,shortsleeves,,orange,Shortsleeves Orange,male_shortsleeves_orange,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\orange.png,common,3,store
+clothes,shortsleeves,,pink,Shortsleeves Pink,male_shortsleeves_pink,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\pink.png,rare,0,gacha
+clothes,shortsleeves,,purple,Shortsleeves Purple,male_shortsleeves_purple,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\purple.png,rare,0,gacha
+clothes,shortsleeves,,red,Shortsleeves Red,male_shortsleeves_red,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\red.png,common,3,store
+clothes,shortsleeves,,rose,Shortsleeves Rose,male_shortsleeves_rose,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\rose.png,common,3,store
+clothes,shortsleeves,,sky,Shortsleeves Sky,male_shortsleeves_sky,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\sky.png,common,3,store
+clothes,shortsleeves,,slate,Shortsleeves Slate,male_shortsleeves_slate,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\slate.png,common,3,store
+clothes,shortsleeves,,tan,Shortsleeves Tan,male_shortsleeves_tan,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\tan.png,common,3,store
+clothes,shortsleeves,,teal,Shortsleeves Teal,male_shortsleeves_teal,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\teal.png,common,3,store
+clothes,shortsleeves,,walnut,Shortsleeves Walnut,male_shortsleeves_walnut,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\walnut.png,common,3,store
+clothes,shortsleeves,,white,Shortsleeves White,male_shortsleeves_white,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\white.png,common,3,store
+clothes,shortsleeves,,yellow,Shortsleeves Yellow,male_shortsleeves_yellow,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\yellow.png,common,3,store
+clothes,tshirt,,black,Tshirt Black,male_tshirt_black,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\black.png,common,3,store
+clothes,tshirt,,blue,Tshirt Blue,male_tshirt_blue,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\blue.png,rare,0,gacha
+clothes,tshirt,,bluegray,Tshirt Bluegray,male_tshirt_bluegray,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\bluegray.png,rare,0,gacha
+clothes,tshirt,,brown,Tshirt Brown,male_tshirt_brown,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\brown.png,common,3,store
+clothes,tshirt,,charcoal,Tshirt Charcoal,male_tshirt_charcoal,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\charcoal.png,common,3,store
+clothes,tshirt,,forest,Tshirt Forest,male_tshirt_forest,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\forest.png,common,3,store
+clothes,tshirt,,gray,Tshirt Gray,male_tshirt_gray,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\gray.png,common,3,store
+clothes,tshirt,,green,Tshirt Green,male_tshirt_green,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\green.png,rare,0,gacha
+clothes,tshirt,,lavender,Tshirt Lavender,male_tshirt_lavender,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\lavender.png,epic,0,gacha
+clothes,tshirt,,leather,Tshirt Leather,male_tshirt_leather,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\leather.png,common,3,store
+clothes,tshirt,,maroon,Tshirt Maroon,male_tshirt_maroon,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\maroon.png,common,3,store
+clothes,tshirt,,navy,Tshirt Navy,male_tshirt_navy,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\navy.png,common,3,store
+clothes,tshirt,,orange,Tshirt Orange,male_tshirt_orange,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\orange.png,common,3,store
+clothes,tshirt,,pink,Tshirt Pink,male_tshirt_pink,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\pink.png,rare,0,gacha
+clothes,tshirt,,purple,Tshirt Purple,male_tshirt_purple,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\purple.png,rare,0,gacha
+clothes,tshirt,,red,Tshirt Red,male_tshirt_red,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\red.png,common,3,store
+clothes,tshirt,,rose,Tshirt Rose,male_tshirt_rose,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\rose.png,common,3,store
+clothes,tshirt,,sky,Tshirt Sky,male_tshirt_sky,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\sky.png,common,3,store
+clothes,tshirt,,slate,Tshirt Slate,male_tshirt_slate,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\slate.png,common,3,store
+clothes,tshirt,,tan,Tshirt Tan,male_tshirt_tan,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\tan.png,common,3,store
+clothes,tshirt,,teal,Tshirt Teal,male_tshirt_teal,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\teal.png,common,3,store
+clothes,tshirt,,walnut,Tshirt Walnut,male_tshirt_walnut,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\walnut.png,common,3,store
+clothes,tshirt,,white,Tshirt White,male_tshirt_white,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\white.png,common,3,store
+clothes,tshirt,,yellow,Tshirt Yellow,male_tshirt_yellow,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\yellow.png,common,3,store
+hair,pixie,,ash,Pixie Ash Hair,pixie_ash,\AssetsStore\spritesheets\hair\pixie\ash.png,common,3,store
+hair,pixie,,black,Pixie Black Hair,pixie_black,\AssetsStore\spritesheets\hair\pixie\black.png,common,3,store
+hair,pixie,,blonde,Pixie Blonde Hair,pixie_blonde,\AssetsStore\spritesheets\hair\pixie\blonde.png,common,3,store
+hair,pixie,,blue,Pixie Blue Hair,pixie_blue,\AssetsStore\spritesheets\hair\pixie\blue.png,rare,0,gacha
+hair,pixie,,carrot,Pixie Carrot Hair,pixie_carrot,\AssetsStore\spritesheets\hair\pixie\carrot.png,common,3,store
+hair,pixie,,chestnut,Pixie Chestnut Hair,pixie_chestnut,\AssetsStore\spritesheets\hair\pixie\chestnut.png,common,3,store
+hair,pixie,,dark_brown,Pixie Dark_Brown Hair,pixie_dark_brown,\AssetsStore\spritesheets\hair\pixie\dark_brown.png,common,3,store
+hair,pixie,,dark_gray,Pixie Dark_Gray Hair,pixie_dark_gray,\AssetsStore\spritesheets\hair\pixie\dark_gray.png,common,3,store
+hair,pixie,,ginger,Pixie Ginger Hair,pixie_ginger,\AssetsStore\spritesheets\hair\pixie\ginger.png,common,3,store
+hair,pixie,,gold,Pixie Gold Hair,pixie_gold,\AssetsStore\spritesheets\hair\pixie\gold.png,common,3,store
+hair,pixie,,gray,Pixie Gray Hair,pixie_gray,\AssetsStore\spritesheets\hair\pixie\gray.png,common,3,store
+hair,pixie,,green,Pixie Green Hair,pixie_green,\AssetsStore\spritesheets\hair\pixie\green.png,rare,0,gacha
+hair,pixie,,light_brown,Pixie Light_Brown Hair,pixie_light_brown,\AssetsStore\spritesheets\hair\pixie\light_brown.png,common,3,store
+hair,pixie,,navy,Pixie Navy Hair,pixie_navy,\AssetsStore\spritesheets\hair\pixie\navy.png,common,3,store
+hair,pixie,,orange,Pixie Orange Hair,pixie_orange,\AssetsStore\spritesheets\hair\pixie\orange.png,common,3,store
+hair,pixie,,pink,Pixie Pink Hair,pixie_pink,\AssetsStore\spritesheets\hair\pixie\pink.png,rare,0,gacha
+hair,pixie,,platinum,Pixie Platinum Hair,pixie_platinum,\AssetsStore\spritesheets\hair\pixie\platinum.png,legendary,0,gacha
+hair,pixie,,purple,Pixie Purple Hair,pixie_purple,\AssetsStore\spritesheets\hair\pixie\purple.png,rare,0,gacha
+hair,pixie,,raven,Pixie Raven Hair,pixie_raven,\AssetsStore\spritesheets\hair\pixie\raven.png,common,3,store
+hair,pixie,,red,Pixie Red Hair,pixie_red,\AssetsStore\spritesheets\hair\pixie\red.png,common,3,store
+hair,pixie,,redhead,Pixie Redhead Hair,pixie_redhead,\AssetsStore\spritesheets\hair\pixie\redhead.png,common,3,store
+hair,pixie,,rose,Pixie Rose Hair,pixie_rose,\AssetsStore\spritesheets\hair\pixie\rose.png,common,3,store
+hair,pixie,,sandy,Pixie Sandy Hair,pixie_sandy,\AssetsStore\spritesheets\hair\pixie\sandy.png,common,3,store
+hair,pixie,,strawberry,Pixie Strawberry Hair,pixie_strawberry,\AssetsStore\spritesheets\hair\pixie\strawberry.png,common,3,store
+hair,pixie,,violet,Pixie Violet Hair,pixie_violet,\AssetsStore\spritesheets\hair\pixie\violet.png,common,3,store
+hair,pixie,,white,Pixie White Hair,pixie_white,\AssetsStore\spritesheets\hair\pixie\white.png,common,3,store
+hair,messy1,,ash,Messy1 Ash Hair,messy1_ash,\AssetsStore\spritesheets\hair\messy1\ash.png,common,3,store
+hair,messy1,,black,Messy1 Black Hair,messy1_black,\AssetsStore\spritesheets\hair\messy1\black.png,common,3,store
+hair,messy1,,blonde,Messy1 Blonde Hair,messy1_blonde,\AssetsStore\spritesheets\hair\messy1\blonde.png,common,3,store
+hair,messy1,,blue,Messy1 Blue Hair,messy1_blue,\AssetsStore\spritesheets\hair\messy1\blue.png,rare,0,gacha
+hair,messy1,,carrot,Messy1 Carrot Hair,messy1_carrot,\AssetsStore\spritesheets\hair\messy1\carrot.png,common,3,store
+hair,messy1,,chestnut,Messy1 Chestnut Hair,messy1_chestnut,\AssetsStore\spritesheets\hair\messy1\chestnut.png,common,3,store
+hair,messy1,,dark_brown,Messy1 Dark_Brown Hair,messy1_dark_brown,\AssetsStore\spritesheets\hair\messy1\dark_brown.png,common,3,store
+hair,messy1,,dark_gray,Messy1 Dark_Gray Hair,messy1_dark_gray,\AssetsStore\spritesheets\hair\messy1\dark_gray.png,common,3,store
+hair,messy1,,ginger,Messy1 Ginger Hair,messy1_ginger,\AssetsStore\spritesheets\hair\messy1\ginger.png,common,3,store
+hair,messy1,,gold,Messy1 Gold Hair,messy1_gold,\AssetsStore\spritesheets\hair\messy1\gold.png,common,3,store
+hair,messy1,,gray,Messy1 Gray Hair,messy1_gray,\AssetsStore\spritesheets\hair\messy1\gray.png,common,3,store
+hair,messy1,,green,Messy1 Green Hair,messy1_green,\AssetsStore\spritesheets\hair\messy1\green.png,rare,0,gacha
+hair,messy1,,light_brown,Messy1 Light_Brown Hair,messy1_light_brown,\AssetsStore\spritesheets\hair\messy1\light_brown.png,common,3,store
+hair,messy1,,navy,Messy1 Navy Hair,messy1_navy,\AssetsStore\spritesheets\hair\messy1\navy.png,common,3,store
+hair,messy1,,orange,Messy1 Orange Hair,messy1_orange,\AssetsStore\spritesheets\hair\messy1\orange.png,common,3,store
+hair,messy1,,pink,Messy1 Pink Hair,messy1_pink,\AssetsStore\spritesheets\hair\messy1\pink.png,rare,0,gacha
+hair,messy1,,platinum,Messy1 Platinum Hair,messy1_platinum,\AssetsStore\spritesheets\hair\messy1\platinum.png,legendary,0,gacha
+hair,messy1,,purple,Messy1 Purple Hair,messy1_purple,\AssetsStore\spritesheets\hair\messy1\purple.png,rare,0,gacha
+hair,messy1,,raven,Messy1 Raven Hair,messy1_raven,\AssetsStore\spritesheets\hair\messy1\raven.png,common,3,store
+hair,messy1,,red,Messy1 Red Hair,messy1_red,\AssetsStore\spritesheets\hair\messy1\red.png,common,3,store
+hair,messy1,,redhead,Messy1 Redhead Hair,messy1_redhead,\AssetsStore\spritesheets\hair\messy1\redhead.png,common,3,store
+hair,messy1,,rose,Messy1 Rose Hair,messy1_rose,\AssetsStore\spritesheets\hair\messy1\rose.png,common,3,store
+hair,messy1,,sandy,Messy1 Sandy Hair,messy1_sandy,\AssetsStore\spritesheets\hair\messy1\sandy.png,common,3,store
+hair,messy1,,strawberry,Messy1 Strawberry Hair,messy1_strawberry,\AssetsStore\spritesheets\hair\messy1\strawberry.png,common,3,store
+hair,messy1,,violet,Messy1 Violet Hair,messy1_violet,\AssetsStore\spritesheets\hair\messy1\violet.png,common,3,store
+hair,messy1,,white,Messy1 White Hair,messy1_white,\AssetsStore\spritesheets\hair\messy1\white.png,common,3,store
+hair,long,,ash,Long Ash Hair,long_ash,\AssetsStore\spritesheets\hair\long\ash.png,common,3,store
+hair,long,,black,Long Black Hair,long_black,\AssetsStore\spritesheets\hair\long\black.png,common,3,store
+hair,long,,blonde,Long Blonde Hair,long_blonde,\AssetsStore\spritesheets\hair\long\blonde.png,common,3,store
+hair,long,,blue,Long Blue Hair,long_blue,\AssetsStore\spritesheets\hair\long\blue.png,rare,0,gacha
+hair,long,,carrot,Long Carrot Hair,long_carrot,\AssetsStore\spritesheets\hair\long\carrot.png,common,3,store
+hair,long,,chestnut,Long Chestnut Hair,long_chestnut,\AssetsStore\spritesheets\hair\long\chestnut.png,common,3,store
+hair,long,,dark_brown,Long Dark_Brown Hair,long_dark_brown,\AssetsStore\spritesheets\hair\long\dark_brown.png,common,3,store
+hair,long,,dark_gray,Long Dark_Gray Hair,long_dark_gray,\AssetsStore\spritesheets\hair\long\dark_gray.png,common,3,store
+hair,long,,ginger,Long Ginger Hair,long_ginger,\AssetsStore\spritesheets\hair\long\ginger.png,common,3,store
+hair,long,,gold,Long Gold Hair,long_gold,\AssetsStore\spritesheets\hair\long\gold.png,common,3,store
+hair,long,,gray,Long Gray Hair,long_gray,\AssetsStore\spritesheets\hair\long\gray.png,common,3,store
+hair,long,,green,Long Green Hair,long_green,\AssetsStore\spritesheets\hair\long\green.png,rare,0,gacha
+hair,long,,light_brown,Long Light_Brown Hair,long_light_brown,\AssetsStore\spritesheets\hair\long\light_brown.png,common,3,store
+hair,long,,navy,Long Navy Hair,long_navy,\AssetsStore\spritesheets\hair\long\navy.png,common,3,store
+hair,long,,orange,Long Orange Hair,long_orange,\AssetsStore\spritesheets\hair\long\orange.png,common,3,store
+hair,long,,pink,Long Pink Hair,long_pink,\AssetsStore\spritesheets\hair\long\pink.png,rare,0,gacha
+hair,long,,platinum,Long Platinum Hair,long_platinum,\AssetsStore\spritesheets\hair\long\platinum.png,legendary,0,gacha
+hair,long,,purple,Long Purple Hair,long_purple,\AssetsStore\spritesheets\hair\long\purple.png,rare,0,gacha
+hair,long,,raven,Long Raven Hair,long_raven,\AssetsStore\spritesheets\hair\long\raven.png,common,3,store
+hair,long,,red,Long Red Hair,long_red,\AssetsStore\spritesheets\hair\long\red.png,common,3,store
+hair,long,,redhead,Long Redhead Hair,long_redhead,\AssetsStore\spritesheets\hair\long\redhead.png,common,3,store
+hair,long,,rose,Long Rose Hair,long_rose,\AssetsStore\spritesheets\hair\long\rose.png,common,3,store
+hair,long,,sandy,Long Sandy Hair,long_sandy,\AssetsStore\spritesheets\hair\long\sandy.png,common,3,store
+hair,long,,strawberry,Long Strawberry Hair,long_strawberry,\AssetsStore\spritesheets\hair\long\strawberry.png,common,3,store
+hair,long,,violet,Long Violet Hair,long_violet,\AssetsStore\spritesheets\hair\long\violet.png,common,3,store
+hair,long,,white,Long White Hair,long_white,\AssetsStore\spritesheets\hair\long\white.png,common,3,store
+hair,dreadlocks_long,,ash,Dreadlocks_Long Ash Hair,dreadlocks_long_ash,\AssetsStore\spritesheets\hair\dreadlocks_long\ash.png,common,3,store
+hair,dreadlocks_long,,black,Dreadlocks_Long Black Hair,dreadlocks_long_black,\AssetsStore\spritesheets\hair\dreadlocks_long\black.png,common,3,store
+hair,dreadlocks_long,,blonde,Dreadlocks_Long Blonde Hair,dreadlocks_long_blonde,\AssetsStore\spritesheets\hair\dreadlocks_long\blonde.png,common,3,store
+hair,dreadlocks_long,,blue,Dreadlocks_Long Blue Hair,dreadlocks_long_blue,\AssetsStore\spritesheets\hair\dreadlocks_long\blue.png,rare,0,gacha
+hair,dreadlocks_long,,carrot,Dreadlocks_Long Carrot Hair,dreadlocks_long_carrot,\AssetsStore\spritesheets\hair\dreadlocks_long\carrot.png,common,3,store
+hair,dreadlocks_long,,chestnut,Dreadlocks_Long Chestnut Hair,dreadlocks_long_chestnut,\AssetsStore\spritesheets\hair\dreadlocks_long\chestnut.png,common,3,store
+hair,dreadlocks_long,,dark_brown,Dreadlocks_Long Dark_Brown Hair,dreadlocks_long_dark_brown,\AssetsStore\spritesheets\hair\dreadlocks_long\dark_brown.png,common,3,store
+hair,dreadlocks_long,,dark_gray,Dreadlocks_Long Dark_Gray Hair,dreadlocks_long_dark_gray,\AssetsStore\spritesheets\hair\dreadlocks_long\dark_gray.png,common,3,store
+hair,dreadlocks_long,,ginger,Dreadlocks_Long Ginger Hair,dreadlocks_long_ginger,\AssetsStore\spritesheets\hair\dreadlocks_long\ginger.png,common,3,store
+hair,dreadlocks_long,,gold,Dreadlocks_Long Gold Hair,dreadlocks_long_gold,\AssetsStore\spritesheets\hair\dreadlocks_long\gold.png,common,3,store
+hair,dreadlocks_long,,gray,Dreadlocks_Long Gray Hair,dreadlocks_long_gray,\AssetsStore\spritesheets\hair\dreadlocks_long\gray.png,common,3,store
+hair,dreadlocks_long,,green,Dreadlocks_Long Green Hair,dreadlocks_long_green,\AssetsStore\spritesheets\hair\dreadlocks_long\green.png,rare,0,gacha
+hair,dreadlocks_long,,light_brown,Dreadlocks_Long Light_Brown Hair,dreadlocks_long_light_brown,\AssetsStore\spritesheets\hair\dreadlocks_long\light_brown.png,common,3,store
+hair,dreadlocks_long,,navy,Dreadlocks_Long Navy Hair,dreadlocks_long_navy,\AssetsStore\spritesheets\hair\dreadlocks_long\navy.png,common,3,store
+hair,dreadlocks_long,,orange,Dreadlocks_Long Orange Hair,dreadlocks_long_orange,\AssetsStore\spritesheets\hair\dreadlocks_long\orange.png,common,3,store
+hair,dreadlocks_long,,pink,Dreadlocks_Long Pink Hair,dreadlocks_long_pink,\AssetsStore\spritesheets\hair\dreadlocks_long\pink.png,rare,0,gacha
+hair,dreadlocks_long,,platinum,Dreadlocks_Long Platinum Hair,dreadlocks_long_platinum,\AssetsStore\spritesheets\hair\dreadlocks_long\platinum.png,legendary,0,gacha
+hair,dreadlocks_long,,purple,Dreadlocks_Long Purple Hair,dreadlocks_long_purple,\AssetsStore\spritesheets\hair\dreadlocks_long\purple.png,rare,0,gacha
+hair,dreadlocks_long,,raven,Dreadlocks_Long Raven Hair,dreadlocks_long_raven,\AssetsStore\spritesheets\hair\dreadlocks_long\raven.png,common,3,store
+hair,dreadlocks_long,,red,Dreadlocks_Long Red Hair,dreadlocks_long_red,\AssetsStore\spritesheets\hair\dreadlocks_long\red.png,common,3,store
+hair,dreadlocks_long,,redhead,Dreadlocks_Long Redhead Hair,dreadlocks_long_redhead,\AssetsStore\spritesheets\hair\dreadlocks_long\redhead.png,common,3,store
+hair,dreadlocks_long,,rose,Dreadlocks_Long Rose Hair,dreadlocks_long_rose,\AssetsStore\spritesheets\hair\dreadlocks_long\rose.png,common,3,store
+hair,dreadlocks_long,,sandy,Dreadlocks_Long Sandy Hair,dreadlocks_long_sandy,\AssetsStore\spritesheets\hair\dreadlocks_long\sandy.png,common,3,store
+hair,dreadlocks_long,,strawberry,Dreadlocks_Long Strawberry Hair,dreadlocks_long_strawberry,\AssetsStore\spritesheets\hair\dreadlocks_long\strawberry.png,common,3,store
+hair,dreadlocks_long,,violet,Dreadlocks_Long Violet Hair,dreadlocks_long_violet,\AssetsStore\spritesheets\hair\dreadlocks_long\violet.png,common,3,store
+hair,dreadlocks_long,,white,Dreadlocks_Long White Hair,dreadlocks_long_white,\AssetsStore\spritesheets\hair\dreadlocks_long\white.png,common,3,store
+hair,buzzcut,,ash,Buzzcut Ash Hair,buzzcut_ash,\AssetsStore\spritesheets\hair\buzzcut\ash.png,common,3,store
+hair,buzzcut,,black,Buzzcut Black Hair,buzzcut_black,\AssetsStore\spritesheets\hair\buzzcut\black.png,common,3,store
+hair,buzzcut,,blonde,Buzzcut Blonde Hair,buzzcut_blonde,\AssetsStore\spritesheets\hair\buzzcut\blonde.png,common,3,store
+hair,buzzcut,,blue,Buzzcut Blue Hair,buzzcut_blue,\AssetsStore\spritesheets\hair\buzzcut\blue.png,rare,0,gacha
+hair,buzzcut,,carrot,Buzzcut Carrot Hair,buzzcut_carrot,\AssetsStore\spritesheets\hair\buzzcut\carrot.png,common,3,store
+hair,buzzcut,,chestnut,Buzzcut Chestnut Hair,buzzcut_chestnut,\AssetsStore\spritesheets\hair\buzzcut\chestnut.png,common,3,store
+hair,buzzcut,,dark_brown,Buzzcut Dark_Brown Hair,buzzcut_dark_brown,\AssetsStore\spritesheets\hair\buzzcut\dark_brown.png,common,3,store
+hair,buzzcut,,dark_gray,Buzzcut Dark_Gray Hair,buzzcut_dark_gray,\AssetsStore\spritesheets\hair\buzzcut\dark_gray.png,common,3,store
+hair,buzzcut,,ginger,Buzzcut Ginger Hair,buzzcut_ginger,\AssetsStore\spritesheets\hair\buzzcut\ginger.png,common,3,store
+hair,buzzcut,,gold,Buzzcut Gold Hair,buzzcut_gold,\AssetsStore\spritesheets\hair\buzzcut\gold.png,common,3,store
+hair,buzzcut,,gray,Buzzcut Gray Hair,buzzcut_gray,\AssetsStore\spritesheets\hair\buzzcut\gray.png,common,3,store
+hair,buzzcut,,green,Buzzcut Green Hair,buzzcut_green,\AssetsStore\spritesheets\hair\buzzcut\green.png,rare,0,gacha
+hair,buzzcut,,light_brown,Buzzcut Light_Brown Hair,buzzcut_light_brown,\AssetsStore\spritesheets\hair\buzzcut\light_brown.png,common,3,store
+hair,buzzcut,,navy,Buzzcut Navy Hair,buzzcut_navy,\AssetsStore\spritesheets\hair\buzzcut\navy.png,common,3,store
+hair,buzzcut,,orange,Buzzcut Orange Hair,buzzcut_orange,\AssetsStore\spritesheets\hair\buzzcut\orange.png,common,3,store
+hair,buzzcut,,pink,Buzzcut Pink Hair,buzzcut_pink,\AssetsStore\spritesheets\hair\buzzcut\pink.png,rare,0,gacha
+hair,buzzcut,,platinum,Buzzcut Platinum Hair,buzzcut_platinum,\AssetsStore\spritesheets\hair\buzzcut\platinum.png,legendary,0,gacha
+hair,buzzcut,,purple,Buzzcut Purple Hair,buzzcut_purple,\AssetsStore\spritesheets\hair\buzzcut\purple.png,rare,0,gacha
+hair,buzzcut,,raven,Buzzcut Raven Hair,buzzcut_raven,\AssetsStore\spritesheets\hair\buzzcut\raven.png,common,3,store
+hair,buzzcut,,red,Buzzcut Red Hair,buzzcut_red,\AssetsStore\spritesheets\hair\buzzcut\red.png,common,3,store
+hair,buzzcut,,redhead,Buzzcut Redhead Hair,buzzcut_redhead,\AssetsStore\spritesheets\hair\buzzcut\redhead.png,common,3,store
+hair,buzzcut,,rose,Buzzcut Rose Hair,buzzcut_rose,\AssetsStore\spritesheets\hair\buzzcut\rose.png,common,3,store
+hair,buzzcut,,sandy,Buzzcut Sandy Hair,buzzcut_sandy,\AssetsStore\spritesheets\hair\buzzcut\sandy.png,common,3,store
+hair,buzzcut,,strawberry,Buzzcut Strawberry Hair,buzzcut_strawberry,\AssetsStore\spritesheets\hair\buzzcut\strawberry.png,common,3,store
+hair,buzzcut,,violet,Buzzcut Violet Hair,buzzcut_violet,\AssetsStore\spritesheets\hair\buzzcut\violet.png,common,3,store
+hair,buzzcut,,white,Buzzcut White Hair,buzzcut_white,\AssetsStore\spritesheets\hair\buzzcut\white.png,common,3,store
+hair,afro,,ash,Afro Ash Hair,afro_ash,\AssetsStore\spritesheets\hair\afro\ash.png,common,3,store
+hair,afro,,black,Afro Black Hair,afro_black,\AssetsStore\spritesheets\hair\afro\black.png,common,3,store
+hair,afro,,blonde,Afro Blonde Hair,afro_blonde,\AssetsStore\spritesheets\hair\afro\blonde.png,common,3,store
+hair,afro,,blue,Afro Blue Hair,afro_blue,\AssetsStore\spritesheets\hair\afro\blue.png,rare,0,gacha
+hair,afro,,carrot,Afro Carrot Hair,afro_carrot,\AssetsStore\spritesheets\hair\afro\carrot.png,common,3,store
+hair,afro,,chestnut,Afro Chestnut Hair,afro_chestnut,\AssetsStore\spritesheets\hair\afro\chestnut.png,common,3,store
+hair,afro,,dark_brown,Afro Dark_Brown Hair,afro_dark_brown,\AssetsStore\spritesheets\hair\afro\dark_brown.png,common,3,store
+hair,afro,,dark_gray,Afro Dark_Gray Hair,afro_dark_gray,\AssetsStore\spritesheets\hair\afro\dark_gray.png,common,3,store
+hair,afro,,ginger,Afro Ginger Hair,afro_ginger,\AssetsStore\spritesheets\hair\afro\ginger.png,common,3,store
+hair,afro,,gold,Afro Gold Hair,afro_gold,\AssetsStore\spritesheets\hair\afro\gold.png,common,3,store
+hair,afro,,gray,Afro Gray Hair,afro_gray,\AssetsStore\spritesheets\hair\afro\gray.png,common,3,store
+hair,afro,,green,Afro Green Hair,afro_green,\AssetsStore\spritesheets\hair\afro\green.png,rare,0,gacha
+hair,afro,,light_brown,Afro Light_Brown Hair,afro_light_brown,\AssetsStore\spritesheets\hair\afro\light_brown.png,common,3,store
+hair,afro,,navy,Afro Navy Hair,afro_navy,\AssetsStore\spritesheets\hair\afro\navy.png,common,3,store
+hair,afro,,orange,Afro Orange Hair,afro_orange,\AssetsStore\spritesheets\hair\afro\orange.png,common,3,store
+hair,afro,,pink,Afro Pink Hair,afro_pink,\AssetsStore\spritesheets\hair\afro\pink.png,rare,0,gacha
+hair,afro,,platinum,Afro Platinum Hair,afro_platinum,\AssetsStore\spritesheets\hair\afro\platinum.png,legendary,0,gacha
+hair,afro,,purple,Afro Purple Hair,afro_purple,\AssetsStore\spritesheets\hair\afro\purple.png,rare,0,gacha
+hair,afro,,raven,Afro Raven Hair,afro_raven,\AssetsStore\spritesheets\hair\afro\raven.png,common,3,store
+hair,afro,,red,Afro Red Hair,afro_red,\AssetsStore\spritesheets\hair\afro\red.png,common,3,store
+hair,afro,,redhead,Afro Redhead Hair,afro_redhead,\AssetsStore\spritesheets\hair\afro\redhead.png,common,3,store
+hair,afro,,rose,Afro Rose Hair,afro_rose,\AssetsStore\spritesheets\hair\afro\rose.png,common,3,store
+hair,afro,,sandy,Afro Sandy Hair,afro_sandy,\AssetsStore\spritesheets\hair\afro\sandy.png,common,3,store
+hair,afro,,strawberry,Afro Strawberry Hair,afro_strawberry,\AssetsStore\spritesheets\hair\afro\strawberry.png,common,3,store
+hair,afro,,violet,Afro Violet Hair,afro_violet,\AssetsStore\spritesheets\hair\afro\violet.png,common,3,store
+hair,afro,,white,Afro White Hair,afro_white,\AssetsStore\spritesheets\hair\afro\white.png,common,3,store
+head,nose,,amber,Nose Amber,nose_amber,\AssetsStore\spritesheets\head\nose\{animation}\amber.png,rare,0,gacha
+head,nose,,black,Nose Black,nose_black,\AssetsStore\spritesheets\head\nose\{animation}\black.png,common,3,store
+head,nose,,blue,Nose Blue,nose_blue,\AssetsStore\spritesheets\head\nose\{animation}\blue.png,rare,0,gacha
+head,nose,,bright_green,Nose Bright_Green,nose_bright_green,\AssetsStore\spritesheets\head\nose\{animation}\bright_green.png,epic,0,gacha
+head,nose,,bronze,Nose Bronze,nose_bronze,\AssetsStore\spritesheets\head\nose\{animation}\bronze.png,epic,0,gacha
+head,nose,,brown,Nose Brown,nose_brown,\AssetsStore\spritesheets\head\nose\{animation}\brown.png,common,3,store
+head,nose,,dark_green,Nose Dark_Green,nose_dark_green,\AssetsStore\spritesheets\head\nose\{animation}\dark_green.png,rare,0,gacha
+head,nose,,fur_black,Nose Fur_Black,nose_fur_black,\AssetsStore\spritesheets\head\nose\{animation}\fur_black.png,common,3,store
+head,nose,,fur_brown,Nose Fur_Brown,nose_fur_brown,\AssetsStore\spritesheets\head\nose\{animation}\fur_brown.png,common,3,store
+head,nose,,fur_copper,Nose Fur_Copper,nose_fur_copper,\AssetsStore\spritesheets\head\nose\{animation}\fur_copper.png,epic,0,gacha
+head,nose,,fur_gold,Nose Fur_Gold,nose_fur_gold,\AssetsStore\spritesheets\head\nose\{animation}\fur_gold.png,legendary,0,gacha
+head,nose,,fur_grey,Nose Fur_Grey,nose_fur_grey,\AssetsStore\spritesheets\head\nose\{animation}\fur_grey.png,common,3,store
+head,nose,,fur_tan,Nose Fur_Tan,nose_fur_tan,\AssetsStore\spritesheets\head\nose\{animation}\fur_tan.png,common,3,store
+head,nose,,fur_white,Nose Fur_White,nose_fur_white,\AssetsStore\spritesheets\head\nose\{animation}\fur_white.png,common,3,store
+head,nose,,green,Nose Green,nose_green,\AssetsStore\spritesheets\head\nose\{animation}\green.png,rare,0,gacha
+head,nose,,lavender,Nose Lavender,nose_lavender,\AssetsStore\spritesheets\head\nose\{animation}\lavender.png,epic,0,gacha
+head,nose,,light,Nose Light,nose_light,\AssetsStore\spritesheets\head\nose\{animation}\light.png,common,3,store
+head,nose,,olive,Nose Olive,nose_olive,\AssetsStore\spritesheets\head\nose\{animation}\olive.png,rare,0,gacha
+head,nose,,pale_green,Nose Pale_Green,nose_pale_green,\AssetsStore\spritesheets\head\nose\{animation}\pale_green.png,rare,0,gacha
+head,nose,,taupe,Nose Taupe,nose_taupe,\AssetsStore\spritesheets\head\nose\{animation}\taupe.png,rare,0,gacha
+head,nose,,zombie,Nose Zombie,nose_zombie,\AssetsStore\spritesheets\head\nose\{animation}\zombie.png,legendary,0,gacha
+head,nose,,zombie_green,Nose Zombie_Green,nose_zombie_green,\AssetsStore\spritesheets\head\nose\{animation}\zombie_green.png,legendary,0,gacha
+head,heads,,amber,Heads Amber,heads_amber,\AssetsStore\spritesheets\head\heads\{animation}\amber.png,rare,0,gacha
+head,heads,,black,Heads Black,heads_black,\AssetsStore\spritesheets\head\heads\{animation}\black.png,common,3,store
+head,heads,,blue,Heads Blue,heads_blue,\AssetsStore\spritesheets\head\heads\{animation}\blue.png,rare,0,gacha
+head,heads,,bright_green,Heads Bright_Green,heads_bright_green,\AssetsStore\spritesheets\head\heads\{animation}\bright_green.png,epic,0,gacha
+head,heads,,bronze,Heads Bronze,heads_bronze,\AssetsStore\spritesheets\head\heads\{animation}\bronze.png,epic,0,gacha
+head,heads,,brown,Heads Brown,heads_brown,\AssetsStore\spritesheets\head\heads\{animation}\brown.png,common,3,store
+head,heads,,dark_green,Heads Dark_Green,heads_dark_green,\AssetsStore\spritesheets\head\heads\{animation}\dark_green.png,rare,0,gacha
+head,heads,,fur_black,Heads Fur_Black,heads_fur_black,\AssetsStore\spritesheets\head\heads\{animation}\fur_black.png,common,3,store
+head,heads,,fur_brown,Heads Fur_Brown,heads_fur_brown,\AssetsStore\spritesheets\head\heads\{animation}\fur_brown.png,common,3,store
+head,heads,,fur_copper,Heads Fur_Copper,heads_fur_copper,\AssetsStore\spritesheets\head\heads\{animation}\fur_copper.png,epic,0,gacha
+head,heads,,fur_gold,Heads Fur_Gold,heads_fur_gold,\AssetsStore\spritesheets\head\heads\{animation}\fur_gold.png,legendary,0,gacha
+head,heads,,fur_grey,Heads Fur_Grey,heads_fur_grey,\AssetsStore\spritesheets\head\heads\{animation}\fur_grey.png,common,3,store
+head,heads,,fur_tan,Heads Fur_Tan,heads_fur_tan,\AssetsStore\spritesheets\head\heads\{animation}\fur_tan.png,common,3,store
+head,heads,,fur_white,Heads Fur_White,heads_fur_white,\AssetsStore\spritesheets\head\heads\{animation}\fur_white.png,common,3,store
+head,heads,,green,Heads Green,heads_green,\AssetsStore\spritesheets\head\heads\{animation}\green.png,rare,0,gacha
+head,heads,,lavender,Heads Lavender,heads_lavender,\AssetsStore\spritesheets\head\heads\{animation}\lavender.png,epic,0,gacha
+head,heads,,light,Heads Light,heads_light,\AssetsStore\spritesheets\head\heads\{animation}\light.png,common,3,store
+head,heads,,olive,Heads Olive,heads_olive,\AssetsStore\spritesheets\head\heads\{animation}\olive.png,rare,0,gacha
+head,heads,,pale_green,Heads Pale_Green,heads_pale_green,\AssetsStore\spritesheets\head\heads\{animation}\pale_green.png,rare,0,gacha
+head,heads,,taupe,Heads Taupe,heads_taupe,\AssetsStore\spritesheets\head\heads\{animation}\taupe.png,rare,0,gacha
+head,heads,,zombie,Heads Zombie,heads_zombie,\AssetsStore\spritesheets\head\heads\{animation}\zombie.png,legendary,0,gacha
+head,heads,,zombie_green,Heads Zombie_Green,heads_zombie_green,\AssetsStore\spritesheets\head\heads\{animation}\zombie_green.png,legendary,0,gacha
+head,faces,shock,amber,Shock Faces Amber,faces_shock_amber,\AssetsStore\spritesheets\head\faces\shock\amber.png,rare,0,gacha
+head,faces,shock,black,Shock Faces Black,faces_shock_black,\AssetsStore\spritesheets\head\faces\shock\black.png,common,3,store
+head,faces,shock,blue,Shock Faces Blue,faces_shock_blue,\AssetsStore\spritesheets\head\faces\shock\blue.png,rare,0,gacha
+head,faces,shock,bright_green,Shock Faces Bright_Green,faces_shock_bright_green,\AssetsStore\spritesheets\head\faces\shock\bright_green.png,epic,0,gacha
+head,faces,shock,bronze,Shock Faces Bronze,faces_shock_bronze,\AssetsStore\spritesheets\head\faces\shock\bronze.png,epic,0,gacha
+head,faces,shock,brown,Shock Faces Brown,faces_shock_brown,\AssetsStore\spritesheets\head\faces\shock\brown.png,common,3,store
+head,faces,shock,dark_green,Shock Faces Dark_Green,faces_shock_dark_green,\AssetsStore\spritesheets\head\faces\shock\dark_green.png,rare,0,gacha
+head,faces,shock,fur_black,Shock Faces Fur_Black,faces_shock_fur_black,\AssetsStore\spritesheets\head\faces\shock\fur_black.png,common,3,store
+head,faces,shock,fur_brown,Shock Faces Fur_Brown,faces_shock_fur_brown,\AssetsStore\spritesheets\head\faces\shock\fur_brown.png,common,3,store
+head,faces,shock,fur_copper,Shock Faces Fur_Copper,faces_shock_fur_copper,\AssetsStore\spritesheets\head\faces\shock\fur_copper.png,epic,0,gacha
+head,faces,shock,fur_gold,Shock Faces Fur_Gold,faces_shock_fur_gold,\AssetsStore\spritesheets\head\faces\shock\fur_gold.png,legendary,0,gacha
+head,faces,shock,fur_grey,Shock Faces Fur_Grey,faces_shock_fur_grey,\AssetsStore\spritesheets\head\faces\shock\fur_grey.png,common,3,store
+head,faces,shock,fur_tan,Shock Faces Fur_Tan,faces_shock_fur_tan,\AssetsStore\spritesheets\head\faces\shock\fur_tan.png,common,3,store
+head,faces,shock,fur_white,Shock Faces Fur_White,faces_shock_fur_white,\AssetsStore\spritesheets\head\faces\shock\fur_white.png,common,3,store
+head,faces,shock,green,Shock Faces Green,faces_shock_green,\AssetsStore\spritesheets\head\faces\shock\green.png,rare,0,gacha
+head,faces,shock,lavender,Shock Faces Lavender,faces_shock_lavender,\AssetsStore\spritesheets\head\faces\shock\lavender.png,epic,0,gacha
+head,faces,shock,light,Shock Faces Light,faces_shock_light,\AssetsStore\spritesheets\head\faces\shock\light.png,common,3,store
+head,faces,shock,olive,Shock Faces Olive,faces_shock_olive,\AssetsStore\spritesheets\head\faces\shock\olive.png,rare,0,gacha
+head,faces,shock,pale_green,Shock Faces Pale_Green,faces_shock_pale_green,\AssetsStore\spritesheets\head\faces\shock\pale_green.png,rare,0,gacha
+head,faces,shock,taupe,Shock Faces Taupe,faces_shock_taupe,\AssetsStore\spritesheets\head\faces\shock\taupe.png,rare,0,gacha
+head,faces,shock,zombie,Shock Faces Zombie,faces_shock_zombie,\AssetsStore\spritesheets\head\faces\shock\zombie.png,legendary,0,gacha
+head,faces,shock,zombie_green,Shock Faces Zombie_Green,faces_shock_zombie_green,\AssetsStore\spritesheets\head\faces\shock\zombie_green.png,legendary,0,gacha
+head,faces,shame,amber,Shame Faces Amber,faces_shame_amber,\AssetsStore\spritesheets\head\faces\shame\amber.png,rare,0,gacha
+head,faces,shame,black,Shame Faces Black,faces_shame_black,\AssetsStore\spritesheets\head\faces\shame\black.png,common,3,store
+head,faces,shame,blue,Shame Faces Blue,faces_shame_blue,\AssetsStore\spritesheets\head\faces\shame\blue.png,rare,0,gacha
+head,faces,shame,bright_green,Shame Faces Bright_Green,faces_shame_bright_green,\AssetsStore\spritesheets\head\faces\shame\bright_green.png,epic,0,gacha
+head,faces,shame,bronze,Shame Faces Bronze,faces_shame_bronze,\AssetsStore\spritesheets\head\faces\shame\bronze.png,epic,0,gacha
+head,faces,shame,brown,Shame Faces Brown,faces_shame_brown,\AssetsStore\spritesheets\head\faces\shame\brown.png,common,3,store
+head,faces,shame,dark_green,Shame Faces Dark_Green,faces_shame_dark_green,\AssetsStore\spritesheets\head\faces\shame\dark_green.png,rare,0,gacha
+head,faces,shame,fur_black,Shame Faces Fur_Black,faces_shame_fur_black,\AssetsStore\spritesheets\head\faces\shame\fur_black.png,common,3,store
+head,faces,shame,fur_brown,Shame Faces Fur_Brown,faces_shame_fur_brown,\AssetsStore\spritesheets\head\faces\shame\fur_brown.png,common,3,store
+head,faces,shame,fur_copper,Shame Faces Fur_Copper,faces_shame_fur_copper,\AssetsStore\spritesheets\head\faces\shame\fur_copper.png,epic,0,gacha
+head,faces,shame,fur_gold,Shame Faces Fur_Gold,faces_shame_fur_gold,\AssetsStore\spritesheets\head\faces\shame\fur_gold.png,legendary,0,gacha
+head,faces,shame,fur_grey,Shame Faces Fur_Grey,faces_shame_fur_grey,\AssetsStore\spritesheets\head\faces\shame\fur_grey.png,common,3,store
+head,faces,shame,fur_tan,Shame Faces Fur_Tan,faces_shame_fur_tan,\AssetsStore\spritesheets\head\faces\shame\fur_tan.png,common,3,store
+head,faces,shame,fur_white,Shame Faces Fur_White,faces_shame_fur_white,\AssetsStore\spritesheets\head\faces\shame\fur_white.png,common,3,store
+head,faces,shame,green,Shame Faces Green,faces_shame_green,\AssetsStore\spritesheets\head\faces\shame\green.png,rare,0,gacha
+head,faces,shame,lavender,Shame Faces Lavender,faces_shame_lavender,\AssetsStore\spritesheets\head\faces\shame\lavender.png,epic,0,gacha
+head,faces,shame,light,Shame Faces Light,faces_shame_light,\AssetsStore\spritesheets\head\faces\shame\light.png,common,3,store
+head,faces,shame,olive,Shame Faces Olive,faces_shame_olive,\AssetsStore\spritesheets\head\faces\shame\olive.png,rare,0,gacha
+head,faces,shame,pale_green,Shame Faces Pale_Green,faces_shame_pale_green,\AssetsStore\spritesheets\head\faces\shame\pale_green.png,rare,0,gacha
+head,faces,shame,taupe,Shame Faces Taupe,faces_shame_taupe,\AssetsStore\spritesheets\head\faces\shame\taupe.png,rare,0,gacha
+head,faces,shame,zombie,Shame Faces Zombie,faces_shame_zombie,\AssetsStore\spritesheets\head\faces\shame\zombie.png,legendary,0,gacha
+head,faces,shame,zombie_green,Shame Faces Zombie_Green,faces_shame_zombie_green,\AssetsStore\spritesheets\head\faces\shame\zombie_green.png,legendary,0,gacha
+head,faces,sad,amber,Sad Faces Amber,faces_sad_amber,\AssetsStore\spritesheets\head\faces\sad\amber.png,rare,0,gacha
+head,faces,sad,black,Sad Faces Black,faces_sad_black,\AssetsStore\spritesheets\head\faces\sad\black.png,common,3,store
+head,faces,sad,blue,Sad Faces Blue,faces_sad_blue,\AssetsStore\spritesheets\head\faces\sad\blue.png,rare,0,gacha
+head,faces,sad,bright_green,Sad Faces Bright_Green,faces_sad_bright_green,\AssetsStore\spritesheets\head\faces\sad\bright_green.png,epic,0,gacha
+head,faces,sad,bronze,Sad Faces Bronze,faces_sad_bronze,\AssetsStore\spritesheets\head\faces\sad\bronze.png,epic,0,gacha
+head,faces,sad,brown,Sad Faces Brown,faces_sad_brown,\AssetsStore\spritesheets\head\faces\sad\brown.png,common,3,store
+head,faces,sad,dark_green,Sad Faces Dark_Green,faces_sad_dark_green,\AssetsStore\spritesheets\head\faces\sad\dark_green.png,rare,0,gacha
+head,faces,sad,fur_black,Sad Faces Fur_Black,faces_sad_fur_black,\AssetsStore\spritesheets\head\faces\sad\fur_black.png,common,3,store
+head,faces,sad,fur_brown,Sad Faces Fur_Brown,faces_sad_fur_brown,\AssetsStore\spritesheets\head\faces\sad\fur_brown.png,common,3,store
+head,faces,sad,fur_copper,Sad Faces Fur_Copper,faces_sad_fur_copper,\AssetsStore\spritesheets\head\faces\sad\fur_copper.png,epic,0,gacha
+head,faces,sad,fur_gold,Sad Faces Fur_Gold,faces_sad_fur_gold,\AssetsStore\spritesheets\head\faces\sad\fur_gold.png,legendary,0,gacha
+head,faces,sad,fur_grey,Sad Faces Fur_Grey,faces_sad_fur_grey,\AssetsStore\spritesheets\head\faces\sad\fur_grey.png,common,3,store
+head,faces,sad,fur_tan,Sad Faces Fur_Tan,faces_sad_fur_tan,\AssetsStore\spritesheets\head\faces\sad\fur_tan.png,common,3,store
+head,faces,sad,fur_white,Sad Faces Fur_White,faces_sad_fur_white,\AssetsStore\spritesheets\head\faces\sad\fur_white.png,common,3,store
+head,faces,sad,green,Sad Faces Green,faces_sad_green,\AssetsStore\spritesheets\head\faces\sad\green.png,rare,0,gacha
+head,faces,sad,lavender,Sad Faces Lavender,faces_sad_lavender,\AssetsStore\spritesheets\head\faces\sad\lavender.png,epic,0,gacha
+head,faces,sad,light,Sad Faces Light,faces_sad_light,\AssetsStore\spritesheets\head\faces\sad\light.png,common,3,store
+head,faces,sad,olive,Sad Faces Olive,faces_sad_olive,\AssetsStore\spritesheets\head\faces\sad\olive.png,rare,0,gacha
+head,faces,sad,pale_green,Sad Faces Pale_Green,faces_sad_pale_green,\AssetsStore\spritesheets\head\faces\sad\pale_green.png,rare,0,gacha
+head,faces,sad,taupe,Sad Faces Taupe,faces_sad_taupe,\AssetsStore\spritesheets\head\faces\sad\taupe.png,rare,0,gacha
+head,faces,sad,zombie,Sad Faces Zombie,faces_sad_zombie,\AssetsStore\spritesheets\head\faces\sad\zombie.png,legendary,0,gacha
+head,faces,sad,zombie_green,Sad Faces Zombie_Green,faces_sad_zombie_green,\AssetsStore\spritesheets\head\faces\sad\zombie_green.png,legendary,0,gacha
+head,faces,neutral,amber,Neutral Faces Amber,faces_neutral_amber,\AssetsStore\spritesheets\head\faces\neutral\amber.png,rare,0,gacha
+head,faces,neutral,black,Neutral Faces Black,faces_neutral_black,\AssetsStore\spritesheets\head\faces\neutral\black.png,common,3,store
+head,faces,neutral,blue,Neutral Faces Blue,faces_neutral_blue,\AssetsStore\spritesheets\head\faces\neutral\blue.png,rare,0,gacha
+head,faces,neutral,bright_green,Neutral Faces Bright_Green,faces_neutral_bright_green,\AssetsStore\spritesheets\head\faces\neutral\bright_green.png,epic,0,gacha
+head,faces,neutral,bronze,Neutral Faces Bronze,faces_neutral_bronze,\AssetsStore\spritesheets\head\faces\neutral\bronze.png,epic,0,gacha
+head,faces,neutral,brown,Neutral Faces Brown,faces_neutral_brown,\AssetsStore\spritesheets\head\faces\neutral\brown.png,common,3,store
+head,faces,neutral,dark_green,Neutral Faces Dark_Green,faces_neutral_dark_green,\AssetsStore\spritesheets\head\faces\neutral\dark_green.png,rare,0,gacha
+head,faces,neutral,fur_black,Neutral Faces Fur_Black,faces_neutral_fur_black,\AssetsStore\spritesheets\head\faces\neutral\fur_black.png,common,3,store
+head,faces,neutral,fur_brown,Neutral Faces Fur_Brown,faces_neutral_fur_brown,\AssetsStore\spritesheets\head\faces\neutral\fur_brown.png,common,3,store
+head,faces,neutral,fur_copper,Neutral Faces Fur_Copper,faces_neutral_fur_copper,\AssetsStore\spritesheets\head\faces\neutral\fur_copper.png,epic,0,gacha
+head,faces,neutral,fur_gold,Neutral Faces Fur_Gold,faces_neutral_fur_gold,\AssetsStore\spritesheets\head\faces\neutral\fur_gold.png,legendary,0,gacha
+head,faces,neutral,fur_grey,Neutral Faces Fur_Grey,faces_neutral_fur_grey,\AssetsStore\spritesheets\head\faces\neutral\fur_grey.png,common,3,store
+head,faces,neutral,fur_tan,Neutral Faces Fur_Tan,faces_neutral_fur_tan,\AssetsStore\spritesheets\head\faces\neutral\fur_tan.png,common,3,store
+head,faces,neutral,fur_white,Neutral Faces Fur_White,faces_neutral_fur_white,\AssetsStore\spritesheets\head\faces\neutral\fur_white.png,common,3,store
+head,faces,neutral,green,Neutral Faces Green,faces_neutral_green,\AssetsStore\spritesheets\head\faces\neutral\green.png,rare,0,gacha
+head,faces,neutral,lavender,Neutral Faces Lavender,faces_neutral_lavender,\AssetsStore\spritesheets\head\faces\neutral\lavender.png,epic,0,gacha
+head,faces,neutral,light,Neutral Faces Light,faces_neutral_light,\AssetsStore\spritesheets\head\faces\neutral\light.png,common,3,store
+head,faces,neutral,olive,Neutral Faces Olive,faces_neutral_olive,\AssetsStore\spritesheets\head\faces\neutral\olive.png,rare,0,gacha
+head,faces,neutral,pale_green,Neutral Faces Pale_Green,faces_neutral_pale_green,\AssetsStore\spritesheets\head\faces\neutral\pale_green.png,rare,0,gacha
+head,faces,neutral,taupe,Neutral Faces Taupe,faces_neutral_taupe,\AssetsStore\spritesheets\head\faces\neutral\taupe.png,rare,0,gacha
+head,faces,neutral,zombie,Neutral Faces Zombie,faces_neutral_zombie,\AssetsStore\spritesheets\head\faces\neutral\zombie.png,legendary,0,gacha
+head,faces,neutral,zombie_green,Neutral Faces Zombie_Green,faces_neutral_zombie_green,\AssetsStore\spritesheets\head\faces\neutral\zombie_green.png,legendary,0,gacha
+head,faces,look_r,amber,Look_R Faces Amber,faces_look_r_amber,\AssetsStore\spritesheets\head\faces\look_r\amber.png,rare,0,gacha
+head,faces,look_r,black,Look_R Faces Black,faces_look_r_black,\AssetsStore\spritesheets\head\faces\look_r\black.png,common,3,store
+head,faces,look_r,blue,Look_R Faces Blue,faces_look_r_blue,\AssetsStore\spritesheets\head\faces\look_r\blue.png,rare,0,gacha
+head,faces,look_r,bright_green,Look_R Faces Bright_Green,faces_look_r_bright_green,\AssetsStore\spritesheets\head\faces\look_r\bright_green.png,epic,0,gacha
+head,faces,look_r,bronze,Look_R Faces Bronze,faces_look_r_bronze,\AssetsStore\spritesheets\head\faces\look_r\bronze.png,epic,0,gacha
+head,faces,look_r,brown,Look_R Faces Brown,faces_look_r_brown,\AssetsStore\spritesheets\head\faces\look_r\brown.png,common,3,store
+head,faces,look_r,dark_green,Look_R Faces Dark_Green,faces_look_r_dark_green,\AssetsStore\spritesheets\head\faces\look_r\dark_green.png,rare,0,gacha
+head,faces,look_r,fur_black,Look_R Faces Fur_Black,faces_look_r_fur_black,\AssetsStore\spritesheets\head\faces\look_r\fur_black.png,common,3,store
+head,faces,look_r,fur_brown,Look_R Faces Fur_Brown,faces_look_r_fur_brown,\AssetsStore\spritesheets\head\faces\look_r\fur_brown.png,common,3,store
+head,faces,look_r,fur_copper,Look_R Faces Fur_Copper,faces_look_r_fur_copper,\AssetsStore\spritesheets\head\faces\look_r\fur_copper.png,epic,0,gacha
+head,faces,look_r,fur_gold,Look_R Faces Fur_Gold,faces_look_r_fur_gold,\AssetsStore\spritesheets\head\faces\look_r\fur_gold.png,legendary,0,gacha
+head,faces,look_r,fur_grey,Look_R Faces Fur_Grey,faces_look_r_fur_grey,\AssetsStore\spritesheets\head\faces\look_r\fur_grey.png,common,3,store
+head,faces,look_r,fur_tan,Look_R Faces Fur_Tan,faces_look_r_fur_tan,\AssetsStore\spritesheets\head\faces\look_r\fur_tan.png,common,3,store
+head,faces,look_r,fur_white,Look_R Faces Fur_White,faces_look_r_fur_white,\AssetsStore\spritesheets\head\faces\look_r\fur_white.png,common,3,store
+head,faces,look_r,green,Look_R Faces Green,faces_look_r_green,\AssetsStore\spritesheets\head\faces\look_r\green.png,rare,0,gacha
+head,faces,look_r,lavender,Look_R Faces Lavender,faces_look_r_lavender,\AssetsStore\spritesheets\head\faces\look_r\lavender.png,epic,0,gacha
+head,faces,look_r,light,Look_R Faces Light,faces_look_r_light,\AssetsStore\spritesheets\head\faces\look_r\light.png,common,3,store
+head,faces,look_r,olive,Look_R Faces Olive,faces_look_r_olive,\AssetsStore\spritesheets\head\faces\look_r\olive.png,rare,0,gacha
+head,faces,look_r,pale_green,Look_R Faces Pale_Green,faces_look_r_pale_green,\AssetsStore\spritesheets\head\faces\look_r\pale_green.png,rare,0,gacha
+head,faces,look_r,taupe,Look_R Faces Taupe,faces_look_r_taupe,\AssetsStore\spritesheets\head\faces\look_r\taupe.png,rare,0,gacha
+head,faces,look_r,zombie,Look_R Faces Zombie,faces_look_r_zombie,\AssetsStore\spritesheets\head\faces\look_r\zombie.png,legendary,0,gacha
+head,faces,look_r,zombie_green,Look_R Faces Zombie_Green,faces_look_r_zombie_green,\AssetsStore\spritesheets\head\faces\look_r\zombie_green.png,legendary,0,gacha
+head,faces,look_l,amber,Look_L Faces Amber,faces_look_l_amber,\AssetsStore\spritesheets\head\faces\look_l\amber.png,rare,0,gacha
+head,faces,look_l,black,Look_L Faces Black,faces_look_l_black,\AssetsStore\spritesheets\head\faces\look_l\black.png,common,3,store
+head,faces,look_l,blue,Look_L Faces Blue,faces_look_l_blue,\AssetsStore\spritesheets\head\faces\look_l\blue.png,rare,0,gacha
+head,faces,look_l,bright_green,Look_L Faces Bright_Green,faces_look_l_bright_green,\AssetsStore\spritesheets\head\faces\look_l\bright_green.png,epic,0,gacha
+head,faces,look_l,bronze,Look_L Faces Bronze,faces_look_l_bronze,\AssetsStore\spritesheets\head\faces\look_l\bronze.png,epic,0,gacha
+head,faces,look_l,brown,Look_L Faces Brown,faces_look_l_brown,\AssetsStore\spritesheets\head\faces\look_l\brown.png,common,3,store
+head,faces,look_l,dark_green,Look_L Faces Dark_Green,faces_look_l_dark_green,\AssetsStore\spritesheets\head\faces\look_l\dark_green.png,rare,0,gacha
+head,faces,look_l,fur_black,Look_L Faces Fur_Black,faces_look_l_fur_black,\AssetsStore\spritesheets\head\faces\look_l\fur_black.png,common,3,store
+head,faces,look_l,fur_brown,Look_L Faces Fur_Brown,faces_look_l_fur_brown,\AssetsStore\spritesheets\head\faces\look_l\fur_brown.png,common,3,store
+head,faces,look_l,fur_copper,Look_L Faces Fur_Copper,faces_look_l_fur_copper,\AssetsStore\spritesheets\head\faces\look_l\fur_copper.png,epic,0,gacha
+head,faces,look_l,fur_gold,Look_L Faces Fur_Gold,faces_look_l_fur_gold,\AssetsStore\spritesheets\head\faces\look_l\fur_gold.png,legendary,0,gacha
+head,faces,look_l,fur_grey,Look_L Faces Fur_Grey,faces_look_l_fur_grey,\AssetsStore\spritesheets\head\faces\look_l\fur_grey.png,common,3,store
+head,faces,look_l,fur_tan,Look_L Faces Fur_Tan,faces_look_l_fur_tan,\AssetsStore\spritesheets\head\faces\look_l\fur_tan.png,common,3,store
+head,faces,look_l,fur_white,Look_L Faces Fur_White,faces_look_l_fur_white,\AssetsStore\spritesheets\head\faces\look_l\fur_white.png,common,3,store
+head,faces,look_l,green,Look_L Faces Green,faces_look_l_green,\AssetsStore\spritesheets\head\faces\look_l\green.png,rare,0,gacha
+head,faces,look_l,lavender,Look_L Faces Lavender,faces_look_l_lavender,\AssetsStore\spritesheets\head\faces\look_l\lavender.png,epic,0,gacha
+head,faces,look_l,light,Look_L Faces Light,faces_look_l_light,\AssetsStore\spritesheets\head\faces\look_l\light.png,common,3,store
+head,faces,look_l,olive,Look_L Faces Olive,faces_look_l_olive,\AssetsStore\spritesheets\head\faces\look_l\olive.png,rare,0,gacha
+head,faces,look_l,pale_green,Look_L Faces Pale_Green,faces_look_l_pale_green,\AssetsStore\spritesheets\head\faces\look_l\pale_green.png,rare,0,gacha
+head,faces,look_l,taupe,Look_L Faces Taupe,faces_look_l_taupe,\AssetsStore\spritesheets\head\faces\look_l\taupe.png,rare,0,gacha
+head,faces,look_l,zombie,Look_L Faces Zombie,faces_look_l_zombie,\AssetsStore\spritesheets\head\faces\look_l\zombie.png,legendary,0,gacha
+head,faces,look_l,zombie_green,Look_L Faces Zombie_Green,faces_look_l_zombie_green,\AssetsStore\spritesheets\head\faces\look_l\zombie_green.png,legendary,0,gacha
+head,faces,happy,amber,Happy Faces Amber,faces_happy_amber,\AssetsStore\spritesheets\head\faces\happy\amber.png,rare,0,gacha
+head,faces,happy,black,Happy Faces Black,faces_happy_black,\AssetsStore\spritesheets\head\faces\happy\black.png,common,3,store
+head,faces,happy,blue,Happy Faces Blue,faces_happy_blue,\AssetsStore\spritesheets\head\faces\happy\blue.png,rare,0,gacha
+head,faces,happy,bright_green,Happy Faces Bright_Green,faces_happy_bright_green,\AssetsStore\spritesheets\head\faces\happy\bright_green.png,epic,0,gacha
+head,faces,happy,bronze,Happy Faces Bronze,faces_happy_bronze,\AssetsStore\spritesheets\head\faces\happy\bronze.png,epic,0,gacha
+head,faces,happy,brown,Happy Faces Brown,faces_happy_brown,\AssetsStore\spritesheets\head\faces\happy\brown.png,common,3,store
+head,faces,happy,dark_green,Happy Faces Dark_Green,faces_happy_dark_green,\AssetsStore\spritesheets\head\faces\happy\dark_green.png,rare,0,gacha
+head,faces,happy,fur_black,Happy Faces Fur_Black,faces_happy_fur_black,\AssetsStore\spritesheets\head\faces\happy\fur_black.png,common,3,store
+head,faces,happy,fur_brown,Happy Faces Fur_Brown,faces_happy_fur_brown,\AssetsStore\spritesheets\head\faces\happy\fur_brown.png,common,3,store
+head,faces,happy,fur_copper,Happy Faces Fur_Copper,faces_happy_fur_copper,\AssetsStore\spritesheets\head\faces\happy\fur_copper.png,epic,0,gacha
+head,faces,happy,fur_gold,Happy Faces Fur_Gold,faces_happy_fur_gold,\AssetsStore\spritesheets\head\faces\happy\fur_gold.png,legendary,0,gacha
+head,faces,happy,fur_grey,Happy Faces Fur_Grey,faces_happy_fur_grey,\AssetsStore\spritesheets\head\faces\happy\fur_grey.png,common,3,store
+head,faces,happy,fur_tan,Happy Faces Fur_Tan,faces_happy_fur_tan,\AssetsStore\spritesheets\head\faces\happy\fur_tan.png,common,3,store
+head,faces,happy,fur_white,Happy Faces Fur_White,faces_happy_fur_white,\AssetsStore\spritesheets\head\faces\happy\fur_white.png,common,3,store
+head,faces,happy,green,Happy Faces Green,faces_happy_green,\AssetsStore\spritesheets\head\faces\happy\green.png,rare,0,gacha
+head,faces,happy,lavender,Happy Faces Lavender,faces_happy_lavender,\AssetsStore\spritesheets\head\faces\happy\lavender.png,epic,0,gacha
+head,faces,happy,light,Happy Faces Light,faces_happy_light,\AssetsStore\spritesheets\head\faces\happy\light.png,common,3,store
+head,faces,happy,olive,Happy Faces Olive,faces_happy_olive,\AssetsStore\spritesheets\head\faces\happy\olive.png,rare,0,gacha
+head,faces,happy,pale_green,Happy Faces Pale_Green,faces_happy_pale_green,\AssetsStore\spritesheets\head\faces\happy\pale_green.png,rare,0,gacha
+head,faces,happy,taupe,Happy Faces Taupe,faces_happy_taupe,\AssetsStore\spritesheets\head\faces\happy\taupe.png,rare,0,gacha
+head,faces,happy,zombie,Happy Faces Zombie,faces_happy_zombie,\AssetsStore\spritesheets\head\faces\happy\zombie.png,legendary,0,gacha
+head,faces,happy,zombie_green,Happy Faces Zombie_Green,faces_happy_zombie_green,\AssetsStore\spritesheets\head\faces\happy\zombie_green.png,legendary,0,gacha
+head,faces,eyeroll,amber,Eyeroll Faces Amber,faces_eyeroll_amber,\AssetsStore\spritesheets\head\faces\eyeroll\amber.png,rare,0,gacha
+head,faces,eyeroll,black,Eyeroll Faces Black,faces_eyeroll_black,\AssetsStore\spritesheets\head\faces\eyeroll\black.png,common,3,store
+head,faces,eyeroll,blue,Eyeroll Faces Blue,faces_eyeroll_blue,\AssetsStore\spritesheets\head\faces\eyeroll\blue.png,rare,0,gacha
+head,faces,eyeroll,bright_green,Eyeroll Faces Bright_Green,faces_eyeroll_bright_green,\AssetsStore\spritesheets\head\faces\eyeroll\bright_green.png,epic,0,gacha
+head,faces,eyeroll,bronze,Eyeroll Faces Bronze,faces_eyeroll_bronze,\AssetsStore\spritesheets\head\faces\eyeroll\bronze.png,epic,0,gacha
+head,faces,eyeroll,brown,Eyeroll Faces Brown,faces_eyeroll_brown,\AssetsStore\spritesheets\head\faces\eyeroll\brown.png,common,3,store
+head,faces,eyeroll,dark_green,Eyeroll Faces Dark_Green,faces_eyeroll_dark_green,\AssetsStore\spritesheets\head\faces\eyeroll\dark_green.png,rare,0,gacha
+head,faces,eyeroll,fur_black,Eyeroll Faces Fur_Black,faces_eyeroll_fur_black,\AssetsStore\spritesheets\head\faces\eyeroll\fur_black.png,common,3,store
+head,faces,eyeroll,fur_brown,Eyeroll Faces Fur_Brown,faces_eyeroll_fur_brown,\AssetsStore\spritesheets\head\faces\eyeroll\fur_brown.png,common,3,store
+head,faces,eyeroll,fur_copper,Eyeroll Faces Fur_Copper,faces_eyeroll_fur_copper,\AssetsStore\spritesheets\head\faces\eyeroll\fur_copper.png,epic,0,gacha
+head,faces,eyeroll,fur_gold,Eyeroll Faces Fur_Gold,faces_eyeroll_fur_gold,\AssetsStore\spritesheets\head\faces\eyeroll\fur_gold.png,legendary,0,gacha
+head,faces,eyeroll,fur_grey,Eyeroll Faces Fur_Grey,faces_eyeroll_fur_grey,\AssetsStore\spritesheets\head\faces\eyeroll\fur_grey.png,common,3,store
+head,faces,eyeroll,fur_tan,Eyeroll Faces Fur_Tan,faces_eyeroll_fur_tan,\AssetsStore\spritesheets\head\faces\eyeroll\fur_tan.png,common,3,store
+head,faces,eyeroll,fur_white,Eyeroll Faces Fur_White,faces_eyeroll_fur_white,\AssetsStore\spritesheets\head\faces\eyeroll\fur_white.png,common,3,store
+head,faces,eyeroll,green,Eyeroll Faces Green,faces_eyeroll_green,\AssetsStore\spritesheets\head\faces\eyeroll\green.png,rare,0,gacha
+head,faces,eyeroll,lavender,Eyeroll Faces Lavender,faces_eyeroll_lavender,\AssetsStore\spritesheets\head\faces\eyeroll\lavender.png,epic,0,gacha
+head,faces,eyeroll,light,Eyeroll Faces Light,faces_eyeroll_light,\AssetsStore\spritesheets\head\faces\eyeroll\light.png,common,3,store
+head,faces,eyeroll,olive,Eyeroll Faces Olive,faces_eyeroll_olive,\AssetsStore\spritesheets\head\faces\eyeroll\olive.png,rare,0,gacha
+head,faces,eyeroll,pale_green,Eyeroll Faces Pale_Green,faces_eyeroll_pale_green,\AssetsStore\spritesheets\head\faces\eyeroll\pale_green.png,rare,0,gacha
+head,faces,eyeroll,taupe,Eyeroll Faces Taupe,faces_eyeroll_taupe,\AssetsStore\spritesheets\head\faces\eyeroll\taupe.png,rare,0,gacha
+head,faces,eyeroll,zombie,Eyeroll Faces Zombie,faces_eyeroll_zombie,\AssetsStore\spritesheets\head\faces\eyeroll\zombie.png,legendary,0,gacha
+head,faces,eyeroll,zombie_green,Eyeroll Faces Zombie_Green,faces_eyeroll_zombie_green,\AssetsStore\spritesheets\head\faces\eyeroll\zombie_green.png,legendary,0,gacha
+head,faces,closing,amber,Closing Faces Amber,faces_closing_amber,\AssetsStore\spritesheets\head\faces\closing\amber.png,rare,0,gacha
+head,faces,closing,black,Closing Faces Black,faces_closing_black,\AssetsStore\spritesheets\head\faces\closing\black.png,common,3,store
+head,faces,closing,blue,Closing Faces Blue,faces_closing_blue,\AssetsStore\spritesheets\head\faces\closing\blue.png,rare,0,gacha
+head,faces,closing,bright_green,Closing Faces Bright_Green,faces_closing_bright_green,\AssetsStore\spritesheets\head\faces\closing\bright_green.png,epic,0,gacha
+head,faces,closing,bronze,Closing Faces Bronze,faces_closing_bronze,\AssetsStore\spritesheets\head\faces\closing\bronze.png,epic,0,gacha
+head,faces,closing,brown,Closing Faces Brown,faces_closing_brown,\AssetsStore\spritesheets\head\faces\closing\brown.png,common,3,store
+head,faces,closing,dark_green,Closing Faces Dark_Green,faces_closing_dark_green,\AssetsStore\spritesheets\head\faces\closing\dark_green.png,rare,0,gacha
+head,faces,closing,fur_black,Closing Faces Fur_Black,faces_closing_fur_black,\AssetsStore\spritesheets\head\faces\closing\fur_black.png,common,3,store
+head,faces,closing,fur_brown,Closing Faces Fur_Brown,faces_closing_fur_brown,\AssetsStore\spritesheets\head\faces\closing\fur_brown.png,common,3,store
+head,faces,closing,fur_copper,Closing Faces Fur_Copper,faces_closing_fur_copper,\AssetsStore\spritesheets\head\faces\closing\fur_copper.png,epic,0,gacha
+head,faces,closing,fur_gold,Closing Faces Fur_Gold,faces_closing_fur_gold,\AssetsStore\spritesheets\head\faces\closing\fur_gold.png,legendary,0,gacha
+head,faces,closing,fur_grey,Closing Faces Fur_Grey,faces_closing_fur_grey,\AssetsStore\spritesheets\head\faces\closing\fur_grey.png,common,3,store
+head,faces,closing,fur_tan,Closing Faces Fur_Tan,faces_closing_fur_tan,\AssetsStore\spritesheets\head\faces\closing\fur_tan.png,common,3,store
+head,faces,closing,fur_white,Closing Faces Fur_White,faces_closing_fur_white,\AssetsStore\spritesheets\head\faces\closing\fur_white.png,common,3,store
+head,faces,closing,green,Closing Faces Green,faces_closing_green,\AssetsStore\spritesheets\head\faces\closing\green.png,rare,0,gacha
+head,faces,closing,lavender,Closing Faces Lavender,faces_closing_lavender,\AssetsStore\spritesheets\head\faces\closing\lavender.png,epic,0,gacha
+head,faces,closing,light,Closing Faces Light,faces_closing_light,\AssetsStore\spritesheets\head\faces\closing\light.png,common,3,store
+head,faces,closing,olive,Closing Faces Olive,faces_closing_olive,\AssetsStore\spritesheets\head\faces\closing\olive.png,rare,0,gacha
+head,faces,closing,pale_green,Closing Faces Pale_Green,faces_closing_pale_green,\AssetsStore\spritesheets\head\faces\closing\pale_green.png,rare,0,gacha
+head,faces,closing,taupe,Closing Faces Taupe,faces_closing_taupe,\AssetsStore\spritesheets\head\faces\closing\taupe.png,rare,0,gacha
+head,faces,closing,zombie,Closing Faces Zombie,faces_closing_zombie,\AssetsStore\spritesheets\head\faces\closing\zombie.png,legendary,0,gacha
+head,faces,closing,zombie_green,Closing Faces Zombie_Green,faces_closing_zombie_green,\AssetsStore\spritesheets\head\faces\closing\zombie_green.png,legendary,0,gacha
+head,faces,closed,amber,Closed Faces Amber,faces_closed_amber,\AssetsStore\spritesheets\head\faces\closed\amber.png,rare,0,gacha
+head,faces,closed,black,Closed Faces Black,faces_closed_black,\AssetsStore\spritesheets\head\faces\closed\black.png,common,3,store
+head,faces,closed,blue,Closed Faces Blue,faces_closed_blue,\AssetsStore\spritesheets\head\faces\closed\blue.png,rare,0,gacha
+head,faces,closed,bright_green,Closed Faces Bright_Green,faces_closed_bright_green,\AssetsStore\spritesheets\head\faces\closed\bright_green.png,epic,0,gacha
+head,faces,closed,bronze,Closed Faces Bronze,faces_closed_bronze,\AssetsStore\spritesheets\head\faces\closed\bronze.png,epic,0,gacha
+head,faces,closed,brown,Closed Faces Brown,faces_closed_brown,\AssetsStore\spritesheets\head\faces\closed\brown.png,common,3,store
+head,faces,closed,dark_green,Closed Faces Dark_Green,faces_closed_dark_green,\AssetsStore\spritesheets\head\faces\closed\dark_green.png,rare,0,gacha
+head,faces,closed,fur_black,Closed Faces Fur_Black,faces_closed_fur_black,\AssetsStore\spritesheets\head\faces\closed\fur_black.png,common,3,store
+head,faces,closed,fur_brown,Closed Faces Fur_Brown,faces_closed_fur_brown,\AssetsStore\spritesheets\head\faces\closed\fur_brown.png,common,3,store
+head,faces,closed,fur_copper,Closed Faces Fur_Copper,faces_closed_fur_copper,\AssetsStore\spritesheets\head\faces\closed\fur_copper.png,epic,0,gacha
+head,faces,closed,fur_gold,Closed Faces Fur_Gold,faces_closed_fur_gold,\AssetsStore\spritesheets\head\faces\closed\fur_gold.png,legendary,0,gacha
+head,faces,closed,fur_grey,Closed Faces Fur_Grey,faces_closed_fur_grey,\AssetsStore\spritesheets\head\faces\closed\fur_grey.png,common,3,store
+head,faces,closed,fur_tan,Closed Faces Fur_Tan,faces_closed_fur_tan,\AssetsStore\spritesheets\head\faces\closed\fur_tan.png,common,3,store
+head,faces,closed,fur_white,Closed Faces Fur_White,faces_closed_fur_white,\AssetsStore\spritesheets\head\faces\closed\fur_white.png,common,3,store
+head,faces,closed,green,Closed Faces Green,faces_closed_green,\AssetsStore\spritesheets\head\faces\closed\green.png,rare,0,gacha
+head,faces,closed,lavender,Closed Faces Lavender,faces_closed_lavender,\AssetsStore\spritesheets\head\faces\closed\lavender.png,epic,0,gacha
+head,faces,closed,light,Closed Faces Light,faces_closed_light,\AssetsStore\spritesheets\head\faces\closed\light.png,common,3,store
+head,faces,closed,olive,Closed Faces Olive,faces_closed_olive,\AssetsStore\spritesheets\head\faces\closed\olive.png,rare,0,gacha
+head,faces,closed,pale_green,Closed Faces Pale_Green,faces_closed_pale_green,\AssetsStore\spritesheets\head\faces\closed\pale_green.png,rare,0,gacha
+head,faces,closed,taupe,Closed Faces Taupe,faces_closed_taupe,\AssetsStore\spritesheets\head\faces\closed\taupe.png,rare,0,gacha
+head,faces,closed,zombie,Closed Faces Zombie,faces_closed_zombie,\AssetsStore\spritesheets\head\faces\closed\zombie.png,legendary,0,gacha
+head,faces,closed,zombie_green,Closed Faces Zombie_Green,faces_closed_zombie_green,\AssetsStore\spritesheets\head\faces\closed\zombie_green.png,legendary,0,gacha
+head,faces,blush,amber,Blush Faces Amber,faces_blush_amber,\AssetsStore\spritesheets\head\faces\blush\amber.png,rare,0,gacha
+head,faces,blush,black,Blush Faces Black,faces_blush_black,\AssetsStore\spritesheets\head\faces\blush\black.png,common,3,store
+head,faces,blush,blue,Blush Faces Blue,faces_blush_blue,\AssetsStore\spritesheets\head\faces\blush\blue.png,rare,0,gacha
+head,faces,blush,bright_green,Blush Faces Bright_Green,faces_blush_bright_green,\AssetsStore\spritesheets\head\faces\blush\bright_green.png,epic,0,gacha
+head,faces,blush,bronze,Blush Faces Bronze,faces_blush_bronze,\AssetsStore\spritesheets\head\faces\blush\bronze.png,epic,0,gacha
+head,faces,blush,brown,Blush Faces Brown,faces_blush_brown,\AssetsStore\spritesheets\head\faces\blush\brown.png,common,3,store
+head,faces,blush,dark_green,Blush Faces Dark_Green,faces_blush_dark_green,\AssetsStore\spritesheets\head\faces\blush\dark_green.png,rare,0,gacha
+head,faces,blush,fur_black,Blush Faces Fur_Black,faces_blush_fur_black,\AssetsStore\spritesheets\head\faces\blush\fur_black.png,common,3,store
+head,faces,blush,fur_brown,Blush Faces Fur_Brown,faces_blush_fur_brown,\AssetsStore\spritesheets\head\faces\blush\fur_brown.png,common,3,store
+head,faces,blush,fur_copper,Blush Faces Fur_Copper,faces_blush_fur_copper,\AssetsStore\spritesheets\head\faces\blush\fur_copper.png,epic,0,gacha
+head,faces,blush,fur_gold,Blush Faces Fur_Gold,faces_blush_fur_gold,\AssetsStore\spritesheets\head\faces\blush\fur_gold.png,legendary,0,gacha
+head,faces,blush,fur_grey,Blush Faces Fur_Grey,faces_blush_fur_grey,\AssetsStore\spritesheets\head\faces\blush\fur_grey.png,common,3,store
+head,faces,blush,fur_tan,Blush Faces Fur_Tan,faces_blush_fur_tan,\AssetsStore\spritesheets\head\faces\blush\fur_tan.png,common,3,store
+head,faces,blush,fur_white,Blush Faces Fur_White,faces_blush_fur_white,\AssetsStore\spritesheets\head\faces\blush\fur_white.png,common,3,store
+head,faces,blush,green,Blush Faces Green,faces_blush_green,\AssetsStore\spritesheets\head\faces\blush\green.png,rare,0,gacha
+head,faces,blush,lavender,Blush Faces Lavender,faces_blush_lavender,\AssetsStore\spritesheets\head\faces\blush\lavender.png,epic,0,gacha
+head,faces,blush,light,Blush Faces Light,faces_blush_light,\AssetsStore\spritesheets\head\faces\blush\light.png,common,3,store
+head,faces,blush,olive,Blush Faces Olive,faces_blush_olive,\AssetsStore\spritesheets\head\faces\blush\olive.png,rare,0,gacha
+head,faces,blush,pale_green,Blush Faces Pale_Green,faces_blush_pale_green,\AssetsStore\spritesheets\head\faces\blush\pale_green.png,rare,0,gacha
+head,faces,blush,taupe,Blush Faces Taupe,faces_blush_taupe,\AssetsStore\spritesheets\head\faces\blush\taupe.png,rare,0,gacha
+head,faces,blush,zombie,Blush Faces Zombie,faces_blush_zombie,\AssetsStore\spritesheets\head\faces\blush\zombie.png,legendary,0,gacha
+head,faces,blush,zombie_green,Blush Faces Zombie_Green,faces_blush_zombie_green,\AssetsStore\spritesheets\head\faces\blush\zombie_green.png,legendary,0,gacha
+head,faces,anger,amber,Anger Faces Amber,faces_anger_amber,\AssetsStore\spritesheets\head\faces\anger\amber.png,rare,0,gacha
+head,faces,anger,black,Anger Faces Black,faces_anger_black,\AssetsStore\spritesheets\head\faces\anger\black.png,common,3,store
+head,faces,anger,blue,Anger Faces Blue,faces_anger_blue,\AssetsStore\spritesheets\head\faces\anger\blue.png,rare,0,gacha
+head,faces,anger,bright_green,Anger Faces Bright_Green,faces_anger_bright_green,\AssetsStore\spritesheets\head\faces\anger\bright_green.png,epic,0,gacha
+head,faces,anger,bronze,Anger Faces Bronze,faces_anger_bronze,\AssetsStore\spritesheets\head\faces\anger\bronze.png,epic,0,gacha
+head,faces,anger,brown,Anger Faces Brown,faces_anger_brown,\AssetsStore\spritesheets\head\faces\anger\brown.png,common,3,store
+head,faces,anger,dark_green,Anger Faces Dark_Green,faces_anger_dark_green,\AssetsStore\spritesheets\head\faces\anger\dark_green.png,rare,0,gacha
+head,faces,anger,fur_black,Anger Faces Fur_Black,faces_anger_fur_black,\AssetsStore\spritesheets\head\faces\anger\fur_black.png,common,3,store
+head,faces,anger,fur_brown,Anger Faces Fur_Brown,faces_anger_fur_brown,\AssetsStore\spritesheets\head\faces\anger\fur_brown.png,common,3,store
+head,faces,anger,fur_copper,Anger Faces Fur_Copper,faces_anger_fur_copper,\AssetsStore\spritesheets\head\faces\anger\fur_copper.png,epic,0,gacha
+head,faces,anger,fur_gold,Anger Faces Fur_Gold,faces_anger_fur_gold,\AssetsStore\spritesheets\head\faces\anger\fur_gold.png,legendary,0,gacha
+head,faces,anger,fur_grey,Anger Faces Fur_Grey,faces_anger_fur_grey,\AssetsStore\spritesheets\head\faces\anger\fur_grey.png,common,3,store
+head,faces,anger,fur_tan,Anger Faces Fur_Tan,faces_anger_fur_tan,\AssetsStore\spritesheets\head\faces\anger\fur_tan.png,common,3,store
+head,faces,anger,fur_white,Anger Faces Fur_White,faces_anger_fur_white,\AssetsStore\spritesheets\head\faces\anger\fur_white.png,common,3,store
+head,faces,anger,green,Anger Faces Green,faces_anger_green,\AssetsStore\spritesheets\head\faces\anger\green.png,rare,0,gacha
+head,faces,anger,lavender,Anger Faces Lavender,faces_anger_lavender,\AssetsStore\spritesheets\head\faces\anger\lavender.png,epic,0,gacha
+head,faces,anger,light,Anger Faces Light,faces_anger_light,\AssetsStore\spritesheets\head\faces\anger\light.png,common,3,store
+head,faces,anger,olive,Anger Faces Olive,faces_anger_olive,\AssetsStore\spritesheets\head\faces\anger\olive.png,rare,0,gacha
+head,faces,anger,pale_green,Anger Faces Pale_Green,faces_anger_pale_green,\AssetsStore\spritesheets\head\faces\anger\pale_green.png,rare,0,gacha
+head,faces,anger,taupe,Anger Faces Taupe,faces_anger_taupe,\AssetsStore\spritesheets\head\faces\anger\taupe.png,rare,0,gacha
+head,faces,anger,zombie,Anger Faces Zombie,faces_anger_zombie,\AssetsStore\spritesheets\head\faces\anger\zombie.png,legendary,0,gacha
+head,faces,anger,zombie_green,Anger Faces Zombie_Green,faces_anger_zombie_green,\AssetsStore\spritesheets\head\faces\anger\zombie_green.png,legendary,0,gacha
+head,eyes,shock,blue,Shock Eyes Blue,eyes_shock_blue,\AssetsStore\spritesheets\head\eyes\shock\blue.png,rare,0,gacha
+head,eyes,shock,brown,Shock Eyes Brown,eyes_shock_brown,\AssetsStore\spritesheets\head\eyes\shock\brown.png,common,3,store
+head,eyes,shock,gray,Shock Eyes Gray,eyes_shock_gray,\AssetsStore\spritesheets\head\eyes\shock\gray.png,common,3,store
+head,eyes,shock,green,Shock Eyes Green,eyes_shock_green,\AssetsStore\spritesheets\head\eyes\shock\green.png,rare,0,gacha
+head,eyes,shock,orange,Shock Eyes Orange,eyes_shock_orange,\AssetsStore\spritesheets\head\eyes\shock\orange.png,common,3,store
+head,eyes,shock,purple,Shock Eyes Purple,eyes_shock_purple,\AssetsStore\spritesheets\head\eyes\shock\purple.png,rare,0,gacha
+head,eyes,shock,red,Shock Eyes Red,eyes_shock_red,\AssetsStore\spritesheets\head\eyes\shock\red.png,common,3,store
+head,eyes,shock,yellow,Shock Eyes Yellow,eyes_shock_yellow,\AssetsStore\spritesheets\head\eyes\shock\yellow.png,common,3,store
+head,eyes,shame,blue,Shame Eyes Blue,eyes_shame_blue,\AssetsStore\spritesheets\head\eyes\shame\blue.png,rare,0,gacha
+head,eyes,shame,brown,Shame Eyes Brown,eyes_shame_brown,\AssetsStore\spritesheets\head\eyes\shame\brown.png,common,3,store
+head,eyes,shame,gray,Shame Eyes Gray,eyes_shame_gray,\AssetsStore\spritesheets\head\eyes\shame\gray.png,common,3,store
+head,eyes,shame,green,Shame Eyes Green,eyes_shame_green,\AssetsStore\spritesheets\head\eyes\shame\green.png,rare,0,gacha
+head,eyes,shame,orange,Shame Eyes Orange,eyes_shame_orange,\AssetsStore\spritesheets\head\eyes\shame\orange.png,common,3,store
+head,eyes,shame,purple,Shame Eyes Purple,eyes_shame_purple,\AssetsStore\spritesheets\head\eyes\shame\purple.png,rare,0,gacha
+head,eyes,shame,red,Shame Eyes Red,eyes_shame_red,\AssetsStore\spritesheets\head\eyes\shame\red.png,common,3,store
+head,eyes,shame,yellow,Shame Eyes Yellow,eyes_shame_yellow,\AssetsStore\spritesheets\head\eyes\shame\yellow.png,common,3,store
+head,eyes,sad2,blue,Sad2 Eyes Blue,eyes_sad2_blue,\AssetsStore\spritesheets\head\eyes\sad2\blue.png,rare,0,gacha
+head,eyes,sad2,brown,Sad2 Eyes Brown,eyes_sad2_brown,\AssetsStore\spritesheets\head\eyes\sad2\brown.png,common,3,store
+head,eyes,sad2,gray,Sad2 Eyes Gray,eyes_sad2_gray,\AssetsStore\spritesheets\head\eyes\sad2\gray.png,common,3,store
+head,eyes,sad2,green,Sad2 Eyes Green,eyes_sad2_green,\AssetsStore\spritesheets\head\eyes\sad2\green.png,rare,0,gacha
+head,eyes,sad2,orange,Sad2 Eyes Orange,eyes_sad2_orange,\AssetsStore\spritesheets\head\eyes\sad2\orange.png,common,3,store
+head,eyes,sad2,purple,Sad2 Eyes Purple,eyes_sad2_purple,\AssetsStore\spritesheets\head\eyes\sad2\purple.png,rare,0,gacha
+head,eyes,sad2,red,Sad2 Eyes Red,eyes_sad2_red,\AssetsStore\spritesheets\head\eyes\sad2\red.png,common,3,store
+head,eyes,sad2,yellow,Sad2 Eyes Yellow,eyes_sad2_yellow,\AssetsStore\spritesheets\head\eyes\sad2\yellow.png,common,3,store
+head,eyes,sad,blue,Sad Eyes Blue,eyes_sad_blue,\AssetsStore\spritesheets\head\eyes\sad\blue.png,rare,0,gacha
+head,eyes,sad,brown,Sad Eyes Brown,eyes_sad_brown,\AssetsStore\spritesheets\head\eyes\sad\brown.png,common,3,store
+head,eyes,sad,gray,Sad Eyes Gray,eyes_sad_gray,\AssetsStore\spritesheets\head\eyes\sad\gray.png,common,3,store
+head,eyes,sad,green,Sad Eyes Green,eyes_sad_green,\AssetsStore\spritesheets\head\eyes\sad\green.png,rare,0,gacha
+head,eyes,sad,orange,Sad Eyes Orange,eyes_sad_orange,\AssetsStore\spritesheets\head\eyes\sad\orange.png,common,3,store
+head,eyes,sad,purple,Sad Eyes Purple,eyes_sad_purple,\AssetsStore\spritesheets\head\eyes\sad\purple.png,rare,0,gacha
+head,eyes,sad,red,Sad Eyes Red,eyes_sad_red,\AssetsStore\spritesheets\head\eyes\sad\red.png,common,3,store
+head,eyes,sad,yellow,Sad Eyes Yellow,eyes_sad_yellow,\AssetsStore\spritesheets\head\eyes\sad\yellow.png,common,3,store
+head,eyes,neutral,blue,Neutral Eyes Blue,eyes_neutral_blue,\AssetsStore\spritesheets\head\eyes\neutral\blue.png,rare,0,gacha
+head,eyes,neutral,brown,Neutral Eyes Brown,eyes_neutral_brown,\AssetsStore\spritesheets\head\eyes\neutral\brown.png,common,3,store
+head,eyes,neutral,gray,Neutral Eyes Gray,eyes_neutral_gray,\AssetsStore\spritesheets\head\eyes\neutral\gray.png,common,3,store
+head,eyes,neutral,green,Neutral Eyes Green,eyes_neutral_green,\AssetsStore\spritesheets\head\eyes\neutral\green.png,rare,0,gacha
+head,eyes,neutral,orange,Neutral Eyes Orange,eyes_neutral_orange,\AssetsStore\spritesheets\head\eyes\neutral\orange.png,common,3,store
+head,eyes,neutral,purple,Neutral Eyes Purple,eyes_neutral_purple,\AssetsStore\spritesheets\head\eyes\neutral\purple.png,rare,0,gacha
+head,eyes,neutral,red,Neutral Eyes Red,eyes_neutral_red,\AssetsStore\spritesheets\head\eyes\neutral\red.png,common,3,store
+head,eyes,neutral,yellow,Neutral Eyes Yellow,eyes_neutral_yellow,\AssetsStore\spritesheets\head\eyes\neutral\yellow.png,common,3,store
+head,eyes,look_r,blue,Look_R Eyes Blue,eyes_look_r_blue,\AssetsStore\spritesheets\head\eyes\look_r\blue.png,rare,0,gacha
+head,eyes,look_r,brown,Look_R Eyes Brown,eyes_look_r_brown,\AssetsStore\spritesheets\head\eyes\look_r\brown.png,common,3,store
+head,eyes,look_r,gray,Look_R Eyes Gray,eyes_look_r_gray,\AssetsStore\spritesheets\head\eyes\look_r\gray.png,common,3,store
+head,eyes,look_r,green,Look_R Eyes Green,eyes_look_r_green,\AssetsStore\spritesheets\head\eyes\look_r\green.png,rare,0,gacha
+head,eyes,look_r,orange,Look_R Eyes Orange,eyes_look_r_orange,\AssetsStore\spritesheets\head\eyes\look_r\orange.png,common,3,store
+head,eyes,look_r,purple,Look_R Eyes Purple,eyes_look_r_purple,\AssetsStore\spritesheets\head\eyes\look_r\purple.png,rare,0,gacha
+head,eyes,look_r,red,Look_R Eyes Red,eyes_look_r_red,\AssetsStore\spritesheets\head\eyes\look_r\red.png,common,3,store
+head,eyes,look_r,yellow,Look_R Eyes Yellow,eyes_look_r_yellow,\AssetsStore\spritesheets\head\eyes\look_r\yellow.png,common,3,store
+head,eyes,look_l,blue,Look_L Eyes Blue,eyes_look_l_blue,\AssetsStore\spritesheets\head\eyes\look_l\blue.png,rare,0,gacha
+head,eyes,look_l,brown,Look_L Eyes Brown,eyes_look_l_brown,\AssetsStore\spritesheets\head\eyes\look_l\brown.png,common,3,store
+head,eyes,look_l,gray,Look_L Eyes Gray,eyes_look_l_gray,\AssetsStore\spritesheets\head\eyes\look_l\gray.png,common,3,store
+head,eyes,look_l,green,Look_L Eyes Green,eyes_look_l_green,\AssetsStore\spritesheets\head\eyes\look_l\green.png,rare,0,gacha
+head,eyes,look_l,orange,Look_L Eyes Orange,eyes_look_l_orange,\AssetsStore\spritesheets\head\eyes\look_l\orange.png,common,3,store
+head,eyes,look_l,purple,Look_L Eyes Purple,eyes_look_l_purple,\AssetsStore\spritesheets\head\eyes\look_l\purple.png,rare,0,gacha
+head,eyes,look_l,red,Look_L Eyes Red,eyes_look_l_red,\AssetsStore\spritesheets\head\eyes\look_l\red.png,common,3,store
+head,eyes,look_l,yellow,Look_L Eyes Yellow,eyes_look_l_yellow,\AssetsStore\spritesheets\head\eyes\look_l\yellow.png,common,3,store
+head,eyes,eyeroll,blue,Eyeroll Eyes Blue,eyes_eyeroll_blue,\AssetsStore\spritesheets\head\eyes\eyeroll\blue.png,rare,0,gacha
+head,eyes,eyeroll,brown,Eyeroll Eyes Brown,eyes_eyeroll_brown,\AssetsStore\spritesheets\head\eyes\eyeroll\brown.png,common,3,store
+head,eyes,eyeroll,gray,Eyeroll Eyes Gray,eyes_eyeroll_gray,\AssetsStore\spritesheets\head\eyes\eyeroll\gray.png,common,3,store
+head,eyes,eyeroll,green,Eyeroll Eyes Green,eyes_eyeroll_green,\AssetsStore\spritesheets\head\eyes\eyeroll\green.png,rare,0,gacha
+head,eyes,eyeroll,orange,Eyeroll Eyes Orange,eyes_eyeroll_orange,\AssetsStore\spritesheets\head\eyes\eyeroll\orange.png,common,3,store
+head,eyes,eyeroll,purple,Eyeroll Eyes Purple,eyes_eyeroll_purple,\AssetsStore\spritesheets\head\eyes\eyeroll\purple.png,rare,0,gacha
+head,eyes,eyeroll,red,Eyeroll Eyes Red,eyes_eyeroll_red,\AssetsStore\spritesheets\head\eyes\eyeroll\red.png,common,3,store
+head,eyes,eyeroll,yellow,Eyeroll Eyes Yellow,eyes_eyeroll_yellow,\AssetsStore\spritesheets\head\eyes\eyeroll\yellow.png,common,3,store
+head,eyes,default,blue,Default Eyes Blue,eyes_default_blue,\AssetsStore\spritesheets\head\eyes\default\blue.png,rare,0,gacha
+head,eyes,default,brown,Default Eyes Brown,eyes_default_brown,\AssetsStore\spritesheets\head\eyes\default\brown.png,common,3,store
+head,eyes,default,gray,Default Eyes Gray,eyes_default_gray,\AssetsStore\spritesheets\head\eyes\default\gray.png,common,3,store
+head,eyes,default,green,Default Eyes Green,eyes_default_green,\AssetsStore\spritesheets\head\eyes\default\green.png,rare,0,gacha
+head,eyes,default,orange,Default Eyes Orange,eyes_default_orange,\AssetsStore\spritesheets\head\eyes\default\orange.png,common,3,store
+head,eyes,default,purple,Default Eyes Purple,eyes_default_purple,\AssetsStore\spritesheets\head\eyes\default\purple.png,rare,0,gacha
+head,eyes,default,red,Default Eyes Red,eyes_default_red,\AssetsStore\spritesheets\head\eyes\default\red.png,common,3,store
+head,eyes,default,yellow,Default Eyes Yellow,eyes_default_yellow,\AssetsStore\spritesheets\head\eyes\default\yellow.png,common,3,store
+head,eyes,closing,blue,Closing Eyes Blue,eyes_closing_blue,\AssetsStore\spritesheets\head\eyes\closing\blue.png,rare,0,gacha
+head,eyes,closing,brown,Closing Eyes Brown,eyes_closing_brown,\AssetsStore\spritesheets\head\eyes\closing\brown.png,common,3,store
+head,eyes,closing,gray,Closing Eyes Gray,eyes_closing_gray,\AssetsStore\spritesheets\head\eyes\closing\gray.png,common,3,store
+head,eyes,closing,green,Closing Eyes Green,eyes_closing_green,\AssetsStore\spritesheets\head\eyes\closing\green.png,rare,0,gacha
+head,eyes,closing,orange,Closing Eyes Orange,eyes_closing_orange,\AssetsStore\spritesheets\head\eyes\closing\orange.png,common,3,store
+head,eyes,closing,purple,Closing Eyes Purple,eyes_closing_purple,\AssetsStore\spritesheets\head\eyes\closing\purple.png,rare,0,gacha
+head,eyes,closing,red,Closing Eyes Red,eyes_closing_red,\AssetsStore\spritesheets\head\eyes\closing\red.png,common,3,store
+head,eyes,closing,yellow,Closing Eyes Yellow,eyes_closing_yellow,\AssetsStore\spritesheets\head\eyes\closing\yellow.png,common,3,store
+head,eyes,anger,blue,Anger Eyes Blue,eyes_anger_blue,\AssetsStore\spritesheets\head\eyes\anger\blue.png,rare,0,gacha
+head,eyes,anger,brown,Anger Eyes Brown,eyes_anger_brown,\AssetsStore\spritesheets\head\eyes\anger\brown.png,common,3,store
+head,eyes,anger,gray,Anger Eyes Gray,eyes_anger_gray,\AssetsStore\spritesheets\head\eyes\anger\gray.png,common,3,store
+head,eyes,anger,green,Anger Eyes Green,eyes_anger_green,\AssetsStore\spritesheets\head\eyes\anger\green.png,rare,0,gacha
+head,eyes,anger,orange,Anger Eyes Orange,eyes_anger_orange,\AssetsStore\spritesheets\head\eyes\anger\orange.png,common,3,store
+head,eyes,anger,purple,Anger Eyes Purple,eyes_anger_purple,\AssetsStore\spritesheets\head\eyes\anger\purple.png,rare,0,gacha
+head,eyes,anger,red,Anger Eyes Red,eyes_anger_red,\AssetsStore\spritesheets\head\eyes\anger\red.png,common,3,store
+head,eyes,anger,yellow,Anger Eyes Yellow,eyes_anger_yellow,\AssetsStore\spritesheets\head\eyes\anger\yellow.png,common,3,store
+head,eyebrows,thin,ash,Thin Eyebrows Ash,eyebrows_thin_ash,\AssetsStore\spritesheets\head\eyebrows\thin\ash.png,common,3,store
+head,eyebrows,thin,black,Thin Eyebrows Black,eyebrows_thin_black,\AssetsStore\spritesheets\head\eyebrows\thin\black.png,common,3,store
+head,eyebrows,thin,blonde,Thin Eyebrows Blonde,eyebrows_thin_blonde,\AssetsStore\spritesheets\head\eyebrows\thin\blonde.png,common,3,store
+head,eyebrows,thin,blue,Thin Eyebrows Blue,eyebrows_thin_blue,\AssetsStore\spritesheets\head\eyebrows\thin\blue.png,rare,0,gacha
+head,eyebrows,thin,carrot,Thin Eyebrows Carrot,eyebrows_thin_carrot,\AssetsStore\spritesheets\head\eyebrows\thin\carrot.png,common,3,store
+head,eyebrows,thin,chestnut,Thin Eyebrows Chestnut,eyebrows_thin_chestnut,\AssetsStore\spritesheets\head\eyebrows\thin\chestnut.png,common,3,store
+head,eyebrows,thin,dark_brown,Thin Eyebrows Dark_Brown,eyebrows_thin_dark_brown,\AssetsStore\spritesheets\head\eyebrows\thin\dark_brown.png,common,3,store
+head,eyebrows,thin,dark_gray,Thin Eyebrows Dark_Gray,eyebrows_thin_dark_gray,\AssetsStore\spritesheets\head\eyebrows\thin\dark_gray.png,common,3,store
+head,eyebrows,thin,ginger,Thin Eyebrows Ginger,eyebrows_thin_ginger,\AssetsStore\spritesheets\head\eyebrows\thin\ginger.png,common,3,store
+head,eyebrows,thin,gold,Thin Eyebrows Gold,eyebrows_thin_gold,\AssetsStore\spritesheets\head\eyebrows\thin\gold.png,common,3,store
+head,eyebrows,thin,gray,Thin Eyebrows Gray,eyebrows_thin_gray,\AssetsStore\spritesheets\head\eyebrows\thin\gray.png,common,3,store
+head,eyebrows,thin,green,Thin Eyebrows Green,eyebrows_thin_green,\AssetsStore\spritesheets\head\eyebrows\thin\green.png,rare,0,gacha
+head,eyebrows,thin,light_brown,Thin Eyebrows Light_Brown,eyebrows_thin_light_brown,\AssetsStore\spritesheets\head\eyebrows\thin\light_brown.png,common,3,store
+head,eyebrows,thin,navy,Thin Eyebrows Navy,eyebrows_thin_navy,\AssetsStore\spritesheets\head\eyebrows\thin\navy.png,common,3,store
+head,eyebrows,thin,orange,Thin Eyebrows Orange,eyebrows_thin_orange,\AssetsStore\spritesheets\head\eyebrows\thin\orange.png,common,3,store
+head,eyebrows,thin,pink,Thin Eyebrows Pink,eyebrows_thin_pink,\AssetsStore\spritesheets\head\eyebrows\thin\pink.png,rare,0,gacha
+head,eyebrows,thin,platinum,Thin Eyebrows Platinum,eyebrows_thin_platinum,\AssetsStore\spritesheets\head\eyebrows\thin\platinum.png,legendary,0,gacha
+head,eyebrows,thin,purple,Thin Eyebrows Purple,eyebrows_thin_purple,\AssetsStore\spritesheets\head\eyebrows\thin\purple.png,rare,0,gacha
+head,eyebrows,thin,raven,Thin Eyebrows Raven,eyebrows_thin_raven,\AssetsStore\spritesheets\head\eyebrows\thin\raven.png,common,3,store
+head,eyebrows,thin,red,Thin Eyebrows Red,eyebrows_thin_red,\AssetsStore\spritesheets\head\eyebrows\thin\red.png,common,3,store
+head,eyebrows,thin,redhead,Thin Eyebrows Redhead,eyebrows_thin_redhead,\AssetsStore\spritesheets\head\eyebrows\thin\redhead.png,common,3,store
+head,eyebrows,thin,rose,Thin Eyebrows Rose,eyebrows_thin_rose,\AssetsStore\spritesheets\head\eyebrows\thin\rose.png,common,3,store
+head,eyebrows,thin,sandy,Thin Eyebrows Sandy,eyebrows_thin_sandy,\AssetsStore\spritesheets\head\eyebrows\thin\sandy.png,common,3,store
+head,eyebrows,thin,strawberry,Thin Eyebrows Strawberry,eyebrows_thin_strawberry,\AssetsStore\spritesheets\head\eyebrows\thin\strawberry.png,common,3,store
+head,eyebrows,thin,violet,Thin Eyebrows Violet,eyebrows_thin_violet,\AssetsStore\spritesheets\head\eyebrows\thin\violet.png,common,3,store
+head,eyebrows,thin,white,Thin Eyebrows White,eyebrows_thin_white,\AssetsStore\spritesheets\head\eyebrows\thin\white.png,common,3,store
+head,eyebrows,thick,ash,Thick Eyebrows Ash,eyebrows_thick_ash,\AssetsStore\spritesheets\head\eyebrows\thick\ash.png,common,3,store
+head,eyebrows,thick,black,Thick Eyebrows Black,eyebrows_thick_black,\AssetsStore\spritesheets\head\eyebrows\thick\black.png,common,3,store
+head,eyebrows,thick,blonde,Thick Eyebrows Blonde,eyebrows_thick_blonde,\AssetsStore\spritesheets\head\eyebrows\thick\blonde.png,common,3,store
+head,eyebrows,thick,blue,Thick Eyebrows Blue,eyebrows_thick_blue,\AssetsStore\spritesheets\head\eyebrows\thick\blue.png,rare,0,gacha
+head,eyebrows,thick,carrot,Thick Eyebrows Carrot,eyebrows_thick_carrot,\AssetsStore\spritesheets\head\eyebrows\thick\carrot.png,common,3,store
+head,eyebrows,thick,chestnut,Thick Eyebrows Chestnut,eyebrows_thick_chestnut,\AssetsStore\spritesheets\head\eyebrows\thick\chestnut.png,common,3,store
+head,eyebrows,thick,dark_brown,Thick Eyebrows Dark_Brown,eyebrows_thick_dark_brown,\AssetsStore\spritesheets\head\eyebrows\thick\dark_brown.png,common,3,store
+head,eyebrows,thick,dark_gray,Thick Eyebrows Dark_Gray,eyebrows_thick_dark_gray,\AssetsStore\spritesheets\head\eyebrows\thick\dark_gray.png,common,3,store
+head,eyebrows,thick,ginger,Thick Eyebrows Ginger,eyebrows_thick_ginger,\AssetsStore\spritesheets\head\eyebrows\thick\ginger.png,common,3,store
+head,eyebrows,thick,gold,Thick Eyebrows Gold,eyebrows_thick_gold,\AssetsStore\spritesheets\head\eyebrows\thick\gold.png,common,3,store
+head,eyebrows,thick,gray,Thick Eyebrows Gray,eyebrows_thick_gray,\AssetsStore\spritesheets\head\eyebrows\thick\gray.png,common,3,store
+head,eyebrows,thick,green,Thick Eyebrows Green,eyebrows_thick_green,\AssetsStore\spritesheets\head\eyebrows\thick\green.png,rare,0,gacha
+head,eyebrows,thick,light_brown,Thick Eyebrows Light_Brown,eyebrows_thick_light_brown,\AssetsStore\spritesheets\head\eyebrows\thick\light_brown.png,common,3,store
+head,eyebrows,thick,navy,Thick Eyebrows Navy,eyebrows_thick_navy,\AssetsStore\spritesheets\head\eyebrows\thick\navy.png,common,3,store
+head,eyebrows,thick,orange,Thick Eyebrows Orange,eyebrows_thick_orange,\AssetsStore\spritesheets\head\eyebrows\thick\orange.png,common,3,store
+head,eyebrows,thick,pink,Thick Eyebrows Pink,eyebrows_thick_pink,\AssetsStore\spritesheets\head\eyebrows\thick\pink.png,rare,0,gacha
+head,eyebrows,thick,platinum,Thick Eyebrows Platinum,eyebrows_thick_platinum,\AssetsStore\spritesheets\head\eyebrows\thick\platinum.png,legendary,0,gacha
+head,eyebrows,thick,purple,Thick Eyebrows Purple,eyebrows_thick_purple,\AssetsStore\spritesheets\head\eyebrows\thick\purple.png,rare,0,gacha
+head,eyebrows,thick,raven,Thick Eyebrows Raven,eyebrows_thick_raven,\AssetsStore\spritesheets\head\eyebrows\thick\raven.png,common,3,store
+head,eyebrows,thick,red,Thick Eyebrows Red,eyebrows_thick_red,\AssetsStore\spritesheets\head\eyebrows\thick\red.png,common,3,store
+head,eyebrows,thick,redhead,Thick Eyebrows Redhead,eyebrows_thick_redhead,\AssetsStore\spritesheets\head\eyebrows\thick\redhead.png,common,3,store
+head,eyebrows,thick,rose,Thick Eyebrows Rose,eyebrows_thick_rose,\AssetsStore\spritesheets\head\eyebrows\thick\rose.png,common,3,store
+head,eyebrows,thick,sandy,Thick Eyebrows Sandy,eyebrows_thick_sandy,\AssetsStore\spritesheets\head\eyebrows\thick\sandy.png,common,3,store
+head,eyebrows,thick,strawberry,Thick Eyebrows Strawberry,eyebrows_thick_strawberry,\AssetsStore\spritesheets\head\eyebrows\thick\strawberry.png,common,3,store
+head,eyebrows,thick,violet,Thick Eyebrows Violet,eyebrows_thick_violet,\AssetsStore\spritesheets\head\eyebrows\thick\violet.png,common,3,store
+head,eyebrows,thick,white,Thick Eyebrows White,eyebrows_thick_white,\AssetsStore\spritesheets\head\eyebrows\thick\white.png,common,3,store
+head,ears,medium,amber,Medium Ears Amber,ears_medium_amber,\AssetsStore\spritesheets\head\ears\medium\{animation}\amber.png,rare,0,gacha
+head,ears,medium,black,Medium Ears Black,ears_medium_black,\AssetsStore\spritesheets\head\ears\medium\{animation}\black.png,common,3,store
+head,ears,medium,blue,Medium Ears Blue,ears_medium_blue,\AssetsStore\spritesheets\head\ears\medium\{animation}\blue.png,rare,0,gacha
+head,ears,medium,bright_green,Medium Ears Bright_Green,ears_medium_bright_green,\AssetsStore\spritesheets\head\ears\medium\{animation}\bright_green.png,epic,0,gacha
+head,ears,medium,bronze,Medium Ears Bronze,ears_medium_bronze,\AssetsStore\spritesheets\head\ears\medium\{animation}\bronze.png,epic,0,gacha
+head,ears,medium,brown,Medium Ears Brown,ears_medium_brown,\AssetsStore\spritesheets\head\ears\medium\{animation}\brown.png,common,3,store
+head,ears,medium,dark_green,Medium Ears Dark_Green,ears_medium_dark_green,\AssetsStore\spritesheets\head\ears\medium\{animation}\dark_green.png,rare,0,gacha
+head,ears,medium,fur_black,Medium Ears Fur_Black,ears_medium_fur_black,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_black.png,common,3,store
+head,ears,medium,fur_brown,Medium Ears Fur_Brown,ears_medium_fur_brown,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_brown.png,common,3,store
+head,ears,medium,fur_copper,Medium Ears Fur_Copper,ears_medium_fur_copper,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_copper.png,epic,0,gacha
+head,ears,medium,fur_gold,Medium Ears Fur_Gold,ears_medium_fur_gold,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_gold.png,legendary,0,gacha
+head,ears,medium,fur_grey,Medium Ears Fur_Grey,ears_medium_fur_grey,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_grey.png,common,3,store
+head,ears,medium,fur_tan,Medium Ears Fur_Tan,ears_medium_fur_tan,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_tan.png,common,3,store
+head,ears,medium,fur_white,Medium Ears Fur_White,ears_medium_fur_white,\AssetsStore\spritesheets\head\ears\medium\{animation}\fur_white.png,common,3,store
+head,ears,medium,green,Medium Ears Green,ears_medium_green,\AssetsStore\spritesheets\head\ears\medium\{animation}\green.png,rare,0,gacha
+head,ears,medium,lavender,Medium Ears Lavender,ears_medium_lavender,\AssetsStore\spritesheets\head\ears\medium\{animation}\lavender.png,epic,0,gacha
+head,ears,medium,light,Medium Ears Light,ears_medium_light,\AssetsStore\spritesheets\head\ears\medium\{animation}\light.png,common,3,store
+head,ears,medium,olive,Medium Ears Olive,ears_medium_olive,\AssetsStore\spritesheets\head\ears\medium\{animation}\olive.png,rare,0,gacha
+head,ears,medium,pale_green,Medium Ears Pale_Green,ears_medium_pale_green,\AssetsStore\spritesheets\head\ears\medium\{animation}\pale_green.png,rare,0,gacha
+head,ears,medium,taupe,Medium Ears Taupe,ears_medium_taupe,\AssetsStore\spritesheets\head\ears\medium\{animation}\taupe.png,rare,0,gacha
+head,ears,medium,zombie,Medium Ears Zombie,ears_medium_zombie,\AssetsStore\spritesheets\head\ears\medium\{animation}\zombie.png,legendary,0,gacha
+head,ears,medium,zombie_green,Medium Ears Zombie_Green,ears_medium_zombie_green,\AssetsStore\spritesheets\head\ears\medium\{animation}\zombie_green.png,legendary,0,gacha

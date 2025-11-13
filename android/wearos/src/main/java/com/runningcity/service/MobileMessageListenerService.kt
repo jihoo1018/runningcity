@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
+import com.runningcity.presentation.HeartRateMeasurementActivity
 import com.runningcity.presentation.RunningActivity
+import com.runningcity.service.HeartRateMeasurementService
 
 // 모바일 -> 워치로 통신하기 위한 코드
 /**
@@ -26,6 +28,7 @@ class MobileMessageListenerService : WearableListenerService() {
         private const val PATH_START_WORKOUT = "/start_workout"
         private const val PATH_STOP_WORKOUT = "/stop_workout"
         private const val PATH_MOBILE_READY = "/mobile_ready"
+        private const val PATH_MEASURE_HEART_RATE = "/measure_heart_rate"
     }
     
     override fun onCreate() {
@@ -57,6 +60,11 @@ class MobileMessageListenerService : WearableListenerService() {
             PATH_MOBILE_READY -> {
                 Log.d(TAG, "✅ 모바일 준비 완료")
                 notifyMobileReady()
+            }
+            
+            PATH_MEASURE_HEART_RATE -> {
+                Log.d(TAG, "💓 심박수 측정 요청 수신")
+                startHeartRateMeasurement()
             }
             
             else -> {
@@ -106,6 +114,30 @@ class MobileMessageListenerService : WearableListenerService() {
         sendBroadcast(intent)
         
         Log.d(TAG, "✅ 모바일 준비 완료 브로드캐스트 전송")
+    }
+    
+    /**
+     * 심박수 측정 시작
+     */
+    private fun startHeartRateMeasurement() {
+        Log.d(TAG, "💓 심박수 측정 요청 수신 - 즉시 화면 표시")
+        
+        // 1. 먼저 화면을 바로 열기 (사용자가 즉시 확인 가능)
+        val activityIntent = Intent(this, HeartRateMeasurementActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        startActivity(activityIntent)
+        Log.d(TAG, "✅ 측정 화면 Activity 즉시 시작")
+        
+        // 2. HeartRateMeasurementService 시작
+        val serviceIntent = Intent(this, HeartRateMeasurementService::class.java)
+        ContextCompat.startForegroundService(this, serviceIntent)
+        
+        // 3. 측정 요청 브로드캐스트 전송
+        val intent = Intent("com.runningcity.MEASURE_HEART_RATE")
+        sendBroadcast(intent)
+        
+        Log.d(TAG, "✅ 심박수 측정 서비스 시작 및 브로드캐스트 전송")
     }
     
     override fun onDestroy() {
