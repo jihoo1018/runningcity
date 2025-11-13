@@ -77,7 +77,12 @@ class WebAppInterface(
             addAction("com.runningcity.HEART_RATE_MEASURED")
             addAction("com.runningcity.HEART_RATE_ERROR")
         }
-        context.registerReceiver(heartRateReceiver, filter)
+        context.registerReceiver(
+            heartRateReceiver,
+            filter,
+            Context.RECEIVER_NOT_EXPORTED
+        )
+        
         Log.d("WebAppInterface", "✅ 심박수 브로드캐스트 리시버 등록 완료")
     }
 
