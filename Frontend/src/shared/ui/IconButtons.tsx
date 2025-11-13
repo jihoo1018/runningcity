@@ -2,6 +2,7 @@ import { IconButton as BaseIconButton, IconLink as BaseIconLink } from "./IconAc
 import {
   BackIcon,
   CloseIcon,
+  EditIcon,
   NotificationIcon,
   QuestIcon,
   SettingIcon,
@@ -22,7 +23,7 @@ function getVariantClass(variant: Variant) {
   return variant === "ghost"
     ? ["bg-transparent", "text-custom-gray"]
     : [
-        "rounded-full border border-2",
+        "rounded-full border border",
         "bg-section-bg border-custom-gray/80 text-custom-gray shadow-primary/25 shadow-lg",
       ];
 }
@@ -100,6 +101,10 @@ export const AlertIconButton = (p: Omit<ButtonProps, "icon" | "aria-label">) => 
 
 export const QuestIconButton = (p: Omit<ButtonProps, "icon" | "aria-label">) => (
   <IconButton icon={<QuestIcon />} aria-label="퀘스트" {...p} />
+);
+
+export const EditIconButton = (p: Omit<ButtonProps, "icon" | "aria-label">) => (
+  <IconButton icon={<EditIcon className="ml-[2px] size-4" />} aria-label="정보 수정" {...p} />
 );
 
 export const FriendshipIconLink = (p: Omit<LinkProps, "icon" | "aria-label">) => (
