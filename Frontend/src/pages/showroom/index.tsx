@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ShowroomTabs } from "@/pages/showroom/ShowroomTabs";
-import { CharacterCard } from "@/pages/showroom/CharacterCard";
-import { ShowroomActions } from "@/pages/showroom/ShowroomActions";
+import { ShowroomTabs } from "@/entities/showroom/ui/ShowroomTabs";
+import { CharacterCard } from "@/entities/showroom/ui/CharacterCard";
+import { ShowroomActions } from "@/entities/showroom/ui/ShowroomActions";
 import { onNext, onNextGlobal } from "@/entities/showroom/api/me";
 
 const ShowroomPage = () => {

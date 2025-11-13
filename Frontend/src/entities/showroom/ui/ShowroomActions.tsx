@@ -16,8 +16,8 @@ export const ShowroomActions = ({
   const navigate = useNavigate();
 
   // 네비게이션 이동 함수
-  const goChangeClothes = () => navigate("/showroom/change-clothes"); // 옷 갈아입기 버튼 클릭이벤트
-  const goEditInfo = () => navigate("/showroom/edit"); //사무실 정보 수정 버튼 클릭이벤트
+  const goChangeClothes = () => navigate("/showroom/me/clothes"); // 옷 갈아입기 버튼 클릭이벤트
+  const goEditInfo = () => navigate("/showroom/me/edit"); //사무실 정보 수정 버튼 클릭이벤트
 
   if (tab === "friend") {
     // 쇼룸
