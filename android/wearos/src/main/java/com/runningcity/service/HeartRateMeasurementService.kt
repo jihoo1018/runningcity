@@ -38,7 +38,7 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
     companion object {
         private const val TAG = "HeartRateMeasure"
         private const val MEASUREMENT_DURATION_MS = 10000L // 10초간 측정
-        private const val MIN_MEASUREMENTS = 2 // 최소 측정 횟수
+        private const val MIN_MEASUREMENTS = 1 // 최소 측정 횟수 (1개 이상이면 사용)
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "heart_rate_measurement"
     }
