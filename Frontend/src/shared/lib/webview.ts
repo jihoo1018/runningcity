@@ -4,8 +4,10 @@
  * Android WebView 인터페이스 타입 정의
  */
 interface AndroidInterface {
-  startRunning: () => void;
-  stopRunning: () => void;
+  startRunning: (sessionId: string) => void;
+  stopRunning: (sessionId: string) => void;
+  pauseRunning: (sessionId: string) => void;
+  resumeRunning: (sessionId: string) => void;
   getGPSData: () => string;
   getHeartRate: () => number;
   measureHeartRate: () => void;
@@ -36,9 +38,9 @@ export const AndroidBridge = {
   /**
    * 러닝 시작
    */
-  startRunning(): void {
+  startRunning(sessionId: string = "0"): void {
     if (this.isAndroid()) {
-      window.Android!.startRunning();
+      window.Android!.startRunning(sessionId);
     } else {
       console.log("[DEV] 러닝 시작 (브라우저 환경)");
     }
@@ -47,11 +49,33 @@ export const AndroidBridge = {
   /**
    * 러닝 종료
    */
-  stopRunning(): void {
+  stopRunning(sessionId: string = "0"): void {
     if (this.isAndroid()) {
-      window.Android!.stopRunning();
+      window.Android!.stopRunning(sessionId);
     } else {
       console.log("[DEV] 러닝 종료 (브라우저 환경)");
+    }
+  },
+  
+  /**
+   * 러닝 일시정지
+   */
+  pauseRunning(sessionId: string = "0"): void {
+    if (this.isAndroid()) {
+      window.Android!.pauseRunning(sessionId);
+    } else {
+      console.log("[DEV] 러닝 일시정지 (브라우저 환경)");
+    }
+  },
+  
+  /**
+   * 러닝 재개
+   */
+  resumeRunning(sessionId: string = "0"): void {
+    if (this.isAndroid()) {
+      window.Android!.resumeRunning(sessionId);
+    } else {
+      console.log("[DEV] 러닝 재개 (브라우저 환경)");
     }
   },
 
