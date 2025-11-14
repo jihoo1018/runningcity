@@ -27,6 +27,8 @@ class MobileMessageListenerService : WearableListenerService() {
         // 메시지 경로
         private const val PATH_START_WORKOUT = "/start_workout"
         private const val PATH_STOP_WORKOUT = "/stop_workout"
+        private const val PATH_PAUSE_WORKOUT = "/pause_workout"
+        private const val PATH_RESUME_WORKOUT = "/resume_workout"
         private const val PATH_MOBILE_READY = "/mobile_ready"
         private const val PATH_MEASURE_HEART_RATE = "/measure_heart_rate"
     }
@@ -55,6 +57,16 @@ class MobileMessageListenerService : WearableListenerService() {
             PATH_STOP_WORKOUT -> {
                 Log.d(TAG, "⏹️ 운동 중지 요청")
                 stopWorkoutFromMobile()
+            }
+            
+            PATH_PAUSE_WORKOUT -> {
+                Log.d(TAG, "⏸️ 운동 일시정지 요청")
+                pauseWorkoutFromMobile()
+            }
+            
+            PATH_RESUME_WORKOUT -> {
+                Log.d(TAG, "▶️ 운동 재개 요청")
+                resumeWorkoutFromMobile()
             }
             
             PATH_MOBILE_READY -> {
@@ -103,6 +115,28 @@ class MobileMessageListenerService : WearableListenerService() {
         sendBroadcast(intent)
         
         Log.d(TAG, "✅ 워치 운동 중지 브로드캐스트 전송")
+    }
+    
+    /**
+     * 모바일에서 시작된 운동 일시정지
+     */
+    private fun pauseWorkoutFromMobile() {
+        // WorkoutScreen의 일시정지 로직을 트리거하기 위해 브로드캐스트 전송
+        val intent = Intent("com.runningcity.PAUSE_WORKOUT_FROM_MOBILE")
+        sendBroadcast(intent)
+        
+        Log.d(TAG, "✅ 워치 운동 일시정지 브로드캐스트 전송")
+    }
+    
+    /**
+     * 모바일에서 시작된 운동 재개
+     */
+    private fun resumeWorkoutFromMobile() {
+        // WorkoutScreen의 재개 로직을 트리거하기 위해 브로드캐스트 전송
+        val intent = Intent("com.runningcity.RESUME_WORKOUT_FROM_MOBILE")
+        sendBroadcast(intent)
+        
+        Log.d(TAG, "✅ 워치 운동 재개 브로드캐스트 전송")
     }
     
     /**
