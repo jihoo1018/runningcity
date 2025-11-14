@@ -21,14 +21,17 @@ const LoginPage = () => {
     try {
       const res = await login({ email, password });
       const d = res.data;
-      // store in zustand
-      setUser({
+      const userInfo = {
         userId: d.userId,
-        nickname: d.userNickname,
+        nickname: d.userNickname ?? null,
         userCode: d.userCode,
         totalExp: d.totalexp,
-      });
-      navigate("/", { replace: true });
+      };
+      // store in zustand
+      setUser(userInfo);
+
+      const nextPath = userInfo.nickname ? "/" : "/nickname";
+      navigate(nextPath, { replace: true });
     } catch (err: any) {
       const msg = err?.response?.data?.message || err.message || "로그인에 실패했습니다.";
       setError(msg);
