@@ -53,7 +53,7 @@ fun HomeScreen(
                     onClick = onStartWorkout,
                     shape = shape,
                     modifier = Modifier
-                        .widthIn(min = 100.dp)
+                        .widthIn(min = 120.dp)
                         .height(58.dp)
                         .border(1.dp, borderColor, shape),
                     colors = ButtonDefaults.buttonColors(
