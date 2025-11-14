@@ -50,7 +50,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
       }
       setLoading(true);
       const res = await apiGet<ApiResponse<DailyMissionResponse>>(
-        `/api/v1/users/${uid}/daily-missions/today`
+        `/users/${uid}/daily-missions/today`
       );
       setMission(res.data);
     } catch (e) {
@@ -82,7 +82,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
     try {
       setLoading(true);
       await apiPost<ApiResponse<DailyMissionResponse>>(
-        `/api/v1/users/${uid}/daily-missions/today/claim`
+        `/users/${uid}/daily-missions/today/claim`
       );
       // 성공 시 확인 모달로 전환
       to("mission", "confirm", { date: displayDate });

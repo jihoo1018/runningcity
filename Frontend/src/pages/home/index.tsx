@@ -8,9 +8,6 @@ const HomePage = () => {
   const [gpsData, setGpsData] = useState<{ lat: number; lng: number } | null>(null);
   // 러닝 상태 (Android → React로 동기화)
   const [isRunning, setIsRunning] = useState(false);
-
-  const setWallet = useState(0)[1];
-  const userId = 1; //임시 유저 id
   useEffect(() => {
     if (AndroidBridge.isAndroid()) {
       console.log("Android WebView 환경");
