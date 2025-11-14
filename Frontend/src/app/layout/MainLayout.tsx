@@ -23,7 +23,7 @@ export function MainLayout() {
       {isHome && (
         <div className="pointer-events-none absolute h-full w-full backdrop-brightness-125 backdrop-grayscale-50" />
       )}
-      <main className="flex-1 p-5">
+      <main className="flex-1 overflow-y-auto p-5">
         <Outlet />
       </main>
       <Navbar />
