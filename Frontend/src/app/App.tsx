@@ -3,12 +3,15 @@ console.log("✅ React App Loaded");
 import { HashRouter } from "react-router-dom";
 import { Providers } from "./providers";
 import { AppRoutes } from "./routes";
+import { AppErrorBoundary } from "@/shared/error/AppErrorBoundary";
 
 function App() {
   return (
     <Providers>
       <HashRouter>
-        <AppRoutes />
+        <AppErrorBoundary>
+          <AppRoutes />
+        </AppErrorBoundary>
       </HashRouter>
     </Providers>
   );
