@@ -4,6 +4,7 @@ import { getEntryResult, completeEntrySession } from "@/entities/entry/api";
 import KakaoRunningPreviewMap from "@/entities/entry/ui/KakaoRunningPreviewMap";
 import { RunningSession, RewardType, Reward, GpsPoint } from "@/entities/entry/model/types";
 import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
+import { useAuthStore } from "@/features/auth/model/useAuthStore";
 
 // 🎲 리워드 확률표
 const REWARD_TABLE = [
@@ -88,15 +89,74 @@ const EntryResultPage = () => {
 
   // ✅ 세션 데이터 불러오기
   useEffect(() => {
+    // 1. 워치 결과 데이터 확인 (localStorage에서)
+    const workoutResultStr = localStorage.getItem('workoutResult');
+    if (workoutResultStr) {
+      try {
+        const workoutData = JSON.parse(workoutResultStr);
+        console.log('📊 워치 결과 데이터 로드:', workoutData);
+        
+        // 워치 데이터를 RunningSession 형식으로 변환
+        // GPS 포인트 변환 (워치 데이터 형식에 맞게)
+        const gpsPoints: GpsPoint[] = (workoutData.gpsPoints || []).map((point: any, index: number) => ({
+          seq: index + 1,
+          latitude: point.latitude || 0,
+          longitude: point.longitude || 0,
+          altitude: point.altitude || 0,
+          speed: point.speed || 0,
+          createdAt: point.createdAt || 0,
+        }));
+        
+        // zustand에서 userId 가져오기
+        const currentUserId = useAuthStore.getState().user?.userId;
+        
+        const convertedData: RunningSession = {
+          clientSecretKey: workoutData.clientSecretKey || '',
+          sessionId: workoutData.sessionId || null, // null 허용
+          userId: currentUserId || (typeof workoutData.userId === 'string' ? parseInt(workoutData.userId) : workoutData.userId) || 0,
+          startTime: workoutData.startTime || 0,
+          endTime: workoutData.endTime || 0,
+          summary: {
+            totalSteps: workoutData.summary?.totalSteps || 0,
+            totalDistance: (workoutData.summary?.totalDistance || 0) * 1000, // km를 m로 변환 (워치 데이터가 km 단위라고 가정)
+            totalCalories: workoutData.summary?.totalCalories || 0,
+            avgHeartRate: workoutData.summary?.avgHeartRate || 0,
+            duration: workoutData.summary?.duration || 0,
+            avgCadence: workoutData.summary?.avgCadence || 0,
+            avgPace: workoutData.summary?.avgPace || 0,
+            elevation: workoutData.summary?.elevation || 0,
+          },
+          cadenceRecords: workoutData.cadenceRecords || [],
+          heartRateRecords: workoutData.heartRateRecords || [],
+          gpsPoints: gpsPoints,
+          dataChipCnt: 5, // 기본값
+        };
+        
+        const rewards = getRewards(1);
+        convertedData.rewards = rewards;
+        setResultData(convertedData);
+        setChipCount(convertedData.dataChipCnt ?? 5);
+        
+        // 사용한 데이터는 삭제
+        localStorage.removeItem('workoutResult');
+        return;
+      } catch (e) {
+        console.error('❌ 워치 결과 데이터 파싱 실패:', e);
+      }
+    }
+    
+    // 2. 워치 데이터가 없으면 기존 API 호출 (sessionId가 있을 때만)
     async function fetchSession() {
-      const data = await getEntryResult(sessionId);
-      const rewards = getRewards(1); // TODO 나중에 개인/팀 잠입 나눠서 줘야함(1~4명)
-      data.rewards = rewards;
-      setResultData(data);
-      setChipCount(data.dataChipCnt ?? 5);
+      if (sessionId && !isNaN(sessionId)) {
+        const data = await getEntryResult(sessionId);
+        const rewards = getRewards(1); // TODO 나중에 개인/팀 잠입 나눠서 줘야함(1~4명)
+        data.rewards = rewards;
+        setResultData(data);
+        setChipCount(data.dataChipCnt ?? 5);
+      }
     }
     fetchSession();
-  }, []);
+  }, [sessionId]);
 
   // ✅ 리워드 열기 버튼 클릭
   const handleDraw = () => {
@@ -111,8 +171,9 @@ const EntryResultPage = () => {
 
   /** ✅ 저장 (확인 버튼) */
   const handleConfirm = async () => {
-    if (!resultData?.sessionId) {
-      alert("세션 ID가 없습니다.");
+    // sessionId가 null이어도 저장 가능 (워치에서 시작한 경우)
+    if (!resultData) {
+      alert("결과 데이터가 없습니다.");
       return;
     }
 
@@ -129,6 +190,11 @@ const EntryResultPage = () => {
     };
 
     console.log("📦 서버로 보낼 데이터:", updatedSession);
+    console.log("📦 세션 정보:", {
+      sessionId: updatedSession.sessionId,
+      userId: updatedSession.userId,
+      clientSecretKey: updatedSession.clientSecretKey,
+    });
 
     try {
       const success = await completeEntrySession(updatedSession);
@@ -139,9 +205,17 @@ const EntryResultPage = () => {
       } else {
         throw new Error("서버 응답 실패");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("❌ 서버 요청 실패:", err);
-      alert("❌ 서버 요청 중 문제가 발생했습니다. 다시 시도해주세요.");
+      console.error("❌ 에러 상세:", {
+        message: err.message,
+        response: err.response,
+        stack: err.stack,
+      });
+      
+      // 더 구체적인 에러 메시지 표시
+      const errorMessage = err.message || "서버 요청 중 문제가 발생했습니다.";
+      alert(`❌ ${errorMessage}\n\n다시 시도해주세요.`);
       setError(true); // 요청 실패 시 복구 플래그
     } finally {
       setLoading(false);
