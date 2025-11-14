@@ -1,21 +1,13 @@
 import { useState, useEffect } from "react";
 import { AndroidBridge, initializeAndroidListener } from "../../shared/lib";
-import { MissionModal } from "../../features/mission";
 import { FloatingMenu } from "./ui/FloatingMenu";
 import { CommonLinkButton } from "@/shared/ui/CommonLinkButton";
 import UserProfileHeader from "./ui/UserProfileHeader";
 
 const HomePage = () => {
   const [gpsData, setGpsData] = useState<{ lat: number; lng: number } | null>(null);
-  // ✅ 모달 열기/닫기 상태
-  const [missionOpen, setMissionOpen] = useState(false);
   // 러닝 상태 (Android → React로 동기화)
   const [isRunning, setIsRunning] = useState(false);
-
-  // 수령한 코인 보여주고 지갑 상태 추가
-  // const [wallet, setWallet] = useState(0); // 지갑 돈 늘어나는거 디버깅용.
-  const setWallet = useState(0)[1];
-  const userId = 1; //임시 유저 id
   useEffect(() => {
     if (AndroidBridge.isAndroid()) {
       console.log("Android WebView 환경");
@@ -60,7 +52,7 @@ const HomePage = () => {
       <FloatingMenu />
       <div className="flex flex-1 items-center justify-center">캐릭터 영역</div>
       <CommonLinkButton
-        href="/"
+        href="/running"
         className="shadow-primary/20 text-primary mb-3 border-2 py-5 text-lg font-bold shadow-lg"
       >
         러닝 에너지 모으기 ▶
@@ -86,19 +78,6 @@ const HomePage = () => {
           </p>
         </div>
       )}
-
-      {/* (선택) 지갑/디버그 */}
-      {/* <div style={{ marginTop: 12, textAlign: 'center' }}>
-                    <div style={{ fontSize: 12, color: '#334155' }}>지갑: {wallet} 코인</div>
-                </div> */}
-
-      {/* ✅ 미션 모달 */}
-      {/* <MissionModal
-        open={missionOpen}
-        onClose={() => setMissionOpen(false)}
-        onClaimed={(coins) => setWallet((w) => w + coins)}
-        userId={userId}
-      /> */}
     </div>
   );
 };

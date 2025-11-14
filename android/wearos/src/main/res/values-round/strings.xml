@@ -2,4 +2,5 @@
     <string name="hello_world">러닝 시티에 오신걸 환영합니다.</string>
     <string name="app_name">RunningCity</string>
     <string name="run_button">Run</string>
+    <string name="home_button">HOME</string>
 </resources>

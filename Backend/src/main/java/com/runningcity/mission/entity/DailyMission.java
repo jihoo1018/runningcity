@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
         name = "daily_mission",
         uniqueConstraints = @UniqueConstraint(
                 name = "uk_daily_mission_user_date",
-                columnNames = {"user_id", "date"}
+                columnNames = {"user_id", "created_at"}
         )
 )
 public class DailyMission {
@@ -22,8 +22,7 @@ public class DailyMission {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    // DB 컬럼이 timestamptz 여야 더 편함
-    @Column(name = "date", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private ZonedDateTime date;
 
     @Column(name = "target_km", nullable = false)

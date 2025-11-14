@@ -7,7 +7,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.runningcity.R
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,7 +63,10 @@ val Colors.accentBlue: Color
 val Colors.accentOrange: Color
     get() = Color(0xFFFF8C1A)
 
-private val AppFontFamily = FontFamily.SansSerif
+private val AppFontFamily = FontFamily(
+    Font(R.font.galmuri11, FontWeight.Normal),
+    Font(R.font.galmuri11_bold, FontWeight.Bold)
+)
 
 private val BaseTypography = Typography()
 
@@ -69,52 +74,50 @@ private val AppTypography = BaseTypography.copy(
     display1 = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
-        lineHeight = 26.sp,
-        fontStyle = FontStyle.Italic
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
     ),
     display2 = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 36.sp,
-        lineHeight = 36.sp,
-        fontStyle = FontStyle.Italic
+        fontSize = 32.sp,
+        lineHeight = 32.sp,
     ),
     title1 = TextStyle(
         fontFamily = AppFontFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
         lineHeight = 22.sp
     ),
     title2 = TextStyle(
         fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp,
         lineHeight = 20.sp
     ),
     body1 = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 13.sp,
         lineHeight = 18.sp
     ),
     body2 = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp
+        fontSize = 13.sp,
+        lineHeight = 16.sp,
     ),
     button = TextStyle(
         fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 13.sp,
         lineHeight = 18.sp,
         letterSpacing = 0.5.sp
     ),
     caption1 = TextStyle(
         fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Light,
-        fontSize = 12.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )

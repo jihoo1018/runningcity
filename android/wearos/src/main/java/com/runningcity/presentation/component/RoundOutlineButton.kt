@@ -25,9 +25,9 @@ fun RoundOutlineButton(
     border: Boolean = true
 ) {
     val shape = CircleShape
-    val borderColor = bgColor
-    if(border) {
-        val borderColor = MaterialTheme.colors.primary
+    var borderColor = bgColor
+    if (border) {
+        borderColor = MaterialTheme.colors.primary
     }
     val bg = bgColor
     val contentColor = iconColor
@@ -37,7 +37,7 @@ fun RoundOutlineButton(
         shape = shape,
         modifier = Modifier
             .size(size)
-            .border(2.dp, borderColor, shape),
+            .border(1.dp, borderColor, shape),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = bg,
             contentColor = contentColor

@@ -16,8 +16,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccessTime
-import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Timelapse
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material.icons.sharp.Bolt
 import androidx.compose.material.icons.sharp.Pause
 import androidx.compose.material.icons.sharp.PlayArrow
@@ -529,29 +530,25 @@ fun WorkoutScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(16.dp))
-
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly,
                             ) {
                                 InfoItem(
-                                    icon = Icons.Rounded.FavoriteBorder,
+                                    icon = Icons.Outlined.FavoriteBorder,
                                     iconDesc = "심박수",
                                     iconColor = MaterialTheme.colors.accentRed,
                                     text = "$heartRate",
                                     title = "bpm"
                                 )
                                 InfoItem(
-                                    icon = Icons.Rounded.AccessTime,
+                                    icon = Icons.Outlined.Timer,
                                     iconDesc = "페이스",
                                     iconColor = MaterialTheme.colors.accentGreen,
                                     text = formatPace(currentPace),  // ⭐ 실시간 페이스 표시
                                     title = "/km"
                                 )
                             }
-
-                            Spacer(modifier = Modifier.height(24.dp))
 
                             RoundOutlineButton(
                                 onClick = {
@@ -568,7 +565,8 @@ fun WorkoutScreen(
                                     }
                                 },
                                 icon = Icons.Sharp.Pause,
-                                iconDesc = "일시정지"
+                                iconDesc = "일시정지",
+                                border = true
                             )
 
                         } else {
@@ -588,29 +586,25 @@ fun WorkoutScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(12.dp))
-
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly,
                             ) {
                                 InfoItem(
-                                    icon = Icons.Rounded.FavoriteBorder,
+                                    icon = Icons.Outlined.FavoriteBorder,
                                     iconDesc = "심박수",
                                     iconColor = MaterialTheme.colors.accentRed,
                                     text = "$heartRate",
                                     title = "bpm"
                                 )
                                 InfoItem(
-                                    icon = Icons.Rounded.AccessTime,
+                                    icon = Icons.Outlined.Timelapse,
                                     iconDesc = "페이스",
                                     iconColor = MaterialTheme.colors.accentGreen,
                                     text = formatPace(currentPace),  // ⭐ 실시간 페이스 표시
                                     title = "/km"
                                 )
                             }
-
-                            Spacer(modifier = Modifier.height(12.dp))
 
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -632,7 +626,7 @@ fun WorkoutScreen(
                                 )
                             }
 
-                            Spacer(modifier = Modifier.height(24.dp))
+//                            Spacer(modifier = Modifier.height(24.dp))
 
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -654,7 +648,8 @@ fun WorkoutScreen(
                                         }
                                     },
                                     icon = Icons.Sharp.PlayArrow,
-                                    iconDesc = "재개"
+                                    iconDesc = "재개",
+                                    border = true
                                 )
 
                                 RoundOutlineButton(
