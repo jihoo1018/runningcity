@@ -186,13 +186,11 @@ const EntryPage = () => {
       style={{
         width: "100%",
         height: "100%",
-        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         backgroundColor: "#1D2330",
         color: "#E6FFFF",
-        padding: "20px",
         boxSizing: "border-box",
       }}
     >
@@ -257,7 +255,7 @@ const EntryPage = () => {
             style={{
               width: "100%",
               overflowY: "auto",
-              maxHeight: "80vh",
+              maxHeight: "38vh",
             }}
           >
             {viewMode === "all" && !(entries instanceof Array)

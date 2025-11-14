@@ -11,7 +11,7 @@ const TABS = [
 
 const Navbar = () => {
   return (
-    <nav className="bg-custom-black border-custom-gray z-10 flex shrink-0 items-center justify-around border-t py-2">
+    <nav className="bg-custom-black border-custom-gray sticky bottom-0 left-0 z-10 flex h-20 w-full shrink-0 items-center justify-around border-t py-2">
       {TABS.map((tab) => (
         <NavButton
           key={tab.to}

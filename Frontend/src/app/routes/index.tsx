@@ -10,7 +10,7 @@ import EntryResultPage from "@/pages/entry/result";
 import { MainLayout } from "../layout/MainLayout";
 import BoutiquePage from "@/pages/boutique";
 import ShowroomPage from "@/pages/showroom";
-import ShowroomMePage from "@/pages/showroom/me";
+import CustomizePage from "@/pages/showroom/customize";
 import ShowroomEditPage from "@/pages/showroom/edit";
 import RunningPage from "@/pages/running";
 import { ModalLayer } from "../modal/ModalLayer";
@@ -39,9 +39,9 @@ export function AppRoutes() {
           <Route path="/entry/:sid" element={<EntryResultPage />} />
           <Route path="/boutique" element={<BoutiquePage />} />
           <Route path="/showroom" element={<ShowroomPage />} />
+          <Route path="/showroom/customize" element={<CustomizePage />} />
+          <Route path="/showroom/edit" element={<ShowroomEditPage />} />
           <Route path="/friendship" element={<FriendshipPage />} />
-          <Route path="/showroom/me/clothes" element={<ShowroomMePage />} />
-          <Route path="/showroom/me/edit" element={<ShowroomEditPage />} />
           <Route path="/running" element={<RunningPage />} />
         </Route>
 

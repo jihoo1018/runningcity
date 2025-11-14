@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 
 export type AuthUser = {
   userId: number;
-  nickname?: string;
+  nickname?: string | null;
   userCode?: string;
   totalExp?: number;
   email?: string;
