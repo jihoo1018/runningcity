@@ -78,7 +78,7 @@ export const Modal: React.FC<ModalProps> = ({
       className={clsx(
         "fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm",
         "flex items-center justify-center",
-        "px-5 pt-[max(env(safe-area-inset-top),24px)] pb-[max(env(safe-area-inset-bottom),24px)]",
+        "px-8 pt-[max(env(safe-area-inset-top),24px)] pb-[max(env(safe-area-inset-bottom),24px)]",
         "pt-[max(env(safe-area-inset-top),24px)] pb-[max(env(safe-area-inset-bottom),24px)]",
       )}
       aria-label="modal-backdrop"
@@ -98,7 +98,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="flex w-full items-center gap-2 px-3">
+        <div className="flex w-full items-center gap-2 px-3 pb-2">
           {onBack ? (
             <BackIconButton variant="ghost" onClick={onBack} />
           ) : (

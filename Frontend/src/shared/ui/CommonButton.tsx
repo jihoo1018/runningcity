@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "../lib/cn";
 
 type props = {
   variant: "outline" | "solid";
@@ -10,7 +10,7 @@ const CommonButton = ({ children, variant = "outline", className, ...rest }: pro
   return (
     <button
       {...rest}
-      className={clsx(
+      className={cn(
         "text-button flex w-full justify-center rounded-lg px-5 py-3",
         variant === "outline" &&
           "border-primary bg-section-bg active:bg-primary active:text-custom-black border",

@@ -29,12 +29,25 @@ if sys.platform == 'win32':
 # ============================================
 # 설정
 # ============================================
+# DB_CONFIG = {
+#     "host": "localhost",
+#     "port": 5432,
+#     "database": "runningcity",
+#     "user": "postgres",
+#     "password": "1234",  # 실제 비밀번호로 변경
+#     "client_encoding": "UTF8",
+#     "options": "-c client_encoding=UTF8"
+# }
+
+# ============================================
+# 설정
+# ============================================
 DB_CONFIG = {
-    "host": "localhost",
+    "host": "k13a405.p.ssafy.io",
     "port": 5432,
-    "database": "runningcity",
-    "user": "postgres",
-    "password": "1234",  # 실제 비밀번호로 변경
+    "database": "RUNNINGCITY_DEV",
+    "user": "ging",
+    "password": "runrunging@~@",
     "client_encoding": "UTF8",
     "options": "-c client_encoding=UTF8"
 }
