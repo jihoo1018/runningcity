@@ -46,9 +46,9 @@ export const EntryDetailModalContent = ({
   }, [userPosition, entry]);
 
   /** TODO 2km 반경 내인지 판별 */
-  // const isInsideZone = distance !== null && distance <= 2;
+  const isInsideZone = distance !== null && distance <= 2;
   // TODO 테스트시에만 무조건 true로, 실제는 위 코드 써야함
-  const isInsideZone = true;
+  // const isInsideZone = true;
 
   /** ✅ 잠입 버튼 클릭 시 동작 */
   const showLevelModalHandler = () => {

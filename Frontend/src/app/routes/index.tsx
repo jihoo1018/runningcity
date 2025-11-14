@@ -42,8 +42,6 @@ export function AppRoutes() {
           <Route path="/showroom/customize" element={<CustomizePage />} />
           <Route path="/showroom/edit" element={<ShowroomEditPage />} />
           <Route path="/friendship" element={<FriendshipPage />} />
-//           <Route path="/showroom/me/clothes" element={<ShowroomMePage />} />
-//           <Route path="/showroom/me/edit" element={<ShowroomEditPage />} />
           <Route path="/running" element={<RunningPage />} />
         </Route>
 
