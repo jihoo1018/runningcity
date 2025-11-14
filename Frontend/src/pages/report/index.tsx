@@ -27,7 +27,7 @@ type MonthlyResponse = {
   records: RecordItem[];
 };
 
-const userId = "google_1234"; // 임시
+const userId = "1"; // 임시
 
 export default function RecordListPage() {
   // ⬇️ 오늘 날짜 기준으로 초기화

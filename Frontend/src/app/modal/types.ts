@@ -2,6 +2,7 @@ export const FLOWS = {
   setting: ["root", "confirm", "withdraw", "goal"] as const,
   alert: ["root"] as const,
   user: ["modify", "confirm"] as const,
+  mission: ["root", "confirm"] as const,
 } as const;
 
 export type FlowKey = keyof typeof FLOWS;
