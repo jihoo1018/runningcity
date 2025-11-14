@@ -20,3 +20,4 @@ export { ReactComponent as TimeIcon } from "./time.svg";
 export { ReactComponent as VolumeUpIcon } from "./volume_on.svg";
 export { ReactComponent as VolumeOffIcon } from "./volume_off.svg";
 export { ReactComponent as SpinnerIcon } from "./spinner.svg";
+export { ReactComponent as WarningIcon } from "./warning.svg";
