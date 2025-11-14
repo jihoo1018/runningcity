@@ -20,6 +20,7 @@ import LoginPage from "@/pages/login";
 import SignupPage from "@/pages/signup";
 import RequireAuth from "./guards/RequireAuth";
 import RequireGuest from "./guards/RequireGuest";
+import NotFoundPage from "@/pages/notFound";
 
 export function AppRoutes() {
   const location = useLocation();
@@ -43,6 +44,7 @@ export function AppRoutes() {
           <Route path="/showroom/edit" element={<ShowroomEditPage />} />
           <Route path="/friendship" element={<FriendshipPage />} />
           <Route path="/running" element={<RunningPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route path="/m/*" element={<Navigate to="/" replace />} />
