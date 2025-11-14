@@ -1,9 +1,10 @@
 // src/features/modals/mission/Root.tsx
 import React, { useEffect, useMemo, useState } from "react";
-import { Modal } from "@/shared/ui/Modal"; // 팀 공용 모달(디자인 적용됨)
+import { Modal } from "@/shared/ui/Modal";
 import { apiGet, apiPost } from "@/shared/api";
 import { useModalRouter } from "@/app/modal/useModalRouter";
 import type { ModalProps } from "@/app/modal/types";
+import { useAuthStore } from "@/features/auth/model/useAuthStore"; 
 
 type ApiResponse<T> = { code: string; message: string; data: T };
 
@@ -18,15 +19,14 @@ type DailyMissionResponse = {
   claimed: boolean;
 };
 
-type Payload = { userId: number };
-
 const fmt = (v: number) => (Number.isFinite(v) ? v.toFixed(2) : "0.00");
 const getErr = (e: unknown) =>
   e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
 
-export default function MissionRoot({ onClose, payload }: ModalProps) {
+export default function MissionRoot({ onClose }: ModalProps) {
   const { to } = useModalRouter();
-  const { userId } = (payload as Payload) ?? ({} as Payload);
+
+  const uid = useAuthStore.getState().user?.userId;
 
   const [mission, setMission] = useState<DailyMissionResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -43,11 +43,14 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
   );
 
   const load = async () => {
-    if (!userId) return;
     try {
+      if (!uid) {
+        showToast("로그인이 필요합니다.");
+        return;
+      }
       setLoading(true);
       const res = await apiGet<ApiResponse<DailyMissionResponse>>(
-        `/api/v1/users/${userId}/daily-missions/today`
+        `/users/${uid}/daily-missions/today`
       );
       setMission(res.data);
     } catch (e) {
@@ -59,7 +62,8 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
 
   useEffect(() => {
     void load();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 최초 오픈 시 1회 로드
 
   const displayDate =
     mission?.date?.trim()
@@ -69,7 +73,8 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
       : new Date().toISOString().slice(0, 10);
 
   const claim = async () => {
-    if (!mission || !userId) return;
+    if (!mission) return;
+    if (!uid) return showToast("로그인이 필요합니다.");
 
     if (mission.claimed) return showToast("수령 불가: 이미 보상을 받았습니다.");
     if (!mission.completed) return showToast("수령 불가: 미션을 먼저 완료하세요.");
@@ -77,9 +82,9 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
     try {
       setLoading(true);
       await apiPost<ApiResponse<DailyMissionResponse>>(
-        `/api/v1/users/${userId}/daily-missions/today/claim`
+        `/users/${uid}/daily-missions/today/claim`
       );
-      // 성공 시 확인 모달로 전환 (디자인 유지)
+      // 성공 시 확인 모달로 전환
       to("mission", "confirm", { date: displayDate });
       await load();
     } catch (e) {
@@ -89,7 +94,6 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
     }
   };
 
-  // 노션 스샷처럼 하단에 큰 버튼(footer)만 노출
   const footer = (
     <button
       className="px-4 py-3 rounded-xl font-semibold"
@@ -101,7 +105,7 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
         boxShadow: "0 0 0 1px rgba(79,232,255,0.35) inset",
       }}
       onClick={claim}
-      disabled={loading}
+      disabled={loading || !mission}
     >
       보상 수령
     </button>
@@ -109,7 +113,7 @@ export default function MissionRoot({ onClose, payload }: ModalProps) {
 
   return (
     <Modal open onClose={onClose} title="일일 미션" footer={footer}>
-      {/* 토스트(우상단) */}
+      {/* 토스트 */}
       {toast && (
         <div
           style={{

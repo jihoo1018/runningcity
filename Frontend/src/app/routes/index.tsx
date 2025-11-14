@@ -31,8 +31,8 @@ export function AppRoutes() {
     <>
       <Routes location={background || location}>
         {/* 로그인이 필요한 메인 레이아웃 구역 */}
-        {/* <Route element={<RequireAuth><MainLayout /></RequireAuth>}> */}
-        <Route element={<MainLayout />}>
+        <Route element={<RequireAuth><MainLayout /></RequireAuth>}>
+        {/* <Route element={<MainLayout />}> */}
           <Route path="/" element={<HomePage />} />
           <Route path="/report" element={<RecordListPage />} />
           <Route path="/report/:sid" element={<ReportDetailPage />} />
