@@ -1,0 +1,97 @@
+﻿category,subcategory,style,color,name,asset_key,base_path,rarity,price_cr,obtain_method,name_ko
+clothes,shorts,,black,남성 블랙 쇼츠,male_shorts_black,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\black.png,common,3,store,남성 쇼츠 블랙
+clothes,shorts,,brown,남성 브라운 쇼츠,male_shorts_brown,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\brown.png,common,3,store,남성 쇼츠 브라운
+clothes,shortsleeves,,black,남성 블랙 쇼트슬리브,male_shortsleeves_black,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\black.png,common,3,store,남성 쇼츠리브스 블랙
+clothes,shortsleeves,,brown,남성 브라운 쇼트슬리브,male_shortsleeves_brown,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\brown.png,common,3,store,남성 쇼츠리브스 브라운
+clothes,longsleeve,,black,남성 롱슬리브 블랙,male_longsleeve_black,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\black.png,common,0,gacha,남성 롱슬리브 블랙
+clothes,longsleeve,,blue,남성 롱슬리브 블루,male_longsleeve_blue,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\blue.png,rare,0,gacha,남성 롱슬리브 블루
+clothes,longsleeve,,bluegray,남성 롱슬리브 블루그레이,male_longsleeve_bluegray,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\bluegray.png,common,0,gacha,남성 롱슬리브 블루그레이
+clothes,longsleeve,,brown,남성 롱슬리브 브라운,male_longsleeve_brown,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\brown.png,common,0,gacha,남성 롱슬리브 브라운
+clothes,longsleeve,,charcoal,남성 롱슬리브 차콜,male_longsleeve_charcoal,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\charcoal.png,common,0,gacha,남성 롱슬리브 차콜
+clothes,longsleeve,,forest,남성 롱슬리브 포레스트,male_longsleeve_forest,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\forest.png,rare,0,gacha,남성 롱슬리브 포레스트
+clothes,longsleeve,,gray,남성 롱슬리브 그레이,male_longsleeve_gray,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\gray.png,common,0,gacha,남성 롱슬리브 그레이
+clothes,longsleeve,,green,남성 롱슬리브 그린,male_longsleeve_green,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\green.png,rare,0,gacha,남성 롱슬리브 그린
+clothes,longsleeve,,lavender,남성 롱슬리브 라벤더,male_longsleeve_lavender,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\lavender.png,epic,0,gacha,남성 롱슬리브 라벤더
+clothes,longsleeve,,leather,남성 롱슬리브 레더,male_longsleeve_leather,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\leather.png,rare,0,gacha,남성 롱슬리브 레더
+clothes,longsleeve,,maroon,남성 롱슬리브 마룬,male_longsleeve_maroon,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\maroon.png,rare,0,gacha,남성 롱슬리브 마룬
+clothes,longsleeve,,navy,남성 롱슬리브 네이비,male_longsleeve_navy,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\navy.png,common,0,gacha,남성 롱슬리브 네이비
+clothes,longsleeve,,orange,남성 롱슬리브 오렌지,male_longsleeve_orange,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\orange.png,rare,0,gacha,남성 롱슬리브 오렌지
+clothes,longsleeve,,pink,남성 롱슬리브 핑크,male_longsleeve_pink,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\pink.png,rare,0,gacha,남성 롱슬리브 핑크
+clothes,longsleeve,,purple,남성 롱슬리브 퍼플,male_longsleeve_purple,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\purple.png,rare,0,gacha,남성 롱슬리브 퍼플
+clothes,longsleeve,,red,남성 롱슬리브 레드,male_longsleeve_red,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\red.png,common,0,gacha,남성 롱슬리브 레드
+clothes,longsleeve,,rose,남성 롱슬리브 로즈,male_longsleeve_rose,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\rose.png,rare,0,gacha,남성 롱슬리브 로즈
+clothes,longsleeve,,sky,남성 롱슬리브 스카이,male_longsleeve_sky,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\sky.png,rare,0,gacha,남성 롱슬리브 스카이
+clothes,longsleeve,,slate,남성 롱슬리브 슬레이트,male_longsleeve_slate,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\slate.png,common,0,gacha,남성 롱슬리브 슬레이트
+clothes,longsleeve,,tan,남성 롱슬리브 탄,male_longsleeve_tan,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\tan.png,common,0,gacha,남성 롱슬리브 탄
+clothes,longsleeve,,teal,남성 롱슬리브 틸,male_longsleeve_teal,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\teal.png,rare,0,gacha,남성 롱슬리브 틸
+clothes,longsleeve,,walnut,남성 롱슬리브 월넛,male_longsleeve_walnut,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\walnut.png,common,0,gacha,남성 롱슬리브 월넛
+clothes,longsleeve,,white,남성 롱슬리브 화이트,male_longsleeve_white,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\white.png,common,0,gacha,남성 롱슬리브 화이트
+clothes,longsleeve,,yellow,남성 롱슬리브 옐로우,male_longsleeve_yellow,\AssetsStore\spritesheets\clothes\male\longsleeve\{animation}\yellow.png,rare,0,gacha,남성 롱슬리브 옐로우
+clothes,shorts,,blue,남성 쇼츠 블루,male_shorts_blue,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\blue.png,rare,0,gacha,남성 쇼츠 블루
+clothes,shorts,,bluegray,남성 쇼츠 블루그레이,male_shorts_bluegray,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\bluegray.png,common,0,gacha,남성 쇼츠 블루그레이
+clothes,shorts,,charcoal,남성 쇼츠 차콜,male_shorts_charcoal,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\charcoal.png,common,0,gacha,남성 쇼츠 차콜
+clothes,shorts,,forest,남성 쇼츠 포레스트,male_shorts_forest,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\forest.png,rare,0,gacha,남성 쇼츠 포레스트
+clothes,shorts,,gray,남성 쇼츠 그레이,male_shorts_gray,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\gray.png,common,0,gacha,남성 쇼츠 그레이
+clothes,shorts,,green,남성 쇼츠 그린,male_shorts_green,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\green.png,rare,0,gacha,남성 쇼츠 그린
+clothes,shorts,,lavender,남성 쇼츠 라벤더,male_shorts_lavender,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\lavender.png,epic,0,gacha,남성 쇼츠 라벤더
+clothes,shorts,,leather,남성 쇼츠 레더,male_shorts_leather,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\leather.png,rare,0,gacha,남성 쇼츠 레더
+clothes,shorts,,maroon,남성 쇼츠 마룬,male_shorts_maroon,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\maroon.png,rare,0,gacha,남성 쇼츠 마룬
+clothes,shorts,,navy,남성 쇼츠 네이비,male_shorts_navy,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\navy.png,rare,0,gacha,남성 쇼츠 네이비
+clothes,shorts,,orange,남성 쇼츠 오렌지,male_shorts_orange,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\orange.png,rare,0,gacha,남성 쇼츠 오렌지
+clothes,shorts,,pink,남성 쇼츠 핑크,male_shorts_pink,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\pink.png,rare,0,gacha,남성 쇼츠 핑크
+clothes,shorts,,purple,남성 쇼츠 퍼플,male_shorts_purple,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\purple.png,rare,0,gacha,남성 쇼츠 퍼플
+clothes,shorts,,red,남성 쇼츠 레드,male_shorts_red,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\red.png,rare,0,gacha,남성 쇼츠 레드
+clothes,shorts,,rose,남성 쇼츠 로즈,male_shorts_rose,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\rose.png,rare,0,gacha,남성 로즈 쇼츠
+clothes,shorts,,sky,남성 쇼츠 스카이,male_shorts_sky,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\sky.png,rare,0,gacha,남성 스카이 쇼츠
+clothes,shorts,,slate,남성 슬레이트 쇼츠,male_shorts_slate,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\slate.png,common,0,gacha,남성 슬레이트 쇼츠
+clothes,shorts,,tan,남성 탄 쇼츠,male_shorts_tan,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\tan.png,common,0,gacha,남성 탄 쇼츠
+clothes,shorts,,teal,남성 틸 쇼츠,male_shorts_teal,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\teal.png,rare,0,gacha,남성 틸 쇼츠
+clothes,shorts,,walnut,남성 월넛 쇼츠,male_shorts_walnut,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\walnut.png,common,0,gacha,남성 월넛 쇼츠
+clothes,shorts,,white,남성 화이트 쇼츠,male_shorts_white,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\white.png,common,0,gacha,남성 화이트 쇼츠
+clothes,shorts,,yellow,남성 옐로우 쇼츠,male_shorts_yellow,\AssetsStore\spritesheets\clothes\male\shorts\{animation}\yellow.png,rare,0,gacha,남성 옐로우 쇼츠
+clothes,shortsleeves,,blue,남성 숏슬리브 블루,male_shortsleeves_blue,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\blue.png,rare,0,gacha,남성 쇼츠리브스 블루
+clothes,shortsleeves,,bluegray,남성 숏슬리브 블루그레이,male_shortsleeves_bluegray,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\bluegray.png,common,0,gacha,남성 쇼츠리브스 블루그레이
+clothes,shortsleeves,,charcoal,남성 숏슬리브 차콜,male_shortsleeves_charcoal,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\charcoal.png,common,0,gacha,남성 쇼츠리브스 차콜
+clothes,shortsleeves,,forest,남성 숏슬리브 포레스트,male_shortsleeves_forest,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\forest.png,rare,0,gacha,남성 쇼츠리브스 포레스트
+clothes,shortsleeves,,gray,남성 숏슬리브 그레이,male_shortsleeves_gray,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\gray.png,common,0,gacha,남성 쇼츠리브스 그레이
+clothes,shortsleeves,,green,남성 숏슬리브 그린,male_shortsleeves_green,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\green.png,rare,0,gacha,남성 쇼츠리브스 그린
+clothes,shortsleeves,,lavender,남성 숏슬리브 라벤더,male_shortsleeves_lavender,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\lavender.png,epic,0,gacha,남성 쇼츠리브스 라벤더
+clothes,shortsleeves,,leather,남성 숏슬리브 레더,male_shortsleeves_leather,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\leather.png,rare,0,gacha,남성 쇼츠리브스 레더
+clothes,shortsleeves,,maroon,남성 숏슬리브 마룬,male_shortsleeves_maroon,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\maroon.png,common,0,gacha,남성 쇼츠리브스 마룬
+clothes,shortsleeves,,navy,남성 숏슬리브 네이비,male_shortsleeves_navy,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\navy.png,common,0,gacha,남성 쇼츠리브스 네이비
+clothes,shortsleeves,,orange,남성 숏슬리브 오렌지,male_shortsleeves_orange,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\orange.png,rare,0,gacha,남성 숏슬리브 오렌지
+clothes,shortsleeves,,pink,남성 숏슬리브 핑크,male_shortsleeves_pink,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\pink.png,rare,0,gacha,남성 숏슬리브 핑크
+clothes,shortsleeves,,purple,남성 숏슬리브 퍼플,male_shortsleeves_purple,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\purple.png,rare,0,gacha,남성 숏슬리브 퍼플
+clothes,shortsleeves,,red,남성 숏슬리브 레드,male_shortsleeves_red,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\red.png,common,0,gacha,남성 숏슬리브 레드
+clothes,shortsleeves,,rose,숏슬리브 로즈,male_shortsleeves_rose,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\rose.png,rare,0,gacha,남성 숏슬리브 로즈
+clothes,shortsleeves,,sky,숏슬리브 스카이,male_shortsleeves_sky,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\sky.png,rare,0,gacha,남성 숏슬리브 스카이
+clothes,shortsleeves,,slate,숏슬리브 슬레이트,male_shortsleeves_slate,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\slate.png,common,0,gacha,남성 숏슬리브 슬레이트
+clothes,shortsleeves,,tan,숏슬리브 탄,male_shortsleeves_tan,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\tan.png,common,0,gacha,남성 숏슬리브 탄
+clothes,shortsleeves,,teal,숏슬리브 틸,male_shortsleeves_teal,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\teal.png,rare,0,gacha,남성 숏슬리브 틸
+clothes,shortsleeves,,walnut,숏슬리브 월넛,male_shortsleeves_walnut,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\walnut.png,common,0,gacha,남성 숏슬리브 월넛
+clothes,shortsleeves,,white,숏슬리브 화이트,male_shortsleeves_white,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\white.png,common,0,gacha,남성 숏슬리브 화이트
+clothes,shortsleeves,,yellow,숏슬리브 옐로우,male_shortsleeves_yellow,\AssetsStore\spritesheets\clothes\male\shortsleeves\{animation}\yellow.png,rare,0,gacha,남성 숏슬리브 옐로우
+clothes,tshirt,,black,티셔츠 블랙,male_tshirt_black,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\black.png,common,0,gacha,남성 티셔츠 블랙
+clothes,tshirt,,blue,티셔츠 블루,male_tshirt_blue,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\blue.png,rare,0,gacha,남성 티셔츠 블루
+clothes,tshirt,,bluegray,티셔츠 블루그레이,male_tshirt_bluegray,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\bluegray.png,common,0,gacha,남성 티셔츠 블루그레이
+clothes,tshirt,,brown,티셔츠 브라운,male_tshirt_brown,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\brown.png,common,0,gacha,남성 티셔츠 브라운
+clothes,tshirt,,charcoal,티셔츠 차콜,male_tshirt_charcoal,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\charcoal.png,common,0,gacha,남성 티셔츠 차콜
+clothes,tshirt,,forest,티셔츠 포레스트,male_tshirt_forest,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\forest.png,rare,0,gacha,남성 티셔츠 포레스트
+clothes,tshirt,,gray,티셔츠 그레이,male_tshirt_gray,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\gray.png,common,0,gacha,남성 티셔츠 그레이
+clothes,tshirt,,green,티셔츠 그린,male_tshirt_green,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\green.png,rare,0,gacha,남성 티셔츠 그린
+clothes,tshirt,,lavender,티셔츠 라벤더,male_tshirt_lavender,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\lavender.png,epic,0,gacha,남성 라벤더 티셔츠
+clothes,tshirt,,leather,티셔츠 레더,male_tshirt_leather,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\leather.png,rare,0,gacha,남성 레더 티셔츠
+clothes,tshirt,,maroon,티셔츠 마룬,male_tshirt_maroon,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\maroon.png,rare,0,gacha,남성 마룬 티셔츠
+clothes,tshirt,,navy,티셔츠 네이비,male_tshirt_navy,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\navy.png,rare,0,gacha,남성 네이비 티셔츠
+clothes,tshirt,,orange,남성 티셔츠 오렌지,male_tshirt_orange,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\orange.png,rare,0,gacha,남성 오렌지 티셔츠
+clothes,tshirt,,pink,남성 티셔츠 핑크,male_tshirt_pink,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\pink.png,rare,0,gacha,남성 핑크 티셔츠
+clothes,tshirt,,purple,남성 티셔츠 퍼플,male_tshirt_purple,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\purple.png,rare,0,gacha,남성 퍼플 티셔츠
+clothes,tshirt,,red,남성 티셔츠 레드,male_tshirt_red,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\red.png,rare,0,gacha,남성 레드 티셔츠
+clothes,tshirt,,rose,남성 티셔츠 로즈,male_tshirt_rose,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\rose.png,rare,0,gacha,남성 로즈 티셔츠
+clothes,tshirt,,sky,남성 티셔츠 스카이,male_tshirt_sky,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\sky.png,rare,0,gacha,남성 스카이 티셔츠
+clothes,tshirt,,slate,남성 티셔츠 슬레이트,male_tshirt_slate,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\slate.png,common,0,gacha,남성 슬레이트 티셔츠
+clothes,tshirt,,tan,남성 티셔츠 탄,male_tshirt_tan,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\tan.png,common,0,gacha,남성 탄 티셔츠
+clothes,tshirt,,teal,남성 티셔츠 틸,male_tshirt_teal,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\teal.png,rare,0,gacha,남성 틸 티셔츠
+clothes,tshirt,,walnut,남성 티셔츠 월넛,male_tshirt_walnut,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\walnut.png,common,0,gacha,남성 월넛 티셔츠
+clothes,tshirt,,white,남성 티셔츠 화이트,male_tshirt_white,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\white.png,common,0,gacha,남성 화이트 티셔츠
+clothes,tshirt,,yellow,남성 티셔츠 옐로우,male_tshirt_yellow,\AssetsStore\spritesheets\clothes\male\tshirt\{animation}\yellow.png,rare,0,gacha,남성 옐로우 티셔츠

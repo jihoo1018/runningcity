@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 type Placement = "col" | "row";
 
@@ -20,21 +21,15 @@ type ButtonLikeProps = {
   as?: "button";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-type AnchorLikeProps = {
-  as: "a";
-  href: string;
-} & React.AnchorHTMLAttributes<HTMLAnchorElement>;
+type LinkLikeProps = {
+  as: "link";
+  to: string;
+} & Omit<React.ComponentProps<typeof Link>, "to" | "className" | "children">;
 
-type IconActionProps = BaseProps & (ButtonLikeProps | AnchorLikeProps);
+type IconActionProps = BaseProps & (ButtonLikeProps | LinkLikeProps);
 
 function getLayout(placement: Placement) {
-  switch (placement) {
-    case "col":
-      return "flex-col";
-    case "row":
-    default:
-      return "flex-row";
-  }
+  return placement === "col" ? "flex-col" : "flex-row";
 }
 
 export const IconAction = forwardRef<HTMLButtonElement | HTMLAnchorElement, IconActionProps>(
@@ -60,7 +55,12 @@ export const IconAction = forwardRef<HTMLButtonElement | HTMLAnchorElement, Icon
     const layout = getLayout(placement);
     const styleGap = gap != null ? { gap: `${gap}px` } : undefined;
 
-    const commonClass = clsx("inline-flex items-center justify-center", layout, className);
+    const commonClass = clsx(
+      "inline-flex items-center justify-center",
+      layout,
+      (disabled || loading) && "opacity-60 pointer-events-none",
+      className,
+    );
 
     const commonA11y = {
       ...(needsAria ? { "aria-label": "icon action" } : {}),
@@ -75,19 +75,33 @@ export const IconAction = forwardRef<HTMLButtonElement | HTMLAnchorElement, Icon
 
     const textEl = hasText ? <span className={textClassName}>{children}</span> : null;
 
-    if (as === "a") {
-      const anchorProps = rest as React.AnchorHTMLAttributes<HTMLAnchorElement>;
+    if (as === "link") {
+      const { to, onClick, ...linkProps } = rest as LinkLikeProps;
+
+      const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+        if (disabled || loading) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        onClick?.(e);
+      };
+
       return (
-        <a
-          ref={ref as React.Ref<HTMLAnchorElement>}
+        <Link
+          ref={ref as any}
+          to={to}
+          onClick={handleClick}
+          aria-disabled={disabled || loading ? true : undefined}
+          tabIndex={disabled || loading ? -1 : undefined}
           className={commonClass}
           style={styleGap}
           {...commonA11y}
-          {...anchorProps}
+          {...linkProps}
         >
           {iconEl}
           {textEl}
-        </a>
+        </Link>
       );
     }
 
@@ -109,19 +123,21 @@ export const IconAction = forwardRef<HTMLButtonElement | HTMLAnchorElement, Icon
   },
 );
 
-export type IconButtonProps = BaseProps & {
-  as?: never;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
+export type IconButtonProps = BaseProps &
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children"> & {
+    as?: never;
+  };
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>((props, ref) => (
   <IconAction ref={ref} as="button" {...props} />
 ));
 
-export type IconLinkProps = BaseProps & { as?: never; href: string } & Omit<
-    React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    "href"
-  >;
+export type IconLinkProps = BaseProps &
+  Omit<React.ComponentProps<typeof Link>, "to" | "className" | "children"> & {
+    as?: never;
+    to: string;
+  };
 
 export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>((props, ref) => (
-  <IconAction ref={ref} as="a" {...props} />
+  <IconAction ref={ref} as="link" {...props} />
 ));

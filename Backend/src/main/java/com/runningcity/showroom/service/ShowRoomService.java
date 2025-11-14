@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,43 @@ public class ShowRoomService {
         UserInventory newInventory = UserInventory.create(userId, itemId);
         UserInventory saved = showRoomRepository.save(newInventory);
         return saved.getInventoryId();
+    }
+
+    // ============================================
+    // 2️⃣ 가챠 전용 메서드
+    // ============================================
+
+    /**
+     * 가챠 획득 - 신규 추가 또는 수량 증가
+     *
+     * 특징:
+     * - 중복 획득 가능
+     * - 중복 시 quantity += 1
+     * - 같은 아이템 여러 번 뽑을 수 있음
+     *
+     * @param userId 사용자 ID
+     * @param itemId 아이템 ID
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void addItemFromGacha(Long userId, Long itemId) {
+        // 이미 보유한 아이템인지 확인
+        Optional<UserInventory> existing = showRoomRepository
+                .findByUserIdAndItemId(userId, itemId);
+
+        if (existing.isPresent()) {
+            // 중복 획득 → 수량 +1
+            UserInventory inventory = existing.get();
+            inventory.increaseQuantity(1);
+
+            log.info("🎰 [가챠 중복] userId={}, itemId={}, 수량: {} → {}",
+                    userId, itemId, inventory.getQuantity() - 1, inventory.getQuantity());
+        } else {
+            // 첫 획득 → 신규 추가
+            UserInventory newInventory = UserInventory.create(userId, itemId);
+            showRoomRepository.save(newInventory);
+
+            log.info("🎰 [가챠 신규] userId={}, itemId={}", userId, itemId);
+        }
     }
 
     /**

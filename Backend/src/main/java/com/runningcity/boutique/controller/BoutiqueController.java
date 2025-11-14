@@ -1,8 +1,7 @@
 package com.runningcity.boutique.controller;
 
-import com.runningcity.boutique.dto.PurchaseRequest;
-import com.runningcity.boutique.dto.PurchaseResponse;
-import com.runningcity.boutique.dto.StoreResponse;
+import com.runningcity.boutique.dto.*;
+import com.runningcity.boutique.exception.BoutiqueResponseCode;
 import com.runningcity.boutique.service.BoutiqueService;
 import com.runningcity.global.response.ApiResponse;
 import com.runningcity.global.response.CommonResponseCode;
@@ -38,10 +37,28 @@ public class BoutiqueController {
     ) {
         PurchaseResponse response = boutiqueService.purchaseItem(userId,request);
         return ResponseEntity.ok(
-                ApiResponse.success(CommonResponseCode.SUCCESS, response)
+                ApiResponse.success(BoutiqueResponseCode.ITEM_BUY_SCCESS, response)
         );
     }
 
+
+    /**
+     * 가챠 뽑기
+     *
+     * @param userId 사용자 ID
+     * @param request 가챠 요청 (single or multi)
+     * @return 뽑은 아이템 목록
+     */
+    @PostMapping("/gacha/{userId}")
+    public ResponseEntity<ApiResponse<GachaResponse>> drawGacha(
+            @PathVariable Long userId,
+            @Valid @RequestBody GachaRequest request
+    ) {
+        GachaResponse response = boutiqueService.drawGacha(userId, request);
+        return ResponseEntity.ok(
+                ApiResponse.success(BoutiqueResponseCode.GACHA_SUCCESS, response)
+        );
+    }
 
 
 }

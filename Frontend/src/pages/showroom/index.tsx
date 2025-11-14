@@ -4,11 +4,21 @@ import { CharacterCard } from "@/entities/showroom/ui/CharacterCard";
 import { ShowroomActions } from "@/entities/showroom/ui/ShowroomActions";
 import { fetchGetShowroomMe } from "@/entities/showroom/api/me";
 import { onNext, onNextGlobal } from "@/entities/showroom/api/showroom";
-import { Showroom } from "@/entities/showroom/model/type";
+import { EquippedItem, Showroom } from "@/entities/showroom/model/type";
 
 const ShowroomPage = () => {
   const [tab, setTab] = useState<"me" | "friend" | "global">("me");
-  const [myShowroom, setMyShowroom] = useState<Showroom | null>(null); // 서버에서 받아온 내 사무실 데이터
+  const [myShowroom, setMyShowroom] = useState<Showroom | null>({
+    userNm: "러닝ㅈi존 유리",
+    userLv: 72,
+    userId: 1,
+    totalDist: 2142000, // 유저가 총 달린 거리
+    longestDist: 10123, // 유저가 달린 최장 거리
+    avgPace: 824, // 유저 평균 페이스
+    bestPace: 634, // 유저 최고 기록(페이스)
+    totalEntryCnt: 812, // 유저 총 잠입 횟수
+    equippedItemList: [],
+  }); // TODO 서버에서 받아온 내 사무실 데이터로 변경하기(지금은 임시 데이터)
   const [userId, setUserId] = useState(1); // TODO 나중에 실 유저 아이디 받아와야 함
 
   const [loading, setLoading] = useState(false);

@@ -183,22 +183,47 @@ CREATE TABLE IF NOT EXISTS boutique_items (
     -- 카테고리 및 식별 정보
     -- 아이템의 분류 (몸, 옷, 머리카락, 머리장식)
     category VARCHAR(20) NOT NULL CHECK (category IN ('bodies', 'clothes', 'hair', 'head')),
+    --서브 카테고리
+    subcategory VARCHAR(50) NOT NULL
+    CHECK (subcategory IN (
+    -- bodies
+           'male',
+    -- clothes
+           'longsleeve', 'shorts', 'shortsleeves', 'tshirt',
+    -- hair
+           'afro', 'buzzcut', 'dreadlocks_long', 'long_hair', 'messy1', 'pixie',
+    -- head
+           'ears', 'eyebrows', 'eyes', 'faces', 'heads', 'nose'
+                          )),
+    --소분류
+    style VARCHAR(50)
+    CHECK (style IS NULL OR style IN (
+    -- eyebrows styles
+           'thick', 'thin',
+    -- eyes styles
+           'anger', 'closing', 'default_eye', 'eyeroll',
+           'look_l', 'look_r', 'neutral', 'sad', 'sad2',
+           'shame', 'shock',
+    -- faces styles
+           'anger', 'blush', 'closed', 'closing', 'eyeroll',
+           'happy', 'look_l', 'look_r', 'neutral', 'sad',
+           'shame', 'shock',
+    -- ears styles
+           'medium'
+                                     )),
+    --색상
+    color VARCHAR(50),
     -- 아이템의 이름 (사용자에게 표시될 이름)
     name VARCHAR(100) NOT NULL,
     -- 실제 애셋 폴더명 또는 파일 식별 키 (중복 방지용)
     asset_key VARCHAR(100) NOT NULL,
     -- 애셋의 실제 경로 (예: AssetsStore/spritesheets/clothes/coat01.png)
-    path VARCHAR(200) NOT NULL,
-
+    base_path VARCHAR(300) NOT NULL,
     -- 등급 및 가격
     -- 아이템 희귀도 (일반, 희귀, 에픽, 전설)
     rarity VARCHAR(20) CHECK (rarity IN ('common', 'rare', 'epic', 'legendary')),
     -- 상점 구매용 가격 (CR: CyberRun 화폐 단위)
     price_cr INT NOT NULL DEFAULT 0,
-
-    -- 획득 방법
-    -- true면 가챠(뽑기) 전용, false면 상점 구매 가능
-    is_gacha_only BOOLEAN DEFAULT false,
     -- 아이템 획득 경로 (가챠, 상점, 보상)
     obtain_method VARCHAR(20) CHECK (obtain_method IN ('gacha', 'store')),
 
@@ -208,7 +233,7 @@ CREATE TABLE IF NOT EXISTS boutique_items (
 
     -- 중복 방지 제약조건
     -- 동일 카테고리 내 동일 asset_key 중복 불가
-    UNIQUE (category, asset_key)
+    UNIQUE (category, subcategory, style, color, asset_key)
     );
 
 -- [2] 등급별 확률 테이블
@@ -246,12 +271,10 @@ CREATE TABLE IF NOT EXISTS gacha_history (
      history_id BIGSERIAL PRIMARY KEY,        -- 고유 식별자
      user_id BIGINT NOT NULL,                 -- 뽑은 유저
      item_id BIGINT NOT NULL REFERENCES boutique_items(item_id) ON DELETE CASCADE,
-     rarity VARCHAR(20) NOT NULL,             -- 등급 (common, rare, epic, legendary)
-     draw_type VARCHAR(20) DEFAULT 'single',  -- 단일 / 10연 등 구분
+    rarity VARCHAR(20) NOT NULL CHECK (rarity IN ('common', 'rare', 'epic', 'legendary')), -- 등급 (common, rare, epic, legendary)
+    draw_type VARCHAR(20) DEFAULT 'single' CHECK (draw_type IN ('single', 'multi')), ,  -- 단일 / 10연 등 구분
      draw_time timestamptz DEFAULT now(),     -- 뽑은 시간
-     session_id UUID DEFAULT gen_random_uuid(), -- 10연차 단위 묶음
-     obtained BOOLEAN DEFAULT true,           -- 정상 수령 여부 (예: 인벤토리 꽉 찼을 때 false 처리)
-     notes TEXT                               -- 디버깅이나 이벤트 로그용
+     session_id UUID DEFAULT gen_random_uuid() -- 10연차 단위 묶음
      );
 
 -- =========================================================
@@ -280,7 +303,22 @@ CREATE TABLE user_equipped_items (
      user_id BIGINT NOT NULL REFERENCES users(user_id),
      item_id BIGINT NOT NULL REFERENCES boutique_items(item_id),
      category VARCHAR(20) NOT NULL CHECK (category IN ('bodies', 'clothes', 'hair', 'head')),
-     subcategory VARCHAR(30),  -- 👈 상의/하의/모자 등 세부 슬롯
+     subcategory VARCHAR(50) NOT NULL
+         CHECK (subcategory IN (
+                                'male',
+                                'longsleeve', 'shorts', 'shortsleeves', 'tshirt',
+                                'afro', 'buzzcut', 'dreadlocks_long', 'long_hair', 'messy1', 'pixie',
+                                'ears', 'eyebrows', 'eyes', 'faces', 'heads', 'nose'
+             )),
+     style VARCHAR(50)
+         CHECK (style IS NULL OR style IN (
+                                           'thick', 'thin',
+                                           'anger', 'closing', 'default_eye', 'eyeroll',
+                                           'look_l', 'look_r', 'neutral', 'sad', 'sad2',
+                                           'shame', 'shock',
+                                           'blush', 'closed', 'happy',
+                                           'medium'
+             )),
      equipped_at timestamptz DEFAULT now(),
 
     -- 한 슬롯(카테고리+서브카테고리)에는 1개만 착용 가능
