@@ -19,3 +19,4 @@ export { ReactComponent as SocialIcon } from "./social.svg";
 export { ReactComponent as TimeIcon } from "./time.svg";
 export { ReactComponent as VolumeUpIcon } from "./volume_on.svg";
 export { ReactComponent as VolumeOffIcon } from "./volume_off.svg";
+export { ReactComponent as SpinnerIcon } from "./spinner.svg";
