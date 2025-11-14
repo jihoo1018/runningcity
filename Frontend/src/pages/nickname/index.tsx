@@ -1,17 +1,23 @@
 // src/pages/nickname/index.tsx
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { updateNickname } from '@/entities/user/api';
+import { useAuthStore } from '@/features/auth/model/useAuthStore';
 
 const NicknamePage = () => {
   const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
+  const setUser = useAuthStore((s) => s.setUser);
   const [nickname, setNickname] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
-  const userId = 13; // 임시 하드코딩
+  useEffect(() => {
+    if (!user) {
+      navigate('/login', { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -39,18 +45,25 @@ const NicknamePage = () => {
       return;
     }
 
+    if (!user) {
+      setError('Please log in again.');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
 
     try {
-      const result = await updateNickname(userId, nickname.trim());
+      const result = await updateNickname(user.userId, nickname.trim());
       console.log('닉네임 업데이트 완료:', result);
+      setUser({
+        ...user,
+        nickname: result.nickname,
+      });
       
       // 성공 시 온보딩 페이지로 이동
       navigate('/onboarding');
     } catch (err: any) {
-      setIsLoading(false);
-      
       // API 에러 응답 처리
       if (err.response?.data) {
         const errorData = err.response.data;
@@ -77,6 +90,8 @@ const NicknamePage = () => {
       }
       
       console.error('닉네임 업데이트 실패:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
