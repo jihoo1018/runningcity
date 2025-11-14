@@ -32,6 +32,8 @@ import androidx.wear.compose.material.*
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.local.entity.HeartRateRecordEntity
 import com.runningcity.data.local.entity.WorkoutSessionEntity
+import com.runningcity.data.sync.SyncResult
+import com.runningcity.data.sync.WatchDataSyncRepository
 import com.runningcity.presentation.component.InfoItem
 import com.runningcity.presentation.component.RoundOutlineButton
 import com.runningcity.presentation.theme.RunningcityTheme
@@ -42,6 +44,8 @@ import com.runningcity.presentation.theme.accentRed
 import com.runningcity.service.WorkoutService
 import com.runningcity.utils.CsvExporter
 import com.runningcity.utils.MobileCommunicationHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -267,13 +271,46 @@ fun WorkoutScreen(
                     }
                 }
 
-                scope.launch {
-                    if (mobileSessionId != null) {
-                        MobileCommunicationHelper.notifyWorkoutStopped(context, mobileSessionId!!)
-                        println("📡 모바일에 운동 종료 알림 전송 (sessionId: $mobileSessionId)")
-                    } else {
-                        MobileCommunicationHelper.notifyDataReady(context)
-                        println("📡 모바일에 동기화 요청 전송")
+                // 독립적인 코루틴 스코프 사용 (Compose 재구성으로 인한 취소 방지)
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        // 데이터 전송을 위한 WatchDataSyncRepository 생성
+                        val syncRepository = WatchDataSyncRepository(context, database)
+                        
+                        // 항상 데이터를 전송 시도 (Data Layer API는 큐에 저장되므로 모바일 앱이 꺼져있어도 안전)
+                        println("📤 운동 데이터 전송 시작")
+                        
+                        val syncResult = syncRepository.syncWorkoutData(
+                            watchSessionId = clientSecretKey,
+                            batchSize = Int.MAX_VALUE // 모든 데이터 한 번에 전송
+                        )
+                        
+                        when (syncResult) {
+                            is SyncResult.Success -> {
+                                println("✅ 운동 데이터 전송 성공: ${syncResult.cadenceCount}개 케이던스, ${syncResult.heartRateCount}개 심박수, ${syncResult.gpsCount}개 GPS")
+                            }
+                            is SyncResult.Queued -> {
+                                println("📮 운동 데이터가 Data Layer 큐에 추가됨 (모바일 앱이 켜지면 자동 수신)")
+                            }
+                            is SyncResult.NoData -> {
+                                println("📭 전송할 운동 데이터 없음")
+                            }
+                            is SyncResult.Error -> {
+                                println("❌ 운동 데이터 전송 실패: ${syncResult.message}")
+                            }
+                        }
+                        
+                        // 모바일에 알림 전송
+                        if (mobileSessionId != null) {
+                            MobileCommunicationHelper.notifyWorkoutStopped(context, mobileSessionId!!)
+                            println("📡 모바일에 운동 종료 알림 전송 (sessionId: $mobileSessionId)")
+                        } else {
+                            MobileCommunicationHelper.notifyDataReady(context)
+                            println("📡 모바일에 동기화 요청 전송")
+                        }
+                    } catch (e: Exception) {
+                        println("❌ 데이터 전송 중 예외 발생: ${e.message}")
+                        e.printStackTrace()
                     }
                 }
                 println("⏹️ 운동 종료 - 데이터 DB 저장 완료 (세션: $clientSecretKey)")
@@ -379,6 +416,28 @@ fun WorkoutScreen(
                             isRunning = false
                         }
                     }
+                    
+                    "com.runningcity.PAUSE_WORKOUT_FROM_MOBILE" -> {
+                        if (isRunning && !isPaused) {
+                            println("📨 모바일에서 일시정지 요청 수신")
+                            val intent = Intent(context, WorkoutService::class.java).apply {
+                                action = WorkoutService.ACTION_PAUSE
+                            }
+                            context.startService(intent)
+                            isPaused = true
+                        }
+                    }
+                    
+                    "com.runningcity.RESUME_WORKOUT_FROM_MOBILE" -> {
+                        if (isRunning && isPaused) {
+                            println("📨 모바일에서 재개 요청 수신")
+                            val intent = Intent(context, WorkoutService::class.java).apply {
+                                action = WorkoutService.ACTION_RESUME
+                            }
+                            context.startService(intent)
+                            isPaused = false
+                        }
+                    }
                 }
             }
         }
@@ -386,6 +445,8 @@ fun WorkoutScreen(
         val filter = IntentFilter().apply {
             addAction("com.runningcity.START_WORKOUT_FROM_MOBILE")
             addAction("com.runningcity.STOP_WORKOUT_FROM_MOBILE")
+            addAction("com.runningcity.PAUSE_WORKOUT_FROM_MOBILE")
+            addAction("com.runningcity.RESUME_WORKOUT_FROM_MOBILE")
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -500,6 +561,11 @@ fun WorkoutScreen(
                                     context.startService(intent)
                                     isPaused = true
                                     println("⏸️ 운동 일시정지")
+                                    
+                                    // 워치에서 모바일로 일시정지 요청 전송
+                                    scope.launch {
+                                        MobileCommunicationHelper.notifyPauseRunning(context)
+                                    }
                                 },
                                 icon = Icons.Sharp.Pause,
                                 iconDesc = "일시정지"
@@ -581,6 +647,11 @@ fun WorkoutScreen(
                                         context.startService(intent)
                                         isPaused = false
                                         println("▶️ 운동 재개")
+                                        
+                                        // 워치에서 모바일로 재개 요청 전송
+                                        scope.launch {
+                                            MobileCommunicationHelper.notifyResumeRunning(context)
+                                        }
                                     },
                                     icon = Icons.Sharp.PlayArrow,
                                     iconDesc = "재개"
@@ -591,6 +662,11 @@ fun WorkoutScreen(
                                         isRunning = false
                                         isPaused = false
                                         println("⏹️ 운동 종료")
+                                        
+                                        // 워치에서 모바일로 중단 요청 전송
+                                        scope.launch {
+                                            MobileCommunicationHelper.notifyStopRunning(context)
+                                        }
                                     },
                                     icon = Icons.Sharp.Stop,
                                     iconDesc = "종료",
