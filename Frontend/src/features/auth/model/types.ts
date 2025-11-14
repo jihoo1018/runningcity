@@ -7,7 +7,7 @@ export type LoginBody = {
 
 export type LoginResponse = {
   userId: number;
-  userNickname: string;
+  userNickname: string | null;
   userCode: string;
   totalexp: number;
 };

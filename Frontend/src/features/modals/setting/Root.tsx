@@ -1,10 +1,21 @@
+// src/features/modals/setting/Root.tsx
+import { useNavigate } from "react-router-dom";
 import { useModalRouter } from "@/app/modal/useModalRouter";
 import CommonButton from "@/shared/ui/CommonButton";
 import { Modal } from "@/shared/ui";
 import { ModalProps } from "@/app/modal/types";
+import { useAuthStore } from "@/features/auth/model/useAuthStore";
 
 export default function SettingRoot({ onClose }: ModalProps) {
   const { to } = useModalRouter();
+  const navigate = useNavigate();
+  const clearAuth = useAuthStore((s) => s.clear);
+
+  const handleLogout = () => {
+    clearAuth();
+    onClose?.();
+    navigate("/auth", { replace: true });
+  };
 
   return (
     <Modal
@@ -25,6 +36,9 @@ export default function SettingRoot({ onClose }: ModalProps) {
         <CommonButton variant="outline">튜토리얼 다시보기</CommonButton>
         <CommonButton variant="outline" onClick={() => to("setting", "goal")}>
           목표 수정
+        </CommonButton>
+        <CommonButton variant="outline" onClick={handleLogout}>
+          로그아웃
         </CommonButton>
       </div>
     </Modal>
