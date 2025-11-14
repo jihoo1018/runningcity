@@ -12,3 +12,13 @@ export type LoginResponse = {
   totalexp: number;
 };
 
+export type SignupBody = {
+  email: string;
+  password: string;
+  passwordConfirm: string;
+};
+
+export type CheckEmailResponse = {
+  exists: boolean;
+};
+
