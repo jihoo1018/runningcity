@@ -2,18 +2,36 @@ package com.runningcity.presentation
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Bolt
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Speed
+import androidx.compose.material.icons.outlined.Timelapse
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
+import com.runningcity.R
 import com.runningcity.data.local.WorkoutDatabase
 import com.runningcity.data.local.entity.WorkoutSessionEntity
+import com.runningcity.presentation.component.Divider
+import com.runningcity.presentation.component.ResultItem
+import com.runningcity.presentation.component.TodayDateText
+import com.runningcity.presentation.theme.RunningcityTheme
+import com.runningcity.presentation.theme.accentBlue
+import com.runningcity.presentation.theme.accentGreen
+import com.runningcity.presentation.theme.accentOrange
+import com.runningcity.presentation.theme.accentRed
 import kotlinx.coroutines.launch
 
 @Composable
@@ -37,143 +55,247 @@ fun WorkoutResultScreen(
             println("📊 결과 화면 로드: $session")
         }
     }
+    RunningcityTheme {
+        Scaffold(
+            timeText = { TimeText() }
+        ) {
+            val scrollState = rememberScrollState()
 
-    Scaffold(
-        timeText = { TimeText() }
-    ) {
-        val scrollState = rememberScrollState()
-
-        if (isLoading) {
-            // 로딩 화면
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else if (session != null) {
-            // 결과 화면
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black)
-                    .verticalScroll(scrollState)
-                    .padding(12.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                Spacer(modifier = Modifier.height(20.dp))
-
-                // 타이틀
-                Text(
-                    text = "🎉 운동 완료!",
-                    style = MaterialTheme.typography.title2,
-                    color = Color.Green
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // 주요 지표
-                ResultCard(
-                    icon = "📏",
-                    label = "거리",
-                    value = "${String.format("%.2f", session!!.totalDistance / 1000.0)} km",
-                    color = Color.Cyan
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "⏱️",
-                    label = "시간",
-                    value = formatDuration(session!!.duration ?: 0),
-                    color = Color.Yellow
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "🔥",
-                    label = "칼로리",
-                    value = "${session!!.totalCalories} kcal",
-                    color = Color(0xFFFF9800)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "👟",
-                    label = "걸음",
-                    value = "${session!!.totalSteps} 걸음",
-                    color = Color.Green
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "💓",
-                    label = "평균 심박수",
-                    value = "${session!!.avgHeartRate} bpm",
-                    color = Color.Red
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "🏃",
-                    label = "평균 케이던스",
-                    value = "${session!!.avgCadence} spm",
-                    color = Color(0xFF9C27B0)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "⚡",
-                    label = "평균 페이스",
-                    value = formatPace(session!!.avgPace),
-                    color = Color(0xFF00BCD4)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                ResultCard(
-                    icon = "⛰️",
-                    label = "평균 고도",
-                    value = "${String.format("%.1f", session!!.elevation)} m",
-                    color = Color(0xFF8BC34A)
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // 홈으로 버튼
-                Button(
-                    onClick = onBackToHome,
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    colors = ButtonDefaults.primaryButtonColors()
+            if (isLoading) {
+                // 로딩 화면
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text("🏠 홈으로")
+                    CircularProgressIndicator()
                 }
-
-                Spacer(modifier = Modifier.height(20.dp))
-            }
-        } else {
-            // 데이터 없음
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
+            } else if (session != null) {
+                // 결과 화면
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colors.background)
+                        .verticalScroll(scrollState)
+                        .padding(vertical = 50.dp, horizontal = 34.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
                 ) {
-                    Text(
-                        text = "❌ 데이터 없음",
-                        style = MaterialTheme.typography.title3,
-                        color = Color.Red
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Button(onClick = onBackToHome) {
-                        Text("홈으로")
+//                    Spacer(modifier = Modifier.height(40.dp))
+
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        TodayDateText(modifier = Modifier.padding(vertical = 2.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Row(verticalAlignment = Alignment.Bottom) {
+                            Text(
+                                text = "${String.format("%.2f", session!!.totalDistance / 1000.0)}",
+                                style = MaterialTheme.typography.display2,
+                                color = MaterialTheme.colors.primary
+                            )
+                            Spacer(Modifier.width(6.dp))
+                            Text(
+                                text = "km",
+                                style = MaterialTheme.typography.body2,
+                                color = MaterialTheme.colors.onPrimary
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "달리기 완료!",
+                            style = MaterialTheme.typography.caption1,
+                            color = MaterialTheme.colors.onBackground
+                        )
+                    }
+
+                    Divider();
+
+                    Column() {
+                        ResultItem(
+                            icon = Icons.Outlined.Timer,
+                            iconDesc = "페이스",
+                            iconColor = MaterialTheme.colors.primary,
+                            text = formatPace(session!!.avgPace),
+                            unit = "/km"
+                        )
+
+                        ResultItem(
+                            icon = Icons.Outlined.Timelapse,
+                            iconDesc = "소요 시간",
+                            iconColor = MaterialTheme.colors.accentGreen,
+                            text = formatDuration(session!!.duration ?: 0),
+                            unit = ""
+                        )
+
+                        ResultItem(
+                            icon = Icons.Outlined.Bolt,
+                            iconDesc = "소모 칼로리",
+                            iconColor = MaterialTheme.colors.accentOrange,
+                            text = "${session!!.totalCalories}",
+                            unit = "kcal"
+                        )
+
+                        ResultItem(
+                            icon = Icons.Outlined.FavoriteBorder,
+                            iconDesc = "평균 심박수",
+                            iconColor = MaterialTheme.colors.accentRed,
+                            text = "${session!!.avgHeartRate}",
+                            unit = "bpm"
+                        )
+
+                        ResultItem(
+                            icon = Icons.Outlined.Speed,
+                            iconDesc = "케이던스",
+                            iconColor = MaterialTheme.colors.accentBlue,
+                            text = "${session!!.avgCadence}",
+                            unit = "spm"
+                        )
+
+                    }
+//
+//                    // 주요 지표
+//                    ResultCard(
+//                        icon = "📏",
+//                        label = "거리",
+//                        value = "${String.format("%.2f", session!!.totalDistance / 1000.0)} km",
+//                        color = Color.Cyan
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "⏱️",
+//                        label = "시간",
+//                        value = formatDuration(session!!.duration ?: 0),
+//                        color = Color.Yellow
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "🔥",
+//                        label = "칼로리",
+//                        value = "${session!!.totalCalories} kcal",
+//                        color = Color(0xFFFF9800)
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "👟",
+//                        label = "걸음",
+//                        value = "${session!!.totalSteps} 걸음",
+//                        color = Color.Green
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "💓",
+//                        label = "평균 심박수",
+//                        value = "${session!!.avgHeartRate} bpm",
+//                        color = Color.Red
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "🏃",
+//                        label = "평균 케이던스",
+//                        value = "${session!!.avgCadence} spm",
+//                        color = Color(0xFF9C27B0)
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "⚡",
+//                        label = "평균 페이스",
+//                        value = formatPace(session!!.avgPace),
+//                        color = Color(0xFF00BCD4)
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(8.dp))
+//
+//                    ResultCard(
+//                        icon = "⛰️",
+//                        label = "평균 고도",
+//                        value = "${String.format("%.1f", session!!.elevation)} m",
+//                        color = Color(0xFF8BC34A)
+//                    )
+//
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Button(
+                        onClick = onBackToHome,
+                        shape = MaterialTheme.shapes.small,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(58.dp)
+                            .border(1.dp, MaterialTheme.colors.primary, MaterialTheme.shapes.small),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.surface,
+                            contentColor = MaterialTheme.colors.onPrimary
+                        ),
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Home,
+                                contentDescription = "HOME"
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = stringResource(id = R.string.home_button),
+                                style = MaterialTheme.typography.display1,
+                            )
+                        }
+                    }
+                }
+            } else {
+                // 데이터 없음
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "❌ 데이터 없음",
+                            style = MaterialTheme.typography.title2,
+                            color = MaterialTheme.colors.accentRed
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Button(
+                            onClick = onBackToHome,
+                            shape = MaterialTheme.shapes.small,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(58.dp)
+                                .border(1.dp, MaterialTheme.colors.primary, MaterialTheme.shapes.small),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.surface,
+                                contentColor = MaterialTheme.colors.onPrimary
+                            ),
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Home,
+                                    contentDescription = "HOME"
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = stringResource(id = R.string.home_button),
+                                    style = MaterialTheme.typography.display1,
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -233,9 +355,9 @@ fun formatDuration(seconds: Int): String {
 
 // 페이스 포맷팅 (초/km → "분'초"/km")
 fun formatPace(paceInSeconds: Int): String {
-    if (paceInSeconds <= 0) return "0'00\"/km"
+    if (paceInSeconds <= 0) return "0'00\""
 
     val minutes = paceInSeconds / 60
     val seconds = paceInSeconds % 60
-    return String.format("%d'%02d\"/km", minutes, seconds)
+    return String.format("%d'%02d\"", minutes, seconds)
 }
