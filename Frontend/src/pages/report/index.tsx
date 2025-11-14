@@ -1,6 +1,8 @@
-// src/pages/recordlist/index.tsx
+﻿// src/pages/recordlist/index.tsx
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "@/features/auth/model/useAuthStore";
 
 type CalendarDay = {
   day: number;
@@ -8,6 +10,7 @@ type CalendarDay = {
 };
 
 type RecordItem = {
+  sessionId: number;
   date: string;
   distanceKm: number;
   avgPace: string;
@@ -27,10 +30,11 @@ type MonthlyResponse = {
   records: RecordItem[];
 };
 
-const userId = "1"; // 임시
-
 export default function RecordListPage() {
-  // ⬇️ 오늘 날짜 기준으로 초기화
+  const userId = useAuthStore((s) => s.user?.userId);
+  const navigate = useNavigate();
+
+  // 기본: 오늘 날짜 기준으로 초기화
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState(today.getMonth() + 1); // JS는 0~11
@@ -43,19 +47,23 @@ export default function RecordListPage() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    if (!userId) return;
+
     setLoading(true);
+
     const host = window.location.hostname || "localhost";
     const protocol = window.location.protocol === "https:" ? "https" : "http";
     const url = `${protocol}://${host}:8080/api/v1/report?userId=${userId}&year=${year}&month=${month}`;
+
     fetch(url)
       .then((res) => res.json())
-      .then((json) => {
+      .then((json: MonthlyResponse) => {
         setData(json);
-        setPage(1); // 달 바뀌면 첫 페이지로
+        setPage(1); // 새 달로 바뀌면 1페이지로
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [year, month]);
+  }, [userId, year, month]);
 
   const handlePrevMonth = () => {
     setData(null);
@@ -81,6 +89,13 @@ export default function RecordListPage() {
     });
   };
 
+  // 러닝 타입 한글 변환
+  const toKoreanType = (t: string) => {
+    if (t === "NORMAL") return "일반";
+    if (t === "INTERVAL") return "인터벌";
+    return t;
+  };
+
   if (loading) {
     return (
       <div
@@ -98,7 +113,7 @@ export default function RecordListPage() {
           bottom: 0,
         }}
       >
-        <div style={{ padding: 16, flex: 1 }}>로딩중...</div>
+        <div style={{ padding: 16, flex: 1 }}>로딩 중...</div>
       </div>
     );
   }
@@ -120,7 +135,7 @@ export default function RecordListPage() {
           bottom: 0,
         }}
       >
-        <div style={{ padding: 16, flex: 1 }}>데이터가 없습니다.</div>
+        <div style={{ padding: 16, flex: 1 }}>기록이 없습니다.</div>
       </div>
     );
   }
@@ -132,12 +147,6 @@ export default function RecordListPage() {
   const startIdx = (page - 1) * PAGE_SIZE;
   const pagedRecords = records.slice(startIdx, startIdx + PAGE_SIZE);
 
-  // 러닝 타입 한글화
-  const toKoreanType = (t: string) => {
-    if (t === "NORMAL") return "일반";
-    return "침입";
-  };
-
   return (
     <div
       style={{
@@ -147,7 +156,6 @@ export default function RecordListPage() {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "#f3f4f6",
         position: "absolute",
         top: 0,
         left: 0,
@@ -168,7 +176,7 @@ export default function RecordListPage() {
           msOverflowStyle: "none",
         }}
       >
-        {/* 상단 헤더 + 달 이동 */}
+        {/* 상단 헤더 + 월 이동 */}
         <div
           style={{
             display: "flex",
@@ -181,14 +189,14 @@ export default function RecordListPage() {
             onClick={handlePrevMonth}
             style={{
               border: "none",
-              background: "#fff",
+              // background: "#fff",
               borderRadius: 8,
               padding: "4px 8px",
               cursor: "pointer",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}
           >
-            ◀
+            이전
           </button>
           <h1 style={{ fontSize: 18, margin: 0 }}>
             {year}년 {month}월 러닝 기록
@@ -197,18 +205,18 @@ export default function RecordListPage() {
             onClick={handleNextMonth}
             style={{
               border: "none",
-              background: "#fff",
+              // background: "#fff",
               borderRadius: 8,
               padding: "4px 8px",
               cursor: "pointer",
               boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
             }}
           >
-            ▶
+            다음
           </button>
         </div>
 
-        {/* 월 요약 */}
+        {/* 요약 카드 */}
         <div
           style={{
             display: "flex",
@@ -217,14 +225,20 @@ export default function RecordListPage() {
             flexWrap: "wrap",
           }}
         >
-          <SummaryCard label="총 거리" value={`${monthSummary.totalDistanceKm} km`} />
-          <SummaryCard label="총 러닝" value={`${monthSummary.totalRuns}회`} />
+          <SummaryCard
+            label="총 거리"
+            value={`${monthSummary.totalDistanceKm} km`}
+          />
+          <SummaryCard
+            label="총 러닝 횟수"
+            value={`${monthSummary.totalRuns}회`}
+          />
           <SummaryCard label="평균 페이스" value={monthSummary.avgPace} />
         </div>
 
-        {/* 캘린더 */}
+        {/* 달력 영역 */}
         <div style={{ marginBottom: 28 }}>
-          <h2 style={{ fontSize: 16, marginBottom: 8 }}>캘린더</h2>
+          <h2 style={{ fontSize: 16, marginBottom: 8 }}>기록 달력</h2>
           <div
             style={{
               display: "grid",
@@ -253,10 +267,12 @@ export default function RecordListPage() {
                   gap: 4,
                 }}
                 onClick={() => {
-                  // 여기서는 그냥 클릭 가능하게만
+                  // 나중에 이 날짜로 스크롤 이동 같은 거 붙이고 싶으면 여기서 처리
                 }}
               >
-                <span style={{ fontWeight: 600, fontSize: 13 }}>{dayObj.day}</span>
+                <span style={{ fontWeight: 600, fontSize: 13 }}>
+                  {dayObj.day}
+                </span>
                 {dayObj.hasRecord && (
                   <span
                     style={{
@@ -275,16 +291,28 @@ export default function RecordListPage() {
           </div>
         </div>
 
-        {/* 리스트 */}
+        {/* 리스트 영역 */}
         <div>
           <h2 style={{ fontSize: 16, marginBottom: 8 }}>기록 리스트</h2>
           {records.length === 0 ? (
-            <div style={{ padding: 12, background: "#fafafa", borderRadius: 8 }}>
-              기록이 없습니다.
+            <div
+              style={{
+                padding: 12,
+                background: "#fafafa",
+                borderRadius: 8,
+              }}
+            >
+              아직 러닝 기록이 없습니다.
             </div>
           ) : (
             <>
-              <ul style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <ul
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 10,
+                }}
+              >
                 {pagedRecords.map((r) => (
                   <li
                     key={r.date + r.runningTime}
@@ -300,11 +328,23 @@ export default function RecordListPage() {
                     }}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: 14 }}>
+                      <div
+                        style={{
+                          fontWeight: 600,
+                          fontSize: 14,
+                        }}
+                      >
                         {r.date} · {toKoreanType(r.runningType)}
                       </div>
-                      <div style={{ fontSize: 12, color: "#555", lineHeight: 1.4 }}>
-                        {r.distanceKm} km · 페이스 {r.avgPace} · 시간 {r.runningTime}
+                      <div
+                        style={{
+                          fontSize: 12,
+                          color: "#555",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {r.distanceKm} km · 평균 페이스 {r.avgPace} · 러닝 시간{" "}
+                        {r.runningTime}
                       </div>
                     </div>
                     <button
@@ -319,7 +359,8 @@ export default function RecordListPage() {
                         whiteSpace: "nowrap",
                       }}
                       onClick={() => {
-                        // 상세는 다른 사람이 만드니까 비워둠
+                        if (!userId) return;
+                        navigate(`/report/${r.sessionId}?userId=${userId}`);
                       }}
                     >
                       상세
