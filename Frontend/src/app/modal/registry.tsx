@@ -1,8 +1,6 @@
 import { lazy } from "react";
 import type { FlowRegistry } from "./types";
 
-const SettingsRoot = lazy(() => import("@/features/modals/setting/Root"));
-const SettingsConfirm = lazy(() => import("@/features/modals/setting/Confirm"));
 const EntryRoot = lazy(() => import("@/features/modals/entry/Root"));
 const EntryLevel = lazy(() => import("@/features/modals/entry/Level"));
 const SettingRoot = lazy(() => import("@/features/modals/setting/Root"));
@@ -37,4 +35,4 @@ export const REGISTRY = {
     root: MissionRoot,
     confirm: MissionConfirm,
   },
-} satisfies FlowRegistgry;
+} satisfies FlowRegistry;
