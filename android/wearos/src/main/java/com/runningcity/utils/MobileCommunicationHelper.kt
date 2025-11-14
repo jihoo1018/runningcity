@@ -150,5 +150,141 @@ object MobileCommunicationHelper {
             false
         }
     }
+    
+    /**
+     * 모바일에 워치에서 러닝 시작 요청 전송
+     * (워치에서 Run 버튼을 누를 때 호출)
+     */
+    suspend fun notifyStartRunning(context: Context): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/watch_start_running", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 모바일에 러닝 시작 요청 전송 (node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * 모바일에 워치에서 러닝 일시정지 요청 전송
+     * (워치에서 정지 버튼을 누를 때 호출)
+     */
+    suspend fun notifyPauseRunning(context: Context): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/watch_pause_running", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 모바일에 러닝 일시정지 요청 전송 (node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * 모바일에 워치에서 러닝 재개 요청 전송
+     * (워치에서 재생 버튼을 누를 때 호출)
+     */
+    suspend fun notifyResumeRunning(context: Context): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/watch_resume_running", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 모바일에 러닝 재개 요청 전송 (node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
+     * 모바일에 워치에서 러닝 중단 요청 전송
+     * (워치에서 중단 버튼을 누를 때 호출)
+     */
+    suspend fun notifyStopRunning(context: Context): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/watch_stop_running", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 모바일에 러닝 중단 요청 전송 (node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
 }
 
