@@ -1,6 +1,4 @@
-// src/entities/user/model/types.ts
-
-export type FitnessLevel = 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT' | 'ELITE';
+export type FitnessLevel = "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT" | "ELITE";
 
 export interface UserProfile {
   userId: number;
@@ -19,3 +17,6 @@ export interface User {
   onboardingCompletedAt?: string;
 }
 
+export interface UpdatePreferenceGoalPayload {
+  targetDistanceKm: number;
+}
