@@ -8,6 +8,8 @@ const SettingGoal = lazy(() => import("@/features/modals/setting/Goal"));
 const AlertRoot = lazy(() => import("@/features/modals/alert/Root"));
 const UserModify = lazy(() => import("@/features/modals/user/Modify"));
 const UserConfirm = lazy(() => import("@/features/modals/user/Confirm"));
+const MissionRoot = lazy(() => import("@/features/modals/mission/Root"));
+const MissionConfirm = lazy(() => import("@/features/modals/mission/Confirm"));
 
 export const REGISTRY = {
   setting: {
@@ -22,5 +24,9 @@ export const REGISTRY = {
   user: {
     modify: UserModify,
     confirm: UserConfirm,
+  },
+  mission: {
+    root: MissionRoot,
+    confirm: MissionConfirm,
   },
 } satisfies FlowRegistry;
