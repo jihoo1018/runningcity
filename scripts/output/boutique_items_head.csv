@@ -1,0 +1,427 @@
+﻿category,subcategory,style,color,name,asset_key,base_path,rarity,price_cr,obtain_method,name_ko
+head,faces,shock,light,쇼크 라이트 표정,faces_shock_light,\AssetsStore\spritesheets\head\faces\shock\light.png,common,3,store,쇼크 표정 라이트
+head,faces,shame,light,부끄러움 라이트 표정,faces_shame_light,\AssetsStore\spritesheets\head\faces\shame\light.png,common,3,store,부끄러운 표정 라이트
+head,faces,sad,light,슬픔 라이트 표정,faces_sad_light,\AssetsStore\spritesheets\head\faces\sad\light.png,common,3,store,슬픈 표정 라이트
+head,faces,neutral,light,무표정 라이트 표정,faces_neutral_light,\AssetsStore\spritesheets\head\faces\neutral\light.png,common,3,store,무표정 라이트
+head,faces,look_r,light,오른쪽 시선 라이트 표정,faces_look_r_light,\AssetsStore\spritesheets\head\faces\look_r\light.png,common,3,store,오른쪽 시선 라이트
+head,faces,look_l,light,왼쪽 시선 라이트 표정,faces_look_l_light,\AssetsStore\spritesheets\head\faces\look_l\light.png,common,3,store,왼쪽 시선 라이트
+head,faces,happy,light,행복 라이트 표정,faces_happy_light,\AssetsStore\spritesheets\head\faces\happy\light.png,common,3,store,행복한 표정 라이트
+head,faces,eyeroll,light,눈치채기 라이트 표정,faces_eyeroll_light,\AssetsStore\spritesheets\head\faces\eyeroll\light.png,common,3,store,눈 굴림 표정 라이트
+head,faces,closing,light,눈 감음 라이트 표정,faces_closing_light,\AssetsStore\spritesheets\head\faces\closing\light.png,common,3,store,눈 감는 표정 라이트
+head,faces,closed,light,완전 눈 감음 라이트 표정,faces_closed_light,\AssetsStore\spritesheets\head\faces\closed\light.png,common,3,store,완전 눈 감은 표정 라이트
+head,faces,blush,light,홍조 라이트 표정,faces_blush_light,\AssetsStore\spritesheets\head\faces\blush\light.png,common,3,store,홍조 표정 라이트
+head,faces,anger,light,분노 라이트 표정,faces_anger_light,\AssetsStore\spritesheets\head\faces\anger\light.png,common,3,store,분노 표정 라이트
+head,eyebrows,thin,dark_brown,얇은 눈썹 다크 브라운,eyebrows_thin_dark_brown,\AssetsStore\spritesheets\head\eyebrows\thin\dark_brown.png,common,3,store,가는 눈썹 다크 브라운
+head,eyebrows,thin,dark_gray,얇은 눈썹 다크 그레이,eyebrows_thin_dark_gray,\AssetsStore\spritesheets\head\eyebrows\thin\dark_gray.png,common,3,store,가는 눈썹 다크 그레이
+head,eyebrows,thin,light_brown,얇은 눈썹 라이트 브라운,eyebrows_thin_light_brown,\AssetsStore\spritesheets\head\eyebrows\thin\light_brown.png,common,3,store,가는 눈썹 라이트 브라운
+head,eyebrows,thick,dark_brown,두꺼운 눈썹 다크 브라운,eyebrows_thick_dark_brown,\AssetsStore\spritesheets\head\eyebrows\thick\dark_brown.png,common,3,store,두꺼운 눈썹 다크 브라운
+head,eyebrows,thick,dark_gray,두꺼운 눈썹 다크 그레이,eyebrows_thick_dark_gray,\AssetsStore\spritesheets\head\eyebrows\thick\dark_gray.png,common,3,store,두꺼운 눈썹 다크 그레이
+head,eyebrows,thick,light_brown,두꺼운 눈썹 라이트 브라운,eyebrows_thick_light_brown,\AssetsStore\spritesheets\head\eyebrows\thick\light_brown.png,common,3,store,두꺼운 눈썹 라이트 브라운
+head,ears,medium,light,중간 크기 귀 라이트,ears_medium_light,\AssetsStore\spritesheets\head\ears\medium\light.png,common,3,store,중간 크기 귀 라이트
+head,faces,shock,amber,쇼크 페이스 앰버,faces_shock_amber,\AssetsStore\spritesheets\head\faces\shock\amber.png,rare,0,gacha,쇼크 페이스 앰버
+head,faces,shock,black,쇼크 페이스 블랙,faces_shock_black,\AssetsStore\spritesheets\head\faces\shock\black.png,common,0,gacha,쇼크 페이스 블랙
+head,faces,shock,blue,쇼크 페이스 블루,faces_shock_blue,\AssetsStore\spritesheets\head\faces\shock\blue.png,rare,0,gacha,쇼크 페이스 블루
+head,faces,shock,bright_green,쇼크 페이스 브라이트 그린,faces_shock_bright_green,\AssetsStore\spritesheets\head\faces\shock\bright_green.png,epic,0,gacha,쇼크 페이스 브라이트 그린
+head,faces,shock,bronze,쇼크 페이스 브론즈,faces_shock_bronze,\AssetsStore\spritesheets\head\faces\shock\bronze.png,epic,0,gacha,쇼크 페이스 브론즈
+head,faces,shock,brown,쇼크 페이스 브라운,faces_shock_brown,\AssetsStore\spritesheets\head\faces\shock\brown.png,common,0,gacha,쇼크 페이스 브라운
+head,faces,shock,dark_green,쇼크 페이스 다크 그린,faces_shock_dark_green,\AssetsStore\spritesheets\head\faces\shock\dark_green.png,common,0,gacha,쇼크 페이스 다크 그린
+head,faces,shock,fur_black,쇼크 페이스 퍼 블랙,faces_shock_fur_black,\AssetsStore\spritesheets\head\faces\shock\fur_black.png,common,0,gacha,쇼크 페이스 퍼 블랙
+head,faces,shock,fur_brown,쇼크 페이스 퍼 브라운,faces_shock_fur_brown,\AssetsStore\spritesheets\head\faces\shock\fur_brown.png,common,0,gacha,쇼크 페이스 퍼 브라운
+head,faces,shock,fur_copper,쇼크 페이스 퍼 코퍼,faces_shock_fur_copper,\AssetsStore\spritesheets\head\faces\shock\fur_copper.png,epic,0,gacha,쇼크 페이스 퍼 코퍼
+head,faces,shock,fur_gold,쇼크 페이스 퍼 골드,faces_shock_fur_gold,\AssetsStore\spritesheets\head\faces\shock\fur_gold.png,legendary,0,gacha,쇼크 페이스 퍼 골드
+head,faces,shock,fur_grey,쇼크 페이스 퍼 그레이,faces_shock_fur_grey,\AssetsStore\spritesheets\head\faces\shock\fur_grey.png,common,0,gacha,쇼크 페이스 퍼 그레이
+head,faces,shock,fur_tan,쇼크 페이스 퍼 탄,faces_shock_fur_tan,\AssetsStore\spritesheets\head\faces\shock\fur_tan.png,common,0,gacha,쇼크 페이스 퍼 탄
+head,faces,shock,fur_white,쇼크 페이스 퍼 화이트,faces_shock_fur_white,\AssetsStore\spritesheets\head\faces\shock\fur_white.png,common,0,gacha,쇼크 페이스 퍼 화이트
+head,faces,shock,green,쇼크 페이스 그린,faces_shock_green,\AssetsStore\spritesheets\head\faces\shock\green.png,rare,0,gacha,쇼크 페이스 그린
+head,faces,shock,lavender,쇼크 페이스 라벤더,faces_shock_lavender,\AssetsStore\spritesheets\head\faces\shock\lavender.png,epic,0,gacha,쇼크 페이스 라벤더
+head,faces,shock,olive,쇼크 페이스 올리브,faces_shock_olive,\AssetsStore\spritesheets\head\faces\shock\olive.png,rare,0,gacha,쇼크 페이스 올리브
+head,faces,shock,pale_green,쇼크 페이스 페일 그린,faces_shock_pale_green,\AssetsStore\spritesheets\head\faces\shock\pale_green.png,common,0,gacha,쇼크 페이스 페일 그린
+head,faces,shock,taupe,쇼크 페이스 토프,faces_shock_taupe,\AssetsStore\spritesheets\head\faces\shock\taupe.png,rare,0,gacha,쇼크 페이스 토프
+head,faces,shock,zombie,쇼크 페이스 좀비,faces_shock_zombie,\AssetsStore\spritesheets\head\faces\shock\zombie.png,legendary,0,gacha,쇼크 페이스 좀비
+head,faces,shock,zombie_green,쇼크 페이스 좀비 그린,faces_shock_zombie_green,\AssetsStore\spritesheets\head\faces\shock\zombie_green.png,legendary,0,gacha,쇼크 페이스 좀비 그린
+head,faces,shame,amber,쉐임 페이스 앰버,faces_shame_amber,\AssetsStore\spritesheets\head\faces\shame\amber.png,rare,0,gacha,쉐임 페이스 앰버
+head,faces,shame,black,쉐임 페이스 블랙,faces_shame_black,\AssetsStore\spritesheets\head\faces\shame\black.png,common,0,gacha,쉐임 페이스 블랙
+head,faces,shame,blue,쉐임 페이스 블루,faces_shame_blue,\AssetsStore\spritesheets\head\faces\shame\blue.png,rare,0,gacha,쉐임 페이스 블루
+head,faces,shame,bright_green,쉐임 페이스 브라이트 그린,faces_shame_bright_green,\AssetsStore\spritesheets\head\faces\shame\bright_green.png,epic,0,gacha,쉐임 페이스 브라이트 그린
+head,faces,shame,bronze,쉐임 페이스 브론즈,faces_shame_bronze,\AssetsStore\spritesheets\head\faces\shame\bronze.png,epic,0,gacha,쉐임 페이스 브론즈
+head,faces,shame,brown,쉐임 페이스 브라운,faces_shame_brown,\AssetsStore\spritesheets\head\faces\shame\brown.png,common,0,gacha,쉐임 페이스 브라운
+head,faces,shame,dark_green,쉐임 페이스 다크 그린,faces_shame_dark_green,\AssetsStore\spritesheets\head\faces\shame\dark_green.png,common,0,gacha,쉐임 페이스 다크 그린
+head,faces,shame,fur_black,쉐임 페이스 퍼 블랙,faces_shame_fur_black,\AssetsStore\spritesheets\head\faces\shame\fur_black.png,common,0,gacha,쉐임 퍼 페이스 블랙
+head,faces,shame,fur_brown,쉐임 페이스 퍼 브라운,faces_shame_fur_brown,\AssetsStore\spritesheets\head\faces\shame\fur_brown.png,common,0,gacha,쉐임 퍼 페이스 브라운
+head,faces,shame,fur_copper,쉐임 페이스 퍼 코퍼,faces_shame_fur_copper,\AssetsStore\spritesheets\head\faces\shame\fur_copper.png,epic,0,gacha,쉐임 퍼 페이스 코퍼
+head,faces,shame,fur_gold,쉐임 페이스 퍼 골드,faces_shame_fur_gold,\AssetsStore\spritesheets\head\faces\shame\fur_gold.png,legendary,0,gacha,쉐임 퍼 페이스 골드
+head,faces,shame,fur_grey,쉐임 페이스 퍼 그레이,faces_shame_fur_grey,\AssetsStore\spritesheets\head\faces\shame\fur_grey.png,common,0,gacha,쉐임 퍼 페이스 그레이
+head,faces,shame,fur_tan,쉐임 페이스 퍼 탄,faces_shame_fur_tan,\AssetsStore\spritesheets\head\faces\shame\fur_tan.png,common,0,gacha,쉐임 퍼 페이스 탄
+head,faces,shame,fur_white,쉐임 페이스 퍼 화이트,faces_shame_fur_white,\AssetsStore\spritesheets\head\faces\shame\fur_white.png,common,0,gacha,쉐임 퍼 페이스 화이트
+head,faces,shame,green,쉐임 페이스 그린,faces_shame_green,\AssetsStore\spritesheets\head\faces\shame\green.png,rare,0,gacha,쉐임 페이스 그린
+head,faces,shame,lavender,쉐임 페이스 라벤더,faces_shame_lavender,\AssetsStore\spritesheets\head\faces\shame\lavender.png,epic,0,gacha,쉐임 페이스 라벤더
+head,faces,shame,olive,쉐임 페이스 올리브,faces_shame_olive,\AssetsStore\spritesheets\head\faces\shame\olive.png,rare,0,gacha,쉐임 페이스 올리브
+head,faces,shame,pale_green,쉐임 페이스 페일 그린,faces_shame_pale_green,\AssetsStore\spritesheets\head\faces\shame\pale_green.png,common,0,gacha,쉐임 페이스 페일 그린
+head,faces,shame,taupe,쉐임 페이스 토프,faces_shame_taupe,\AssetsStore\spritesheets\head\faces\shame\taupe.png,rare,0,gacha,쉐임 페이스 토프
+head,faces,shame,zombie,수치스러운 좀비 얼굴,faces_shame_zombie,\AssetsStore\spritesheets\head\faces\shame\zombie.png,legendary,0,gacha,수치의 얼굴 좀비
+head,faces,shame,zombie_green,수치스러운 좀비 얼굴_그린,faces_shame_zombie_green,\AssetsStore\spritesheets\head\faces\shame\zombie_green.png,legendary,0,gacha,수치의 얼굴 좀비 그린
+head,faces,sad,amber,슬픈 얼굴 앰버,faces_sad_amber,\AssetsStore\spritesheets\head\faces\sad\amber.png,rare,0,gacha,슬픈 얼굴 앰버
+head,faces,sad,black,슬픈 얼굴 블랙,faces_sad_black,\AssetsStore\spritesheets\head\faces\sad\black.png,common,0,gacha,슬픈 얼굴 블랙
+head,faces,sad,blue,슬픈 얼굴 블루,faces_sad_blue,\AssetsStore\spritesheets\head\faces\sad\blue.png,rare,0,gacha,슬픈 얼굴 블루
+head,faces,sad,bright_green,슬픈 얼굴 브라이트 그린,faces_sad_bright_green,\AssetsStore\spritesheets\head\faces\sad\bright_green.png,epic,0,gacha,슬픈 얼굴 브라이트 그린
+head,faces,sad,bronze,슬픈 얼굴 브론즈,faces_sad_bronze,\AssetsStore\spritesheets\head\faces\sad\bronze.png,epic,0,gacha,슬픈 얼굴 브론즈
+head,faces,sad,brown,슬픈 얼굴 브라운,faces_sad_brown,\AssetsStore\spritesheets\head\faces\sad\brown.png,common,0,gacha,슬픈 얼굴 브라운
+head,faces,sad,dark_green,슬픈 얼굴 다크 그린,faces_sad_dark_green,\AssetsStore\spritesheets\head\faces\sad\dark_green.png,common,0,gacha,슬픈 얼굴 다크 그린
+head,faces,sad,fur_black,슬픈 얼굴 퍼 블랙,faces_sad_fur_black,\AssetsStore\spritesheets\head\faces\sad\fur_black.png,common,0,gacha,슬픈 얼굴 퍼 블랙
+head,faces,sad,fur_brown,슬픈 얼굴 퍼 브라운,faces_sad_fur_brown,\AssetsStore\spritesheets\head\faces\sad\fur_brown.png,common,0,gacha,슬픈 얼굴 퍼 브라운
+head,faces,sad,fur_copper,슬픈 얼굴 퍼 코퍼,faces_sad_fur_copper,\AssetsStore\spritesheets\head\faces\sad\fur_copper.png,epic,0,gacha,슬픈 얼굴 퍼 코퍼
+head,faces,sad,fur_gold,슬픈 얼굴 퍼 골드,faces_sad_fur_gold,\AssetsStore\spritesheets\head\faces\sad\fur_gold.png,legendary,0,gacha,슬픈 얼굴 퍼 골드
+head,faces,sad,fur_grey,슬픈 얼굴 퍼 그레이,faces_sad_fur_grey,\AssetsStore\spritesheets\head\faces\sad\fur_grey.png,common,0,gacha,슬픈 얼굴 퍼 그레이
+head,faces,sad,fur_tan,슬픈 얼굴 퍼 탄,faces_sad_fur_tan,\AssetsStore\spritesheets\head\faces\sad\fur_tan.png,common,0,gacha,슬픈 얼굴 퍼 탄
+head,faces,sad,fur_white,슬픈 얼굴 퍼 화이트,faces_sad_fur_white,\AssetsStore\spritesheets\head\faces\sad\fur_white.png,common,0,gacha,슬픈 얼굴 퍼 화이트
+head,faces,sad,green,슬픈 얼굴 그린,faces_sad_green,\AssetsStore\spritesheets\head\faces\sad\green.png,rare,0,gacha,슬픈 얼굴 그린
+head,faces,sad,lavender,슬픈 얼굴 라벤더,faces_sad_lavender,\AssetsStore\spritesheets\head\faces\sad\lavender.png,epic,0,gacha,슬픈 얼굴 라벤더
+head,faces,sad,olive,슬픈 얼굴 올리브,faces_sad_olive,\AssetsStore\spritesheets\head\faces\sad\olive.png,rare,0,gacha,슬픈 얼굴 올리브
+head,faces,sad,pale_green,슬픈 얼굴 페일 그린,faces_sad_pale_green,\AssetsStore\spritesheets\head\faces\sad\pale_green.png,rare,0,gacha,슬픈 얼굴 페일 그린
+head,faces,sad,taupe,슬픈 얼굴 토프,faces_sad_taupe,\AssetsStore\spritesheets\head\faces\sad\taupe.png,rare,0,gacha,슬픈 얼굴 토프
+head,faces,sad,zombie,슬픈 좀비 얼굴,faces_sad_zombie,\AssetsStore\spritesheets\head\faces\sad\zombie.png,legendary,0,gacha,슬픈 좀비 얼굴
+head,faces,sad,zombie_green,슬픈 좀비 그린 얼굴,faces_sad_zombie_green,\AssetsStore\spritesheets\head\faces\sad\zombie_green.png,legendary,0,gacha,슬픈 좀비 그린 얼굴
+head,faces,neutral,amber,중립 얼굴 앰버,faces_neutral_amber,\AssetsStore\spritesheets\head\faces\neutral\amber.png,rare,0,gacha,중립 얼굴 앰버
+head,faces,neutral,black,중립 얼굴 블랙,faces_neutral_black,\AssetsStore\spritesheets\head\faces\neutral\black.png,common,0,gacha,중립 얼굴 블랙
+head,faces,neutral,blue,중립 얼굴 블루,faces_neutral_blue,\AssetsStore\spritesheets\head\faces\neutral\blue.png,rare,0,gacha,중립 얼굴 블루
+head,faces,neutral,bright_green,중립 얼굴 브라이트 그린,faces_neutral_bright_green,\AssetsStore\spritesheets\head\faces\neutral\bright_green.png,epic,0,gacha,중립 얼굴 브라이트 그린
+head,faces,neutral,bronze,중립 얼굴 브론즈,faces_neutral_bronze,\AssetsStore\spritesheets\head\faces\neutral\bronze.png,epic,0,gacha,중립 얼굴 브론즈
+head,faces,neutral,brown,중립 얼굴 브라운,faces_neutral_brown,\AssetsStore\spritesheets\head\faces\neutral\brown.png,common,0,gacha,중립 얼굴 브라운
+head,faces,neutral,dark_green,중립 얼굴 다크 그린,faces_neutral_dark_green,\AssetsStore\spritesheets\head\faces\neutral\dark_green.png,common,0,gacha,중립 얼굴 다크 그린
+head,faces,neutral,fur_black,중립 얼굴 퍼 블랙,faces_neutral_fur_black,\AssetsStore\spritesheets\head\faces\neutral\fur_black.png,common,0,gacha,중립 얼굴 퍼 블랙
+head,faces,neutral,fur_brown,중립 얼굴 퍼 브라운,faces_neutral_fur_brown,\AssetsStore\spritesheets\head\faces\neutral\fur_brown.png,common,0,gacha,중립 얼굴 퍼 브라운
+head,faces,neutral,fur_copper,중립 얼굴 퍼 코퍼,faces_neutral_fur_copper,\AssetsStore\spritesheets\head\faces\neutral\fur_copper.png,epic,0,gacha,중립 얼굴 퍼 코퍼
+head,faces,neutral,fur_gold,중립 얼굴 퍼 골드,faces_neutral_fur_gold,\AssetsStore\spritesheets\head\faces\neutral\fur_gold.png,legendary,0,gacha,중립 얼굴 퍼 골드
+head,faces,neutral,fur_grey,중립 얼굴 퍼 그레이,faces_neutral_fur_grey,\AssetsStore\spritesheets\head\faces\neutral\fur_grey.png,common,0,gacha,중립 얼굴 퍼 그레이
+head,faces,neutral,fur_tan,중립 얼굴 퍼 탄,faces_neutral_fur_tan,\AssetsStore\spritesheets\head\faces\neutral\fur_tan.png,common,0,gacha,중립 얼굴 퍼 탄
+head,faces,neutral,fur_white,중립 얼굴 퍼 화이트,faces_neutral_fur_white,\AssetsStore\spritesheets\head\faces\neutral\fur_white.png,common,0,gacha,중립 얼굴 퍼 화이트
+head,faces,neutral,green,중립 얼굴 그린,faces_neutral_green,\AssetsStore\spritesheets\head\faces\neutral\green.png,rare,0,gacha,중립 얼굴 그린
+head,faces,neutral,lavender,중립 얼굴 라벤더,faces_neutral_lavender,\AssetsStore\spritesheets\head\faces\neutral\lavender.png,epic,0,gacha,중립 얼굴 라벤더
+head,faces,neutral,olive,중립 얼굴 올리브,faces_neutral_olive,\AssetsStore\spritesheets\head\faces\neutral\olive.png,rare,0,gacha,중립 얼굴 올리브
+head,faces,neutral,pale_green,중립 얼굴 페일 그린,faces_neutral_pale_green,\AssetsStore\spritesheets\head\faces\neutral\pale_green.png,rare,0,gacha,뉴트럴 페이스 페일 그린
+head,faces,neutral,taupe,중립 얼굴 토프,faces_neutral_taupe,\AssetsStore\spritesheets\head\faces\neutral\taupe.png,rare,0,gacha,뉴트럴 페이스 토프
+head,faces,neutral,zombie,중립 얼굴 좀비,faces_neutral_zombie,\AssetsStore\spritesheets\head\faces\neutral\zombie.png,legendary,0,gacha,뉴트럴 페이스 좀비
+head,faces,neutral,zombie_green,중립 얼굴 좀비 그린,faces_neutral_zombie_green,\AssetsStore\spritesheets\head\faces\neutral\zombie_green.png,legendary,0,gacha,뉴트럴 페이스 좀비 그린
+head,faces,look_r,amber,응시 얼굴 앰버,faces_look_r_amber,\AssetsStore\spritesheets\head\faces\look_r\amber.png,rare,0,gacha,룩 R 페이스 앰버
+head,faces,look_r,black,응시 얼굴 블랙,faces_look_r_black,\AssetsStore\spritesheets\head\faces\look_r\black.png,common,0,gacha,룩 R 페이스 블랙
+head,faces,look_r,blue,응시 얼굴 블루,faces_look_r_blue,\AssetsStore\spritesheets\head\faces\look_r\blue.png,rare,0,gacha,룩 R 페이스 블루
+head,faces,look_r,bright_green,응시 얼굴 브라이트 그린,faces_look_r_bright_green,\AssetsStore\spritesheets\head\faces\look_r\bright_green.png,epic,0,gacha,룩 R 페이스 브라이트 그린
+head,faces,look_r,bronze,응시 얼굴 브론즈,faces_look_r_bronze,\AssetsStore\spritesheets\head\faces\look_r\bronze.png,epic,0,gacha,룩 R 페이스 브론즈
+head,faces,look_r,brown,응시 얼굴 브라운,faces_look_r_brown,\AssetsStore\spritesheets\head\faces\look_r\brown.png,common,0,gacha,룩 R 페이스 브라운
+head,faces,look_r,dark_green,응시 얼굴 다크 그린,faces_look_r_dark_green,\AssetsStore\spritesheets\head\faces\look_r\dark_green.png,common,0,gacha,룩 R 페이스 다크 그린
+head,faces,look_r,fur_black,응시 얼굴 퍼 블랙,faces_look_r_fur_black,\AssetsStore\spritesheets\head\faces\look_r\fur_black.png,common,0,gacha,룩 R 페이스 퍼 블랙
+head,faces,look_r,fur_brown,응시 얼굴 퍼 브라운,faces_look_r_fur_brown,\AssetsStore\spritesheets\head\faces\look_r\fur_brown.png,common,0,gacha,룩 R 페이스 퍼 브라운
+head,faces,look_r,fur_copper,응시 얼굴 퍼 코퍼,faces_look_r_fur_copper,\AssetsStore\spritesheets\head\faces\look_r\fur_copper.png,epic,0,gacha,룩 R 페이스 퍼 코퍼
+head,faces,look_r,fur_gold,응시 얼굴 퍼 골드,faces_look_r_fur_gold,\AssetsStore\spritesheets\head\faces\look_r\fur_gold.png,legendary,0,gacha,룩 R 페이스 퍼 골드
+head,faces,look_r,fur_grey,응시 얼굴 퍼 그레이,faces_look_r_fur_grey,\AssetsStore\spritesheets\head\faces\look_r\fur_grey.png,common,0,gacha,룩 R 페이스 퍼 그레이
+head,faces,look_r,fur_tan,응시 얼굴 퍼 탄,faces_look_r_fur_tan,\AssetsStore\spritesheets\head\faces\look_r\fur_tan.png,common,0,gacha,룩 R 페이스 퍼 탄
+head,faces,look_r,fur_white,응시 얼굴 퍼 화이트,faces_look_r_fur_white,\AssetsStore\spritesheets\head\faces\look_r\fur_white.png,common,0,gacha,룩 R 페이스 퍼 화이트
+head,faces,look_r,green,응시 얼굴 그린,faces_look_r_green,\AssetsStore\spritesheets\head\faces\look_r\green.png,rare,0,gacha,룩 R 페이스 그린
+head,faces,look_r,lavender,응시 얼굴 라벤더,faces_look_r_lavender,\AssetsStore\spritesheets\head\faces\look_r\lavender.png,epic,0,gacha,룩 R 페이스 라벤더
+head,faces,look_r,olive,룩_R 얼굴 올리브,faces_look_r_olive,\AssetsStore\spritesheets\head\faces\look_r\olive.png,rare,0,gacha,룩_R 얼굴 올리브
+head,faces,look_r,pale_green,룩_R 얼굴 연그린,faces_look_r_pale_green,\AssetsStore\spritesheets\head\faces\look_r\pale_green.png,rare,0,gacha,룩_R 얼굴 연두
+head,faces,look_r,taupe,룩_R 얼굴 토프,faces_look_r_taupe,\AssetsStore\spritesheets\head\faces\look_r\taupe.png,rare,0,gacha,룩_R 얼굴 토프
+head,faces,look_r,zombie,룩_R 좀비 얼굴,faces_look_r_zombie,\AssetsStore\spritesheets\head\faces\look_r\zombie.png,legendary,0,gacha,룩_R 얼굴 좀비
+head,faces,look_r,zombie_green,룩_R 좀비 그린 얼굴,faces_look_r_zombie_green,\AssetsStore\spritesheets\head\faces\look_r\zombie_green.png,legendary,0,gacha,룩_R 얼굴 좀비 그린
+head,faces,look_l,amber,룩_L 얼굴 앰버,faces_look_l_amber,\AssetsStore\spritesheets\head\faces\look_l\amber.png,rare,0,gacha,룩_L 얼굴 앰버
+head,faces,look_l,black,룩_L 얼굴 블랙,faces_look_l_black,\AssetsStore\spritesheets\head\faces\look_l\black.png,common,0,gacha,룩_L 얼굴 블랙
+head,faces,look_l,blue,룩_L 얼굴 블루,faces_look_l_blue,\AssetsStore\spritesheets\head\faces\look_l\blue.png,rare,0,gacha,룩_L 얼굴 블루
+head,faces,look_l,bright_green,룩_L 얼굴 브라이트 그린,faces_look_l_bright_green,\AssetsStore\spritesheets\head\faces\look_l\bright_green.png,epic,0,gacha,룩_L 얼굴 브라이트 그린
+head,faces,look_l,bronze,룩_L 얼굴 브론즈,faces_look_l_bronze,\AssetsStore\spritesheets\head\faces\look_l\bronze.png,epic,0,gacha,룩_L 얼굴 브론즈
+head,faces,look_l,brown,룩_L 얼굴 브라운,faces_look_l_brown,\AssetsStore\spritesheets\head\faces\look_l\brown.png,common,0,gacha,룩_L 얼굴 브라운
+head,faces,look_l,dark_green,룩_L 얼굴 다크 그린,faces_look_l_dark_green,\AssetsStore\spritesheets\head\faces\look_l\dark_green.png,common,0,gacha,룩_L 얼굴 다크 그린
+head,faces,look_l,fur_black,룩_L 얼굴 퍼 블랙,faces_look_l_fur_black,\AssetsStore\spritesheets\head\faces\look_l\fur_black.png,common,0,gacha,룩_L 얼굴 퍼 블랙
+head,faces,look_l,fur_brown,룩_L 얼굴 퍼 브라운,faces_look_l_fur_brown,\AssetsStore\spritesheets\head\faces\look_l\fur_brown.png,common,0,gacha,룩_L 얼굴 퍼 브라운
+head,faces,look_l,fur_copper,룩_L 얼굴 퍼 코퍼,faces_look_l_fur_copper,\AssetsStore\spritesheets\head\faces\look_l\fur_copper.png,epic,0,gacha,룩_L 얼굴 퍼 코퍼
+head,faces,look_l,fur_gold,룩_L 얼굴 퍼 골드,faces_look_l_fur_gold,\AssetsStore\spritesheets\head\faces\look_l\fur_gold.png,legendary,0,gacha,룩_L 얼굴 퍼 골드
+head,faces,look_l,fur_grey,룩_L 얼굴 퍼 그레이,faces_look_l_fur_grey,\AssetsStore\spritesheets\head\faces\look_l\fur_grey.png,common,0,gacha,룩_L 얼굴 퍼 그레이
+head,faces,look_l,fur_tan,룩_L 얼굴 퍼 탄,faces_look_l_fur_tan,\AssetsStore\spritesheets\head\faces\look_l\fur_tan.png,common,0,gacha,룩_L 얼굴 퍼 탄
+head,faces,look_l,fur_white,룩_L 얼굴 퍼 화이트,faces_look_l_fur_white,\AssetsStore\spritesheets\head\faces\look_l\fur_white.png,common,0,gacha,룩_L 얼굴 퍼 화이트
+head,faces,look_l,green,룩_L 얼굴 그린,faces_look_l_green,\AssetsStore\spritesheets\head\faces\look_l\green.png,rare,0,gacha,룩_L 얼굴 그린
+head,faces,look_l,lavender,룩_L 얼굴 라벤더,faces_look_l_lavender,\AssetsStore\spritesheets\head\faces\look_l\lavender.png,epic,0,gacha,룩_L 얼굴 라벤더
+head,faces,look_l,olive,룩_L 얼굴 올리브,faces_look_l_olive,\AssetsStore\spritesheets\head\faces\look_l\olive.png,rare,0,gacha,룩_L 얼굴 올리브
+head,faces,look_l,pale_green,룩_L 얼굴 페일 그린,faces_look_l_pale_green,\AssetsStore\spritesheets\head\faces\look_l\pale_green.png,rare,0,gacha,룩_L 얼굴 연두
+head,faces,look_l,taupe,룩_L 얼굴 토프,faces_look_l_taupe,\AssetsStore\spritesheets\head\faces\look_l\taupe.png,rare,0,gacha,룩_L 얼굴 토프
+head,faces,look_l,zombie,룩_L 얼굴 좀비,faces_look_l_zombie,\AssetsStore\spritesheets\head\faces\look_l\zombie.png,legendary,0,gacha,룩_L 좀비 얼굴
+head,faces,look_l,zombie_green,룩_L 얼굴 좀비 그린,faces_look_l_zombie_green,\AssetsStore\spritesheets\head\faces\look_l\zombie_green.png,legendary,0,gacha,룩_L 좀비 그린 얼굴
+head,faces,happy,amber,행복한 얼굴 앰버,faces_happy_amber,\AssetsStore\spritesheets\head\faces\happy\amber.png,rare,0,gacha,행복한 얼굴 앰버
+head,faces,happy,black,행복한 얼굴 블랙,faces_happy_black,\AssetsStore\spritesheets\head\faces\happy\black.png,common,0,gacha,행복한 얼굴 블랙
+head,faces,happy,blue,행복한 얼굴 블루,faces_happy_blue,\AssetsStore\spritesheets\head\faces\happy\blue.png,rare,0,gacha,행복한 얼굴 블루
+head,faces,happy,bright_green,행복한 얼굴 브라이트 그린,faces_happy_bright_green,\AssetsStore\spritesheets\head\faces\happy\bright_green.png,epic,0,gacha,행복한 얼굴 브라이트 그린
+head,faces,happy,bronze,행복한 얼굴 브론즈,faces_happy_bronze,\AssetsStore\spritesheets\head\faces\happy\bronze.png,epic,0,gacha,행복한 얼굴 브론즈
+head,faces,happy,brown,행복한 얼굴 브라운,faces_happy_brown,\AssetsStore\spritesheets\head\faces\happy\brown.png,common,0,gacha,행복한 얼굴 브라운
+head,faces,happy,dark_green,행복한 얼굴 다크 그린,faces_happy_dark_green,\AssetsStore\spritesheets\head\faces\happy\dark_green.png,common,0,gacha,행복한 얼굴 다크 그린
+head,faces,happy,fur_black,행복한 얼굴 퍼 블랙,faces_happy_fur_black,\AssetsStore\spritesheets\head\faces\happy\fur_black.png,common,0,gacha,행복한 얼굴 퍼 블랙
+head,faces,happy,fur_brown,행복한 얼굴 퍼 브라운,faces_happy_fur_brown,\AssetsStore\spritesheets\head\faces\happy\fur_brown.png,common,0,gacha,행복한 얼굴 퍼 브라운
+head,faces,happy,fur_copper,행복한 얼굴 퍼 코퍼,faces_happy_fur_copper,\AssetsStore\spritesheets\head\faces\happy\fur_copper.png,epic,0,gacha,행복한 얼굴 퍼 코퍼
+head,faces,happy,fur_gold,행복한 얼굴 퍼 골드,faces_happy_fur_gold,\AssetsStore\spritesheets\head\faces\happy\fur_gold.png,legendary,0,gacha,행복한 얼굴 퍼 골드
+head,faces,happy,fur_grey,행복한 얼굴 퍼 그레이,faces_happy_fur_grey,\AssetsStore\spritesheets\head\faces\happy\fur_grey.png,common,0,gacha,행복한 얼굴 퍼 그레이
+head,faces,happy,fur_tan,행복한 얼굴 퍼 탄,faces_happy_fur_tan,\AssetsStore\spritesheets\head\faces\happy\fur_tan.png,common,0,gacha,행복한 얼굴 퍼 탄
+head,faces,happy,fur_white,행복한 얼굴 퍼 화이트,faces_happy_fur_white,\AssetsStore\spritesheets\head\faces\happy\fur_white.png,common,0,gacha,행복한 얼굴 퍼 화이트
+head,faces,happy,green,해피 페이스 그린,faces_happy_green,\AssetsStore\spritesheets\head\faces\happy\green.png,rare,0,gacha,해피 페이스 그린
+head,faces,happy,lavender,해피 페이스 라벤더,faces_happy_lavender,\AssetsStore\spritesheets\head\faces\happy\lavender.png,epic,0,gacha,해피 페이스 라벤더
+head,faces,happy,olive,해피 페이스 올리브,faces_happy_olive,\AssetsStore\spritesheets\head\faces\happy\olive.png,rare,0,gacha,해피 페이스 올리브
+head,faces,happy,pale_green,해피 페이스 페일 그린,faces_happy_pale_green,\AssetsStore\spritesheets\head\faces\happy\pale_green.png,rare,0,gacha,해피 페이스 페일 그린
+head,faces,happy,taupe,해피 페이스 토프,faces_happy_taupe,\AssetsStore\spritesheets\head\faces\happy\taupe.png,rare,0,gacha,해피 페이스 토프
+head,faces,happy,zombie,해피 페이스 좀비,faces_happy_zombie,\AssetsStore\spritesheets\head\faces\happy\zombie.png,legendary,0,gacha,해피 페이스 좀비
+head,faces,happy,zombie_green,해피 페이스 좀비 그린,faces_happy_zombie_green,\AssetsStore\spritesheets\head\faces\happy\zombie_green.png,legendary,0,gacha,해피 페이스 좀비 그린
+head,faces,eyeroll,amber,아이롤 페이스 앰버,faces_eyeroll_amber,\AssetsStore\spritesheets\head\faces\eyeroll\amber.png,rare,0,gacha,아이롤 페이스 앰버
+head,faces,eyeroll,black,아이롤 페이스 블랙,faces_eyeroll_black,\AssetsStore\spritesheets\head\faces\eyeroll\black.png,common,0,gacha,아이롤 페이스 블랙
+head,faces,eyeroll,blue,아이롤 페이스 블루,faces_eyeroll_blue,\AssetsStore\spritesheets\head\faces\eyeroll\blue.png,rare,0,gacha,아이롤 페이스 블루
+head,faces,eyeroll,bright_green,아이롤 페이스 브라이트 그린,faces_eyeroll_bright_green,\AssetsStore\spritesheets\head\faces\eyeroll\bright_green.png,epic,0,gacha,아이롤 페이스 브라이트 그린
+head,faces,eyeroll,bronze,아이롤 페이스 브론즈,faces_eyeroll_bronze,\AssetsStore\spritesheets\head\faces\eyeroll\bronze.png,epic,0,gacha,아이롤 페이스 브론즈
+head,faces,eyeroll,brown,아이롤 페이스 브라운,faces_eyeroll_brown,\AssetsStore\spritesheets\head\faces\eyeroll\brown.png,common,0,gacha,아이롤 페이스 브라운
+head,faces,eyeroll,dark_green,아이롤 페이스 다크 그린,faces_eyeroll_dark_green,\AssetsStore\spritesheets\head\faces\eyeroll\dark_green.png,common,0,gacha,아이롤 페이스 다크 그린
+head,faces,eyeroll,fur_black,아이롤 페이스 퍼 블랙,faces_eyeroll_fur_black,\AssetsStore\spritesheets\head\faces\eyeroll\fur_black.png,common,0,gacha,아이롤 페이스 퍼 블랙
+head,faces,eyeroll,fur_brown,아이롤 페이스 퍼 브라운,faces_eyeroll_fur_brown,\AssetsStore\spritesheets\head\faces\eyeroll\fur_brown.png,common,0,gacha,아이롤 페이스 퍼 브라운
+head,faces,eyeroll,fur_copper,아이롤 페이스 퍼 코퍼,faces_eyeroll_fur_copper,\AssetsStore\spritesheets\head\faces\eyeroll\fur_copper.png,epic,0,gacha,아이롤 페이스 퍼 코퍼
+head,faces,eyeroll,fur_gold,아이롤 페이스 퍼 골드,faces_eyeroll_fur_gold,\AssetsStore\spritesheets\head\faces\eyeroll\fur_gold.png,legendary,0,gacha,아이롤 페이스 퍼 골드
+head,faces,eyeroll,fur_grey,아이롤 페이스 퍼 그레이,faces_eyeroll_fur_grey,\AssetsStore\spritesheets\head\faces\eyeroll\fur_grey.png,common,0,gacha,아이롤 페이스 퍼 그레이
+head,faces,eyeroll,fur_tan,아이롤 페이스 퍼 탄,faces_eyeroll_fur_tan,\AssetsStore\spritesheets\head\faces\eyeroll\fur_tan.png,common,0,gacha,아이롤 페이스 퍼 탄
+head,faces,eyeroll,fur_white,아이롤 퍼 화이트,faces_eyeroll_fur_white,\AssetsStore\spritesheets\head\faces\eyeroll\fur_white.png,legendary,0,gacha,아이롤 퍼 화이트
+head,faces,eyeroll,green,아이롤 그린,faces_eyeroll_green,\AssetsStore\spritesheets\head\faces\eyeroll\green.png,rare,0,gacha,아이롤 그린
+head,faces,eyeroll,lavender,아이롤 라벤더,faces_eyeroll_lavender,\AssetsStore\spritesheets\head\faces\eyeroll\lavender.png,epic,0,gacha,아이롤 라벤더
+head,faces,eyeroll,olive,아이롤 올리브,faces_eyeroll_olive,\AssetsStore\spritesheets\head\faces\eyeroll\olive.png,rare,0,gacha,아이롤 올리브
+head,faces,eyeroll,pale_green,아이롤 페일 그린,faces_eyeroll_pale_green,\AssetsStore\spritesheets\head\faces\eyeroll\pale_green.png,rare,0,gacha,아이롤 페일 그린
+head,faces,eyeroll,taupe,아이롤 토프,faces_eyeroll_taupe,\AssetsStore\spritesheets\head\faces\eyeroll\taupe.png,rare,0,gacha,아이롤 토프
+head,faces,eyeroll,zombie,아이롤 좀비,faces_eyeroll_zombie,\AssetsStore\spritesheets\head\faces\eyeroll\zombie.png,legendary,0,gacha,아이롤 좀비
+head,faces,eyeroll,zombie_green,아이롤 좀비 그린,faces_eyeroll_zombie_green,\AssetsStore\spritesheets\head\faces\eyeroll\zombie_green.png,legendary,0,gacha,아이롤 좀비 그린
+head,faces,closing,amber,클로징 앰버,faces_closing_amber,\AssetsStore\spritesheets\head\faces\closing\amber.png,rare,0,gacha,클로징 앰버
+head,faces,closing,black,클로징 블랙,faces_closing_black,\AssetsStore\spritesheets\head\faces\closing\black.png,common,0,gacha,클로징 블랙
+head,faces,closing,blue,클로징 블루,faces_closing_blue,\AssetsStore\spritesheets\head\faces\closing\blue.png,rare,0,gacha,클로징 블루
+head,faces,closing,bright_green,클로징 브라이트 그린,faces_closing_bright_green,\AssetsStore\spritesheets\head\faces\closing\bright_green.png,epic,0,gacha,클로징 브라이트 그린
+head,faces,closing,bronze,클로징 브론즈,faces_closing_bronze,\AssetsStore\spritesheets\head\faces\closing\bronze.png,epic,0,gacha,클로징 브론즈
+head,faces,closing,brown,클로징 브라운,faces_closing_brown,\AssetsStore\spritesheets\head\faces\closing\brown.png,common,0,gacha,클로징 브라운
+head,faces,closing,dark_green,클로징 다크 그린,faces_closing_dark_green,\AssetsStore\spritesheets\head\faces\closing\dark_green.png,common,0,gacha,클로징 다크 그린
+head,faces,closing,fur_black,클로징 퍼 블랙,faces_closing_fur_black,\AssetsStore\spritesheets\head\faces\closing\fur_black.png,legendary,0,gacha,클로징 퍼 블랙
+head,faces,closing,fur_brown,클로징 퍼 브라운,faces_closing_fur_brown,\AssetsStore\spritesheets\head\faces\closing\fur_brown.png,legendary,0,gacha,클로징 퍼 브라운
+head,faces,closing,fur_copper,클로징 퍼 코퍼,faces_closing_fur_copper,\AssetsStore\spritesheets\head\faces\closing\fur_copper.png,epic,0,gacha,클로징 퍼 코퍼
+head,faces,closing,fur_gold,클로징 퍼 골드,faces_closing_fur_gold,\AssetsStore\spritesheets\head\faces\closing\fur_gold.png,legendary,0,gacha,클로징 퍼 골드
+head,faces,closing,fur_grey,클로징 퍼 그레이,faces_closing_fur_grey,\AssetsStore\spritesheets\head\faces\closing\fur_grey.png,legendary,0,gacha,클로징 퍼 그레이
+head,faces,closing,fur_tan,클로징 페이스 퍼 탠,faces_closing_fur_tan,\AssetsStore\spritesheets\head\faces\closing\fur_tan.png,common,0,gacha,클로징 페이스 퍼 탠
+head,faces,closing,fur_white,클로징 페이스 퍼 화이트,faces_closing_fur_white,\AssetsStore\spritesheets\head\faces\closing\fur_white.png,common,0,gacha,클로징 페이스 퍼 화이트
+head,faces,closing,green,클로징 페이스 그린,faces_closing_green,\AssetsStore\spritesheets\head\faces\closing\green.png,rare,0,gacha,클로징 페이스 그린
+head,faces,closing,lavender,클로징 페이스 라벤더,faces_closing_lavender,\AssetsStore\spritesheets\head\faces\closing\lavender.png,epic,0,gacha,클로징 페이스 라벤더
+head,faces,closing,olive,클로징 페이스 올리브,faces_closing_olive,\AssetsStore\spritesheets\head\faces\closing\olive.png,rare,0,gacha,클로징 페이스 올리브
+head,faces,closing,pale_green,클로징 페이스 페일 그린,faces_closing_pale_green,\AssetsStore\spritesheets\head\faces\closing\pale_green.png,rare,0,gacha,클로징 페이스 페일 그린
+head,faces,closing,taupe,클로징 페이스 토프,faces_closing_taupe,\AssetsStore\spritesheets\head\faces\closing\taupe.png,rare,0,gacha,클로징 페이스 토프
+head,faces,closing,zombie,클로징 페이스 좀비,faces_closing_zombie,\AssetsStore\spritesheets\head\faces\closing\zombie.png,legendary,0,gacha,클로징 페이스 좀비
+head,faces,closing,zombie_green,클로징 페이스 좀비 그린,faces_closing_zombie_green,\AssetsStore\spritesheets\head\faces\closing\zombie_green.png,legendary,0,gacha,클로징 페이스 좀비 그린
+head,faces,closed,amber,클로즈드 페이스 앰버,faces_closed_amber,\AssetsStore\spritesheets\head\faces\closed\amber.png,rare,0,gacha,클로즈드 페이스 앰버
+head,faces,closed,black,클로즈드 페이스 블랙,faces_closed_black,\AssetsStore\spritesheets\head\faces\closed\black.png,common,0,gacha,클로즈드 페이스 블랙
+head,faces,closed,blue,클로즈드 페이스 블루,faces_closed_blue,\AssetsStore\spritesheets\head\faces\closed\blue.png,rare,0,gacha,클로즈드 페이스 블루
+head,faces,closed,bright_green,클로즈드 페이스 브라이트 그린,faces_closed_bright_green,\AssetsStore\spritesheets\head\faces\closed\bright_green.png,epic,0,gacha,클로즈드 페이스 브라이트 그린
+head,faces,closed,bronze,클로즈드 페이스 브론즈,faces_closed_bronze,\AssetsStore\spritesheets\head\faces\closed\bronze.png,epic,0,gacha,클로즈드 페이스 브론즈
+head,faces,closed,brown,클로즈드 페이스 브라운,faces_closed_brown,\AssetsStore\spritesheets\head\faces\closed\brown.png,common,0,gacha,클로즈드 페이스 브라운
+head,faces,closed,dark_green,클로즈드 페이스 다크 그린,faces_closed_dark_green,\AssetsStore\spritesheets\head\faces\closed\dark_green.png,common,0,gacha,클로즈드 페이스 다크 그린
+head,faces,closed,fur_black,클로즈드 페이스 퍼 블랙,faces_closed_fur_black,\AssetsStore\spritesheets\head\faces\closed\fur_black.png,common,0,gacha,클로즈드 페이스 퍼 블랙
+head,faces,closed,fur_brown,클로즈드 페이스 퍼 브라운,faces_closed_fur_brown,\AssetsStore\spritesheets\head\faces\closed\fur_brown.png,common,0,gacha,클로즈드 페이스 퍼 브라운
+head,faces,closed,fur_copper,클로즈드 페이스 퍼 코퍼,faces_closed_fur_copper,\AssetsStore\spritesheets\head\faces\closed\fur_copper.png,epic,0,gacha,클로즈드 페이스 퍼 코퍼
+head,faces,closed,fur_gold,클로즈드 페이스 퍼 골드,faces_closed_fur_gold,\AssetsStore\spritesheets\head\faces\closed\fur_gold.png,legendary,0,gacha,클로즈드 페이스 퍼 골드
+head,faces,closed,fur_grey,클로즈드 퍼 그레이,faces_closed_fur_grey,\AssetsStore\spritesheets\head\faces\closed\fur_grey.png,common,0,gacha,클로즈드 퍼 그레이
+head,faces,closed,fur_tan,클로즈드 퍼 탄,faces_closed_fur_tan,\AssetsStore\spritesheets\head\faces\closed\fur_tan.png,common,0,gacha,클로즈드 퍼 탄
+head,faces,closed,fur_white,클로즈드 퍼 화이트,faces_closed_fur_white,\AssetsStore\spritesheets\head\faces\closed\fur_white.png,common,0,gacha,클로즈드 퍼 화이트
+head,faces,closed,green,클로즈드 그린,faces_closed_green,\AssetsStore\spritesheets\head\faces\closed\green.png,rare,0,gacha,클로즈드 그린
+head,faces,closed,lavender,클로즈드 라벤더,faces_closed_lavender,\AssetsStore\spritesheets\head\faces\closed\lavender.png,epic,0,gacha,클로즈드 라벤더
+head,faces,closed,olive,클로즈드 올리브,faces_closed_olive,\AssetsStore\spritesheets\head\faces\closed\olive.png,rare,0,gacha,클로즈드 올리브
+head,faces,closed,pale_green,클로즈드 페일 그린,faces_closed_pale_green,\AssetsStore\spritesheets\head\faces\closed\pale_green.png,rare,0,gacha,클로즈드 페일 그린
+head,faces,closed,taupe,클로즈드 토프,faces_closed_taupe,\AssetsStore\spritesheets\head\faces\closed\taupe.png,rare,0,gacha,클로즈드 토프
+head,faces,closed,zombie,클로즈드 좀비,faces_closed_zombie,\AssetsStore\spritesheets\head\faces\closed\zombie.png,legendary,0,gacha,클로즈드 좀비
+head,faces,closed,zombie_green,클로즈드 좀비 그린,faces_closed_zombie_green,\AssetsStore\spritesheets\head\faces\closed\zombie_green.png,legendary,0,gacha,클로즈드 좀비 그린
+head,faces,blush,amber,블러쉬 앰버,faces_blush_amber,\AssetsStore\spritesheets\head\faces\blush\amber.png,rare,0,gacha,블러쉬 앰버
+head,faces,blush,black,블러쉬 블랙,faces_blush_black,\AssetsStore\spritesheets\head\faces\blush\black.png,common,0,gacha,블러쉬 블랙
+head,faces,blush,blue,블러쉬 블루,faces_blush_blue,\AssetsStore\spritesheets\head\faces\blush\blue.png,rare,0,gacha,블러쉬 블루
+head,faces,blush,bright_green,블러쉬 브라이트 그린,faces_blush_bright_green,\AssetsStore\spritesheets\head\faces\blush\bright_green.png,epic,0,gacha,블러쉬 브라이트 그린
+head,faces,blush,bronze,블러쉬 브론즈,faces_blush_bronze,\AssetsStore\spritesheets\head\faces\blush\bronze.png,epic,0,gacha,블러쉬 브론즈
+head,faces,blush,brown,블러쉬 브라운,faces_blush_brown,\AssetsStore\spritesheets\head\faces\blush\brown.png,common,0,gacha,블러쉬 브라운
+head,faces,blush,dark_green,블러쉬 다크 그린,faces_blush_dark_green,\AssetsStore\spritesheets\head\faces\blush\dark_green.png,common,0,gacha,블러쉬 다크 그린
+head,faces,blush,fur_black,블러쉬 퍼 블랙,faces_blush_fur_black,\AssetsStore\spritesheets\head\faces\blush\fur_black.png,common,0,gacha,블러쉬 퍼 블랙
+head,faces,blush,fur_brown,블러쉬 퍼 브라운,faces_blush_fur_brown,\AssetsStore\spritesheets\head\faces\blush\fur_brown.png,common,0,gacha,블러쉬 퍼 브라운
+head,faces,blush,fur_copper,블러쉬 퍼 코퍼,faces_blush_fur_copper,\AssetsStore\spritesheets\head\faces\blush\fur_copper.png,epic,0,gacha,블러쉬 퍼 코퍼
+head,faces,blush,fur_gold,블러시 퍼 골드,faces_blush_fur_gold,\AssetsStore\spritesheets\head\faces\blush\fur_gold.png,legendary,0,gacha,블러시 퍼 골드
+head,faces,blush,fur_grey,블러시 퍼 그레이,faces_blush_fur_grey,\AssetsStore\spritesheets\head\faces\blush\fur_grey.png,common,0,gacha,블러시 퍼 그레이
+head,faces,blush,fur_tan,블러시 퍼 탄,faces_blush_fur_tan,\AssetsStore\spritesheets\head\faces\blush\fur_tan.png,common,0,gacha,블러시 퍼 탄
+head,faces,blush,fur_white,블러시 퍼 화이트,faces_blush_fur_white,\AssetsStore\spritesheets\head\faces\blush\fur_white.png,common,0,gacha,블러시 퍼 화이트
+head,faces,blush,green,블러시 그린,faces_blush_green,\AssetsStore\spritesheets\head\faces\blush\green.png,rare,0,gacha,블러시 그린
+head,faces,blush,lavender,블러시 라벤더,faces_blush_lavender,\AssetsStore\spritesheets\head\faces\blush\lavender.png,epic,0,gacha,블러시 라벤더
+head,faces,blush,olive,블러시 올리브,faces_blush_olive,\AssetsStore\spritesheets\head\faces\blush\olive.png,rare,0,gacha,블러시 올리브
+head,faces,blush,pale_green,블러시 페일 그린,faces_blush_pale_green,\AssetsStore\spritesheets\head\faces\blush\pale_green.png,rare,0,gacha,블러시 페일 그린
+head,faces,blush,taupe,블러시 토프,faces_blush_taupe,\AssetsStore\spritesheets\head\faces\blush\taupe.png,rare,0,gacha,블러시 토프
+head,faces,blush,zombie,블러시 좀비,faces_blush_zombie,\AssetsStore\spritesheets\head\faces\blush\zombie.png,legendary,0,gacha,블러시 좀비
+head,faces,blush,zombie_green,블러시 좀비 그린,faces_blush_zombie_green,\AssetsStore\spritesheets\head\faces\blush\zombie_green.png,legendary,0,gacha,블러시 좀비 그린
+head,faces,anger,amber,화난 얼굴 앰버,faces_anger_amber,\AssetsStore\spritesheets\head\faces\anger\amber.png,rare,0,gacha,화난 얼굴 앰버
+head,faces,anger,black,화난 얼굴 블랙,faces_anger_black,\AssetsStore\spritesheets\head\faces\anger\black.png,common,0,gacha,화난 얼굴 블랙
+head,faces,anger,blue,화난 얼굴 블루,faces_anger_blue,\AssetsStore\spritesheets\head\faces\anger\blue.png,rare,0,gacha,화난 얼굴 블루
+head,faces,anger,bright_green,화난 얼굴 브라이트 그린,faces_anger_bright_green,\AssetsStore\spritesheets\head\faces\anger\bright_green.png,epic,0,gacha,화난 얼굴 브라이트 그린
+head,faces,anger,bronze,화난 얼굴 브론즈,faces_anger_bronze,\AssetsStore\spritesheets\head\faces\anger\bronze.png,epic,0,gacha,화난 얼굴 브론즈
+head,faces,anger,brown,화난 얼굴 브라운,faces_anger_brown,\AssetsStore\spritesheets\head\faces\anger\brown.png,common,0,gacha,화난 얼굴 브라운
+head,faces,anger,dark_green,화난 얼굴 다크 그린,faces_anger_dark_green,\AssetsStore\spritesheets\head\faces\anger\dark_green.png,common,0,gacha,화난 얼굴 다크 그린
+head,faces,anger,fur_black,화난 얼굴 퍼 블랙,faces_anger_fur_black,\AssetsStore\spritesheets\head\faces\anger\fur_black.png,common,0,gacha,화난 얼굴 퍼 블랙
+head,faces,anger,fur_brown,화난 얼굴 퍼 브라운,faces_anger_fur_brown,\AssetsStore\spritesheets\head\faces\anger\fur_brown.png,common,0,gacha,화난 얼굴 퍼 브라운
+head,faces,anger,fur_copper,분노 얼굴 퍼 코퍼,faces_anger_fur_copper,\AssetsStore\spritesheets\head\faces\anger\fur_copper.png,epic,0,gacha,분노 얼굴 퍼 코퍼
+head,faces,anger,fur_gold,분노 얼굴 퍼 골드,faces_anger_fur_gold,\AssetsStore\spritesheets\head\faces\anger\fur_gold.png,legendary,0,gacha,분노 얼굴 퍼 골드
+head,faces,anger,fur_grey,분노 얼굴 퍼 그레이,faces_anger_fur_grey,\AssetsStore\spritesheets\head\faces\anger\fur_grey.png,common,0,gacha,분노 얼굴 퍼 그레이
+head,faces,anger,fur_tan,분노 얼굴 퍼 탄,faces_anger_fur_tan,\AssetsStore\spritesheets\head\faces\anger\fur_tan.png,rare,0,gacha,분노 얼굴 퍼 탄
+head,faces,anger,fur_white,분노 얼굴 퍼 화이트,faces_anger_fur_white,\AssetsStore\spritesheets\head\faces\anger\fur_white.png,common,0,gacha,분노 얼굴 퍼 화이트
+head,faces,anger,green,분노 얼굴 그린,faces_anger_green,\AssetsStore\spritesheets\head\faces\anger\green.png,rare,0,gacha,분노 얼굴 그린
+head,faces,anger,lavender,분노 얼굴 라벤더,faces_anger_lavender,\AssetsStore\spritesheets\head\faces\anger\lavender.png,epic,0,gacha,분노 얼굴 라벤더
+head,faces,anger,olive,분노 얼굴 올리브,faces_anger_olive,\AssetsStore\spritesheets\head\faces\anger\olive.png,rare,0,gacha,분노 얼굴 올리브
+head,faces,anger,pale_green,분노 얼굴 페일 그린,faces_anger_pale_green,\AssetsStore\spritesheets\head\faces\anger\pale_green.png,rare,0,gacha,분노 얼굴 페일 그린
+head,faces,anger,taupe,분노 얼굴 토프,faces_anger_taupe,\AssetsStore\spritesheets\head\faces\anger\taupe.png,rare,0,gacha,분노 얼굴 토프
+head,faces,anger,zombie,분노 얼굴 좀비,faces_anger_zombie,\AssetsStore\spritesheets\head\faces\anger\zombie.png,legendary,0,gacha,분노 얼굴 좀비
+head,faces,anger,zombie_green,분노 얼굴 좀비 그린,faces_anger_zombie_green,\AssetsStore\spritesheets\head\faces\anger\zombie_green.png,legendary,0,gacha,분노 얼굴 좀비 그린
+head,eyes,shock,blue,충격 눈 블루,eyes_shock_blue,\AssetsStore\spritesheets\head\eyes\shock\blue.png,rare,0,gacha,충격 눈 블루
+head,eyes,shock,brown,충격 눈 브라운,eyes_shock_brown,\AssetsStore\spritesheets\head\eyes\shock\brown.png,common,0,gacha,충격 눈 브라운
+head,eyes,shock,gray,충격 눈 그레이,eyes_shock_gray,\AssetsStore\spritesheets\head\eyes\shock\gray.png,common,0,gacha,충격 눈 그레이
+head,eyes,shock,green,충격 눈 그린,eyes_shock_green,\AssetsStore\spritesheets\head\eyes\shock\green.png,rare,0,gacha,충격 눈 그린
+head,eyes,shock,orange,충격 눈 오렌지,eyes_shock_orange,\AssetsStore\spritesheets\head\eyes\shock\orange.png,rare,0,gacha,충격 눈 오렌지
+head,eyes,shock,purple,충격 눈 퍼플,eyes_shock_purple,\AssetsStore\spritesheets\head\eyes\shock\purple.png,rare,0,gacha,충격 눈 퍼플
+head,eyes,shock,red,충격 눈 레드,eyes_shock_red,\AssetsStore\spritesheets\head\eyes\shock\red.png,common,0,gacha,충격 눈 레드
+head,eyes,shock,yellow,충격 눈 옐로우,eyes_shock_yellow,\AssetsStore\spritesheets\head\eyes\shock\yellow.png,rare,0,gacha,충격 눈 옐로우
+head,eyes,shame,blue,수치 눈 블루,eyes_shame_blue,\AssetsStore\spritesheets\head\eyes\shame\blue.png,rare,0,gacha,수치의 눈 블루
+head,eyes,shame,brown,수치 눈 브라운,eyes_shame_brown,\AssetsStore\spritesheets\head\eyes\shame\brown.png,common,0,gacha,수치의 눈 브라운
+head,eyes,shame,gray,수치 눈 그레이,eyes_shame_gray,\AssetsStore\spritesheets\head\eyes\shame\gray.png,common,0,gacha,수치의 눈 그레이
+head,eyes,shame,green,수치 눈 그린,eyes_shame_green,\AssetsStore\spritesheets\head\eyes\shame\green.png,rare,0,gacha,수치의 눈 그린
+head,eyes,shame,orange,수치 눈 오렌지,eyes_shame_orange,\AssetsStore\spritesheets\head\eyes\shame\orange.png,rare,0,gacha,수치의 눈 오렌지
+head,eyes,shame,purple,수치 눈 퍼플,eyes_shame_purple,\AssetsStore\spritesheets\head\eyes\shame\purple.png,rare,0,gacha,수치의 눈 퍼플
+head,eyes,shame,red,수치 눈 레드,eyes_shame_red,\AssetsStore\spritesheets\head\eyes\shame\red.png,rare,0,gacha,수치의 눈 레드
+head,eyes,shame,yellow,수치 눈 옐로우,eyes_shame_yellow,\AssetsStore\spritesheets\head\eyes\shame\yellow.png,rare,0,gacha,수치의 눈 옐로우
+head,eyes,sad2,blue,슬픈 눈2 블루,eyes_sad2_blue,\AssetsStore\spritesheets\head\eyes\sad2\blue.png,rare,0,gacha,슬픔 눈2 블루
+head,eyes,sad2,brown,슬픈 눈2 브라운,eyes_sad2_brown,\AssetsStore\spritesheets\head\eyes\sad2\brown.png,common,0,gacha,슬픔 눈2 브라운
+head,eyes,sad2,gray,슬픈 눈2 그레이,eyes_sad2_gray,\AssetsStore\spritesheets\head\eyes\sad2\gray.png,common,0,gacha,슬픔 눈2 그레이
+head,eyes,sad2,green,슬픈 눈2 그린,eyes_sad2_green,\AssetsStore\spritesheets\head\eyes\sad2\green.png,rare,0,gacha,슬픔 눈2 그린
+head,eyes,sad2,orange,슬픈 눈2 오렌지,eyes_sad2_orange,\AssetsStore\spritesheets\head\eyes\sad2\orange.png,rare,0,gacha,슬픔 눈2 오렌지
+head,eyes,sad2,purple,슬픈 눈2 퍼플,eyes_sad2_purple,\AssetsStore\spritesheets\head\eyes\sad2\purple.png,rare,0,gacha,슬픔 눈2 퍼플
+head,eyes,sad2,red,슬픈 눈2 레드,eyes_sad2_red,\AssetsStore\spritesheets\head\eyes\sad2\red.png,rare,0,gacha,슬픔 눈2 레드
+head,eyes,sad2,yellow,슬픈 눈2 옐로우,eyes_sad2_yellow,\AssetsStore\spritesheets\head\eyes\sad2\yellow.png,rare,0,gacha,슬픔 눈2 옐로우
+head,eyes,sad,blue,슬픈 눈 블루,eyes_sad_blue,\AssetsStore\spritesheets\head\eyes\sad\blue.png,rare,0,gacha,슬픈 눈 블루
+head,eyes,sad,brown,슬픈 눈 브라운,eyes_sad_brown,\AssetsStore\spritesheets\head\eyes\sad\brown.png,common,0,gacha,슬픈 눈 브라운
+head,eyes,sad,gray,슬픈 눈 그레이,eyes_sad_gray,\AssetsStore\spritesheets\head\eyes\sad\gray.png,common,0,gacha,슬픈 눈 그레이
+head,eyes,sad,green,슬픈 눈 그린,eyes_sad_green,\AssetsStore\spritesheets\head\eyes\sad\green.png,rare,0,gacha,슬픈 눈 그린
+head,eyes,sad,orange,슬픈 눈 오렌지,eyes_sad_orange,\AssetsStore\spritesheets\head\eyes\sad\orange.png,rare,0,gacha,슬픈 눈 오렌지
+head,eyes,sad,purple,슬픈 눈 퍼플,eyes_sad_purple,\AssetsStore\spritesheets\head\eyes\sad\purple.png,rare,0,gacha,슬픈 눈 퍼플
+head,eyes,sad,red,슬픈 눈 레드,eyes_sad_red,\AssetsStore\spritesheets\head\eyes\sad\red.png,rare,0,gacha,슬픈 눈 레드
+head,eyes,sad,yellow,슬픈 눈 옐로우,eyes_sad_yellow,\AssetsStore\spritesheets\head\eyes\sad\yellow.png,rare,0,gacha,슬픈 눈 옐로우
+head,eyes,neutral,blue,무표정 눈 블루,eyes_neutral_blue,\AssetsStore\spritesheets\head\eyes\neutral\blue.png,rare,0,gacha,무표정 눈 블루
+head,eyes,neutral,brown,무표정 눈 브라운,eyes_neutral_brown,\AssetsStore\spritesheets\head\eyes\neutral\brown.png,common,0,gacha,무표정 눈 브라운
+head,eyes,neutral,gray,무표정 눈 그레이,eyes_neutral_gray,\AssetsStore\spritesheets\head\eyes\neutral\gray.png,common,0,gacha,무표정 눈 그레이
+head,eyes,neutral,green,무표정 눈 그린,eyes_neutral_green,\AssetsStore\spritesheets\head\eyes\neutral\green.png,rare,0,gacha,무표정 눈 그린
+head,eyes,neutral,orange,무표정 눈 오렌지,eyes_neutral_orange,\AssetsStore\spritesheets\head\eyes\neutral\orange.png,rare,0,gacha,무표정 눈 오렌지
+head,eyes,neutral,purple,무표정 눈 퍼플,eyes_neutral_purple,\AssetsStore\spritesheets\head\eyes\neutral\purple.png,rare,0,gacha,무표정 눈 퍼플
+head,eyes,neutral,red,무표정 눈 레드,eyes_neutral_red,\AssetsStore\spritesheets\head\eyes\neutral\red.png,rare,0,gacha,무표정 눈 레드
+head,eyes,neutral,yellow,무표정 눈 옐로우,eyes_neutral_yellow,\AssetsStore\spritesheets\head\eyes\neutral\yellow.png,rare,0,gacha,무표정 눈 옐로우
+head,eyes,look_r,blue,옆눈 블루,eyes_look_r_blue,\AssetsStore\spritesheets\head\eyes\look_r\blue.png,rare,0,gacha,옆눈 블루
+head,eyes,look_r,brown,옆눈 브라운,eyes_look_r_brown,\AssetsStore\spritesheets\head\eyes\look_r\brown.png,common,0,gacha,옆눈 브라운
+head,eyes,look_r,gray,옆눈 그레이,eyes_look_r_gray,\AssetsStore\spritesheets\head\eyes\look_r\gray.png,common,0,gacha,옆눈 그레이
+head,eyes,look_r,green,옆눈 그린,eyes_look_r_green,\AssetsStore\spritesheets\head\eyes\look_r\green.png,rare,0,gacha,옆눈 그린
+head,eyes,look_r,orange,옆눈 오렌지,eyes_look_r_orange,\AssetsStore\spritesheets\head\eyes\look_r\orange.png,rare,0,gacha,옆눈 오렌지
+head,eyes,look_r,purple,옆눈 퍼플,eyes_look_r_purple,\AssetsStore\spritesheets\head\eyes\look_r\purple.png,rare,0,gacha,옆눈 퍼플
+head,eyes,look_r,red,옆눈 레드,eyes_look_r_red,\AssetsStore\spritesheets\head\eyes\look_r\red.png,rare,0,gacha,옆눈 레드
+head,eyes,look_r,yellow,옆눈 옐로우,eyes_look_r_yellow,\AssetsStore\spritesheets\head\eyes\look_r\yellow.png,rare,0,gacha,옆눈 옐로우
+head,eyes,look_l,blue,룩_L 블루 아이,eyes_look_l_blue,\AssetsStore\spritesheets\head\eyes\look_l\blue.png,rare,0,gacha,룩_L 블루 눈동자
+head,eyes,look_l,brown,룩_L 브라운 아이,eyes_look_l_brown,\AssetsStore\spritesheets\head\eyes\look_l\brown.png,common,0,gacha,룩_L 브라운 눈동자
+head,eyes,look_l,gray,룩_L 그레이 아이,eyes_look_l_gray,\AssetsStore\spritesheets\head\eyes\look_l\gray.png,common,0,gacha,룩_L 그레이 눈동자
+head,eyes,look_l,green,룩_L 그린 아이,eyes_look_l_green,\AssetsStore\spritesheets\head\eyes\look_l\green.png,rare,0,gacha,룩_L 그린 눈동자
+head,eyes,look_l,orange,룩_L 오렌지 아이,eyes_look_l_orange,\AssetsStore\spritesheets\head\eyes\look_l\orange.png,rare,0,gacha,룩_L 오렌지 눈동자
+head,eyes,look_l,purple,룩_L 퍼플 아이,eyes_look_l_purple,\AssetsStore\spritesheets\head\eyes\look_l\purple.png,rare,0,gacha,룩_L 퍼플 눈동자
+head,eyes,look_l,red,룩_L 레드 아이,eyes_look_l_red,\AssetsStore\spritesheets\head\eyes\look_l\red.png,rare,0,gacha,룩_L 레드 눈동자
+head,eyes,look_l,yellow,룩_L 옐로우 아이,eyes_look_l_yellow,\AssetsStore\spritesheets\head\eyes\look_l\yellow.png,rare,0,gacha,룩_L 옐로우 눈동자
+head,eyes,eyeroll,blue,아이롤 블루 아이,eyes_eyeroll_blue,\AssetsStore\spritesheets\head\eyes\eyeroll\blue.png,rare,0,gacha,아이롤 블루 눈동자
+head,eyes,eyeroll,brown,아이롤 브라운 아이,eyes_eyeroll_brown,\AssetsStore\spritesheets\head\eyes\eyeroll\brown.png,common,0,gacha,아이롤 브라운 눈동자
+head,eyes,eyeroll,gray,아이롤 그레이 아이,eyes_eyeroll_gray,\AssetsStore\spritesheets\head\eyes\eyeroll\gray.png,common,0,gacha,아이롤 그레이 눈동자
+head,eyes,eyeroll,green,아이롤 그린 아이,eyes_eyeroll_green,\AssetsStore\spritesheets\head\eyes\eyeroll\green.png,rare,0,gacha,아이롤 그린 눈동자
+head,eyes,eyeroll,orange,아이롤 오렌지 아이,eyes_eyeroll_orange,\AssetsStore\spritesheets\head\eyes\eyeroll\orange.png,rare,0,gacha,아이롤 오렌지 눈동자
+head,eyes,eyeroll,purple,아이롤 퍼플 아이,eyes_eyeroll_purple,\AssetsStore\spritesheets\head\eyes\eyeroll\purple.png,rare,0,gacha,아이롤 퍼플 눈동자
+head,eyes,eyeroll,red,아이롤 레드 아이,eyes_eyeroll_red,\AssetsStore\spritesheets\head\eyes\eyeroll\red.png,rare,0,gacha,아이롤 레드 눈동자
+head,eyes,eyeroll,yellow,아이롤 옐로우 아이,eyes_eyeroll_yellow,\AssetsStore\spritesheets\head\eyes\eyeroll\yellow.png,rare,0,gacha,아이롤 옐로우 눈동자
+head,eyes,default,blue,기본 블루 아이,eyes_default_blue,\AssetsStore\spritesheets\head\eyes\default\blue.png,rare,0,gacha,기본 블루 눈동자
+head,eyes,default,brown,기본 브라운 아이,eyes_default_brown,\AssetsStore\spritesheets\head\eyes\default\brown.png,common,0,gacha,기본 브라운 눈동자
+head,eyes,default,gray,기본 그레이 아이,eyes_default_gray,\AssetsStore\spritesheets\head\eyes\default\gray.png,common,0,gacha,기본 그레이 눈동자
+head,eyes,default,green,기본 그린 아이,eyes_default_green,\AssetsStore\spritesheets\head\eyes\default\green.png,rare,0,gacha,기본 그린 눈동자
+head,eyes,default,orange,기본 눈 오렌지,eyes_default_orange,\AssetsStore\spritesheets\head\eyes\default\orange.png,rare,0,gacha,기본 눈 오렌지
+head,eyes,default,purple,기본 눈 퍼플,eyes_default_purple,\AssetsStore\spritesheets\head\eyes\default\purple.png,rare,0,gacha,기본 눈 퍼플
+head,eyes,default,red,기본 눈 레드,eyes_default_red,\AssetsStore\spritesheets\head\eyes\default\red.png,rare,0,gacha,기본 눈 레드
+head,eyes,default,yellow,기본 눈 옐로우,eyes_default_yellow,\AssetsStore\spritesheets\head\eyes\default\yellow.png,rare,0,gacha,기본 눈 옐로우
+head,eyes,closing,blue,감은 눈 블루,eyes_closing_blue,\AssetsStore\spritesheets\head\eyes\closing\blue.png,rare,0,gacha,감은 눈 블루
+head,eyes,closing,brown,감은 눈 브라운,eyes_closing_brown,\AssetsStore\spritesheets\head\eyes\closing\brown.png,common,0,gacha,감은 눈 브라운
+head,eyes,closing,gray,감은 눈 그레이,eyes_closing_gray,\AssetsStore\spritesheets\head\eyes\closing\gray.png,common,0,gacha,감은 눈 그레이
+head,eyes,closing,green,감은 눈 그린,eyes_closing_green,\AssetsStore\spritesheets\head\eyes\closing\green.png,rare,0,gacha,감은 눈 그린
+head,eyes,closing,orange,감은 눈 오렌지,eyes_closing_orange,\AssetsStore\spritesheets\head\eyes\closing\orange.png,rare,0,gacha,감은 눈 오렌지
+head,eyes,closing,purple,감은 눈 퍼플,eyes_closing_purple,\AssetsStore\spritesheets\head\eyes\closing\purple.png,rare,0,gacha,감은 눈 퍼플
+head,eyes,closing,red,감은 눈 레드,eyes_closing_red,\AssetsStore\spritesheets\head\eyes\closing\red.png,rare,0,gacha,감은 눈 레드
+head,eyes,closing,yellow,감은 눈 옐로우,eyes_closing_yellow,\AssetsStore\spritesheets\head\eyes\closing\yellow.png,rare,0,gacha,감은 눈 옐로우
+head,eyes,anger,blue,화난 눈 블루,eyes_anger_blue,\AssetsStore\spritesheets\head\eyes\anger\blue.png,rare,0,gacha,화난 눈 블루
+head,eyes,anger,brown,화난 눈 브라운,eyes_anger_brown,\AssetsStore\spritesheets\head\eyes\anger\brown.png,common,0,gacha,화난 눈 브라운
+head,eyes,anger,gray,화난 눈 그레이,eyes_anger_gray,\AssetsStore\spritesheets\head\eyes\anger\gray.png,common,0,gacha,화난 눈 그레이
+head,eyes,anger,green,화난 눈 그린,eyes_anger_green,\AssetsStore\spritesheets\head\eyes\anger\green.png,rare,0,gacha,화난 눈 그린
+head,eyes,anger,orange,화난 눈 오렌지,eyes_anger_orange,\AssetsStore\spritesheets\head\eyes\anger\orange.png,rare,0,gacha,화난 눈 오렌지
+head,eyes,anger,purple,화난 눈 퍼플,eyes_anger_purple,\AssetsStore\spritesheets\head\eyes\anger\purple.png,rare,0,gacha,화난 눈 퍼플
+head,eyes,anger,red,화난 눈 레드,eyes_anger_red,\AssetsStore\spritesheets\head\eyes\anger\red.png,rare,0,gacha,화난 눈 레드
+head,eyes,anger,yellow,화난 눈 옐로우,eyes_anger_yellow,\AssetsStore\spritesheets\head\eyes\anger\yellow.png,rare,0,gacha,화난 눈 옐로우
+head,eyebrows,thin,ash,얇은 회색 눈썹,eyebrows_thin_ash,\AssetsStore\spritesheets\head\eyebrows\thin\ash.png,common,0,gacha,얇은 회색 눈썹
+head,eyebrows,thin,black,얇은 블랙 눈썹,eyebrows_thin_black,\AssetsStore\spritesheets\head\eyebrows\thin\black.png,common,0,gacha,얇은 블랙 눈썹
+head,eyebrows,thin,blonde,얇은 블론드 눈썹,eyebrows_thin_blonde,\AssetsStore\spritesheets\head\eyebrows\thin\blonde.png,common,0,gacha,얇은 블론드 눈썹
+head,eyebrows,thin,blue,얇은 블루 눈썹,eyebrows_thin_blue,\AssetsStore\spritesheets\head\eyebrows\thin\blue.png,rare,0,gacha,얇은 블루 눈썹
+head,eyebrows,thin,carrot,얇은 캐롯 눈썹,eyebrows_thin_carrot,\AssetsStore\spritesheets\head\eyebrows\thin\carrot.png,rare,0,gacha,얇은 캐롯 눈썹
+head,eyebrows,thin,chestnut,얇은 체스트넛 눈썹,eyebrows_thin_chestnut,\AssetsStore\spritesheets\head\eyebrows\thin\chestnut.png,common,0,gacha,얇은 체스트넛 눈썹
+head,eyebrows,thin,ginger,얇은 진저 눈썹,eyebrows_thin_ginger,\AssetsStore\spritesheets\head\eyebrows\thin\ginger.png,common,0,gacha,얇은 진저 눈썹
+head,eyebrows,thin,gold,얇은 골드 눈썹,eyebrows_thin_gold,\AssetsStore\spritesheets\head\eyebrows\thin\gold.png,epic,0,gacha,얇은 골드 눈썹
+head,eyebrows,thin,gray,얇은 그레이 눈썹,eyebrows_thin_gray,\AssetsStore\spritesheets\head\eyebrows\thin\gray.png,common,0,gacha,얇은 그레이 눈썹
+head,eyebrows,thin,green,얇은 그린 눈썹,eyebrows_thin_green,\AssetsStore\spritesheets\head\eyebrows\thin\green.png,rare,0,gacha,얇은 그린 눈썹
+head,eyebrows,thin,navy,얇은 네이비 눈썹,eyebrows_thin_navy,\AssetsStore\spritesheets\head\eyebrows\thin\navy.png,rare,0,gacha,얇은 네이비 눈썹
+head,eyebrows,thin,orange,얇은 오렌지 눈썹,eyebrows_thin_orange,\AssetsStore\spritesheets\head\eyebrows\thin\orange.png,rare,0,gacha,얇은 오렌지 눈썹
+head,eyebrows,thin,pink,얇은 핑크 눈썹,eyebrows_thin_pink,\AssetsStore\spritesheets\head\eyebrows\thin\pink.png,rare,0,gacha,얇은 핑크 눈썹
+head,eyebrows,thin,platinum,얇은 플래티넘 눈썹,eyebrows_thin_platinum,\AssetsStore\spritesheets\head\eyebrows\thin\platinum.png,legendary,0,gacha,얇은 플래티넘 눈썹
+head,eyebrows,thin,purple,얇은 퍼플 눈썹,eyebrows_thin_purple,\AssetsStore\spritesheets\head\eyebrows\thin\purple.png,rare,0,gacha,얇은 퍼플 눈썹
+head,eyebrows,thin,raven,얇은 레이븐 눈썹,eyebrows_thin_raven,\AssetsStore\spritesheets\head\eyebrows\thin\raven.png,common,0,gacha,얇은 레이븐 눈썹
+head,eyebrows,thin,red,얇은 레드 눈썹,eyebrows_thin_red,\AssetsStore\spritesheets\head\eyebrows\thin\red.png,rare,0,gacha,얇은 레드 눈썹
+head,eyebrows,thin,redhead,얇은 레드헤드 눈썹,eyebrows_thin_redhead,\AssetsStore\spritesheets\head\eyebrows\thin\redhead.png,common,0,gacha,얇은 레드헤드 눈썹
+head,eyebrows,thin,rose,얇은 로즈 눈썹,eyebrows_thin_rose,\AssetsStore\spritesheets\head\eyebrows\thin\rose.png,rare,0,gacha,얇은 로즈 눈썹
+head,eyebrows,thin,sandy,얇은 샌디 눈썹,eyebrows_thin_sandy,\AssetsStore\spritesheets\head\eyebrows\thin\sandy.png,common,0,gacha,얇은 샌디 눈썹
+head,eyebrows,thin,strawberry,얇은 눈썹 스트로베리,eyebrows_thin_strawberry,\AssetsStore\spritesheets\head\eyebrows\thin\strawberry.png,rare,0,gacha,얇은 눈썹 스트로베리
+head,eyebrows,thin,violet,얇은 눈썹 바이올렛,eyebrows_thin_violet,\AssetsStore\spritesheets\head\eyebrows\thin\violet.png,rare,0,gacha,얇은 눈썹 바이올렛
+head,eyebrows,thin,white,얇은 눈썹 화이트,eyebrows_thin_white,\AssetsStore\spritesheets\head\eyebrows\thin\white.png,common,0,gacha,얇은 눈썹 화이트
+head,eyebrows,thick,ash,두꺼운 눈썹 애쉬,eyebrows_thick_ash,\AssetsStore\spritesheets\head\eyebrows\thick\ash.png,common,0,gacha,두꺼운 눈썹 애쉬
+head,eyebrows,thick,black,두꺼운 눈썹 블랙,eyebrows_thick_black,\AssetsStore\spritesheets\head\eyebrows\thick\black.png,common,0,gacha,두꺼운 눈썹 블랙
+head,eyebrows,thick,blonde,두꺼운 눈썹 블론드,eyebrows_thick_blonde,\AssetsStore\spritesheets\head\eyebrows\thick\blonde.png,common,0,gacha,두꺼운 눈썹 블론드
+head,eyebrows,thick,blue,두꺼운 눈썹 블루,eyebrows_thick_blue,\AssetsStore\spritesheets\head\eyebrows\thick\blue.png,rare,0,gacha,두꺼운 눈썹 블루
+head,eyebrows,thick,carrot,두꺼운 눈썹 캐롯,eyebrows_thick_carrot,\AssetsStore\spritesheets\head\eyebrows\thick\carrot.png,rare,0,gacha,두꺼운 눈썹 캐롯
+head,eyebrows,thick,chestnut,두꺼운 눈썹 체스트넛,eyebrows_thick_chestnut,\AssetsStore\spritesheets\head\eyebrows\thick\chestnut.png,common,0,gacha,두꺼운 눈썹 체스트넛
+head,eyebrows,thick,ginger,두꺼운 눈썹 진저,eyebrows_thick_ginger,\AssetsStore\spritesheets\head\eyebrows\thick\ginger.png,common,0,gacha,두꺼운 눈썹 진저
+head,eyebrows,thick,gold,두꺼운 눈썹 골드,eyebrows_thick_gold,\AssetsStore\spritesheets\head\eyebrows\thick\gold.png,epic,0,gacha,두꺼운 눈썹 골드
+head,eyebrows,thick,gray,두꺼운 눈썹 그레이,eyebrows_thick_gray,\AssetsStore\spritesheets\head\eyebrows\thick\gray.png,common,0,gacha,두꺼운 눈썹 그레이
+head,eyebrows,thick,green,두꺼운 눈썹 그린,eyebrows_thick_green,\AssetsStore\spritesheets\head\eyebrows\thick\green.png,rare,0,gacha,두꺼운 눈썹 그린
+head,eyebrows,thick,navy,두꺼운 눈썹 네이비,eyebrows_thick_navy,\AssetsStore\spritesheets\head\eyebrows\thick\navy.png,rare,0,gacha,두꺼운 눈썹 네이비
+head,eyebrows,thick,orange,두꺼운 눈썹 오렌지,eyebrows_thick_orange,\AssetsStore\spritesheets\head\eyebrows\thick\orange.png,rare,0,gacha,두꺼운 눈썹 오렌지
+head,eyebrows,thick,pink,두꺼운 눈썹 핑크,eyebrows_thick_pink,\AssetsStore\spritesheets\head\eyebrows\thick\pink.png,rare,0,gacha,두꺼운 눈썹 핑크
+head,eyebrows,thick,platinum,두꺼운 눈썹 플래티넘,eyebrows_thick_platinum,\AssetsStore\spritesheets\head\eyebrows\thick\platinum.png,legendary,0,gacha,두꺼운 눈썹 플래티넘
+head,eyebrows,thick,purple,두꺼운 눈썹 퍼플,eyebrows_thick_purple,\AssetsStore\spritesheets\head\eyebrows\thick\purple.png,rare,0,gacha,두꺼운 눈썹 퍼플
+head,eyebrows,thick,raven,두꺼운 눈썹 레이븐,eyebrows_thick_raven,\AssetsStore\spritesheets\head\eyebrows\thick\raven.png,common,0,gacha,두꺼운 눈썹 레이븐
+head,eyebrows,thick,red,두꺼운 눈썹 레드,eyebrows_thick_red,\AssetsStore\spritesheets\head\eyebrows\thick\red.png,rare,0,gacha,두꺼운 눈썹 레드
+head,eyebrows,thick,redhead,두꺼운 눈썹 레드헤드,eyebrows_thick_redhead,\AssetsStore\spritesheets\head\eyebrows\thick\redhead.png,rare,0,gacha,두꺼운 눈썹 레드헤드
+head,eyebrows,thick,rose,두꺼운 눈썹 로즈,eyebrows_thick_rose,\AssetsStore\spritesheets\head\eyebrows\thick\rose.png,rare,0,gacha,두꺼운 눈썹 로즈
+head,eyebrows,thick,sandy,두꺼운 눈썹 샌디,eyebrows_thick_sandy,\AssetsStore\spritesheets\head\eyebrows\thick\sandy.png,common,0,gacha,두꺼운 눈썹 샌디
+head,eyebrows,thick,strawberry,두꺼운 눈썹 스트로베리,eyebrows_thick_strawberry,\AssetsStore\spritesheets\head\eyebrows\thick\strawberry.png,rare,0,gacha,두꺼운 눈썹 스트로베리
+head,eyebrows,thick,violet,두꺼운 눈썹 바이올렛,eyebrows_thick_violet,\AssetsStore\spritesheets\head\eyebrows\thick\violet.png,rare,0,gacha,두꺼운 눈썹 바이올렛
+head,eyebrows,thick,white,두꺼운 눈썹 화이트,eyebrows_thick_white,\AssetsStore\spritesheets\head\eyebrows\thick\white.png,common,0,gacha,두꺼운 눈썹 화이트
+head,ears,medium,amber,미디엄 이어 앰버,ears_medium_amber,\AssetsStore\spritesheets\head\ears\medium\amber.png,rare,0,gacha,중간형 귀 앰버
+head,ears,medium,black,미디엄 이어 블랙,ears_medium_black,\AssetsStore\spritesheets\head\ears\medium\black.png,common,0,gacha,중간형 귀 블랙
+head,ears,medium,blue,미디엄 이어 블루,ears_medium_blue,\AssetsStore\spritesheets\head\ears\medium\blue.png,rare,0,gacha,중간형 귀 블루
+head,ears,medium,bright_green,미디엄 이어 브라이트 그린,ears_medium_bright_green,\AssetsStore\spritesheets\head\ears\medium\bright_green.png,epic,0,gacha,중간형 귀 브라이트 그린
+head,ears,medium,bronze,미디엄 이어 브론즈,ears_medium_bronze,\AssetsStore\spritesheets\head\ears\medium\bronze.png,epic,0,gacha,중간형 귀 브론즈
+head,ears,medium,brown,미디엄 이어 브라운,ears_medium_brown,\AssetsStore\spritesheets\head\ears\medium\brown.png,common,0,gacha,중간형 귀 브라운
+head,ears,medium,dark_green,미디엄 이어 다크 그린,ears_medium_dark_green,\AssetsStore\spritesheets\head\ears\medium\dark_green.png,common,0,gacha,중간형 귀 다크 그린
+head,ears,medium,fur_black,미디엄 퍼 이어 블랙,ears_medium_fur_black,\AssetsStore\spritesheets\head\ears\medium\fur_black.png,common,0,gacha,중간형 퍼 귀 블랙
+head,ears,medium,fur_brown,미디엄 퍼 이어 브라운,ears_medium_fur_brown,\AssetsStore\spritesheets\head\ears\medium\fur_brown.png,common,0,gacha,중간형 퍼 귀 브라운
+head,ears,medium,fur_copper,미디엄 퍼 이어 코퍼,ears_medium_fur_copper,\AssetsStore\spritesheets\head\ears\medium\fur_copper.png,epic,0,gacha,중간형 퍼 귀 코퍼
+head,ears,medium,fur_gold,미디엄 퍼 이어 골드,ears_medium_fur_gold,\AssetsStore\spritesheets\head\ears\medium\fur_gold.png,legendary,0,gacha,중간형 퍼 귀 골드
+head,ears,medium,fur_grey,미디엄 퍼 이어 그레이,ears_medium_fur_grey,\AssetsStore\spritesheets\head\ears\medium\fur_grey.png,common,0,gacha,중간형 퍼 귀 그레이
+head,ears,medium,fur_tan,미디엄 퍼 이어 탄,ears_medium_fur_tan,\AssetsStore\spritesheets\head\ears\medium\fur_tan.png,common,0,gacha,중간형 퍼 귀 탄
+head,ears,medium,fur_white,미디엄 퍼 이어 화이트,ears_medium_fur_white,\AssetsStore\spritesheets\head\ears\medium\fur_white.png,common,0,gacha,중간형 퍼 귀 화이트
+head,ears,medium,green,미디엄 이어스 그린,ears_medium_green,\AssetsStore\spritesheets\head\ears\medium\green.png,rare,0,gacha,미디엄 그린 귀
+head,ears,medium,lavender,미디엄 이어스 라벤더,ears_medium_lavender,\AssetsStore\spritesheets\head\ears\medium\lavender.png,epic,0,gacha,미디엄 라벤더 귀
+head,ears,medium,olive,미디엄 이어스 올리브,ears_medium_olive,\AssetsStore\spritesheets\head\ears\medium\olive.png,rare,0,gacha,미디엄 올리브 귀
+head,ears,medium,pale_green,미디엄 이어스 페일 그린,ears_medium_pale_green,\AssetsStore\spritesheets\head\ears\medium\pale_green.png,rare,0,gacha,미디엄 페일 그린 귀
+head,ears,medium,taupe,미디엄 이어스 토프,ears_medium_taupe,\AssetsStore\spritesheets\head\ears\medium\taupe.png,rare,0,gacha,미디엄 토프 귀
+head,ears,medium,zombie,미디엄 좀비 이어스,ears_medium_zombie,\AssetsStore\spritesheets\head\ears\medium\zombie.png,legendary,0,gacha,미디엄 좀비 귀
+head,ears,medium,zombie_green,미디엄 좀비 그린 이어스,ears_medium_zombie_green,\AssetsStore\spritesheets\head\ears\medium\zombie_green.png,legendary,0,gacha,미디엄 좀비 그린 귀

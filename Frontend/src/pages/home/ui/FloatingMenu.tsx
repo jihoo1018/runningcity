@@ -1,24 +1,21 @@
 import { useModalRouter } from "@/app/modal/useModalRouter";
-import { SettingIconButton } from "@/shared/ui/IconButtons";
+import {
+  AlertIconButton,
+  FriendshipIconLink,
+  QuestIconButton,
+  SettingIconButton,
+} from "@/shared/ui/IconButtons";
 
 export const FloatingMenu = () => {
   const { open } = useModalRouter();
 
   return (
-    <aside className="fixed top-6 right-4 z-40 flex flex-col gap-3">
+    <aside className="fixed top-6 right-5 z-10 flex flex-col gap-3">
       <SettingIconButton variant="round" size="sm" onClick={() => open("setting", "root")} />
-      {/* <button className="btn-circle" onClick={() => open("setting", "root")} aria-label="설정">
-        <GearIcon />
-      </button>
-      <button className="btn-circle" onClick={() => open("report", "preview")} aria-label="리포트">
-        <ClipboardIcon />
-      </button>
-      <button className="btn-circle" onClick={() => open("settings", "confirm")} aria-label="알림">
-        <BellIcon />
-      </button>
-      <button className="btn-circle" onClick={() => open("settings", "root")} aria-label="친구">
-        <UserIcon />
-      </button> */}
+      <FriendshipIconLink variant="round" size="sm" to="/friendship" />
+      <AlertIconButton variant="round" size="sm" onClick={() => open("alert", "root")} />
+      {/* 일일퀘스트 연결 */}
+      <QuestIconButton variant="round" size="sm" onClick={() => {}} />
     </aside>
   );
 };

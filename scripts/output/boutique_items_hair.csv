@@ -1,0 +1,157 @@
+﻿category,subcategory,style,color,name,asset_key,base_path,rarity,price_cr,obtain_method,name_ko
+hair,pixie,,dark_brown,픽시 다크 브라운 헤어,pixie_dark_brown,\AssetsStore\spritesheets\hair\pixie\dark_brown.png,common,3,store,픽시 다크 브라운 헤어
+hair,pixie,,dark_gray,픽시 다크 그레이 헤어,pixie_dark_gray,\AssetsStore\spritesheets\hair\pixie\dark_gray.png,common,3,store,픽시 다크 그레이 헤어
+hair,pixie,,light_brown,픽시 라이트 브라운 헤어,pixie_light_brown,\AssetsStore\spritesheets\hair\pixie\light_brown.png,common,3,store,픽시 라이트 브라운 헤어
+hair,messy1,,dark_brown,메시1 다크 브라운 헤어,messy1_dark_brown,\AssetsStore\spritesheets\hair\messy1\dark_brown.png,common,3,store,메시1 다크 브라운 헤어
+hair,messy1,,dark_gray,메시1 다크 그레이 헤어,messy1_dark_gray,\AssetsStore\spritesheets\hair\messy1\dark_gray.png,common,3,store,메시1 다크 그레이 헤어
+hair,messy1,,light_brown,메시1 라이트 브라운 헤어,messy1_light_brown,\AssetsStore\spritesheets\hair\messy1\light_brown.png,common,3,store,메시1 라이트 브라운 헤어
+hair,long,,dark_brown,롱 다크 브라운 헤어,long_dark_brown,\AssetsStore\spritesheets\hair\long\dark_brown.png,common,3,store,롱 다크 브라운 헤어
+hair,long,,dark_gray,롱 다크 그레이 헤어,long_dark_gray,\AssetsStore\spritesheets\hair\long\dark_gray.png,common,3,store,롱 다크 그레이 헤어
+hair,long,,light_brown,롱 라이트 브라운 헤어,long_light_brown,\AssetsStore\spritesheets\hair\long\light_brown.png,common,3,store,롱 라이트 브라운 헤어
+hair,dreadlocks_long,,dark_brown,드레드록 롱 다크 브라운 헤어,dreadlocks_long_dark_brown,\AssetsStore\spritesheets\hair\dreadlocks_long\dark_brown.png,common,3,store,드레드록 롱 다크 브라운 헤어
+hair,dreadlocks_long,,dark_gray,드레드록 롱 다크 그레이 헤어,dreadlocks_long_dark_gray,\AssetsStore\spritesheets\hair\dreadlocks_long\dark_gray.png,common,3,store,드레드록 롱 다크 그레이 헤어
+hair,dreadlocks_long,,light_brown,드레드록 롱 라이트 브라운 헤어,dreadlocks_long_light_brown,\AssetsStore\spritesheets\hair\dreadlocks_long\light_brown.png,common,3,store,드레드록 롱 라이트 브라운 헤어
+hair,buzzcut,,dark_brown,버즈컷 다크 브라운 헤어,buzzcut_dark_brown,\AssetsStore\spritesheets\hair\buzzcut\dark_brown.png,common,3,store,버즈컷 다크 브라운 헤어
+hair,buzzcut,,dark_gray,버즈컷 다크 그레이 헤어,buzzcut_dark_gray,\AssetsStore\spritesheets\hair\buzzcut\dark_gray.png,common,3,store,버즈컷 다크 그레이 헤어
+hair,buzzcut,,light_brown,버즈컷 라이트 브라운 헤어,buzzcut_light_brown,\AssetsStore\spritesheets\hair\buzzcut\light_brown.png,common,3,store,버즈컷 라이트 브라운 헤어
+hair,afro,,dark_brown,아프로 다크 브라운 헤어,afro_dark_brown,\AssetsStore\spritesheets\hair\afro\dark_brown.png,common,3,store,아프로 다크 브라운 헤어
+hair,afro,,dark_gray,아프로 다크 그레이 헤어,afro_dark_gray,\AssetsStore\spritesheets\hair\afro\dark_gray.png,common,3,store,아프로 다크 그레이 헤어
+hair,afro,,light_brown,아프로 라이트 브라운 헤어,afro_light_brown,\AssetsStore\spritesheets\hair\afro\light_brown.png,common,3,store,아프로 라이트 브라운 헤어
+hair,pixie,,ash,픽시 애쉬 헤어,pixie_ash,\AssetsStore\spritesheets\hair\pixie\ash.png,common,0,gacha,픽시 애쉬 헤어
+hair,pixie,,black,픽시 블랙 헤어,pixie_black,\AssetsStore\spritesheets\hair\pixie\black.png,common,0,gacha,픽시 블랙 헤어
+hair,pixie,,blonde,픽시 블론드 헤어,pixie_blonde,\AssetsStore\spritesheets\hair\pixie\blonde.png,common,0,gacha,픽시 블론드 헤어
+hair,pixie,,blue,픽시 블루 헤어,pixie_blue,\AssetsStore\spritesheets\hair\pixie\blue.png,rare,0,gacha,픽시 블루 헤어
+hair,pixie,,carrot,픽시 캐롯 헤어,pixie_carrot,\AssetsStore\spritesheets\hair\pixie\carrot.png,common,0,gacha,픽시 캐롯 헤어
+hair,pixie,,chestnut,픽시 체스트넛 헤어,pixie_chestnut,\AssetsStore\spritesheets\hair\pixie\chestnut.png,common,0,gacha,픽시 체스트넛 헤어
+hair,pixie,,ginger,픽시 진저 헤어,pixie_ginger,\AssetsStore\spritesheets\hair\pixie\ginger.png,common,0,gacha,픽시 진저 헤어
+hair,pixie,,gold,픽시 골드 헤어,pixie_gold,\AssetsStore\spritesheets\hair\pixie\gold.png,epic,0,gacha,픽시 골드 헤어
+hair,pixie,,gray,픽시 그레이 헤어,pixie_gray,\AssetsStore\spritesheets\hair\pixie\gray.png,common,0,gacha,픽시 그레이 헤어
+hair,pixie,,green,픽시 그린 헤어,pixie_green,\AssetsStore\spritesheets\hair\pixie\green.png,rare,0,gacha,픽시 그린 헤어
+hair,pixie,,navy,픽시 네이비 헤어,pixie_navy,\AssetsStore\spritesheets\hair\pixie\navy.png,rare,0,gacha,픽시 네이비 헤어
+hair,pixie,,orange,픽시 오렌지 헤어,pixie_orange,\AssetsStore\spritesheets\hair\pixie\orange.png,common,0,gacha,픽시 오렌지 헤어
+hair,pixie,,pink,픽시 핑크 헤어,pixie_pink,\AssetsStore\spritesheets\hair\pixie\pink.png,rare,0,gacha,픽시 핑크 헤어
+hair,pixie,,platinum,픽시 플래티넘 헤어,pixie_platinum,\AssetsStore\spritesheets\hair\pixie\platinum.png,legendary,0,gacha,픽시 플래티넘 헤어
+hair,pixie,,purple,픽시 퍼플 헤어,pixie_purple,\AssetsStore\spritesheets\hair\pixie\purple.png,rare,0,gacha,픽시 퍼플 헤어
+hair,pixie,,raven,픽시 레이븐 헤어,pixie_raven,\AssetsStore\spritesheets\hair\pixie\raven.png,common,0,gacha,픽시 레이븐 헤어
+hair,pixie,,red,픽시 레드 헤어,pixie_red,\AssetsStore\spritesheets\hair\pixie\red.png,common,0,gacha,픽시 레드 헤어
+hair,pixie,,redhead,픽시 레드헤드 헤어,pixie_redhead,\AssetsStore\spritesheets\hair\pixie\redhead.png,common,0,gacha,픽시 레드헤드 헤어
+hair,pixie,,rose,픽시 로즈 헤어,pixie_rose,\AssetsStore\spritesheets\hair\pixie\rose.png,rare,0,gacha,픽시 로즈 헤어
+hair,pixie,,sandy,픽시 샌디 헤어,pixie_sandy,\AssetsStore\spritesheets\hair\pixie\sandy.png,common,0,gacha,픽시 샌디 헤어
+hair,pixie,,strawberry,픽시 스트로베리 헤어,pixie_strawberry,\AssetsStore\spritesheets\hair\pixie\strawberry.png,rare,0,gacha,픽시 스트로베리 헤어
+hair,pixie,,violet,픽시 바이올렛 헤어,pixie_violet,\AssetsStore\spritesheets\hair\pixie\violet.png,rare,0,gacha,픽시 바이올렛 헤어
+hair,pixie,,white,픽시 화이트 헤어,pixie_white,\AssetsStore\spritesheets\hair\pixie\white.png,common,0,gacha,픽시 화이트 헤어
+hair,messy1,,ash,메시 애쉬 헤어,messy1_ash,\AssetsStore\spritesheets\hair\messy1\ash.png,common,0,gacha,메시 애쉬 헤어
+hair,messy1,,black,메시 블랙 헤어,messy1_black,\AssetsStore\spritesheets\hair\messy1\black.png,common,0,gacha,메시 블랙 헤어
+hair,messy1,,blonde,메시 블론드 헤어,messy1_blonde,\AssetsStore\spritesheets\hair\messy1\blonde.png,common,0,gacha,메시 블론드 헤어
+hair,messy1,,blue,메시 블루 헤어,messy1_blue,\AssetsStore\spritesheets\hair\messy1\blue.png,rare,0,gacha,메시 블루 헤어
+hair,messy1,,carrot,메시 캐롯 헤어,messy1_carrot,\AssetsStore\spritesheets\hair\messy1\carrot.png,rare,0,gacha,메시 캐롯 헤어
+hair,messy1,,chestnut,메시 체스트넛 헤어,messy1_chestnut,\AssetsStore\spritesheets\hair\messy1\chestnut.png,common,0,gacha,메시 체스트넛 헤어
+hair,messy1,,ginger,메시 진저 헤어,messy1_ginger,\AssetsStore\spritesheets\hair\messy1\ginger.png,common,0,gacha,메시 진저 헤어
+hair,messy1,,gold,메시 골드 헤어,messy1_gold,\AssetsStore\spritesheets\hair\messy1\gold.png,epic,0,gacha,메시 골드 헤어
+hair,messy1,,gray,메시 그레이 헤어,messy1_gray,\AssetsStore\spritesheets\hair\messy1\gray.png,common,0,gacha,메시 그레이 헤어
+hair,messy1,,green,메시 그린 헤어,messy1_green,\AssetsStore\spritesheets\hair\messy1\green.png,rare,0,gacha,메시 그린 헤어
+hair,messy1,,navy,메시 네이비 헤어,messy1_navy,\AssetsStore\spritesheets\hair\messy1\navy.png,rare,0,gacha,메시 네이비 헤어
+hair,messy1,,orange,메시 오렌지 헤어,messy1_orange,\AssetsStore\spritesheets\hair\messy1\orange.png,rare,0,gacha,메시 오렌지 헤어
+hair,messy1,,pink,메시 핑크 헤어,messy1_pink,\AssetsStore\spritesheets\hair\messy1\pink.png,rare,0,gacha,메시 핑크 헤어
+hair,messy1,,platinum,메시 플래티넘 헤어,messy1_platinum,\AssetsStore\spritesheets\hair\messy1\platinum.png,legendary,0,gacha,메시 플래티넘 헤어
+hair,messy1,,purple,메시 퍼플 헤어,messy1_purple,\AssetsStore\spritesheets\hair\messy1\purple.png,rare,0,gacha,메시 퍼플 헤어
+hair,messy1,,raven,메시 레이븐 헤어,messy1_raven,\AssetsStore\spritesheets\hair\messy1\raven.png,common,0,gacha,메시 레이븐 헤어
+hair,messy1,,red,메시 레드 헤어,messy1_red,\AssetsStore\spritesheets\hair\messy1\red.png,common,0,gacha,메시 레드 헤어
+hair,messy1,,redhead,메시 레드헤드 헤어,messy1_redhead,\AssetsStore\spritesheets\hair\messy1\redhead.png,common,0,gacha,메시 레드헤드 헤어
+hair,messy1,,rose,메시 로즈 헤어,messy1_rose,\AssetsStore\spritesheets\hair\messy1\rose.png,rare,0,gacha,메시 로즈 헤어
+hair,messy1,,sandy,메시 샌디 헤어,messy1_sandy,\AssetsStore\spritesheets\hair\messy1\sandy.png,common,0,gacha,메시 샌디 헤어
+hair,messy1,,strawberry,메시 스트로베리 헤어,messy1_strawberry,\AssetsStore\spritesheets\hair\messy1\strawberry.png,common,0,gacha,메시 스트로베리 헤어
+hair,messy1,,violet,메시 바이올렛 헤어,messy1_violet,\AssetsStore\spritesheets\hair\messy1\violet.png,rare,0,gacha,메시 바이올렛 헤어
+hair,messy1,,white,메시 화이트 헤어,messy1_white,\AssetsStore\spritesheets\hair\messy1\white.png,common,0,gacha,메시 화이트 헤어
+hair,long,,ash,롱 애쉬 헤어,long_ash,\AssetsStore\spritesheets\hair\long\ash.png,common,0,gacha,롱 애쉬 헤어
+hair,long,,black,롱 블랙 헤어,long_black,\AssetsStore\spritesheets\hair\long\black.png,common,0,gacha,롱 블랙 헤어
+hair,long,,blonde,롱 블론드 헤어,long_blonde,\AssetsStore\spritesheets\hair\long\blonde.png,common,0,gacha,롱 블론드 헤어
+hair,long,,blue,롱 블루 헤어,long_blue,\AssetsStore\spritesheets\hair\long\blue.png,rare,0,gacha,롱 블루 헤어
+hair,long,,carrot,롱 캐롯 헤어,long_carrot,\AssetsStore\spritesheets\hair\long\carrot.png,common,0,gacha,롱 캐롯 헤어
+hair,long,,chestnut,롱 체스트넛 헤어,long_chestnut,\AssetsStore\spritesheets\hair\long\chestnut.png,common,0,gacha,롱 체스트넛 헤어
+hair,long,,ginger,롱 진저 헤어,long_ginger,\AssetsStore\spritesheets\hair\long\ginger.png,common,0,gacha,롱 진저 헤어
+hair,long,,gold,롱 골드 헤어,long_gold,\AssetsStore\spritesheets\hair\long\gold.png,common,0,gacha,롱 골드 헤어
+hair,long,,gray,롱 그레이 헤어,long_gray,\AssetsStore\spritesheets\hair\long\gray.png,common,0,gacha,롱 그레이 헤어
+hair,long,,green,롱 그린 헤어,long_green,\AssetsStore\spritesheets\hair\long\green.png,rare,0,gacha,롱 그린 헤어
+hair,long,,navy,롱 네이비 헤어,long_navy,\AssetsStore\spritesheets\hair\long\navy.png,rare,0,gacha,롱 네이비 헤어
+hair,long,,orange,롱 오렌지 헤어,long_orange,\AssetsStore\spritesheets\hair\long\orange.png,common,0,gacha,롱 오렌지 헤어
+hair,long,,pink,롱 핑크 헤어,long_pink,\AssetsStore\spritesheets\hair\long\pink.png,rare,0,gacha,롱 핑크 헤어
+hair,long,,platinum,롱 플래티넘 헤어,long_platinum,\AssetsStore\spritesheets\hair\long\platinum.png,legendary,0,gacha,롱 플래티넘 헤어
+hair,long,,purple,롱 퍼플 헤어,long_purple,\AssetsStore\spritesheets\hair\long\purple.png,rare,0,gacha,롱 퍼플 헤어
+hair,long,,raven,롱 레이븐 헤어,long_raven,\AssetsStore\spritesheets\hair\long\raven.png,common,0,gacha,롱 레이븐 헤어
+hair,long,,red,롱 레드 헤어,long_red,\AssetsStore\spritesheets\hair\long\red.png,rare,0,gacha,롱 레드 헤어
+hair,long,,redhead,롱 레드헤드 헤어,long_redhead,\AssetsStore\spritesheets\hair\long\redhead.png,common,0,gacha,롱 레드헤드 헤어
+hair,long,,rose,롱 로즈 헤어,long_rose,\AssetsStore\spritesheets\hair\long\rose.png,rare,0,gacha,롱 로즈 헤어
+hair,long,,sandy,롱 샌디 헤어,long_sandy,\AssetsStore\spritesheets\hair\long\sandy.png,common,0,gacha,롱 샌디 헤어
+hair,long,,strawberry,롱 스트로베리 헤어,long_strawberry,\AssetsStore\spritesheets\hair\long\strawberry.png,rare,0,gacha,롱 스트로베리 헤어
+hair,long,,violet,롱 바이올렛 헤어,long_violet,\AssetsStore\spritesheets\hair\long\violet.png,rare,0,gacha,롱 바이올렛 헤어
+hair,long,,white,롱 화이트 헤어,long_white,\AssetsStore\spritesheets\hair\long\white.png,common,0,gacha,롱 화이트 헤어
+hair,dreadlocks_long,,ash,롱 드레드락스 애쉬 헤어,dreadlocks_long_ash,\AssetsStore\spritesheets\hair\dreadlocks_long\ash.png,common,0,gacha,롱 드레드락스 애쉬 헤어
+hair,dreadlocks_long,,black,롱 드레드락스 블랙 헤어,dreadlocks_long_black,\AssetsStore\spritesheets\hair\dreadlocks_long\black.png,common,0,gacha,롱 드레드락스 블랙 헤어
+hair,dreadlocks_long,,blonde,롱 드레드락스 블론드 헤어,dreadlocks_long_blonde,\AssetsStore\spritesheets\hair\dreadlocks_long\blonde.png,common,0,gacha,롱 드레드락스 블론드 헤어
+hair,dreadlocks_long,,blue,롱 드레드락스 블루 헤어,dreadlocks_long_blue,\AssetsStore\spritesheets\hair\dreadlocks_long\blue.png,rare,0,gacha,롱 드레드락스 블루 헤어
+hair,dreadlocks_long,,carrot,롱 드레드락스 캐롯 헤어,dreadlocks_long_carrot,\AssetsStore\spritesheets\hair\dreadlocks_long\carrot.png,rare,0,gacha,롱 드레드락스 캐롯 헤어
+hair,dreadlocks_long,,chestnut,롱 드레드락스 체스트넛 헤어,dreadlocks_long_chestnut,\AssetsStore\spritesheets\hair\dreadlocks_long\chestnut.png,common,0,gacha,롱 드레드락스 체스트넛 헤어
+hair,dreadlocks_long,,ginger,롱 드레드락스 진저 헤어,dreadlocks_long_ginger,\AssetsStore\spritesheets\hair\dreadlocks_long\ginger.png,common,0,gacha,롱 드레드락스 진저 헤어
+hair,dreadlocks_long,,gold,롱 드레드락스 골드 헤어,dreadlocks_long_gold,\AssetsStore\spritesheets\hair\dreadlocks_long\gold.png,epic,0,gacha,롱 드레드락스 골드 헤어
+hair,dreadlocks_long,,gray,롱 드레드락스 그레이 헤어,dreadlocks_long_gray,\AssetsStore\spritesheets\hair\dreadlocks_long\gray.png,common,0,gacha,롱 드레드락스 그레이 헤어
+hair,dreadlocks_long,,green,롱 드레드락스 그린 헤어,dreadlocks_long_green,\AssetsStore\spritesheets\hair\dreadlocks_long\green.png,rare,0,gacha,롱 드레드락스 그린 헤어
+hair,dreadlocks_long,,navy,롱 드레드락스 네이비 헤어,dreadlocks_long_navy,\AssetsStore\spritesheets\hair\dreadlocks_long\navy.png,rare,0,gacha,롱 드레드락스 네이비 헤어
+hair,dreadlocks_long,,orange,롱 오렌지 드레드락 헤어,dreadlocks_long_orange,\AssetsStore\spritesheets\hair\dreadlocks_long\orange.png,rare,0,gacha,롱 오렌지 드레드락 헤어
+hair,dreadlocks_long,,pink,롱 핑크 드레드락 헤어,dreadlocks_long_pink,\AssetsStore\spritesheets\hair\dreadlocks_long\pink.png,rare,0,gacha,롱 핑크 드레드락 헤어
+hair,dreadlocks_long,,platinum,롱 플래티넘 드레드락 헤어,dreadlocks_long_platinum,\AssetsStore\spritesheets\hair\dreadlocks_long\platinum.png,legendary,0,gacha,롱 플래티넘 드레드락 헤어
+hair,dreadlocks_long,,purple,롱 퍼플 드레드락 헤어,dreadlocks_long_purple,\AssetsStore\spritesheets\hair\dreadlocks_long\purple.png,rare,0,gacha,롱 퍼플 드레드락 헤어
+hair,dreadlocks_long,,raven,롱 레이븐 드레드락 헤어,dreadlocks_long_raven,\AssetsStore\spritesheets\hair\dreadlocks_long\raven.png,common,0,gacha,롱 레이븐 드레드락 헤어
+hair,dreadlocks_long,,red,롱 레드 드레드락 헤어,dreadlocks_long_red,\AssetsStore\spritesheets\hair\dreadlocks_long\red.png,rare,0,gacha,롱 레드 드레드락 헤어
+hair,dreadlocks_long,,redhead,롱 레드헤드 드레드락 헤어,dreadlocks_long_redhead,\AssetsStore\spritesheets\hair\dreadlocks_long\redhead.png,common,0,gacha,롱 레드헤드 드레드락 헤어
+hair,dreadlocks_long,,rose,롱 로즈 드레드락 헤어,dreadlocks_long_rose,\AssetsStore\spritesheets\hair\dreadlocks_long\rose.png,rare,0,gacha,롱 로즈 드레드락 헤어
+hair,dreadlocks_long,,sandy,롱 샌디 드레드락 헤어,dreadlocks_long_sandy,\AssetsStore\spritesheets\hair\dreadlocks_long\sandy.png,common,0,gacha,롱 샌디 드레드락 헤어
+hair,dreadlocks_long,,strawberry,롱 스트로베리 드레드락 헤어,dreadlocks_long_strawberry,\AssetsStore\spritesheets\hair\dreadlocks_long\strawberry.png,rare,0,gacha,롱 스트로베리 드레드락 헤어
+hair,dreadlocks_long,,violet,롱 바이올렛 드레드락 헤어,dreadlocks_long_violet,\AssetsStore\spritesheets\hair\dreadlocks_long\violet.png,rare,0,gacha,롱 바이올렛 드레드락 헤어
+hair,dreadlocks_long,,white,롱 화이트 드레드락 헤어,dreadlocks_long_white,\AssetsStore\spritesheets\hair\dreadlocks_long\white.png,common,0,gacha,롱 화이트 드레드락 헤어
+hair,buzzcut,,ash,버즈컷 애쉬 헤어,buzzcut_ash,\AssetsStore\spritesheets\hair\buzzcut\ash.png,common,0,gacha,버즈컷 애쉬 헤어
+hair,buzzcut,,black,버즈컷 블랙 헤어,buzzcut_black,\AssetsStore\spritesheets\hair\buzzcut\black.png,common,0,gacha,버즈컷 블랙 헤어
+hair,buzzcut,,blonde,버즈컷 블론드 헤어,buzzcut_blonde,\AssetsStore\spritesheets\hair\buzzcut\blonde.png,common,0,gacha,버즈컷 블론드 헤어
+hair,buzzcut,,blue,버즈컷 블루 헤어,buzzcut_blue,\AssetsStore\spritesheets\hair\buzzcut\blue.png,rare,0,gacha,버즈컷 블루 헤어
+hair,buzzcut,,carrot,버즈컷 캐롯 헤어,buzzcut_carrot,\AssetsStore\spritesheets\hair\buzzcut\carrot.png,rare,0,gacha,버즈컷 캐롯 헤어
+hair,buzzcut,,chestnut,버즈컷 체스트넛 헤어,buzzcut_chestnut,\AssetsStore\spritesheets\hair\buzzcut\chestnut.png,common,0,gacha,버즈컷 체스트넛 헤어
+hair,buzzcut,,ginger,버즈컷 진저 헤어,buzzcut_ginger,\AssetsStore\spritesheets\hair\buzzcut\ginger.png,common,0,gacha,버즈컷 진저 헤어
+hair,buzzcut,,gold,버즈컷 골드 헤어,buzzcut_gold,\AssetsStore\spritesheets\hair\buzzcut\gold.png,epic,0,gacha,버즈컷 골드 헤어
+hair,buzzcut,,gray,버즈컷 그레이 헤어,buzzcut_gray,\AssetsStore\spritesheets\hair\buzzcut\gray.png,common,0,gacha,버즈컷 그레이 헤어
+hair,buzzcut,,green,버즈컷 그린 헤어,buzzcut_green,\AssetsStore\spritesheets\hair\buzzcut\green.png,rare,0,gacha,버즈컷 그린 헤어
+hair,buzzcut,,navy,버즈컷 네이비 헤어,buzzcut_navy,\AssetsStore\spritesheets\hair\buzzcut\navy.png,rare,0,gacha,버즈컷 네이비 헤어
+hair,buzzcut,,orange,버즈컷 오렌지 헤어,buzzcut_orange,\AssetsStore\spritesheets\hair\buzzcut\orange.png,rare,0,gacha,버즈컷 오렌지 헤어
+hair,buzzcut,,pink,버즈컷 핑크 헤어,buzzcut_pink,\AssetsStore\spritesheets\hair\buzzcut\pink.png,rare,0,gacha,버즈컷 핑크 헤어
+hair,buzzcut,,platinum,버즈컷 플래티넘 헤어,buzzcut_platinum,\AssetsStore\spritesheets\hair\buzzcut\platinum.png,legendary,0,gacha,버즈컷 플래티넘 헤어
+hair,buzzcut,,purple,버즈컷 퍼플 헤어,buzzcut_purple,\AssetsStore\spritesheets\hair\buzzcut\purple.png,rare,0,gacha,버즈컷 퍼플 헤어
+hair,buzzcut,,raven,버즈컷 레이븐 헤어,buzzcut_raven,\AssetsStore\spritesheets\hair\buzzcut\raven.png,common,0,gacha,버즈컷 레이븐 헤어
+hair,buzzcut,,red,버즈컷 레드 헤어,buzzcut_red,\AssetsStore\spritesheets\hair\buzzcut\red.png,rare,0,gacha,버즈컷 레드 헤어
+hair,buzzcut,,redhead,버즈컷 레드헤드 헤어,buzzcut_redhead,\AssetsStore\spritesheets\hair\buzzcut\redhead.png,common,0,gacha,버즈컷 레드헤드 헤어
+hair,buzzcut,,rose,버즈컷 로즈 헤어,buzzcut_rose,\AssetsStore\spritesheets\hair\buzzcut\rose.png,rare,0,gacha,버즈컷 로즈 헤어
+hair,buzzcut,,sandy,버즈컷 샌디 헤어,buzzcut_sandy,\AssetsStore\spritesheets\hair\buzzcut\sandy.png,common,0,gacha,버즈컷 샌디 헤어
+hair,buzzcut,,strawberry,버즈컷 스트로베리 헤어,buzzcut_strawberry,\AssetsStore\spritesheets\hair\buzzcut\strawberry.png,rare,0,gacha,버즈컷 스트로베리 헤어
+hair,buzzcut,,violet,버즈컷 바이올렛 헤어,buzzcut_violet,\AssetsStore\spritesheets\hair\buzzcut\violet.png,rare,0,gacha,버즈컷 바이올렛 헤어
+hair,buzzcut,,white,버즈컷 화이트 헤어,buzzcut_white,\AssetsStore\spritesheets\hair\buzzcut\white.png,common,0,gacha,버즈컷 화이트 헤어
+hair,afro,,ash,아프로 애쉬 헤어,afro_ash,\AssetsStore\spritesheets\hair\afro\ash.png,common,0,gacha,아프로 애쉬 헤어
+hair,afro,,black,아프로 블랙 헤어,afro_black,\AssetsStore\spritesheets\hair\afro\black.png,common,0,gacha,아프로 블랙 헤어
+hair,afro,,blonde,아프로 블론드 헤어,afro_blonde,\AssetsStore\spritesheets\hair\afro\blonde.png,common,0,gacha,아프로 블론드 헤어
+hair,afro,,blue,아프로 블루 헤어,afro_blue,\AssetsStore\spritesheets\hair\afro\blue.png,rare,0,gacha,아프로 블루 헤어
+hair,afro,,carrot,아프로 캐롯 헤어,afro_carrot,\AssetsStore\spritesheets\hair\afro\carrot.png,rare,0,gacha,아프로 캐롯 헤어
+hair,afro,,chestnut,아프로 체스트넛 헤어,afro_chestnut,\AssetsStore\spritesheets\hair\afro\chestnut.png,common,0,gacha,아프로 체스트넛 헤어
+hair,afro,,ginger,아프로 진저 헤어,afro_ginger,\AssetsStore\spritesheets\hair\afro\ginger.png,common,0,gacha,아프로 진저 헤어
+hair,afro,,gold,아프로 골드 헤어,afro_gold,\AssetsStore\spritesheets\hair\afro\gold.png,epic,0,gacha,아프로 골드 헤어
+hair,afro,,gray,아프로 그레이 헤어,afro_gray,\AssetsStore\spritesheets\hair\afro\gray.png,common,0,gacha,아프로 그레이 헤어
+hair,afro,,green,아프로 그린 헤어,afro_green,\AssetsStore\spritesheets\hair\afro\green.png,rare,0,gacha,아프로 그린 헤어
+hair,afro,,navy,아프로 네이비 헤어,afro_navy,\AssetsStore\spritesheets\hair\afro\navy.png,rare,0,gacha,아프로 네이비 헤어
+hair,afro,,orange,아프로 오렌지 헤어,afro_orange,\AssetsStore\spritesheets\hair\afro\orange.png,rare,0,gacha,아프로 오렌지 헤어
+hair,afro,,pink,아프로 핑크 헤어,afro_pink,\AssetsStore\spritesheets\hair\afro\pink.png,rare,0,gacha,아프로 핑크 헤어
+hair,afro,,platinum,아프로 플래티넘 헤어,afro_platinum,\AssetsStore\spritesheets\hair\afro\platinum.png,legendary,0,gacha,아프로 플래티넘 헤어
+hair,afro,,purple,아프로 퍼플 헤어,afro_purple,\AssetsStore\spritesheets\hair\afro\purple.png,rare,0,gacha,아프로 퍼플 헤어
+hair,afro,,raven,아프로 레이븐 헤어,afro_raven,\AssetsStore\spritesheets\hair\afro\raven.png,common,0,gacha,아프로 레이븐 헤어
+hair,afro,,red,아프로 레드 헤어,afro_red,\AssetsStore\spritesheets\hair\afro\red.png,common,0,gacha,아프로 레드 헤어
+hair,afro,,redhead,아프로 레드헤드 헤어,afro_redhead,\AssetsStore\spritesheets\hair\afro\redhead.png,common,0,gacha,아프로 레드헤드 헤어
+hair,afro,,rose,아프로 로즈 헤어,afro_rose,\AssetsStore\spritesheets\hair\afro\rose.png,rare,0,gacha,아프로 로즈 헤어
+hair,afro,,sandy,아프로 샌디 헤어,afro_sandy,\AssetsStore\spritesheets\hair\afro\sandy.png,common,0,gacha,아프로 샌디 헤어
+hair,afro,,strawberry,아프로 스트로베리 헤어,afro_strawberry,\AssetsStore\spritesheets\hair\afro\strawberry.png,common,0,gacha,아프로 스트로베리 헤어
+hair,afro,,violet,아프로 바이올렛 헤어,afro_violet,\AssetsStore\spritesheets\hair\afro\violet.png,rare,0,gacha,아프로 바이올렛 헤어
+hair,afro,,white,아프로 화이트 헤어,afro_white,\AssetsStore\spritesheets\hair\afro\white.png,common,0,gacha,아프로 화이트 헤어

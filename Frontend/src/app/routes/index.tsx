@@ -12,8 +12,14 @@ import BoutiquePage from "@/pages/boutique";
 import ShowroomPage from "@/pages/showroom";
 import ShowroomMePage from "@/pages/showroom/me";
 import ShowroomEditPage from "@/pages/showroom/edit";
-
+import RunningPage from "@/pages/running";
 import { ModalLayer } from "../modal/ModalLayer";
+import FriendshipPage from "@/pages/friendship";
+import AuthLandingPage from "@/pages/auth";
+import LoginPage from "@/pages/login";
+import SignupPage from "@/pages/signup";
+import RequireAuth from "./guards/RequireAuth";
+import RequireGuest from "./guards/RequireGuest";
 
 export function AppRoutes() {
   const location = useLocation();
@@ -23,6 +29,8 @@ export function AppRoutes() {
   return (
     <>
       <Routes location={background || location}>
+        {/* 로그인이 필요한 메인 레이아웃 구역 */}
+        {/* <Route element={<RequireAuth><MainLayout /></RequireAuth>}> */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/report" element={<RecordListPage />} />
@@ -31,14 +39,42 @@ export function AppRoutes() {
           <Route path="/entry/:sid" element={<EntryResultPage />} />
           <Route path="/boutique" element={<BoutiquePage />} />
           <Route path="/showroom" element={<ShowroomPage />} />
+          <Route path="/friendship" element={<FriendshipPage />} />
           <Route path="/showroom/me/clothes" element={<ShowroomMePage />} />
           <Route path="/showroom/me/edit" element={<ShowroomEditPage />} />
+          <Route path="/running" element={<RunningPage />} />
         </Route>
 
         <Route path="/m/*" element={<Navigate to="/" replace />} />
 
         <Route path="/nickname" element={<NicknamePage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+
+        {/* 인증 관련 페이지: 비로그인 사용자만 접근 가능 */}
+        <Route
+          path="/auth"
+          element={
+            <RequireGuest>
+              <AuthLandingPage />
+            </RequireGuest>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RequireGuest>
+              <LoginPage />
+            </RequireGuest>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <RequireGuest>
+              <SignupPage />
+            </RequireGuest>
+          }
+        />
       </Routes>
 
       {background && (

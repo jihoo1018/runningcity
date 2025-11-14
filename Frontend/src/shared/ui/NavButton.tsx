@@ -5,9 +5,10 @@ interface NavButtonProps {
   icon: React.ReactNode;
   label: string;
   onClick?: () => void;
+  className: string;
 }
 
-const NavButton = ({ link, icon, label, onClick }: NavButtonProps) => {
+const NavButton = ({ link, icon, label, onClick, className }: NavButtonProps) => {
   return (
     <IconNavLink
       to={link}
@@ -16,6 +17,7 @@ const NavButton = ({ link, icon, label, onClick }: NavButtonProps) => {
       gap={4}
       onClick={onClick}
       aria-label={label}
+      className={className}
     >
       {label}
     </IconNavLink>

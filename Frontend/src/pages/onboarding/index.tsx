@@ -2,7 +2,8 @@
 
 import { useState, FormEvent, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { completeOnboarding, FitnessLevel } from '@/entities/user/api';
+import { completeOnboarding } from '@/entities/user/api';
+import type { FitnessLevel } from '@/entities/user';
 import { AndroidBridge, initializeAndroidListener } from '@/shared/lib';
 
 const OnboardingPage = () => {
