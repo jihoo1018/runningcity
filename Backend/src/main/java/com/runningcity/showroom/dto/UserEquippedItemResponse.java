@@ -1,6 +1,7 @@
 package com.runningcity.showroom.dto;
 
 import com.runningcity.boutique.enums.ItemCategory;
+import com.runningcity.boutique.enums.SubCategory;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserEquippedItemResponse {
     private Long equippedId;
-//    private Long userId;
+    //    private Long userId;
     private Long itemId;
     private ItemCategory category;
-    private String subcategory;
+    private SubCategory subcategory;
 //    private ZonedDateTime equippedAt;
 
     // Entity → DTO 변환 (JPA에서 가져온 Entity를 Response로 매핑)
