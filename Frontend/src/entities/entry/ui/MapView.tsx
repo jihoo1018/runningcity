@@ -91,7 +91,7 @@ export const MapView = ({ markers, onMarkerClick }: MapViewProps) => {
       ref={mapRef}
       style={{
         width: "100%",
-        height: "200vw",
+        height: "50vw",
         borderRadius: "10px",
         marginBottom: "20px",
         boxShadow: "0 2px 4px rgba(0,0,0,0.1)",

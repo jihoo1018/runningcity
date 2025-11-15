@@ -2,18 +2,22 @@ import CommonButton from "@/shared/ui/CommonButton";
 import { Modal } from "@/shared/ui";
 import { ModalProps } from "@/app/modal/types";
 import { RunIcon } from "@/shared/assets/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateNickname } from "@/entities/user/api";
 import { useModalRouter } from "@/app/modal/useModalRouter";
+import { updateUser } from "@/features/auth/model/actions";
 
-export default function UserModify({ onClose }: ModalProps) {
-  // const navigate = useNavigate();
-  const [nickname, setNickname] = useState("");
+type NicknamePayload = {
+  nickname: string;
+  userId: number;
+};
+
+export default function UserModify({ onClose, payload }: ModalProps) {
+  const { nickname: prevName = "", userId } = (payload ?? {}) as NicknamePayload;
+
+  const [nickname, setNickname] = useState(prevName);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // TODO: 실제로는 로그인된 사용자 ID를 가져와야 함
-  const userId = 13; // 임시 하드코딩
 
   const { to } = useModalRouter();
 
@@ -48,11 +52,10 @@ export default function UserModify({ onClose }: ModalProps) {
 
     try {
       const result = await updateNickname(userId, nickname.trim());
+      updateUser({ nickname });
       to("user", "confirm");
       console.log("닉네임 업데이트 완료:", result);
     } catch (err: any) {
-      setIsLoading(false);
-
       // API 에러 응답 처리
       if (err.response?.data) {
         const errorData = err.response.data;
@@ -73,12 +76,18 @@ export default function UserModify({ onClose }: ModalProps) {
         }
 
         // 기타 에러
-        setError(errorData.message || "닉네임 업데이트 중 오류가 발생했습니다.");
+        to("common", "fail", {
+          message: errorData.message ?? "닉네임 업데이트 중 오류가 발생했습니다.",
+        });
       } else {
-        setError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+        to("common", "fail", {
+          message: "네트워크 오류가 발생했습니다. 다시 시도해 주세요.",
+        });
       }
 
       console.error("닉네임 업데이트 실패:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 

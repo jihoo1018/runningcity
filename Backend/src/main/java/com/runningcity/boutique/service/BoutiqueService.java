@@ -11,7 +11,7 @@ import com.runningcity.boutique.repository.BoutiqueRarityRateRepository;
 import com.runningcity.boutique.repository.GachaHistoryRepository;
 import com.runningcity.global.exception.BaseException;
 import com.runningcity.global.response.CommonResponseCode;
-import com.runningcity.showroom.repository.ShowRoomRepository;
+import com.runningcity.showroom.repository.UserInventoryRepository;
 import com.runningcity.boutique.entity.Boutique;
 import com.runningcity.boutique.repository.BoutiqueRepository;
 import com.runningcity.showroom.service.ShowRoomService;
@@ -32,7 +32,7 @@ import java.util.*;
 public class BoutiqueService {
 
     private final BoutiqueRepository boutiqueRepository;
-    private final ShowRoomRepository showRoomRepository;
+    private final UserInventoryRepository showRoomRepository;
     private final UserRepository userRepository;
     private final ShowRoomService showRoomService;
     private final GachaHistoryRepository gachaHistoryRepository;

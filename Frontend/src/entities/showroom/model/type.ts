@@ -15,6 +15,8 @@ export type Showroom = {
 export type EquippedItem = {
   equippedId: number;
   itemId: number;
-  category: string;
+  category: "bodies" | "clothes" | "hair" | "head";
   subcategory: string;
+  style?: string | null; // head 파츠만 style 존재
+  basePath: string; // DB에 저장된 경로
 };

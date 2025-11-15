@@ -1,11 +1,16 @@
 import { ModalProps } from "@/app/modal/types";
 import { useModalRouter } from "@/app/modal/useModalRouter";
+import { updatePreference } from "@/entities/user";
+import { useUserId } from "@/features/auth/model/selector";
+import { getApiErrorMessage } from "@/shared/api/error";
 import { CommonButton, Modal } from "@/shared/ui";
 import { FormEvent, useMemo, useState } from "react";
 
 export default function SettingGoal({ onClose }: ModalProps) {
   const { to, back } = useModalRouter();
   const [target, setTarget] = useState<number>(1); // TODO: 기본값 유저 설정으로 변경
+
+  const userId = useUserId();
 
   const MIN = 1;
   const MAX = 40;
@@ -19,11 +24,16 @@ export default function SettingGoal({ onClose }: ModalProps) {
     setTarget(rounded);
   };
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: api 요청
-    // 성공/실패에 따른 모달 안내
-    to("setting", "confirm", { target });
+    try {
+      await updatePreference(userId.userId, { targetDistanceKm: target });
+      to("setting", "confirm", { target });
+    } catch (error) {
+      console.error(error);
+      const message = getApiErrorMessage(error, "목표 거리 저장 중 오류가 발생했습니다.");
+      to("common", "fail", { message });
+    }
   };
 
   return (
