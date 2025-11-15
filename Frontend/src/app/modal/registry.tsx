@@ -12,6 +12,7 @@ const UserModify = lazy(() => import("@/features/modals/user/Modify"));
 const UserConfirm = lazy(() => import("@/features/modals/user/Confirm"));
 const MissionRoot = lazy(() => import("@/features/modals/mission/Root"));
 const MissionConfirm = lazy(() => import("@/features/modals/mission/Confirm"));
+const CommonFail = lazy(() => import("@/features/modals/common/Fail"));
 
 export const REGISTRY = {
   setting: {
@@ -34,5 +35,8 @@ export const REGISTRY = {
   mission: {
     root: MissionRoot,
     confirm: MissionConfirm,
+  },
+  common: {
+    fail: CommonFail,
   },
 } satisfies FlowRegistry;
