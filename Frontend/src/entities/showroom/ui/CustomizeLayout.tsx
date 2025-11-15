@@ -13,7 +13,7 @@ const mockItems: EquippedItem[] = [
     style: null, // head 파츠만 style 존재
     category: "bodies",
     subcategory: "male",
-    basePath: "\\spritesheets\\bodies\\male\\{animation}\\green.png",
+    basePath: "\\spritesheets\\bodies\\male\\{animation}\\light.png",
   },
   {
     equippedId: 2,
@@ -21,7 +21,7 @@ const mockItems: EquippedItem[] = [
     style: null, // head 파츠만 style 존재
     category: "clothes",
     subcategory: "longsleeve",
-    basePath: "\\spritesheets\\clothes\\longsleeve\\{animation}\\white.png",
+    basePath: "\\spritesheets\\clothes\\male\\longsleeve\\{animation}\\white.png",
   },
   {
     equippedId: 3,
@@ -38,6 +38,14 @@ const mockItems: EquippedItem[] = [
     category: "hair",
     subcategory: "long",
     basePath: "\\spritesheets\\hair\\buzzcut\\{animation}\\dark_gray.png",
+  },
+  {
+    equippedId: 5,
+    itemId: 5,
+    style: null, // head 파츠만 style 존재
+    category: "clothes",
+    subcategory: "shorts",
+    basePath: "\\spritesheets\\clothes\\male\\shorts\\{animation}\\black.png",
   },
 ];
 

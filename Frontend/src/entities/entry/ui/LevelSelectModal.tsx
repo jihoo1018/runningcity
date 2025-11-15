@@ -23,7 +23,7 @@ export const LevelSelectModal = ({ entryName, baseId, userId, onClose }: LevelSe
 
       // ✅ 2️⃣ Android WebView 브릿지 호출 (러닝 시작)
       if (window.Android?.startRunning) {
-        window.Android.startRunning();
+        window.Android.startRunning(`${data.sessionId}`);
         // console.log("📲 AndroidBridge.startRunning() 호출됨");
       }
 

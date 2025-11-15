@@ -2,12 +2,6 @@
 import { useEffect, useRef } from "react";
 import { EquippedItem } from "@/entities/showroom/model/type";
 import { ENV } from "@/shared/config/env";
-// export interface EquippedItem {
-//   category: "bodies" | "clothes" | "hair" | "head";
-//   subcategory: string;
-//   style?: string | null; // head 파츠만 style 존재
-//   basePath: string; // DB에 저장된 경로
-// }
 
 interface Props {
   items: EquippedItem[]; // 착용 중인 아이템들
@@ -43,7 +37,7 @@ export const LPCCharacterRenderer = ({
   async function loadImage(path: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const img = new Image();
-      img.src = ENV.ASSETS_ORIGIN + path;
+      img.src = `${ENV.ASSETS_ORIGIN}/${path}`;
       img.onload = () => resolve(img);
       img.onerror = reject;
     });

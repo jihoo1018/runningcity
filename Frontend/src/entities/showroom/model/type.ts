@@ -1,6 +1,6 @@
 // src/entities/showroom/model/types.ts
 
-export type Showroom = {
+export type MyOffice = {
   userNm: string;
   userLv: number;
   userId: number;
@@ -19,4 +19,31 @@ export type EquippedItem = {
   subcategory: string;
   style?: string | null; // head 파츠만 style 존재
   basePath: string; // DB에 저장된 경로
+};
+
+export type InventoryItem = {
+  inventoryId: number;
+  itemId: number;
+  quantity: number;
+  category: "bodies" | "clothes" | "hair" | "head";
+  subcategory: string;
+  style: string;
+  color: string;
+  name: string;
+  assetKey: string;
+  basePath: string;
+  rarity: string;
+  priceCr: string;
+  obtainMethod: string;
+};
+
+export type PrivacySetting = {
+  userId: number;
+  isGlobalPublic: boolean;
+  showTotalRunning: boolean;
+  showMaxDistance: boolean;
+  showAvgPace: boolean;
+  showBestPace: boolean;
+  showHikingCount: boolean;
+  tags: string[];
 };
