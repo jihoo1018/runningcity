@@ -4,11 +4,11 @@ import { CharacterCard } from "@/entities/showroom/ui/CharacterCard";
 import { ShowroomActions } from "@/entities/showroom/ui/ShowroomActions";
 import { fetchGetShowroomMe } from "@/entities/showroom/api/me";
 import { onNext, onNextGlobal } from "@/entities/showroom/api/showroom";
-import { EquippedItem, Showroom } from "@/entities/showroom/model/type";
+import { EquippedItem, MyOffice } from "@/entities/showroom/model/type";
 
 const ShowroomPage = () => {
   const [tab, setTab] = useState<"me" | "friend" | "global">("me");
-  const [myShowroom, setMyShowroom] = useState<Showroom | null>({
+  const [myShowroom, setMyShowroom] = useState<MyOffice | null>({
     userNm: "러닝ㅈi존 유리",
     userLv: 72,
     userId: 1,
@@ -31,7 +31,8 @@ const ShowroomPage = () => {
         setLoading(true);
         setError("");
 
-        // const data = await fetchGetShowroomMe(userId);
+        // TODO
+        const data = await fetchGetShowroomMe();
         // setMyShowroom(data); // 받아온 데이터 저장
       } catch (err: any) {
         console.error(err);

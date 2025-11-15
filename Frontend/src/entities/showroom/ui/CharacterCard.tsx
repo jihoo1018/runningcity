@@ -1,7 +1,7 @@
-import { Showroom } from "../model/type";
+import { MyOffice } from "../model/type";
 import { metersToKm, formatPace } from "@/shared/lib/format";
 
-type Props = { tab: "me" | "friend" | "global"; data: Showroom };
+type Props = { tab: "me" | "friend" | "global"; data: MyOffice };
 
 export const CharacterCard = ({ tab, data }: Props) => {
   return (

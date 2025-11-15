@@ -1,56 +1,19 @@
-// src\entities\showroom\ui\CustomizeLayout.tsx
-
+// src/entities/showroom/ui/CustomizeLayout.tsx
 import React from "react";
-import { BackIconButton, CloseIconButton } from "@/shared/ui/IconButtons";
+import { BackIconButton } from "@/shared/ui/IconButtons";
 import { LPCCharacterRenderer } from "@/entities/showroom/ui/LPCCharacterRenderer";
 import { EquippedItem } from "@/entities/showroom/model/type";
 
-const mockItems: EquippedItem[] = [
-  //TODO
-  {
-    equippedId: 1,
-    itemId: 1,
-    style: null, // head 파츠만 style 존재
-    category: "bodies",
-    subcategory: "male",
-    basePath: "\\spritesheets\\bodies\\male\\{animation}\\green.png",
-  },
-  {
-    equippedId: 2,
-    itemId: 2,
-    style: null, // head 파츠만 style 존재
-    category: "clothes",
-    subcategory: "longsleeve",
-    basePath: "\\spritesheets\\clothes\\longsleeve\\{animation}\\white.png",
-  },
-  {
-    equippedId: 3,
-    itemId: 3,
-    category: "head",
-    subcategory: "eyes",
-    style: "anger",
-    basePath: "\\spritesheets\\head\\eyes\\anger\\{animation}\\blue.png",
-  },
-  {
-    equippedId: 4,
-    itemId: 4,
-    style: null, // head 파츠만 style 존재
-    category: "hair",
-    subcategory: "long",
-    basePath: "\\spritesheets\\hair\\buzzcut\\{animation}\\dark_gray.png",
-  },
-];
-
 type Props = {
-  mode: "clothes" | "character";
-  setMode: (mode: "clothes" | "character") => void;
+  mode: "body" | "head";
+  setMode: (m: "body" | "head") => void;
   tab: string;
-  setTab: (tab: string) => void;
+  setTab: (t: string) => void;
   tabList: string[];
+  equippedItems: EquippedItem[];
   children: React.ReactNode;
   onBack: () => void;
 };
-// src/entities/showroom/ui/CustomizeLayout.tsx
 
 export const CustomizeLayout = ({
   mode,
@@ -58,69 +21,64 @@ export const CustomizeLayout = ({
   tab,
   setTab,
   tabList,
+  equippedItems,
   children,
   onBack,
 }: Props) => {
   return (
-    <div className="mx-auto flex w-full max-w-[480px] flex-col sm:px-6">
-      {/* 상단 */}
+    <div className="mx-auto flex max-w-[480px] flex-col">
+      {/* 상단 버튼 */}
       <div className="flex items-center justify-between">
-        <BackIconButton variant="ghost" onClick={onBack} />
+        <BackIconButton onClick={onBack} />
 
-        <div className="flex gap-3 sm:gap-4">
-          {/* 옷 */}
+        <div className="flex gap-3">
           <button
-            className={`h-10 w-10 rounded-xl text-sm sm:h-12 sm:w-12 sm:text-base ${
-              mode === "clothes" ? "bg-primary text-black" : "border border-gray-500 text-white"
+            className={`rounded-xl px-4 py-2 ${
+              mode === "body" ? "bg-primary text-black" : "border border-gray-500 text-white"
             }`}
             onClick={() => {
-              setMode("clothes");
+              setMode("body");
               setTab("상의");
             }}
           >
-            옷
+            몸
           </button>
 
-          {/* 얼굴 */}
           <button
-            className={`h-10 w-10 rounded-xl text-sm sm:h-12 sm:w-12 sm:text-base ${
-              mode === "character" ? "bg-primary text-black" : "border border-gray-500 text-white"
+            className={`rounded-xl px-4 py-2 ${
+              mode === "head" ? "bg-primary text-black" : "border border-gray-500 text-white"
             }`}
             onClick={() => {
-              setMode("character");
-              setTab("머리");
+              setMode("head");
+              setTab("헤어");
             }}
           >
-            얼굴
+            머리
           </button>
         </div>
       </div>
 
       {/* 캐릭터 프리뷰 */}
       <div className="flex justify-center py-4">
-        <LPCCharacterRenderer items={mockItems} animation="walk" direction={0} />
-        {/* <div className="flex h-80 w-50 items-center justify-center rounded-xl bg-gray-200 sm:h-80 sm:w-40 md:h-[360px] md:w-48">
-          캐릭터
-        </div> */}
+        <LPCCharacterRenderer items={equippedItems} animation="walk" direction={2} />
       </div>
 
-      {/* 탭 – 모바일에서 스크롤 가능 */}
-      <div className="scrollbar-hide flex justify-start gap-2 overflow-x-auto sm:justify-around">
-        {tabList.map((item) => (
+      {/* 하위 탭 */}
+      <div className="scrollbar-hide flex gap-2 overflow-x-auto">
+        {tabList.map((t) => (
           <button
-            key={item}
-            className={`rounded px-2 py-2 whitespace-nowrap text-white ${
-              tab === item ? "bg-primary" : "border-custom-gray border"
+            key={t}
+            className={`rounded px-3 py-2 ${
+              tab === t ? "bg-primary text-black" : "border border-gray-600 text-white"
             }`}
-            onClick={() => setTab(item)}
+            onClick={() => setTab(t)}
           >
-            {item}
+            {t}
           </button>
         ))}
       </div>
 
-      {/* 콘텐츠 */}
-      <div className="mt-2 flex-1">{children}</div>
+      <div className="mt-3">{children}</div>
     </div>
   );
 };
