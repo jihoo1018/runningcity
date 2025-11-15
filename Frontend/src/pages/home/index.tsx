@@ -18,13 +18,12 @@ const HomePage = () => {
   // 수령한 코인 보여주고 지갑 상태 추가
   // const [wallet, setWallet] = useState(0); // 지갑 돈 늘어나는거 디버깅용.
   const setWallet = useState(0)[1];
-  const userId = 1; //임시 유저 id
 
   // 워치 데이터를 백엔드 API로 저장하는 함수
   const saveWatchDataToBackend = async (workoutData: any, userId: number): Promise<void> => {
     try {
       const requestBody = {
-        clientSecretKey: workoutData.clientSecretKey || '',
+        clientSecretKey: workoutData.clientSecretKey || "",
         startTime: workoutData.startTime || 0,
         endTime: workoutData.endTime || 0,
         summary: {
@@ -57,30 +56,35 @@ const HomePage = () => {
         })),
       };
 
-      console.log('📤 [홈 페이지] 백엔드에 워치 데이터 저장 요청:', requestBody);
-      console.log('📤 [홈 페이지] 요청 URL: /sessions/watch?userId=' + userId);
+      console.log("📤 [홈 페이지] 백엔드에 워치 데이터 저장 요청:", requestBody);
+      console.log("📤 [홈 페이지] 요청 URL: /sessions/watch?userId=" + userId);
 
       const response = await apiPost<ApiResponse<void>>(
         `/sessions/watch?userId=${userId}`,
-        requestBody
+        requestBody,
       );
 
-      console.log('📥 [홈 페이지] 백엔드 응답:', response);
-      console.log('📥 [홈 페이지] 응답 status:', response.status);
-      console.log('📥 [홈 페이지] 응답 code:', response.code);
+      console.log("📥 [홈 페이지] 백엔드 응답:", response);
+      console.log("📥 [홈 페이지] 응답 status:", response.status);
+      console.log("📥 [홈 페이지] 응답 code:", response.code);
 
-      if (response.status === 200 && response.code === 'COMMON_2000') {
-        console.log('✅ [홈 페이지] 워치 데이터 백엔드 저장 성공');
+      if (response.status === 200 && response.code === "COMMON_2000") {
+        console.log("✅ [홈 페이지] 워치 데이터 백엔드 저장 성공");
       } else {
-        console.error('❌ [홈 페이지] 저장 실패 - status:', response.status, 'code:', response.code);
-        throw new Error(response.message || '저장 실패');
+        console.error(
+          "❌ [홈 페이지] 저장 실패 - status:",
+          response.status,
+          "code:",
+          response.code,
+        );
+        throw new Error(response.message || "저장 실패");
       }
     } catch (error: any) {
-      console.error('❌ [홈 페이지] 워치 데이터 백엔드 저장 실패:', error);
-      console.error('   에러 메시지:', error?.message);
+      console.error("❌ [홈 페이지] 워치 데이터 백엔드 저장 실패:", error);
+      console.error("   에러 메시지:", error?.message);
       if (error?.response) {
-        console.error('   응답 상태:', error.response.status);
-        console.error('   응답 데이터:', error.response.data);
+        console.error("   응답 상태:", error.response.status);
+        console.error("   응답 데이터:", error.response.data);
       }
       throw error;
     }
@@ -111,36 +115,36 @@ const HomePage = () => {
       if (data.type === "WORKOUT_RESULT") {
         console.log("📊 워치 결과 데이터 수신 (홈 페이지):", data);
         console.log("📊 워치 결과 데이터 (data 필드):", data.data);
-        
+
         if (data.data) {
           try {
-            const workoutData = typeof data.data === 'string' ? JSON.parse(data.data) : data.data;
-            console.log('📊 워치 결과 데이터 (파싱 후):', workoutData);
-            
+            const workoutData = typeof data.data === "string" ? JSON.parse(data.data) : data.data;
+            console.log("📊 워치 결과 데이터 (파싱 후):", workoutData);
+
             // ✅ zustand에서 현재 userId 가져오기
             const currentUserId = useAuthStore.getState().user?.userId;
-            
+
             if (currentUserId == null) {
-              console.warn('⚠️ 로그인되지 않은 상태 - 저장 불가');
+              console.warn("⚠️ 로그인되지 않은 상태 - 저장 불가");
               return;
             }
-            
+
             // ✅ 워치 데이터의 userId를 실제 userId로 교체
             workoutData.userId = currentUserId;
-            console.log('✅ userId 교체 완료:', workoutData.userId);
-            
+            console.log("✅ userId 교체 완료:", workoutData.userId);
+
             // ✅ 백엔드 API로 데이터 저장
             saveWatchDataToBackend(workoutData, currentUserId)
               .then(() => {
-                console.log('✅ 워치 데이터 백엔드 저장 완료');
+                console.log("✅ 워치 데이터 백엔드 저장 완료");
               })
               .catch((error) => {
-                console.error('❌ 워치 데이터 백엔드 저장 실패:', error);
+                console.error("❌ 워치 데이터 백엔드 저장 실패:", error);
                 // 저장 실패해도 계속 진행 (Android에서 이미 저장했을 수 있음)
               });
           } catch (e) {
-            console.error('❌ 워치 결과 데이터 파싱 실패:', e);
-            console.error('❌ 원본 데이터:', data.data);
+            console.error("❌ 워치 결과 데이터 파싱 실패:", e);
+            console.error("❌ 원본 데이터:", data.data);
           }
         }
       }

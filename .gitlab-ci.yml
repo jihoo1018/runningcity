@@ -25,8 +25,8 @@ deploy_dev_front_static:
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
-        - "Frontend/**"
-        - "deploy/nginx/**"
+        - "Frontend/**/*"
+        - "deploy/nginx/**/*"
         - ".gitlab-ci.yml"
         - "deploy/docker-compose.dev.yml"
   script:
@@ -89,7 +89,7 @@ deploy_dev_backend:
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
-        - "Backend/**"
+        - "Backend/**/*"
         - "deploy/docker-compose.dev.yml"
         - ".gitlab-ci.yml"
   script:
