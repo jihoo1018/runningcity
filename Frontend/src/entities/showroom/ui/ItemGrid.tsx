@@ -1,14 +1,8 @@
 // src\entities\showroom\ui\ItemGrid.tsx
+import { LPCPreviewRenderer } from "./LPCPreviewRenderer";
+import { ItemGridProps, InventoryItem } from "@/entities/showroom/model/type";
 
-type ItemGridProps = {
-  items: string[];
-  onPrev: () => void;
-  onNext: () => void;
-};
-
-// src/entities/showroom/ui/ItemGrid.tsx
-
-export const ItemGrid = ({ items, onPrev, onNext }: ItemGridProps) => {
+export const ItemGrid = ({ items, onPrev, onNext, onSelect }: ItemGridProps) => {
   return (
     <div className="relative mt-2">
       {/* prev 버튼 */}
@@ -24,9 +18,10 @@ export const ItemGrid = ({ items, onPrev, onNext }: ItemGridProps) => {
         {items.map((item, idx) => (
           <div
             key={idx}
+            onClick={() => onSelect(item)}
             className="flex h-16 w-16 items-center justify-center rounded-lg border sm:h-20 sm:w-20 md:h-24 md:w-24"
           >
-            {item}
+            <LPCPreviewRenderer basePath={item.basePath} />
           </div>
         ))}
       </div>

@@ -31,7 +31,8 @@ const ShowroomPage = () => {
         setLoading(true);
         setError("");
 
-        // const data = await fetchGetShowroomMe(userId);
+        // TODO
+        const data = await fetchGetShowroomMe();
         // setMyShowroom(data); // 받아온 데이터 저장
       } catch (err: any) {
         console.error(err);

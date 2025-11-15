@@ -1,53 +1,9 @@
 // src\entities\showroom\ui\CustomizeLayout.tsx
-
 import React from "react";
 import { BackIconButton, CloseIconButton } from "@/shared/ui/IconButtons";
 import { LPCCharacterRenderer } from "@/entities/showroom/ui/LPCCharacterRenderer";
 import { EquippedItem } from "@/entities/showroom/model/type";
-
-const mockItems: EquippedItem[] = [
-  //TODO
-  {
-    equippedId: 1,
-    itemId: 1,
-    style: null, // head 파츠만 style 존재
-    category: "bodies",
-    subcategory: "male",
-    basePath: "\\spritesheets\\bodies\\male\\{animation}\\light.png",
-  },
-  {
-    equippedId: 2,
-    itemId: 2,
-    style: null, // head 파츠만 style 존재
-    category: "clothes",
-    subcategory: "longsleeve",
-    basePath: "\\spritesheets\\clothes\\male\\longsleeve\\{animation}\\white.png",
-  },
-  {
-    equippedId: 3,
-    itemId: 3,
-    category: "head",
-    subcategory: "eyes",
-    style: "anger",
-    basePath: "\\spritesheets\\head\\eyes\\anger\\{animation}\\blue.png",
-  },
-  {
-    equippedId: 4,
-    itemId: 4,
-    style: null, // head 파츠만 style 존재
-    category: "hair",
-    subcategory: "long",
-    basePath: "\\spritesheets\\hair\\buzzcut\\{animation}\\dark_gray.png",
-  },
-  {
-    equippedId: 5,
-    itemId: 5,
-    style: null, // head 파츠만 style 존재
-    category: "clothes",
-    subcategory: "shorts",
-    basePath: "\\spritesheets\\clothes\\male\\shorts\\{animation}\\black.png",
-  },
-];
+import { fetchGetInventoryList } from "@/entities/showroom/api/customize";
 
 type Props = {
   mode: "clothes" | "character";
@@ -55,10 +11,10 @@ type Props = {
   tab: string;
   setTab: (tab: string) => void;
   tabList: string[];
+  equippedItems: EquippedItem[];
   children: React.ReactNode;
   onBack: () => void;
 };
-// src/entities/showroom/ui/CustomizeLayout.tsx
 
 export const CustomizeLayout = ({
   mode,
@@ -66,6 +22,7 @@ export const CustomizeLayout = ({
   tab,
   setTab,
   tabList,
+  equippedItems,
   children,
   onBack,
 }: Props) => {
@@ -106,7 +63,7 @@ export const CustomizeLayout = ({
 
       {/* 캐릭터 프리뷰 */}
       <div className="flex justify-center py-4">
-        <LPCCharacterRenderer items={mockItems} animation="walk" direction={0} />
+        <LPCCharacterRenderer items={equippedItems} animation="walk" direction={0} />
         {/* <div className="flex h-80 w-50 items-center justify-center rounded-xl bg-gray-200 sm:h-80 sm:w-40 md:h-[360px] md:w-48">
           캐릭터
         </div> */}

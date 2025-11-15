@@ -47,3 +47,10 @@ export type PrivacySetting = {
   showHikingCount: boolean;
   tags: string[];
 };
+
+export type ItemGridProps = {
+  items: InventoryItem[];
+  onPrev: () => void;
+  onNext: () => void;
+  onSelect: (item: InventoryItem) => void;
+};
