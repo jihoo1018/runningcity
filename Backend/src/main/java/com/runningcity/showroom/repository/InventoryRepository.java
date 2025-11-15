@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface ShowRoomRepository extends JpaRepository<UserInventory, Long> {
+public interface InventoryRepository extends JpaRepository<UserInventory, Long> {
 
     /**
      * 특정 유저가 구매한 아이템 ID 목록 조회
@@ -31,5 +31,5 @@ public interface ShowRoomRepository extends JpaRepository<UserInventory, Long> {
      */
     Optional<UserInventory> findByUserIdAndItemId(Long userId, Long itemId);
 
-    List<UserEquippedItem> findByUserId(Long userId);
+    List<UserInventory> findByUserId(Long userId);
 }

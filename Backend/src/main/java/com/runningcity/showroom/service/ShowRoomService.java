@@ -2,9 +2,11 @@ package com.runningcity.showroom.service;
 
 import com.runningcity.entry.dto.EntryListResponse;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
+import com.runningcity.showroom.dto.UserInventoryResponse;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
-import com.runningcity.showroom.repository.ShowRoomRepository;
+import com.runningcity.showroom.repository.EquippedItemRepository;
+import com.runningcity.showroom.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShowRoomService {
 
-    private final ShowRoomRepository showRoomRepository;
+    private final InventoryRepository inventoryRepository;
+
+    private final EquippedItemRepository equippedItemRepository;
 
 
     /**
@@ -36,7 +40,7 @@ public class ShowRoomService {
     public Long addItem(Long userId, Long itemId) {
         // 신규 아이템 생성 (quantity = 1 고정)
         UserInventory newInventory = UserInventory.create(userId, itemId);
-        UserInventory saved = showRoomRepository.save(newInventory);
+        UserInventory saved = inventoryRepository.save(newInventory);
         return saved.getInventoryId();
     }
 
@@ -58,7 +62,7 @@ public class ShowRoomService {
     @Transactional(propagation = Propagation.MANDATORY)
     public void addItemFromGacha(Long userId, Long itemId) {
         // 이미 보유한 아이템인지 확인
-        Optional<UserInventory> existing = showRoomRepository
+        Optional<UserInventory> existing = inventoryRepository
                 .findByUserIdAndItemId(userId, itemId);
 
         if (existing.isPresent()) {
@@ -71,7 +75,7 @@ public class ShowRoomService {
         } else {
             // 첫 획득 → 신규 추가
             UserInventory newInventory = UserInventory.create(userId, itemId);
-            showRoomRepository.save(newInventory);
+            inventoryRepository.save(newInventory);
 
             log.info("🎰 [가챠 신규] userId={}, itemId={}", userId, itemId);
         }
@@ -86,7 +90,7 @@ public class ShowRoomService {
      */
     @Transactional(readOnly = true)
     public boolean hasItem(Long userId, Long itemId) {
-        return showRoomRepository.existsByUserIdAndItemId(userId, itemId);
+        return inventoryRepository.existsByUserIdAndItemId(userId, itemId);
     }
 
 
@@ -98,9 +102,25 @@ public class ShowRoomService {
      */
     public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
 
-        return showRoomRepository.findByUserId(userId)
+        return equippedItemRepository.findByUserId(userId)
                 .stream()
                 .map(UserEquippedItemResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+
+
+    /**
+     * 유저가 갖고있는 아이템 리스트 조회
+     *
+     * @param userId 유저 ID
+     * @return 유저가 갖고있는 아이템 리스트
+     */
+    public List<UserInventoryResponse> getUserInventoryList(Long userId) {
+
+        return inventoryRepository.findByUserId(userId)
+                .stream()
+                .map(UserInventoryResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 
