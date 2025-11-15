@@ -27,7 +27,7 @@ public class MyShowroomController {
      * 내 사무실 조회
      *
      * @param userId 사용자 ID
-     * @return 
+     * @return 쇼룸 첫화면에서 필요한 정보-사용자의 총 상태, 사용자 착장 리스트
      */
     @GetMapping("/office/{userId}")
     public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getMyShowroom(@PathVariable("userId") Long userId
