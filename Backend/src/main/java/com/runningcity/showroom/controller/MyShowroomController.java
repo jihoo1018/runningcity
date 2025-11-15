@@ -59,7 +59,7 @@ public class MyShowroomController {
      * @param userId 사용자 ID
      * @return
      */
-    @GetMapping("/clothes/{userId}")
+    @PostMapping("/clothes/{userId}")
     public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> changeClothes(@PathVariable("userId") Long userId
     ){
         // TODO
