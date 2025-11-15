@@ -1,13 +1,11 @@
 package com.runningcity.showroom.controller;
 
-import com.runningcity.boutique.dto.StoreResponse;
 import com.runningcity.global.response.ApiResponse;
 import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.showroom.dto.PrivacySettingRequest;
 import com.runningcity.showroom.dto.PrivacySettingResponse;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
 import com.runningcity.showroom.dto.UserInventoryResponse;
-import com.runningcity.showroom.entity.PrivacySetting;
 import com.runningcity.showroom.service.PrivacySettingService;
 import com.runningcity.showroom.service.ShowRoomService;
 import lombok.RequiredArgsConstructor;
