@@ -2,16 +2,16 @@ import { RunIcon } from "@/shared/assets/icons";
 import { EditIconButton } from "@/shared/ui/IconButtons";
 import { UserLevelBadge } from "@/entities/user/ui/UserLevelBadge";
 import { useModalRouter } from "@/app/modal/useModalRouter";
+import { useUserProfile } from "@/features/auth/model/selector";
 
 const UserProfileHeader = () => {
-  // TODO: 실제 유저 정보로 변경
-  const user = {
-    nickname: "러너동동일이육",
-    userCode: "112",
-    totalExp: 1324,
-  };
+  const { nickname, userId, totalExp } = useUserProfile();
 
   const { open } = useModalRouter();
+
+  function onOpenUserModify() {
+    open("user", "modify", { nickname, userId });
+  }
 
   return (
     <div className="flex items-center gap-4 pt-1">
@@ -21,12 +21,12 @@ const UserProfileHeader = () => {
         <EditIconButton
           variant="round"
           className="bg-custom-gray text-custom-black absolute -right-1 -bottom-1 h-5 min-h-7 w-5 min-w-7 border-2"
-          onClick={() => open("user", "modify")}
+          onClick={onOpenUserModify}
         />
       </div>
       <div className="flex flex-col gap-1">
-        <p className="text-modal-title">{user.nickname}</p>
-        <UserLevelBadge totalExp={user.totalExp} />
+        <p className="text-modal-title">{nickname ?? "noname"}</p>
+        <UserLevelBadge totalExp={totalExp ?? 0} />
       </div>
     </div>
   );
