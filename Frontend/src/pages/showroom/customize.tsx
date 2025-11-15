@@ -1,98 +1,82 @@
-// src\pages\showroom\customize.tsx
+// src/pages/showroom/customize.tsx
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CustomizeLayout } from "@/entities/showroom/ui/CustomizeLayout";
 import { ItemGrid } from "@/entities/showroom/ui/ItemGrid";
-import { fetchGetInventoryList } from "@/entities/showroom/api/customize";
-import { InventoryItem, EquippedItem } from "@/entities/showroom/model/type";
+import { fetchGetInventoryList, fetchSave } from "@/entities/showroom/api/customize";
+import { EquippedItem, InventoryItem } from "@/entities/showroom/model/type";
 
-const CustomizePage = () => {
-  const [mode, setMode] = useState<"clothes" | "character">("clothes");
+const BODY_TABS = ["상의", "하의", "피부색"];
+const HEAD_TABS = ["헤어", "얼굴", "표정", "눈썹", "눈", "코", "귀"];
+
+export default function CustomizePage() {
+  const [mode, setMode] = useState<"body" | "head">("body");
   const [tab, setTab] = useState("상의");
   const [page, setPage] = useState(0);
 
-  const [inventoryItems, setInventoryItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [inventoryItems, setInventoryItems] = useState<InventoryItem[]>([]);
   const [equippedItems, setEquippedItems] = useState<EquippedItem[]>([
+    // 기본 장착 아이템 (기존 네가 사용하던 부분)
     {
-      equippedId: 1,
-      itemId: 1,
-      style: null, // head 파츠만 style 존재
+      equippedId: 0,
+      itemId: 0,
       category: "bodies",
       subcategory: "male",
+      style: null,
       basePath: "\\spritesheets\\bodies\\male\\{animation}\\light.png",
     },
     {
-      equippedId: 2,
-      itemId: 2,
-      style: null, // head 파츠만 style 존재
-      category: "clothes",
-      subcategory: "longsleeve",
-      basePath: "\\spritesheets\\clothes\\male\\longsleeve\\{animation}\\white.png",
+      equippedId: 0,
+      itemId: 0,
+      category: "head",
+      subcategory: "heads",
+      style: null,
+      basePath: "\\spritesheets\\head\\heads\\{animation}\\light.png",
     },
     {
-      equippedId: 3,
-      itemId: 3,
+      equippedId: 0,
+      itemId: 0,
       category: "head",
       subcategory: "eyes",
-      style: "anger",
-      basePath: "\\spritesheets\\head\\eyes\\anger\\{animation}\\blue.png",
+      style: "default",
+      basePath: "\\spritesheets\\head\\eyes\\default\\{animation}\\blue.png",
     },
     {
-      equippedId: 4,
-      itemId: 4,
-      style: null, // head 파츠만 style 존재
-      category: "hair",
-      subcategory: "long",
-      basePath: "\\spritesheets\\hair\\buzzcut\\{animation}\\dark_gray.png",
-    },
-    {
-      equippedId: 5,
-      itemId: 5,
-      style: null, // head 파츠만 style 존재
-      category: "clothes",
-      subcategory: "shorts",
-      basePath: "\\spritesheets\\clothes\\male\\shorts\\{animation}\\black.png",
+      equippedId: 0,
+      itemId: 0,
+      category: "head",
+      subcategory: "nose",
+      style: null,
+      basePath: "\\spritesheets\\head\\nose\\{animation}\\light.png",
     },
   ]);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const items = await fetchGetInventoryList();
-        setInventoryItems(items);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    load();
+    fetchGetInventoryList().then(setInventoryItems);
   }, []);
 
-  // 탭 목록은 mode에 따라 변경됨
-  const clothesTabs = ["상의", "하의", "신발"];
-  const characterTabs = ["머리", "눈", "머리색"];
+  // --- 슬롯 규칙 ---
+  const BODY_SLOT: Record<string, string> = {
+    tshirt: "top",
+    longsleeve: "top",
+    shorts: "bottom",
+    male: "skin",
+    female: "skin",
+  };
 
-  const tabs = mode === "clothes" ? clothesTabs : characterTabs;
+  const HEAD_SLOT: Record<string, string> = {
+    hair: "hair",
+    heads: "head",
+    faces: "face",
+    eyebrows: "eyebrows",
+    eyes: "eyes",
+    nose: "nose",
+    ears: "ears",
+  };
 
-  // 테스트용 mock 데이터
-  // const mockItems = [
-  //   "아이템1",
-  //   "아이템2",
-  //   "아이템3",
-  //   "아이템4",
-  //   "아이템5",
-  //   "아이템6",
-  //   "아이템7",
-  //   "아이템8",
-  // ];
-
-  // 변환
-  function convertToEquipped(item: InventoryItem): EquippedItem {
+  function toEquipped(item: InventoryItem): EquippedItem {
     return {
-      equippedId: 0, // 새로 장착한거니까 임시값(서버 저장 후 서버값으로 업데이트)
+      equippedId: 0,
       itemId: item.itemId,
       category: item.category,
       subcategory: item.subcategory,
@@ -101,72 +85,61 @@ const CustomizePage = () => {
     };
   }
 
-  function getClothesSlot(item: { subcategory: string }) {
-    if (item.subcategory === "shorts") return "bottom";
-
-    // 상의 전부
-    if (["longsleeve", "tshirt", "shortsleeves"].includes(item.subcategory)) {
-      return "top";
-    }
-
-    return "other"; // 확장용
-  }
-
-  const handleEquip = (invItem: InventoryItem) => {
-    const eqItem: EquippedItem = {
-      equippedId: 0,
-      itemId: invItem.itemId,
-      category: invItem.category,
-      subcategory: invItem.subcategory,
-      style: invItem.style ?? null,
-      basePath: invItem.basePath,
-    };
+  // --- 장착 처리 ---
+  function handleEquip(inv: InventoryItem) {
+    const eq = toEquipped(inv);
 
     setEquippedItems((prev) => {
-      // HEAD
-      if (eqItem.category === "head") {
-        return [
-          ...prev.filter((i) => !(i.category === "head" && i.subcategory === eqItem.subcategory)),
-          eqItem,
-        ];
+      if (mode === "body") {
+        const slot = BODY_SLOT[inv.subcategory];
+        return [...prev.filter((i) => BODY_SLOT[i.subcategory] !== slot), eq];
       }
 
-      // CLOTHES
-      if (eqItem.category === "clothes") {
-        const newSlot = getClothesSlot(invItem);
-
-        return [
-          ...prev.filter((i) => {
-            if (i.category !== "clothes") return true;
-            return getClothesSlot(i) !== newSlot;
-          }),
-          eqItem,
-        ];
+      if (mode === "head") {
+        const slot = HEAD_SLOT[inv.subcategory];
+        return [...prev.filter((i) => HEAD_SLOT[i.subcategory] !== slot), eq];
       }
 
-      // BODIES / HAIR
-      return [...prev.filter((i) => i.category !== eqItem.category), eqItem];
+      return prev;
     });
-  };
+  }
 
-  //탭별 필터링
-  function filterItemsByTab(items: InventoryItem[]) {
-    if (mode === "clothes") {
-      if (tab === "상의") {
-        return items.filter((i) => getClothesSlot(i) === "top");
-      }
-      if (tab === "하의") {
-        return items.filter((i) => getClothesSlot(i) === "bottom");
-      }
+  function tabToSub(tab: string) {
+    return (
+      {
+        헤어: "hair",
+        얼굴: "heads",
+        표정: "faces",
+        눈썹: "eyebrows",
+        눈: "eyes",
+        코: "nose",
+        귀: "ears",
+      } as any
+    )[tab];
+  }
+
+  function filterItems() {
+    if (mode === "body") {
+      if (tab === "상의")
+        return inventoryItems.filter((i) => ["tshirt", "longsleeve"].includes(i.subcategory));
+      if (tab === "하의") return inventoryItems.filter((i) => i.subcategory === "shorts");
+      if (tab === "피부색") return inventoryItems.filter((i) => i.category === "bodies");
     }
 
-    if (mode === "character") {
-      if (tab === "머리") return items.filter((i) => i.category === "hair");
-      if (tab === "눈") return items.filter((i) => i.subcategory === "eyes");
-      if (tab === "머리색") return items.filter((i) => i.category === "hair");
-    }
+    if (mode === "head") return inventoryItems.filter((i) => i.subcategory === tabToSub(tab));
 
-    return items;
+    return inventoryItems;
+  }
+
+  // --- 저장 ---
+  async function handleSave() {
+    try {
+      await fetchSave(equippedItems);
+      alert("착장이 저장되었습니다!");
+    } catch (err: any) {
+      console.error(err);
+      alert("저장 중 오류가 발생했습니다.");
+    }
   }
 
   return (
@@ -175,18 +148,24 @@ const CustomizePage = () => {
       setMode={setMode}
       tab={tab}
       setTab={setTab}
-      tabList={tabs}
+      tabList={mode === "body" ? BODY_TABS : HEAD_TABS}
       equippedItems={equippedItems}
       onBack={() => history.back()}
     >
       <ItemGrid
-        items={filterItemsByTab(inventoryItems).slice(page * 8, page * 8 + 8)}
-        onPrev={() => setPage((prev) => Math.max(prev - 1, 0))}
-        onNext={() => setPage((prev) => prev + 1)}
+        items={filterItems().slice(page * 8, page * 8 + 8)}
+        onPrev={() => setPage((p) => Math.max(0, p - 1))}
+        onNext={() => setPage((p) => p + 1)}
         onSelect={handleEquip}
       />
+
+      {/* 저장 버튼 */}
+      <button
+        className="bg-primary mt-4 w-full rounded-xl py-3 font-bold text-black"
+        onClick={handleSave}
+      >
+        저장하기
+      </button>
     </CustomizeLayout>
   );
-};
-
-export default CustomizePage;
+}
