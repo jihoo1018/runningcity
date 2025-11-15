@@ -29,7 +29,7 @@ public class WatchUploadRequest  {
     @Valid
     private List<HeartRateRecord> heartRateRecords;
 
-    @Valid @NotEmpty
+    @Valid
     private List<GpsPoint> gpsPoints;
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
