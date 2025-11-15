@@ -14,4 +14,6 @@ import java.util.Set;
 public interface EquippedItemRepository extends JpaRepository<UserEquippedItem, Long> {
 
     List<UserEquippedItem> findByUserId(Long userId);
+
+    void deleteAllByUserId(Long userId);
 }
