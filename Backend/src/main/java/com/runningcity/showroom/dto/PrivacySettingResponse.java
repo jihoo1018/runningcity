@@ -3,6 +3,7 @@ package com.runningcity.showroom.dto;
 import com.runningcity.entry.dto.EntryDetailResponse;
 import com.runningcity.entry.entity.Entry;
 import com.runningcity.showroom.entity.PrivacySetting;
+import com.runningcity.showroom.entity.UserTag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +26,8 @@ public class PrivacySettingResponse {
 
     private List<String> tags; // 최대 4개
 
-    public static PrivacySettingResponse fromEntity(PrivacySetting entity) {
+    public static PrivacySettingResponse fromEntity(PrivacySetting entity,
+                                                    List<UserTag> userTags) {
         return PrivacySettingResponse.builder()
                 .userId(entity.getUserId())
                 .isGlobalPublic(entity.isGlobalPublic())
@@ -34,6 +36,25 @@ public class PrivacySettingResponse {
                 .showAvgPace(entity.isShowAvgPace())
                 .showBestPace(entity.isShowBestPace())
                 .showHikingCount(entity.isShowHikingCount())
+                .tags(
+                        userTags.stream()
+                                .map(UserTag::getTagName)
+                                .toList()
+                )
                 .build();
     }
+
+    public static PrivacySettingResponse createDefault(Long userId, List<UserTag> tags) {
+        return PrivacySettingResponse.builder()
+                .userId(userId)
+                .isGlobalPublic(true)
+                .showTotalRunning(true)
+                .showMaxDistance(true)
+                .showAvgPace(true)
+                .showBestPace(true)
+                .showHikingCount(true)
+                .tags(tags.stream().map(UserTag::getTagName).toList())
+                .build();
+    }
+
 }

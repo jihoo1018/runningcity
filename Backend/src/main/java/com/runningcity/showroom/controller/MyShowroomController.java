@@ -6,6 +6,7 @@ import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.showroom.dto.PrivacySettingRequest;
 import com.runningcity.showroom.dto.PrivacySettingResponse;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
+import com.runningcity.showroom.entity.PrivacySetting;
 import com.runningcity.showroom.service.PrivacySettingService;
 import com.runningcity.showroom.service.ShowRoomService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.List;
 public class MyShowroomController {
 
     private final ShowRoomService showroomService;
-    private final PrivacySettingService service;
+    private final PrivacySettingService privacySettingService;
 
 
     /**
@@ -65,17 +66,31 @@ public class MyShowroomController {
 
 
     /**
+     * 쇼룸 공개 설정 조회
+     *
+     * @param userId 사용자 ID
+     * @return PrivacySettingResponse
+     */
+    @GetMapping("/privacy/{userId}")
+    public ResponseEntity<ApiResponse<PrivacySettingResponse>> getPrivacySetting(
+            @PathVariable("userId") Long userId
+    ) {
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.PRIVACY_SETTING_GET_SUCCESS, privacySettingService.getPrivacySetting(userId)));
+    }
+
+    /**
      * 쇼룸 공개 설정 저장
      *
-     * @param
-     * @return
+     * @param userId 사용자 ID
+     * @param req PrivacySettingRequest
+     * @return PrivacySettingResponse
      */
-    @PostMapping("/privacy")
+    @PostMapping("/privacy/{userId}")
     public ResponseEntity<ApiResponse<PrivacySettingResponse>> savePrivacy(
             @RequestBody PrivacySettingRequest req,
-            @RequestHeader("X-USER-ID") Long userId
+            @PathVariable("userId") Long userId
     ) {
-        // TODO
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,null));
+        privacySettingService.savePrivacySetting(userId, req);
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.PRIVACY_SETTING_GET_SUCCESS,null));
     }
 }

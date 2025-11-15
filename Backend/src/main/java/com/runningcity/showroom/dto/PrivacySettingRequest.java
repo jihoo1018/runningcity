@@ -12,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PrivacySettingRequest {
-    private Long userId;
     private boolean isGlobalPublic;
     private boolean showTotalRunning;
     private boolean showMaxDistance;
