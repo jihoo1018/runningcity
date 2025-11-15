@@ -39,6 +39,8 @@ deploy_dev_front_static:
       rm -rf /tmp/fe_build/* || true
 
       docker run --rm \
+      -e VITE_KAKAO_MAP_APP_KEY="${VITE_KAKAO_MAP_APP_KEY}" \
+      -e VITE_API_ORIGIN="${VITE_API_ORIGIN}" \
         -v "$PWD/Frontend:/src:ro" \
         -v "/tmp/fe_build:/out" \
         -v npm_cache:/root/.npm \

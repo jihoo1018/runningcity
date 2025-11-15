@@ -4,6 +4,7 @@ export const FLOWS = {
   user: ["modify", "confirm"] as const,
   mission: ["root", "confirm"] as const,
   entry: ["root", "level"] as const,
+  common: ["fail"] as const,
 } as const;
 
 export type FlowKey = keyof typeof FLOWS;
