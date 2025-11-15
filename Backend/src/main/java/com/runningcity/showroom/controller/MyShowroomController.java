@@ -6,6 +6,7 @@ import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.showroom.dto.PrivacySettingRequest;
 import com.runningcity.showroom.dto.PrivacySettingResponse;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
+import com.runningcity.showroom.dto.UserInventoryResponse;
 import com.runningcity.showroom.entity.PrivacySetting;
 import com.runningcity.showroom.service.PrivacySettingService;
 import com.runningcity.showroom.service.ShowRoomService;
@@ -34,21 +35,22 @@ public class MyShowroomController {
     public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getMyShowroom(@PathVariable("userId") Long userId
     ){
         //TODO 사용자의 총 상태 조회부분 추가하기
-        List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId);
+        
+        // 현재 사용자 착장 아이템 리스트
+        List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId); 
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,userEquippedItemList));
     }
 
     /**
-     * 옷 갈아입히기 화면 조회
+     * 옷 갈아입히기 화면 조회 - 현재 착장은 쇼룸 첫화면에서 조회해서 프론트에서 갖고 있을 것이므로, 보유 아이템 리스트만 리턴한다.
      *
      * @param userId 사용자 ID
-     * @return
+     * @return 사용자 보유 아이템 리스트 조회
      */
     @GetMapping("/clothes/{userId}")
-    public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getClothesRoom(@PathVariable("userId") Long userId
+    public ResponseEntity<ApiResponse<List<UserInventoryResponse>>> getClothes(@PathVariable("userId") Long userId
     ){
-        // TODO
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,null));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS, showroomService.getUserInventoryList(userId)));
     }
 
     /**
@@ -63,7 +65,6 @@ public class MyShowroomController {
         // TODO
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,null));
     }
-
 
     /**
      * 쇼룸 공개 설정 조회
