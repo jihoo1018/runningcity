@@ -31,7 +31,7 @@ public class MyShowroomController {
      * @param userId 사용자 ID
      * @return 
      */
-    @GetMapping("/me/{userId}")
+    @GetMapping("/office/{userId}")
     public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getMyShowroom(@PathVariable("userId") Long userId
     ){
         //TODO 사용자의 총 상태 조회부분 추가하기
