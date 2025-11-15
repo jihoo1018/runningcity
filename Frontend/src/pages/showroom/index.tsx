@@ -45,7 +45,7 @@ const ShowroomPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col">
       {/* 상단 탭 */}
       <ShowroomTabs tab={tab} setTab={setTab} />
 
@@ -59,7 +59,7 @@ const ShowroomPage = () => {
       {!loading && !error && myShowroom && (
         <>
           {/* 캐릭터 카드 */}
-          <div className="flex items-start justify-center py-4">
+          <div className="flex items-start justify-center py-2">
             <CharacterCard tab={tab} data={myShowroom} />
           </div>
 

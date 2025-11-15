@@ -16,7 +16,16 @@ const CustomizePage = () => {
   const tabs = mode === "clothes" ? clothesTabs : characterTabs;
 
   // 테스트용 mock 데이터
-  const mockItems = ["아이템1", "아이템2", "아이템3", "아이템4", "아이템5", "아이템6"];
+  const mockItems = [
+    "아이템1",
+    "아이템2",
+    "아이템3",
+    "아이템4",
+    "아이템5",
+    "아이템6",
+    "아이템7",
+    "아이템8",
+  ];
 
   return (
     <CustomizeLayout

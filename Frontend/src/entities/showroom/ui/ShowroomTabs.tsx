@@ -2,15 +2,16 @@ type Props = {
   tab: "me" | "friend" | "global";
   setTab: (t: "me" | "friend" | "global") => void;
 };
-
 export const ShowroomTabs = ({ tab, setTab }: Props) => {
   const tabStyle = (key: string) =>
-    `px-4 py-2 rounded-lg text-sm ${
-      tab === key ? "bg-primary text-custom-black" : "border border-custom-gray text-custom-gray"
-    }`;
+    `
+      px-3 py-2 sm:px-4 sm:py-2 
+      rounded-lg text-xs sm:text-sm 
+      ${tab === key ? "bg-primary text-black" : "border border-gray-500 text-gray-300"}
+    `;
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className="mt-2 flex justify-center gap-1 sm:gap-2">
       <button className={tabStyle("me")} onClick={() => setTab("me")}>
         내 사무실
       </button>
