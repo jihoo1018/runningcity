@@ -2,6 +2,44 @@
 
 import React from "react";
 import { BackIconButton, CloseIconButton } from "@/shared/ui/IconButtons";
+import { LPCCharacterRenderer } from "@/entities/showroom/ui/LPCCharacterRenderer";
+import { EquippedItem } from "@/entities/showroom/model/type";
+
+const mockItems: EquippedItem[] = [
+  //TODO
+  {
+    equippedId: 1,
+    itemId: 1,
+    style: null, // head 파츠만 style 존재
+    category: "bodies",
+    subcategory: "male",
+    basePath: "\\spritesheets\\bodies\\male\\{animation}\\green.png",
+  },
+  {
+    equippedId: 2,
+    itemId: 2,
+    style: null, // head 파츠만 style 존재
+    category: "clothes",
+    subcategory: "longsleeve",
+    basePath: "\\spritesheets\\clothes\\longsleeve\\{animation}\\white.png",
+  },
+  {
+    equippedId: 3,
+    itemId: 3,
+    category: "head",
+    subcategory: "eyes",
+    style: "anger",
+    basePath: "\\spritesheets\\head\\eyes\\anger\\{animation}\\blue.png",
+  },
+  {
+    equippedId: 4,
+    itemId: 4,
+    style: null, // head 파츠만 style 존재
+    category: "hair",
+    subcategory: "long",
+    basePath: "\\spritesheets\\hair\\buzzcut\\{animation}\\dark_gray.png",
+  },
+];
 
 type Props = {
   mode: "clothes" | "character";
@@ -60,9 +98,10 @@ export const CustomizeLayout = ({
 
       {/* 캐릭터 프리뷰 */}
       <div className="flex justify-center py-4">
-        <div className="flex h-80 w-50 items-center justify-center rounded-xl bg-gray-200 sm:h-80 sm:w-40 md:h-[360px] md:w-48">
+        <LPCCharacterRenderer items={mockItems} animation="walk" direction={0} />
+        {/* <div className="flex h-80 w-50 items-center justify-center rounded-xl bg-gray-200 sm:h-80 sm:w-40 md:h-[360px] md:w-48">
           캐릭터
-        </div>
+        </div> */}
       </div>
 
       {/* 탭 – 모바일에서 스크롤 가능 */}
