@@ -50,16 +50,18 @@ public enum CommonResponseCode implements BaseResponseCode {
     ENTRY_NOT_FOUND(HttpStatus.NOT_FOUND, "ENTRY_4001", "해당 잠입 기지가 존재하지 않습니다."),
 
     // 내 사무실
-    MY_OFFICE_GET_SUCCESS(HttpStatus.OK, "PRIVACY_SETTING_2000", "내 사무실 요청에 성공했습니다."),
-    MY_OFFICE_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PRIVACY_SETTING_4001", "내 사무실 요청에 실패했습니다."),
+    MY_OFFICE_GET_SUCCESS(HttpStatus.OK, "MY_OFFICE_2000", "내 사무실 조회에 성공했습니다."),
+    MY_OFFICE_BAD_REQUEST(HttpStatus.BAD_REQUEST, "MY_OFFICE_4001", "내 사무실 요청에 실패했습니다."),
 
     // 내 사무실 공개 설정
-    PRIVACY_SETTING_GET_SUCCESS(HttpStatus.OK, "PRIVACY_SETTING_2000", "내 사무실 공개 설정 요청에 성공했습니다."),
+    PRIVACY_SETTING_GET_SUCCESS(HttpStatus.OK, "PRIVACY_SETTING_2000", "내 사무실 공개 설정 조회 요청에 성공했습니다."),
+    PRIVACY_SETTING_POST_SUCCESS(HttpStatus.OK, "PRIVACY_SETTING_2001", "내 사무실 공개 설정 저장 요청에 성공했습니다."),
     PRIVACY_SETTING_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PRIVACY_SETTING_4001", "내 사무실 공개 설정 요청에 실패했습니다."),
 
     // 옷 갈아입히기
-    CHANGE_CLOTHES_GET_SUCCESS(HttpStatus.OK, "PRIVACY_SETTING_2000", "옷 갈아입기 요청에 성공했습니다."),
-    CHANGE_CLOTHES_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PRIVACY_SETTING_4001", "옷 갈아입기 요청에 실패했습니다.");
+    CHANGE_CLOTHES_GET_SUCCESS(HttpStatus.OK, "CHANGE_CLOTHES_2000", "옷 갈아입기 조회 요청에 성공했습니다."),
+    CHANGE_CLOTHES_POST_SUCCESS(HttpStatus.OK, "CHANGE_CLOTHES_2001", "옷 갈아입기 저장 요청에 성공했습니다."),
+    CHANGE_CLOTHES_BAD_REQUEST(HttpStatus.BAD_REQUEST, "CHANGE_CLOTHES_4001", "옷 갈아입기 요청에 실패했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

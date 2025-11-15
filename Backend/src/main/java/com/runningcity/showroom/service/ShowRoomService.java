@@ -1,12 +1,14 @@
 package com.runningcity.showroom.service;
 
+import com.runningcity.boutique.entity.Boutique;
 import com.runningcity.entry.dto.EntryListResponse;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
 import com.runningcity.showroom.dto.UserInventoryResponse;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
+import com.runningcity.showroom.mapper.UserInventoryMapper;
 import com.runningcity.showroom.repository.EquippedItemRepository;
-import com.runningcity.showroom.repository.InventoryRepository;
+import com.runningcity.showroom.repository.UserInventoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShowRoomService {
 
-    private final InventoryRepository inventoryRepository;
+    private final UserInventoryRepository inventoryRepository;
 
     private final EquippedItemRepository equippedItemRepository;
 
@@ -109,19 +111,31 @@ public class ShowRoomService {
     }
 
 
-
     /**
      * 유저가 갖고있는 아이템 리스트 조회
      *
      * @param userId 유저 ID
      * @return 유저가 갖고있는 아이템 리스트
      */
-    public List<UserInventoryResponse> getUserInventoryList(Long userId) {
+    public List<UserInventoryResponse> getUserInventory(Long userId) {
 
-        return inventoryRepository.findByUserId(userId)
-                .stream()
-                .map(UserInventoryResponse::fromEntity)
-                .collect(Collectors.toList());
+        List<Object[]> rows = inventoryRepository.findInventoryJoinItem(userId);
+
+        return rows.stream()
+                .map(row -> {
+                    UserInventory ui = (UserInventory) row[0];
+                    Boutique b = (Boutique) row[1];
+                    return UserInventoryMapper.toDto(ui, b);
+                })
+                .toList();
     }
+//    public List<UserInventoryResponse> getUserInventoryList(Long userId) {
+//
+//        return inventoryRepository.findByUserId(userId)
+//                .stream()
+//                .map(UserInventoryResponse::fromEntity)
+//                .collect(Collectors.toList());
+//    }
+
 
 }

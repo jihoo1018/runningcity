@@ -36,7 +36,7 @@ public class MyShowroomController {
         
         // 현재 사용자 착장 아이템 리스트
         List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId); 
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,userEquippedItemList));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS,userEquippedItemList));
     }
 
     /**
@@ -48,7 +48,7 @@ public class MyShowroomController {
     @GetMapping("/clothes/{userId}")
     public ResponseEntity<ApiResponse<List<UserInventoryResponse>>> getClothes(@PathVariable("userId") Long userId
     ){
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS, showroomService.getUserInventoryList(userId)));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.CHANGE_CLOTHES_GET_SUCCESS, showroomService.getUserInventory(userId)));
     }
 
     /**
@@ -58,10 +58,10 @@ public class MyShowroomController {
      * @return
      */
     @PostMapping("/clothes/{userId}")
-    public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> changeClothes(@PathVariable("userId") Long userId
+    public ResponseEntity<ApiResponse<Void>> changeClothes(@PathVariable("userId") Long userId
     ){
         // TODO
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS,null));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.CHANGE_CLOTHES_POST_SUCCESS));
     }
 
     /**
@@ -85,11 +85,11 @@ public class MyShowroomController {
      * @return PrivacySettingResponse
      */
     @PostMapping("/privacy/{userId}")
-    public ResponseEntity<ApiResponse<PrivacySettingResponse>> savePrivacy(
+    public ResponseEntity<ApiResponse<Void>> savePrivacy(
             @RequestBody PrivacySettingRequest req,
             @PathVariable("userId") Long userId
     ) {
         privacySettingService.savePrivacySetting(userId, req);
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.PRIVACY_SETTING_GET_SUCCESS,null));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.PRIVACY_SETTING_POST_SUCCESS));
     }
 }
