@@ -1,9 +1,9 @@
 // src/entities/showroom/model/types.ts
 
 export type MyOffice = {
-  userNm: string;
-  userLv: number;
-  userId: number;
+  // userNm: string;
+  // userLv: number;
+  // userId: number;
   totalDist: number; // 유저가 총 달린 거리
   longestDist: number; // 유저가 달린 최장 거리
   avgPace: number; // 유저 평균 페이스

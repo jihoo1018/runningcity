@@ -1,167 +1,170 @@
 /**
- * 🎨 캐릭터 데이터 저장소 (Zustand Store)
- * 
- * 역할:
- * - 아이템 목록을 메모리에 저장
- * - 착용 중인 아이템 관리
- * - 매번 API 호출 안 하게 캐싱
+ * 🎨 AvatarStore – 슬롯 기반 착장 저장소 (최종 안정 버전)
  */
 
-import { create } from 'zustand';
+import { create } from "zustand";
+import { EquippedItem, InventoryItem } from "@/entities/showroom/model/type";
+import { defaultEquippedItems } from "@/entities/showroom/model/defaultAvatar";
 
-// ============================================
-// 📦 타입 정의 (DB에서 받는 아이템 구조)
-// ============================================
-interface CharacterItem {
-  itemId: number;
-  category: string;       // "bodies", "clothes", "hair", "head"
-  subcategory: string;    // "male", "longsleeve", "eyes"
-  style: string | null;   // "anger", "neutral" 등
-  color: string | null;   // "light", "red", "blonde"
-  name: string;           // "남성 라이트 바디"
-//   assetKey: string;       // "male_light" > 이건 안쓸 수도
-  basePath: string;       // "\\AssetsStore\\...\\{animation}\\light.png"
-  rarity: string;         // "common", "rare", "epic", "legendary"
-}
+/* -------------------------------------------------------
+ * 🎯 슬롯 타입
+ * ----------------------------------------------------- */
+export type AvatarSlots = {
+  bodies: EquippedItem | null;
+  clothes_top: EquippedItem | null;
+  clothes_bottom: EquippedItem | null;
+  clothes_shoes: EquippedItem | null;
 
-// ============================================
-// 📦 Store 타입 정의
-// ============================================
-interface AvatarStore {
-  // ──────────────────────────────────────
-  // 💾 저장된 데이터
-  // ──────────────────────────────────────
-  
-  /** 보유 중인 전체 아이템 목록 (인벤토리) */
-  inventoryItems: CharacterItem[];
-  
-  /** 착용 중인 아이템들 */
-  //추가 필요!!
-  equippedItems: {
-    bodies?: CharacterItem;
-    clothes?: CharacterItem;
-    hair?: CharacterItem;
-    head_eyes?: CharacterItem;
-    head_ears?: CharacterItem;
-    // 필요한 만큼 추가...
+  hair: EquippedItem | null;
+
+  heads: EquippedItem | null;
+  faces: EquippedItem | null;
+  eyes: EquippedItem | null;
+  eyebrows: EquippedItem | null;
+  nose: EquippedItem | null;
+  ears: EquippedItem | null;
+};
+
+/* -------------------------------------------------------
+ * 빈 슬롯
+ * ----------------------------------------------------- */
+export const emptySlots: AvatarSlots = {
+  bodies: null,
+  clothes_top: null,
+  clothes_bottom: null,
+  clothes_shoes: null,
+  hair: null,
+  heads: null,
+  faces: null,
+  eyes: null,
+  eyebrows: null,
+  nose: null,
+  ears: null,
+};
+
+/* -------------------------------------------------------
+ * InventoryItem → EquippedItem
+ * ----------------------------------------------------- */
+export function toEquipped(inv: InventoryItem): EquippedItem {
+  return {
+    equippedId: 0,
+    itemId: inv.itemId,
+    category: inv.category,
+    subcategory: inv.subcategory,
+    style: inv.style ?? null,
+    basePath: inv.basePath,
   };
-  
-  /** 현재 선택된 애니메이션 */
-  currentAnimation: string;
-  
-  /** 마지막으로 데이터를 불러온 시간 */
-  lastLoadTime: number | null;
-  
-  // ──────────────────────────────────────
-  // 🎮 데이터 조작 함수들
-  // ──────────────────────────────────────
-  
-  /** 인벤토리 저장 (API에서 받은 데이터) */
-  setInventory: (items: CharacterItem[]) => void;
-  
-  /** 아이템 착용 */
-  equipItem: (item: CharacterItem) => void;
-  
-  /** 아이템 해제 */
-  unequipItem: (category: string) => void;
-  
-  /** 애니메이션 변경 */
-  setAnimation: (animation: string) => void;
-  
-  /** 캐시가 유효한지 확인 (5분 이내면 유효) */
-  isCacheValid: () => boolean;
-  
-  /** 전체 초기화 */
-  reset: () => void;
 }
 
-// ============================================
-// 🏪 Zustand Store 생성
-// ============================================
+/* -------------------------------------------------------
+ * EquippedItem[] → 슬롯 구조로 매핑
+ * ----------------------------------------------------- */
+export function mapArrayToSlots(list: EquippedItem[]): AvatarSlots {
+  const slots: AvatarSlots = structuredClone(emptySlots);
+
+  for (const item of list) {
+    const { category, subcategory } = item;
+
+    if (category === "bodies") {
+      slots.bodies = item;
+      continue;
+    }
+
+    if (category === "clothes") {
+      if (["tshirt", "longsleeve", "shortsleeves"].includes(subcategory)) slots.clothes_top = item;
+
+      if (subcategory === "shorts") slots.clothes_bottom = item;
+
+      continue;
+    }
+
+    if (category === "hair") {
+      slots.hair = item;
+      continue;
+    }
+
+    if (category === "head" && subcategory in slots) {
+      slots[subcategory as keyof AvatarSlots] = item;
+      continue;
+    }
+  }
+
+  return slots;
+}
+
+/* -------------------------------------------------------
+ * 기본(default) + 서버 착장 병합
+ * ----------------------------------------------------- */
+export function mergeSlots(base: AvatarSlots, override: AvatarSlots): AvatarSlots {
+  const result = { ...base };
+
+  for (const key of Object.keys(base) as (keyof AvatarSlots)[]) {
+    // 🔥 bodies는 기본값 유지 (서버에 없어도 유지)
+    if (key === "bodies") continue;
+
+    if (override[key] !== null) {
+      result[key] = override[key];
+    }
+  }
+
+  return result;
+}
+
+/* -------------------------------------------------------
+ * 슬롯 → 배열 (중복 제거 없음!)
+ * ----------------------------------------------------- */
+export function slotsToArray(slots: AvatarSlots): EquippedItem[] {
+  return Object.values(slots).filter((v): v is EquippedItem => v !== null && v !== undefined);
+}
+
+/* -------------------------------------------------------
+ * Zustand Store
+ * ----------------------------------------------------- */
+interface AvatarStore {
+  inventory: InventoryItem[];
+  slots: AvatarSlots;
+
+  setInventory: (list: InventoryItem[]) => void;
+  syncFromServer: (list: EquippedItem[]) => void;
+  equip: (inv: InventoryItem) => void;
+  toArray: () => EquippedItem[];
+}
+
 export const useAvatarStore = create<AvatarStore>((set, get) => ({
-  // ──────────────────────────────────────
-  // 초기값 설정
-  // ──────────────────────────────────────
-  inventoryItems: [],
-  equippedItems: {},
-  currentAnimation: 'walk',
-  lastLoadTime: null,
-  
-  // ──────────────────────────────────────
-  // 함수 1: 인벤토리 저장
-  // ──────────────────────────────────────
-  setInventory: (items) => {
-    set({
-      inventoryItems: items,
-      lastLoadTime: Date.now(), // 현재 시간 저장
-    });
-    
-    console.log('✅ 인벤토리 저장 완료:', items.length, '개');
+  inventory: [],
+  slots: emptySlots,
+
+  setInventory: (list) => set({ inventory: list }),
+
+  /** 서버 착장 → 기본과 병합 */
+  syncFromServer: (serverList) => {
+    const base = mapArrayToSlots(defaultEquippedItems);
+    const override = mapArrayToSlots(serverList);
+    const merged = mergeSlots(base, override);
+
+    set({ slots: merged });
   },
-  
-  // ──────────────────────────────────────
-  // 함수 2: 아이템 착용
-  // ──────────────────────────────────────
-  equipItem: (item) => {
-    set((state) => ({
-      equippedItems: {
-        ...state.equippedItems,
-        [item.category]: item, // category를 키로 사용
-      },
-    }));
-    
-    console.log('✅ 착용:', item.name);
+
+  /** 착장 변경 */
+  equip: (inv) => {
+    const eq = toEquipped(inv);
+    const prev = get().slots;
+    const next = { ...prev };
+
+    if (inv.category === "bodies") next.bodies = eq;
+
+    if (inv.category === "clothes") {
+      if (["tshirt", "longsleeve", "shortsleeves"].includes(inv.subcategory)) next.clothes_top = eq;
+      if (inv.subcategory === "shorts") next.clothes_bottom = eq;
+    }
+
+    if (inv.category === "hair") next.hair = eq;
+
+    if (inv.category === "head" && inv.subcategory in next)
+      next[inv.subcategory as keyof AvatarSlots] = eq;
+
+    set({ slots: next });
   },
-  
-  // ──────────────────────────────────────
-  // 함수 3: 아이템 해제
-  // ──────────────────────────────────────
-  unequipItem: (category) => {
-    set((state) => {
-      const newEquipped = { ...state.equippedItems };
-    //   delete newEquipped[category];
-      return { equippedItems: newEquipped };
-    });
-    
-    console.log('✅ 해제:', category);
-  },
-  
-  // ──────────────────────────────────────
-  // 함수 4: 애니메이션 변경
-  // ──────────────────────────────────────
-  setAnimation: (animation) => {
-    set({ currentAnimation: animation });
-    console.log('✅ 애니메이션 변경:', animation);
-  },
-  
-  // ──────────────────────────────────────
-  // 함수 5: 캐시 유효성 검사
-  // ──────────────────────────────────────
-  isCacheValid: () => {
-    const { lastLoadTime } = get();
-    
-    // 데이터를 불러온 적이 없으면 무효
-    if (!lastLoadTime) return false;
-    
-    // 5분(300,000ms) 이내면 유효
-    const CACHE_DURATION = 5 * 60 * 1000;
-    const isValid = Date.now() - lastLoadTime < CACHE_DURATION;
-    
-    console.log('🔍 캐시 유효성:', isValid);
-    return isValid;
-  },
-  
-  // ──────────────────────────────────────
-  // 함수 6: 초기화
-  // ──────────────────────────────────────
-  reset: () => {
-    set({
-      inventoryItems: [],
-      equippedItems: {},
-      currentAnimation: 'walk',
-      lastLoadTime: null,
-    });
-    
-    console.log('🔄 Store 초기화 완료');
-  },
+
+  toArray: () => slotsToArray(get().slots),
 }));
