@@ -1,14 +1,16 @@
-// src\entities\showroom\ui\CustomizeLayout.tsx
-
+// src/entities/showroom/ui/CustomizeLayout.tsx
 import React from "react";
-import { BackIconButton, CloseIconButton } from "@/shared/ui/IconButtons";
+import { BackIconButton } from "@/shared/ui/IconButtons";
+import { LPCCharacterRenderer } from "@/entities/showroom/ui/LPCCharacterRenderer";
+import { EquippedItem } from "@/entities/showroom/model/type";
 
 type Props = {
-  mode: "clothes" | "character";
-  setMode: (mode: "clothes" | "character") => void;
+  mode: "body" | "head";
+  setMode: (m: "body" | "head") => void;
   tab: string;
-  setTab: (tab: string) => void;
+  setTab: (t: string) => void;
   tabList: string[];
+  equippedItems: EquippedItem[];
   children: React.ReactNode;
   onBack: () => void;
 };
@@ -19,68 +21,64 @@ export const CustomizeLayout = ({
   tab,
   setTab,
   tabList,
+  equippedItems,
   children,
   onBack,
 }: Props) => {
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* 상단 */}
-      <div className="flex justify-between">
-        <BackIconButton variant="ghost" onClick={onBack} />
+    <div className="mx-auto flex max-w-[480px] flex-col">
+      {/* 상단 버튼 */}
+      <div className="flex items-center justify-between">
+        <BackIconButton onClick={onBack} />
 
-        <div className="flex gap-4">
-          {/* 옷 버튼 → mode 변경 */}
+        <div className="flex gap-3">
           <button
-            className={`h-12 w-12 rounded-xl ${
-              mode === "clothes" ? "bg-primary text-custom-black" : "text-custom-white border"
+            className={`rounded-xl px-4 py-2 ${
+              mode === "body" ? "bg-primary text-black" : "border border-gray-500 text-white"
             }`}
             onClick={() => {
-              setMode("clothes");
-              setTab("상의"); // 기본 탭
+              setMode("body");
+              setTab("상의");
             }}
           >
-            옷
+            몸
           </button>
 
-          {/* 캐릭터 버튼 → mode 변경 */}
           <button
-            className={`h-12 w-12 rounded-xl ${
-              mode === "character" ? "bg-primary text-custom-black" : "text-custom-white border"
+            className={`rounded-xl px-4 py-2 ${
+              mode === "head" ? "bg-primary text-black" : "border border-gray-500 text-white"
             }`}
             onClick={() => {
-              setMode("character");
-              setTab("머리"); // 기본 탭
+              setMode("head");
+              setTab("헤어");
             }}
           >
-            얼굴
+            머리
           </button>
         </div>
       </div>
 
-      {/* 캐릭터 프리뷰 영역 */}
+      {/* 캐릭터 프리뷰 */}
       <div className="flex justify-center py-4">
-        <div className="flex h-80 w-40 items-center justify-center rounded-xl bg-gray-200">
-          캐릭터
-        </div>
+        <LPCCharacterRenderer items={equippedItems} animation="walk" direction={2} />
       </div>
 
-      {/* 탭 */}
-      <div className="flex justify-around">
-        {tabList.map((item) => (
+      {/* 하위 탭 */}
+      <div className="scrollbar-hide flex gap-2 overflow-x-auto">
+        {tabList.map((t) => (
           <button
-            key={item}
-            className={`rounded bg-gray-600 px-4 py-2 text-white ${
-              tab === item ? "opacity-100" : "opacity-50"
+            key={t}
+            className={`rounded px-3 py-2 ${
+              tab === t ? "bg-primary text-black" : "border border-gray-600 text-white"
             }`}
-            onClick={() => setTab(item)}
+            onClick={() => setTab(t)}
           >
-            {item}
+            {t}
           </button>
         ))}
       </div>
 
-      {/* 아이템 영역 */}
-      <div className="flex-1">{children}</div>
+      <div className="mt-3">{children}</div>
     </div>
   );
 };

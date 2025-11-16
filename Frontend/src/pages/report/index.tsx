@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
+import { FullPageLoader } from "@/shared/ui/Loader";
 
 type CalendarDay = {
   day: number;
@@ -91,51 +92,30 @@ export default function RecordListPage() {
 
   // 러닝 타입 한글 변환
   const toKoreanType = (t: string) => {
-    if (t === "NORMAL") return "일반";
-    if (t === "INTERVAL") return "인터벌";
+    if (t === "NORMAL") return "에너지";
+    if (t === "INTERVAL") return "기지 잠입";
     return t;
   };
 
+  // 날짜 포맷팅 (2025.10.22. (수) 형식)
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+    const weekday = weekdays[date.getDay()];
+    return `${year}.${month}.${day}. (${weekday})`;
+  };
+
   if (loading) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          minWidth: "100vw",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      >
-        <div style={{ padding: 16, flex: 1 }}>로딩 중...</div>
-      </div>
-    );
+    return <FullPageLoader />;
   }
 
   if (!data) {
     return (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          minWidth: "100vw",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      >
-        <div style={{ padding: 16, flex: 1 }}>기록이 없습니다.</div>
+      <div className="flex h-full w-full items-center justify-center bg-section-bg">
+        <p className="text-content text-custom-gray">기록이 없습니다.</p>
       </div>
     );
   }
@@ -148,144 +128,78 @@ export default function RecordListPage() {
   const pagedRecords = records.slice(startIdx, startIdx + PAGE_SIZE);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        minWidth: "100vw",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}
-    >
+    <div className="flex h-full w-full flex-col bg-section-bg">
       {/* 스크롤 영역 */}
       <div
-        style={{
-          flex: 1,
-          overflowY: "auto",
-          padding: "16px 16px 80px",
-          maxWidth: 960,
-          margin: "0 auto",
-          width: "100%",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-        }}
+        className="flex-1 overflow-y-auto p-4 pb-20"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* 상단 헤더 + 월 이동 */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            marginBottom: 12,
-          }}
-        >
+        <div className="mb-6 flex items-center justify-center gap-4">
           <button
             onClick={handlePrevMonth}
-            style={{
-              border: "none",
-              // background: "#fff",
-              borderRadius: 8,
-              padding: "4px 8px",
-              cursor: "pointer",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-            }}
+            className="h-10 w-10 rounded-full border border-custom-gray bg-section-bg text-button text-custom-white transition-colors hover:border-primary"
           >
-            이전
+            prev
           </button>
-          <h1 style={{ fontSize: 18, margin: 0 }}>
-            {year}년 {month}월 러닝 기록
+          <h1 className="text-subtitle text-custom-white">
+            {year}년 {month}월
           </h1>
           <button
             onClick={handleNextMonth}
-            style={{
-              border: "none",
-              // background: "#fff",
-              borderRadius: 8,
-              padding: "4px 8px",
-              cursor: "pointer",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
-            }}
+            className="h-10 w-10 rounded-full border border-custom-gray bg-section-bg text-button text-custom-white transition-colors hover:border-primary"
           >
-            다음
+            next
           </button>
         </div>
 
-        {/* 요약 카드 */}
-        <div
-          style={{
-            display: "flex",
-            gap: 12,
-            marginBottom: 20,
-            flexWrap: "wrap",
-          }}
-        >
-          <SummaryCard
-            label="총 거리"
-            value={`${monthSummary.totalDistanceKm} km`}
-          />
-          <SummaryCard
-            label="총 러닝 횟수"
-            value={`${monthSummary.totalRuns}회`}
-          />
-          <SummaryCard label="평균 페이스" value={monthSummary.avgPace} />
+        {/* 요약 통계 */}
+        <div className="mb-6 flex items-end gap-6 bg-section-bg px-2">
+          <div className="flex flex-col">
+            <div className="text-subtitle text-primary">
+              {monthSummary.totalDistanceKm}km
+            </div>
+          </div>
+          <div className="flex flex-col">
+            <div className="text-subtitle text-primary">
+              {monthSummary.avgPace}
+            </div>
+            <div className="text-label text-custom-gray">평균 페이스</div>
+          </div>
+          <div className="flex flex-col">
+            <div className="text-subtitle text-primary">
+              {monthSummary.totalRuns}
+            </div>
+            <div className="text-label text-custom-gray">러닝</div>
+          </div>
         </div>
 
         {/* 달력 영역 */}
-        <div style={{ marginBottom: 28 }}>
-          <h2 style={{ fontSize: 16, marginBottom: 8 }}>기록 달력</h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(44px, 1fr))",
-              gap: 8,
-              background: "#f7f7f7",
-              padding: 8,
-              borderRadius: 12,
-            }}
-          >
+        <div className="mb-7">
+          <div className="grid grid-cols-7 gap-2 rounded-xl bg-custom-black p-3">
             {calendarDays.map((dayObj) => (
               <button
                 key={dayObj.day}
                 type="button"
-                style={{
-                  minHeight: 60,
-                  border: "none",
-                  borderRadius: 8,
-                  cursor: "pointer",
-                  background: dayObj.hasRecord ? "#e0f2ff" : "#fff",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  padding: "6px 6px",
-                  gap: 4,
-                }}
+                className={`
+                  h-12 w-12 rounded-full flex items-center justify-center transition-colors
+                  ${
+                    dayObj.hasRecord
+                      ? "bg-primary/20 border border-primary"
+                      : "bg-section-bg border border-custom-gray"
+                  }
+                `}
                 onClick={() => {
                   // 나중에 이 날짜로 스크롤 이동 같은 거 붙이고 싶으면 여기서 처리
                 }}
               >
-                <span style={{ fontWeight: 600, fontSize: 13 }}>
+                <span
+                  className={`text-content-bold ${
+                    dayObj.hasRecord ? "text-primary" : "text-custom-white"
+                  }`}
+                >
                   {dayObj.day}
                 </span>
-                {dayObj.hasRecord && (
-                  <span
-                    style={{
-                      fontSize: 10,
-                      background: "#0ea5e9",
-                      color: "white",
-                      padding: "2px 5px",
-                      borderRadius: 999,
-                    }}
-                  >
-                    기록 있음
-                  </span>
-                )}
               </button>
             ))}
           </div>
@@ -293,115 +207,94 @@ export default function RecordListPage() {
 
         {/* 리스트 영역 */}
         <div>
-          <h2 style={{ fontSize: 16, marginBottom: 8 }}>기록 리스트</h2>
           {records.length === 0 ? (
-            <div
-              style={{
-                padding: 12,
-                background: "#fafafa",
-                borderRadius: 8,
-              }}
-            >
-              아직 러닝 기록이 없습니다.
+            <div className="rounded-xl bg-section-bg border border-custom-gray p-4 text-center">
+              <p className="text-content text-custom-gray">
+                아직 러닝 기록이 없습니다.
+              </p>
             </div>
           ) : (
             <>
-              <ul
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 10,
-                }}
-              >
+              <ul className="flex flex-col gap-3">
                 {pagedRecords.map((r) => (
                   <li
                     key={r.date + r.runningTime}
-                    style={{
-                      border: "1px solid #eee",
-                      borderRadius: 10,
-                      padding: "10px 12px",
-                      display: "flex",
-                      gap: 10,
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      background: "#fff",
-                    }}
+                    className="flex items-center justify-between gap-4 rounded-xl bg-section-bg border border-custom-gray p-4 transition-colors hover:border-primary"
                   >
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div
-                        style={{
-                          fontWeight: 600,
-                          fontSize: 14,
-                        }}
-                      >
-                        {r.date} · {toKoreanType(r.runningType)}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-content-bold text-primary mb-3">
+                        {formatDate(r.date)}
                       </div>
-                      <div
-                        style={{
-                          fontSize: 12,
-                          color: "#555",
-                          lineHeight: 1.4,
-                        }}
-                      >
-                        {r.distanceKm} km · 평균 페이스 {r.avgPace} · 러닝 시간{" "}
-                        {r.runningTime}
+                      <div className="flex gap-6">
+                        <div className="flex flex-col">
+                          <div className="text-content-bold text-custom-white">
+                            {r.distanceKm}km
+                          </div>
+                          <div className="text-label text-custom-gray">거리</div>
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="text-content-bold text-custom-white">
+                            {r.avgPace}
+                          </div>
+                          <div className="text-label text-custom-gray">평균 페이스</div>
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="text-content-bold text-custom-white">
+                            {r.runningTime}
+                          </div>
+                          <div className="text-label text-custom-gray">시간</div>
+                        </div>
                       </div>
                     </div>
-                    <button
-                      type="button"
-                      style={{
-                        background: "#0ea5e9",
-                        color: "white",
-                        border: "none",
-                        borderRadius: 6,
-                        padding: "6px 10px",
-                        cursor: "pointer",
-                        whiteSpace: "nowrap",
-                      }}
-                      onClick={() => {
-                        if (!userId) return;
-                        navigate(`/report/${r.sessionId}?userId=${userId}`);
-                      }}
-                    >
-                      상세
-                    </button>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="rounded-full border border-custom-gray bg-section-bg px-3 py-1 text-desc text-custom-gray whitespace-nowrap">
+                        {toKoreanType(r.runningType)}
+                      </div>
+                      <button
+                        type="button"
+                        className="rounded-lg bg-primary px-4 py-2 text-button text-custom-black whitespace-nowrap transition-opacity hover:opacity-80"
+                        onClick={() => {
+                          if (!userId) return;
+                          navigate(`/report/${r.sessionId}?userId=${userId}`);
+                        }}
+                      >
+                        상세
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
 
               {/* 페이지네이션 */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: 8,
-                  marginTop: 16,
-                }}
-              >
+              <div className="mt-4 flex items-center justify-center gap-3">
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  style={{
-                    padding: "4px 10px",
-                    borderRadius: 6,
-                    border: "1px solid #ddd",
-                    background: page === 1 ? "#eee" : "#fff",
-                  }}
+                  className={`
+                    rounded-lg border px-3 py-1.5 text-desc transition-colors
+                    ${
+                      page === 1
+                        ? "border-custom-gray bg-section-bg text-custom-gray opacity-50 cursor-not-allowed"
+                        : "border-primary bg-section-bg text-custom-white hover:bg-primary/20"
+                    }
+                  `}
                 >
                   이전
                 </button>
-                <span style={{ fontSize: 12 }}>
+                <span className="text-desc text-custom-gray">
                   {page} / {totalPages}
                 </span>
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  style={{
-                    padding: "4px 10px",
-                    borderRadius: 6,
-                    border: "1px solid #ddd",
-                    background: page === totalPages ? "#eee" : "#fff",
-                  }}
+                  className={`
+                    rounded-lg border px-3 py-1.5 text-desc transition-colors
+                    ${
+                      page === totalPages
+                        ? "border-custom-gray bg-section-bg text-custom-gray opacity-50 cursor-not-allowed"
+                        : "border-primary bg-section-bg text-custom-white hover:bg-primary/20"
+                    }
+                  `}
                 >
                   다음
                 </button>
@@ -414,20 +307,3 @@ export default function RecordListPage() {
   );
 }
 
-function SummaryCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div
-      style={{
-        flex: "1 1 120px",
-        background: "#fff",
-        border: "1px solid #eee",
-        borderRadius: 10,
-        padding: "10px 12px",
-        minWidth: 110,
-      }}
-    >
-      <div style={{ fontSize: 11, color: "#777" }}>{label}</div>
-      <div style={{ fontSize: 15, fontWeight: 600 }}>{value}</div>
-    </div>
-  );
-}

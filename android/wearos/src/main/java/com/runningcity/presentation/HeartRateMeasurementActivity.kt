@@ -47,6 +47,10 @@ class HeartRateMeasurementActivity : ComponentActivity() {
             while (isMeasuring) {
                 delay(1000)
                 elapsedSeconds++
+                // 15초가 지나면 자동으로 측정 중지 및 버튼 표시
+                if (elapsedSeconds >= 15) {
+                    isMeasuring = false
+                }
             }
         }
     }
@@ -64,11 +68,7 @@ class HeartRateMeasurementActivity : ComponentActivity() {
                     val heartRate = intent.getIntExtra("heartRate", 0)
                     currentHeartRate = heartRate
                     isMeasuring = false
-                    // 2초 후 자동 종료
-                    lifecycleScope.launch {
-                        delay(2000)
-                        finish()
-                    }
+                    // 자동 종료하지 않고 버튼 표시
                 }
                 "com.runningcity.HEART_RATE_MEASUREMENT_ERROR" -> {
                     isMeasuring = false
@@ -112,6 +112,10 @@ class HeartRateMeasurementActivity : ComponentActivity() {
                     },
                     onCancel = {
                         finish()
+                    },
+                    onConfirm = {
+                        // 확인 버튼 - 결과 확인 후 종료
+                        finish()
                     }
                 )
             }
@@ -138,7 +142,8 @@ fun HeartRateMeasurementScreen(
     elapsedSeconds: Int,
     hasError: Boolean,
     onRetry: () -> Unit,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
+    onConfirm: () -> Unit
 ) {
     // 펄스 애니메이션
     val infiniteTransition = rememberInfiniteTransition()
@@ -160,10 +165,20 @@ fun HeartRateMeasurementScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .fillMaxHeight()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
+            // 상단 여백
+            Spacer(Modifier.height(8.dp))
+            
+            // 메인 콘텐츠
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
             // 심박수 아이콘 (펄스 애니메이션)
             if (hasError) {
                 Icon(
@@ -222,70 +237,146 @@ fun HeartRateMeasurementScreen(
             Spacer(Modifier.height(8.dp))
             
             // 상태 메시지
-            Text(
-                text = when {
-                    hasError -> "측정에 실패했습니다"
-                    isMeasuring -> "손목에 워치를\n착용해주세요"
-                    else -> "측정 완료!"
-                },
-                style = MaterialTheme.typography.caption1,
-                color = if (hasError) {
-                    MaterialTheme.colors.error
-                } else {
-                    MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
-                }
-            )
-            
-            Spacer(Modifier.height(12.dp))
-            
-            // 경과 시간 표시 (측정 중일 때만)
-            if (isMeasuring && !hasError) {
+            if (hasError || (!isMeasuring && currentHeartRate == null)) {
+                // 측정 실패 시
                 Text(
-                    text = "${elapsedSeconds}초",
+                    text = "측정이 실패했습니다",
                     style = MaterialTheme.typography.caption1,
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.error
+                )
+            } else if (isMeasuring && currentHeartRate == null) {
+                // 측정 중이지만 수치가 아직 없을 때만 문구 표시
+                Text(
+                    text = "손목에 워치를\n착용해주세요",
+                    style = MaterialTheme.typography.caption1,
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
                 )
             }
             
-            // 에러 발생 시 버튼 표시
-            if (hasError) {
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(12.dp))
                 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // 다시 시도 버튼
+                // 경과 시간 표시 (측정 중일 때만)
+                if (isMeasuring && !hasError) {
+                    Text(
+                        text = "${elapsedSeconds}초",
+                        style = MaterialTheme.typography.caption1,
+                        color = MaterialTheme.colors.primary
+                    )
+                }
+            }
+            
+            // 하단 버튼 영역
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // 에러 발생 또는 측정 완료되었지만 수치가 없을 때 다시하기/취소 버튼 표시
+                if (hasError || (!isMeasuring && currentHeartRate == null)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 다시하기 버튼
+                        Button(
+                            onClick = onRetry,
+                            modifier = Modifier
+                                .width(65.dp)
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.primary
+                            )
+                        ) {
+                            Text(
+                                text = "다시하기",
+                                style = MaterialTheme.typography.button
+                            )
+                        }
+                        
+                        Spacer(Modifier.width(8.dp))
+                        
+                        // 취소 버튼
+                        Button(
+                            onClick = onCancel,
+                            modifier = Modifier
+                                .width(65.dp)
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.surface
+                            )
+                        ) {
+                            Text(
+                                text = "취소",
+                                style = MaterialTheme.typography.button,
+                                color = MaterialTheme.colors.onSurface
+                            )
+                        }
+                    }
+                }
+                // 측정 완료 시 확인 버튼만 표시
+                else if (!isMeasuring && currentHeartRate != null) {
                     Button(
-                        onClick = onRetry,
-                        modifier = Modifier.weight(1f),
+                        onClick = onConfirm,
+                        modifier = Modifier
+                            .width(65.dp)
+                            .height(40.dp),
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = MaterialTheme.colors.primary
                         )
                     ) {
                         Text(
-                            text = "다시 시도",
+                            text = "확인",
                             style = MaterialTheme.typography.button
                         )
                     }
-                    
-                    // 취소 버튼
-                    Button(
-                        onClick = onCancel,
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.surface
-                        )
+                }
+                // 15초 경과 시 다시하기/취소 버튼 표시
+                else if (!isMeasuring) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = "취소",
-                            style = MaterialTheme.typography.button,
-                            color = MaterialTheme.colors.onSurface
-                        )
+                        // 다시하기 버튼
+                        Button(
+                            onClick = onRetry,
+                            modifier = Modifier
+                                .width(65.dp)
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.primary
+                            )
+                        ) {
+                            Text(
+                                text = "다시하기",
+                                style = MaterialTheme.typography.button
+                            )
+                        }
+                        
+                        Spacer(Modifier.width(8.dp))
+                        
+                        // 취소 버튼
+                        Button(
+                            onClick = onCancel,
+                            modifier = Modifier
+                                .width(65.dp)
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = MaterialTheme.colors.surface
+                            )
+                        ) {
+                            Text(
+                                text = "취소",
+                                style = MaterialTheme.typography.button,
+                                color = MaterialTheme.colors.onSurface
+                            )
+                        }
                     }
                 }
             }
+            
+            // 하단 여백
+            Spacer(Modifier.height(8.dp))
         }
     }
 }

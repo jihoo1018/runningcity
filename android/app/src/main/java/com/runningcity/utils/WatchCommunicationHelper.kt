@@ -232,5 +232,38 @@ object WatchCommunicationHelper {
             false
         }
     }
+    
+    /**
+     * 워치에 연동 요청 메시지 전송
+     */
+    suspend fun requestWatchPairing(context: Context): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.e(TAG, "❌ 연결된 워치가 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/pair_watch", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 워치에 연동 요청 전송 성공 (node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 워치 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 워치 통신 오류: ${e.message}", e)
+            false
+        }
+    }
 }
 
