@@ -1,6 +1,5 @@
 package com.runningcity.service
 
-import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,43 +7,41 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
+import androidx.health.services.client.HealthServices
+import androidx.health.services.client.ExerciseClient
+import androidx.health.services.client.ExerciseUpdateCallback
+import androidx.health.services.client.clearUpdateCallback
+import androidx.health.services.client.data.*
+import androidx.health.services.client.endExercise
 import androidx.lifecycle.LifecycleService
-import com.runningcity.presentation.HeartRateMeasurementActivity
 import com.runningcity.utils.MobileCommunicationHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 /**
  * HeartRateMeasurementService
  * 
  * 워치에서 심박수만 측정하는 서비스
- * (운동 시작 없이 단독으로 심박수 측정)
+ * Health Services를 사용하여 심박수 측정 (WorkoutService와 동일한 방식)
  */
-class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
+class HeartRateMeasurementService : LifecycleService() {
     
     companion object {
         private const val TAG = "HeartRateMeasure"
-        private const val MEASUREMENT_DURATION_MS = 10000L // 10초간 측정
+        private const val MEASUREMENT_DURATION_MS = 15000L // 15초간 측정
         private const val MIN_MEASUREMENTS = 1 // 최소 측정 횟수 (1개 이상이면 사용)
         private const val NOTIFICATION_ID = 1001
         private const val CHANNEL_ID = "heart_rate_measurement"
     }
     
-    private lateinit var sensorManager: SensorManager
-    private var heartRateSensor: Sensor? = null
+    // Health Services 클라이언트
+    private lateinit var exerciseClient: ExerciseClient
+    private var exerciseCallback: ExerciseUpdateCallback? = null
+    private var isExerciseActive = false
+    
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var measurementJob: Job? = null
     
     private val heartRateValues = mutableListOf<Int>()
@@ -76,25 +73,14 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
         super.onCreate()
         Log.d(TAG, "✅ HeartRateMeasurementService 생성")
         
-        // 권한 확인
-        val hasPermission = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.BODY_SENSORS
-        ) == PackageManager.PERMISSION_GRANTED
+        // Health Services 초기화
+        val healthServicesClient = HealthServices.getClient(this)
+        exerciseClient = healthServicesClient.exerciseClient
         
-        Log.d(TAG, "🔒 BODY_SENSORS 권한 상태: $hasPermission")
+        Log.d(TAG, "✅ Health Services 초기화 완료")
         
         createNotificationChannel()
         startForeground(NOTIFICATION_ID, createNotification("심박수 측정 준비 중..."))
-        
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)
-        
-        if (heartRateSensor == null) {
-            Log.e(TAG, "❌ 심박수 센서를 사용할 수 없습니다")
-        } else {
-            Log.d(TAG, "✅ 심박수 센서 확인됨: ${heartRateSensor?.name}")
-        }
         
         // 브로드캐스트 리시버 등록
         val filter = IntentFilter().apply {
@@ -139,73 +125,146 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
     }
     
     /**
-     * 심박수 측정 시작
+     * 심박수 측정 시작 (Health Services 사용)
      */
     private fun startMeasurement() {
-        Log.d(TAG, "📞 startMeasurement() 호출됨")
-        
-        // 권한 재확인
-        val hasPermission = ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.BODY_SENSORS
-        ) == PackageManager.PERMISSION_GRANTED
-        
-        if (!hasPermission) {
-            Log.e(TAG, "❌ BODY_SENSORS 권한이 없습니다")
-            sendErrorToMobile("워치 앱을 열어 심박수 센서 권한을 허용해주세요")
-            stopSelf()
-            return
-        }
+        Log.d(TAG, "📞 startMeasurement() 호출됨 - Health Services 사용")
         
         if (isMeasuring) {
             Log.w(TAG, "⚠️ 이미 측정 중입니다")
             return
         }
         
-        if (heartRateSensor == null) {
-            Log.e(TAG, "❌ 심박수 센서를 사용할 수 없습니다")
-            sendErrorToMobile("이 기기는 심박수 센서를 지원하지 않습니다")
-            stopSelf()
-            return
-        }
-        
         // Activity는 이미 MobileMessageListenerService에서 시작되었으므로 여기서는 시작하지 않음
-        // (중복 시작 방지)
         Log.d(TAG, "✅ 측정 화면은 이미 표시됨")
         
         isMeasuring = true
         heartRateValues.clear()
         
-        // 센서 리스너 등록
-        val registered = sensorManager.registerListener(
-            this,
-            heartRateSensor,
-            SensorManager.SENSOR_DELAY_FASTEST  // 더 빠른 샘플링
-        )
-        
-        if (!registered) {
-            Log.e(TAG, "❌ 센서 리스너 등록 실패")
-            sendErrorToMobile("센서 등록에 실패했습니다")
-            isMeasuring = false
-            stopSelf()
-            return
-        }
-        
-        Log.d(TAG, "✅ 센서 리스너 등록 성공")
-        Log.d(TAG, "💓 심박수 측정 시작 (${MEASUREMENT_DURATION_MS}ms)")
-        
-        // Notification 업데이트
-        val notificationManager = getSystemService(NotificationManager::class.java)
-        notificationManager.notify(NOTIFICATION_ID, createNotification("심박수 측정 중... (${MEASUREMENT_DURATION_MS/1000}초)"))
-        
-        // 일정 시간 후 측정 종료
-        measurementJob = CoroutineScope(Dispatchers.IO).launch {
-            delay(MEASUREMENT_DURATION_MS)
-            
-            withContext(Dispatchers.Main) {
-                Log.d(TAG, "⏰ 측정 시간 종료 - stopMeasurement 호출")
-                stopMeasurement()
+        // Health Services를 사용한 심박수 측정 시작
+        startHealthServicesMeasurement()
+    }
+    
+    /**
+     * Health Services를 사용한 심박수 측정 시작
+     */
+    private fun startHealthServicesMeasurement() {
+        serviceScope.launch {
+            try {
+                Log.d(TAG, "🏃 Health Services 운동 시작 (심박수 측정용)")
+                
+                // ExerciseConfig 생성 - 심박수만 수집
+                val config = ExerciseConfig(
+                    exerciseType = ExerciseType.RUNNING,
+                    dataTypes = setOf(DataType.HEART_RATE_BPM),  // 심박수만 수집
+                    isAutoPauseAndResumeEnabled = false,
+                    isGpsEnabled = false
+                )
+                
+                // 콜백 생성
+                val callback = object : ExerciseUpdateCallback {
+                    override fun onExerciseUpdateReceived(update: ExerciseUpdate) {
+                        processExerciseUpdate(update)
+                    }
+                    
+                    override fun onLapSummaryReceived(lapSummary: ExerciseLapSummary) {
+                        // 사용 안 함
+                    }
+                    
+                    override fun onRegistered() {
+                        Log.d(TAG, "✅ Exercise Callback 등록 완료")
+                    }
+                    
+                    override fun onRegistrationFailed(throwable: Throwable) {
+                        Log.e(TAG, "❌ Exercise Callback 등록 실패: ${throwable.message}")
+                        serviceScope.launch {
+                            sendErrorToMobile("심박수 측정을 시작할 수 없습니다: ${throwable.message}")
+                            withContext(Dispatchers.Main) {
+                                stopMeasurement()
+                            }
+                        }
+                    }
+                    
+                    override fun onAvailabilityChanged(
+                        dataType: DataType<*, *>,
+                        availability: Availability
+                    ) {
+                        Log.d(TAG, "📍 센서 상태 변경: $dataType = $availability")
+                    }
+                }
+                
+                exerciseCallback = callback
+                exerciseClient.setUpdateCallback(callback)
+                exerciseClient.startExerciseAsync(config).get()
+                isExerciseActive = true
+                
+                Log.d(TAG, "✅ Health Services 운동 시작 완료")
+                Log.d(TAG, "💓 심박수 측정 시작 (${MEASUREMENT_DURATION_MS}ms)")
+                
+                // Notification 업데이트
+                val notificationManager = getSystemService(NotificationManager::class.java)
+                notificationManager.notify(
+                    NOTIFICATION_ID,
+                    createNotification("심박수 측정 중... (${MEASUREMENT_DURATION_MS / 1000}초)")
+                )
+                
+                // 일정 시간 후 측정 종료
+                measurementJob = launch {
+                    delay(MEASUREMENT_DURATION_MS)
+                    
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, "⏰ 측정 시간 종료 - stopMeasurement 호출")
+                        stopMeasurement()
+                    }
+                }
+                
+            } catch (e: Exception) {
+                Log.e(TAG, "❌ Health Services 시작 실패: ${e.message}")
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    sendErrorToMobile("심박수 측정을 시작할 수 없습니다: ${e.message}")
+                    stopMeasurement()
+                }
             }
+        }
+    }
+    
+    /**
+     * Health Services에서 받은 데이터 처리
+     */
+    private fun processExerciseUpdate(update: ExerciseUpdate) {
+        if (!isMeasuring) return
+        
+        try {
+            val latestMetrics = update.latestMetrics
+            
+            // 심박수 처리
+            val heartRateData = latestMetrics.getData(DataType.HEART_RATE_BPM)
+            val heartRateList = heartRateData.toList()
+            
+            if (heartRateList.isNotEmpty()) {
+                val heartRate = heartRateList.last().value.toInt()
+                
+                if (heartRate > 0) {
+                    heartRateValues.add(heartRate)
+                    Log.d(TAG, "💓 심박수 측정: $heartRate bpm (총 ${heartRateValues.size}개)")
+                    
+                    // Activity에 실시간 업데이트 브로드캐스트 전송
+                    val updateIntent = Intent("com.runningcity.HEART_RATE_MEASUREMENT_UPDATE").apply {
+                        putExtra("heartRate", heartRate)
+                    }
+                    sendBroadcast(updateIntent)
+                    
+                    // Notification 업데이트
+                    val notificationManager = getSystemService(NotificationManager::class.java)
+                    notificationManager.notify(
+                        NOTIFICATION_ID,
+                        createNotification("측정 중: $heartRate bpm (${heartRateValues.size}개)")
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Exercise Update 처리 실패: ${e.message}")
         }
     }
     
@@ -215,7 +274,7 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
     private fun stopMeasurement() {
         Log.d(TAG, "📞 stopMeasurement() 호출됨 - isMeasuring: $isMeasuring")
         
-        if (!isMeasuring) {
+        if (!isMeasuring && !isExerciseActive) {
             Log.w(TAG, "⚠️ 측정 중이 아님")
             stopSelf()
             return
@@ -224,9 +283,8 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
         isMeasuring = false
         measurementJob?.cancel()
         
-        // 센서 리스너 해제
-        sensorManager.unregisterListener(this)
-        Log.d(TAG, "✅ 센서 리스너 해제 완료")
+        // Health Services 정리
+        stopHealthServicesTracking()
         
         // 측정값 처리
         Log.d(TAG, "📊 수집된 심박수 값: ${heartRateValues.size}개 - $heartRateValues")
@@ -238,7 +296,9 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
             val errorIntent = Intent("com.runningcity.HEART_RATE_MEASUREMENT_ERROR")
             sendBroadcast(errorIntent)
             
+            // 모바일로 에러 전송
             sendErrorToMobile("심박수 측정에 실패했습니다. 워치를 손목에 착용했는지 확인해주세요.")
+            
             // 서비스 종료를 지연시켜 메시지 전송 완료 보장
             CoroutineScope(Dispatchers.Main).launch {
                 delay(1000)
@@ -259,7 +319,9 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
             val errorIntent = Intent("com.runningcity.HEART_RATE_MEASUREMENT_ERROR")
             sendBroadcast(errorIntent)
             
+            // 모바일로 에러 전송
             sendErrorToMobile("충분한 측정값을 얻지 못했습니다. 다시 시도해주세요.")
+            
             // 서비스 종료를 지연시켜 메시지 전송 완료 보장
             CoroutineScope(Dispatchers.Main).launch {
                 delay(1000)
@@ -280,49 +342,49 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
         sendBroadcast(completeIntent)
         
         // 모바일로 결과 전송
-        sendHeartRateToMobile(averageHeartRate)
-    }
-    
-    /**
-     * 센서 값 변경 콜백
-     */
-    override fun onSensorChanged(event: SensorEvent) {
-        if (event.sensor.type == Sensor.TYPE_HEART_RATE) {
-            val heartRate = event.values[0].toInt()
-            
-            Log.d(TAG, "📡 센서 값 수신: $heartRate bpm (isMeasuring: $isMeasuring)")
-            
-            if (isMeasuring && heartRate > 0) {
-                heartRateValues.add(heartRate)
-                Log.d(TAG, "💓 심박수 측정: $heartRate bpm (총 ${heartRateValues.size}개)")
-                
-                // Activity에 실시간 업데이트 브로드캐스트 전송
-                val updateIntent = Intent("com.runningcity.HEART_RATE_MEASUREMENT_UPDATE").apply {
-                    putExtra("heartRate", heartRate)
-                }
-                sendBroadcast(updateIntent)
-                
-                // Notification 업데이트
-                val notificationManager = getSystemService(NotificationManager::class.java)
-                notificationManager.notify(
-                    NOTIFICATION_ID,
-                    createNotification("측정 중: $heartRate bpm (${heartRateValues.size}개)")
-                )
+        serviceScope.launch {
+            sendHeartRateToMobile(averageHeartRate)
+            // 전송 후 서비스 종료
+            delay(500)
+            withContext(Dispatchers.Main) {
+                Log.d(TAG, "🛑 서비스 종료")
+                stopSelf()
             }
         }
     }
     
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // 정확도 변경 시 처리 (필요시)
+    /**
+     * Health Services 정리
+     */
+    private fun stopHealthServicesTracking() {
+        if (!isExerciseActive) {
+            Log.d(TAG, "⚠️ Health Services가 활성화되지 않음")
+            return
+        }
+        
+        serviceScope.launch {
+            try {
+                exerciseClient.endExercise()
+                
+                exerciseCallback?.let { callback ->
+                    exerciseClient.clearUpdateCallback(callback)
+                }
+                
+                isExerciseActive = false
+                Log.d(TAG, "✅ Health Services 종료 완료")
+            } catch (e: Exception) {
+                Log.e(TAG, "❌ Health Services 종료 실패: ${e.message}")
+            }
+        }
     }
     
     /**
      * 모바일로 심박수 결과 전송
      */
-    private fun sendHeartRateToMobile(heartRate: Int) {
+    private suspend fun sendHeartRateToMobile(heartRate: Int) {
         Log.d(TAG, "📤 모바일로 심박수 전송 시작: $heartRate bpm")
         
-        CoroutineScope(Dispatchers.IO).launch {
+        try {
             val success = MobileCommunicationHelper.sendHeartRateMeasurement(
                 applicationContext,
                 heartRate
@@ -334,12 +396,10 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
                 Log.e(TAG, "❌ 모바일로 심박수 전송 실패")
             }
             
-            // 전송 후 서비스 종료 (전송 완료 대기)
-            delay(1000)
-            withContext(Dispatchers.Main) {
-                Log.d(TAG, "🛑 서비스 종료")
-                stopSelf()
-            }
+            // 전송 완료 대기
+            delay(500)
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일로 심박수 전송 중 에러: ${e.message}")
         }
     }
     
@@ -366,7 +426,7 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
     override fun onDestroy() {
         super.onDestroy()
         
-        if (isMeasuring) {
+        if (isMeasuring || isExerciseActive) {
             stopMeasurement()
         }
         
@@ -375,6 +435,8 @@ class HeartRateMeasurementService : LifecycleService(), SensorEventListener {
         } catch (e: Exception) {
             Log.e(TAG, "❌ 브로드캐스트 리시버 해제 실패: ${e.message}")
         }
+        
+        serviceScope.cancel()
         
         Log.d(TAG, "❌ HeartRateMeasurementService 종료")
     }

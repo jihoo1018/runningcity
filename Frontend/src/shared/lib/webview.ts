@@ -11,6 +11,7 @@ interface AndroidInterface {
   getGPSData: () => string;
   getHeartRate: () => number;
   measureHeartRate: () => void;
+  pairWatch: () => void;
   showToast: (message: string) => void;
   vibrate: (duration: number) => void;
   // 필요한 기능 추가
@@ -121,6 +122,25 @@ export const AndroidBridge = {
           window.onAndroidMessage({
             type: "HEART_RATE_MEASURED",
             heartRate: 72,
+          });
+        }
+      }, 2000);
+    }
+  },
+
+  /**
+   * 워치 연동 요청
+   */
+  pairWatch(): void {
+    if (this.isAndroid()) {
+      window.Android!.pairWatch();
+    } else {
+      console.log("[DEV] 워치 연동 요청 (브라우저 환경)");
+      // 개발 환경에서는 더미 데이터로 시뮬레이션
+      setTimeout(() => {
+        if (window.onAndroidMessage) {
+          window.onAndroidMessage({
+            type: "WATCH_PAIRED",
           });
         }
       }, 2000);

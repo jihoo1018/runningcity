@@ -83,6 +83,39 @@ object MobileCommunicationHelper {
     }
     
     /**
+     * 모바일에 워치 연동 완료 전송
+     */
+    suspend fun sendWatchPaired(context: Context): Boolean {
+        return try {
+            val nodeClient = Wearable.getNodeClient(context)
+            val nodes = nodeClient.connectedNodes.await()
+            
+            if (nodes.isEmpty()) {
+                Log.d(TAG, "연결된 모바일이 없습니다")
+                return false
+            }
+            
+            val messageClient = Wearable.getMessageClient(context)
+            
+            var success = false
+            nodes.forEach { node ->
+                try {
+                    messageClient.sendMessage(node.id, "/watch_paired", byteArrayOf()).await()
+                    Log.d(TAG, "✅ 모바일에 워치 연동 완료 전송 성공 (node: ${node.displayName})")
+                    success = true
+                } catch (e: Exception) {
+                    Log.e(TAG, "❌ 모바일 메시지 전송 실패: ${e.message}")
+                }
+            }
+            
+            success
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 모바일 통신 오류: ${e.message}", e)
+            false
+        }
+    }
+    
+    /**
      * 모바일에 심박수 측정 에러 전송
      */
     suspend fun sendHeartRateError(context: Context, errorMessage: String): Boolean {

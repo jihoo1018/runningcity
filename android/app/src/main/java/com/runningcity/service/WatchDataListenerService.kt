@@ -63,6 +63,7 @@ class WatchDataListenerService : WearableListenerService() {
         private const val PATH_WORKOUT_STOPPED = "/workout_stopped"
         private const val PATH_HEART_RATE_MEASURED = "/heart_rate_measured"
         private const val PATH_HEART_RATE_ERROR = "/heart_rate_error"
+        private const val PATH_WATCH_PAIRED = "/watch_paired"
         private const val PATH_WATCH_START_RUNNING = "/watch_start_running"
         private const val PATH_WATCH_PAUSE_RUNNING = "/watch_pause_running"
         private const val PATH_WATCH_RESUME_RUNNING = "/watch_resume_running"
@@ -466,6 +467,19 @@ class WatchDataListenerService : WearableListenerService() {
                 
                 Log.e(TAG, "✅ 브로드캐스트 전송 완료")
                 Log.e(TAG, "═══════════════════════════════════════")
+            }
+            
+            PATH_WATCH_PAIRED -> {
+                Log.d(TAG, "═══════════════════════════════════════")
+                Log.d(TAG, "⌚ [연동 완료] 워치로부터 연동 완료 수신!")
+                Log.d(TAG, "   📤 WebAppInterface로 브로드캐스트 전송 중...")
+                
+                // 브로드캐스트로 WebAppInterface에 전달
+                val intent = android.content.Intent("com.runningcity.WATCH_PAIRED")
+                sendBroadcast(intent)
+                
+                Log.d(TAG, "✅ 브로드캐스트 전송 완료")
+                Log.d(TAG, "═══════════════════════════════════════")
             }
             
             PATH_WATCH_START_RUNNING -> {
