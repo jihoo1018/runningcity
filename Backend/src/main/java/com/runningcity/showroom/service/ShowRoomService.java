@@ -4,12 +4,14 @@ import com.runningcity.boutique.entity.Boutique;
 import com.runningcity.boutique.repository.BoutiqueRepository;
 import com.runningcity.entry.dto.EntryListResponse;
 import com.runningcity.friendship.repository.FriendshipRepository;
+import com.runningcity.global.exception.BaseException;
 import com.runningcity.showroom.dto.RandomAvatarResponse;
 import com.runningcity.showroom.dto.UserEquippedItemRequest;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
 import com.runningcity.showroom.dto.UserInventoryResponse;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
+import com.runningcity.showroom.exception.ShowRoomResponseCode;
 import com.runningcity.showroom.mapper.UserEquippedItemMapper;
 import com.runningcity.showroom.mapper.UserInventoryMapper;
 import com.runningcity.showroom.repository.EquippedItemRepository;
@@ -317,4 +319,80 @@ public class ShowRoomService {
                 .build();
     }
 
+    /**
+     * 👥 친구 쇼룸 - 친구들의 아바타 조회
+     *
+     * @param currentUserId 현재 로그인한 유저 ID
+     * @param size 조회할 친구 수 (최대 50, 기본값 전체)
+     * @return 친구들의 아바타 정보 (레벨 높은 순)
+     * @throws BaseException 친구가 없는 경우
+     */
+    @Transactional(readOnly = true)
+    public List<RandomAvatarResponse> getFriendAvatars(Long currentUserId, Integer size) {
+        log.info("👥 [시작] 친구 아바타 조회 - userId: {}, size: {}", currentUserId, size);
+
+        // ✅ Step 1: 친구 목록 조회 (ACCEPTED만)
+        List<Long> friendUserIds = friendshipRepository.findAllRelatedUserIds(currentUserId);
+
+        // ✅ 친구가 없으면 예외 던지기
+        if (friendUserIds.isEmpty()) {
+            log.warn("⚠️ 친구가 없습니다. - userId: {}", currentUserId);
+            throw new BaseException(ShowRoomResponseCode.NO_FRIENDS_FOUND);
+        }
+
+        log.debug("👥 친구 목록: {} ({}명)", friendUserIds, friendUserIds.size());
+
+        // ✅ Step 2: 친구 User 조회 (레벨 높은 순 정렬)
+        List<User> friends;
+
+        if (size != null && size > 0) {
+            // 개수 제한이 있는 경우
+            int validSize = Math.min(size, 50);
+            friends = userRepository.findByUserIdInOrderByLevelDesc(
+                    friendUserIds,
+                    PageRequest.of(0, validSize)
+            );
+        } else {
+            // 전체 조회
+            friends = userRepository.findByUserIdInOrderByLevelDesc(friendUserIds);
+        }
+
+        // ✅ 데이터 정합성 체크 (DB에 친구 정보가 없는 경우)
+        if (friends.isEmpty()) {
+            log.error("⚠️ [데이터 정합성 오류] 친구 ID는 있지만 User 데이터가 없음 - friendUserIds: {}", friendUserIds);
+            throw new BaseException(ShowRoomResponseCode.NO_FRIENDS_FOUND);
+        }
+
+        log.info("✅ 조회된 친구 수: {}", friends.size());
+
+        // ✅ Step 3: 아이템 정보 조회 (캐싱!)
+        Map<Long, Boutique> itemMap = getAllItemsMap();
+        log.debug("📦 아이템 맵 로드: {}개", itemMap.size());
+
+        // ✅ Step 4: 장착 정보 일괄 조회 (N+1 방지!)
+        List<Long> userIds = friends.stream()
+                .map(User::getUserId)
+                .toList();
+
+        List<UserEquippedItem> allEquippedItems =
+                equippedItemRepository.findAllByUserIdIn(userIds);
+
+        log.debug("🎨 장착 아이템 조회: {}개", allEquippedItems.size());
+
+        // ✅ Step 5: userId별로 그룹핑
+        Map<Long, List<UserEquippedItem>> equippedByUser = allEquippedItems.stream()
+                .collect(Collectors.groupingBy(UserEquippedItem::getUserId));
+
+        // ✅ Step 6: 응답 DTO 생성
+        List<RandomAvatarResponse> result = friends.stream()
+                .map(user -> buildRandomAvatarResponse(
+                        user,
+                        equippedByUser.get(user.getUserId()),
+                        itemMap
+                ))
+                .toList();
+
+        log.info("✅ [완료] 친구 아바타 조회 성공 - 반환: {}명", result.size());
+        return result;
+    }
 }

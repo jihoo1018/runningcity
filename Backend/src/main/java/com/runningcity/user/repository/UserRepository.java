@@ -62,5 +62,36 @@ public interface UserRepository extends JpaRepository<User, Long> {
             @Param("excludedUserIds") List<Long> excludedUserIds,
             Pageable pageable
     );
+    /**
+     * 🎯 특정 유저 ID 목록에 해당하는 유저들 조회 (레벨 높은 순)
+     *
+     * 용도: 친구 쇼룸
+     *
+     * @param userIds 조회할 유저 ID 목록
+     * @return 레벨 내림차순으로 정렬된 유저 목록
+     */
+    @Query("""
+    SELECT u FROM User u
+    WHERE u.userId IN :userIds
+    ORDER BY u.level DESC, u.userId ASC
+""")
+    List<User> findByUserIdInOrderByLevelDesc(@Param("userIds") List<Long> userIds);
+
+    /**
+     * 🎯 특정 유저 ID 목록에 해당하는 유저들 조회 (레벨 높은 순, 개수 제한)
+     *
+     * @param userIds 조회할 유저 ID 목록
+     * @param pageable 조회 개수 제한
+     * @return 레벨 내림차순으로 정렬된 유저 목록
+     */
+    @Query("""
+    SELECT u FROM User u
+    WHERE u.userId IN :userIds
+    ORDER BY u.level DESC, u.userId ASC
+""")
+    List<User> findByUserIdInOrderByLevelDesc(
+            @Param("userIds") List<Long> userIds,
+            Pageable pageable
+    );
 }
 

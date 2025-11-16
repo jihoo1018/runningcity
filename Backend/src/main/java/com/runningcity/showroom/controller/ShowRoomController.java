@@ -147,8 +147,32 @@ public class ShowRoomController {
     }
 
     // ============================================
-    // TODO: 친구 쇼룸 보기 (다음 단계)
+    // 친구 쇼룸 보기
     // ============================================
+    /**
+     * 👥 친구 쇼룸 - 친구들의 아바타 조회
+     *
+     * 동작:
+     * - 친구로 등록된 유저들의 아바타 조회
+     * - 레벨 높은 순으로 정렬
+     * - 각 유저의 현재 장착 아이템 포함
+     *
+     * @param userId 현재 로그인한 사용자 ID
+     * @param size 조회할 친구 수 (선택, 기본값: 전체, 최대: 50)
+     * @return 친구들의 아바타 정보
+     */
+    @GetMapping("/friends/{userId}")
+    public ResponseEntity<ApiResponse<List<RandomAvatarResponse>>> getFriendShowroom(
+            @PathVariable("userId") Long userId,
+            @RequestParam(required = false) Integer size
+    ) {
+        List<RandomAvatarResponse> friendAvatars =
+                showroomService.getFriendAvatars(userId, size);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(CommonResponseCode.SUCCESS, friendAvatars)
+        );
+    }
 
 
 }
