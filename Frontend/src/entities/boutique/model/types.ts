@@ -78,6 +78,36 @@ export interface PurchaseItemResponse {
   remainingCr: number;   // 남은 크레딧
 }
 
+// 가챠 뽑기 타입
+export type DrawType = 'single' | 'multi';
+
+// 가챠 요청 타입 (백엔드 GachaRequest와 매칭)
+export interface GachaRequest {
+  drawType: DrawType;
+}
+
+// 가챠 응답 타입 (백엔드 GachaResponse와 매칭)
+export interface GachaResponse {
+  sessionId: string;           // 세션 ID
+  drawType: DrawType;          // single or multi
+  totalDraws: number;          // 총 뽑은 개수 (1 or 10)
+  spentCredit: number;         // 소비한 크레딧
+  remainingCredit: number;     // 남은 크레딧
+  items: GachaItem[];          // 뽑은 아이템 목록
+}
+
+// 가챠로 뽑은 아이템 정보
+export interface GachaItem {
+  itemId: number;
+  itemName: string;
+  category: ItemCategory;
+  subcategory: ItemSubcategory;
+  style?: ItemStyle;
+  rarity: ItemRarity;
+  path: string;                // 애셋 경로
+  isNew: boolean;              // 신규 획득 여부
+}
+
 // 카테고리별 필터 옵션
 export interface CategoryFilter {
   category: ItemCategory;

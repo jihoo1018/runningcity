@@ -13,6 +13,7 @@ const AlertRoot = lazy(() => import("@/features/modals/alert/Root"));
 const UserModify = lazy(() => import("@/features/modals/user/Modify"));
 const UserConfirm = lazy(() => import("@/features/modals/user/Confirm"));
 const BoutiquePurchaseConfirm = lazy(() => import("@/features/modals/boutique/PurchaseConfirm"));
+const BoutiqueGachaResult = lazy(() => import("@/features/modals/boutique/GachaResult"));
 const MissionRoot = lazy(() => import("@/features/modals/mission/Root"));
 const MissionConfirm = lazy(() => import("@/features/modals/mission/Confirm"));
 const CommonFail = lazy(() => import("@/features/modals/common/Fail"));
@@ -41,6 +42,7 @@ export const REGISTRY = {
   },
   boutique: {
     purchaseConfirm: BoutiquePurchaseConfirm,
+    gachaResult: BoutiqueGachaResult,
   },
   common: {
     fail: CommonFail,

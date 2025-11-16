@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from '@/features/auth/model/useAuthStore';
-import { getStoreItems, getUserCurrency } from '@/entities/boutique/api';
+import { getStoreItems, getUserCurrency, drawGacha } from '@/entities/boutique/api';
 import { useModalRouter } from '@/app/modal/useModalRouter';
 import { BoutiqueHeader, GachaSection, StoreSection } from '@/entities/boutique/ui';
-import type { StoreResponse, ItemCategory, SortOption } from '@/entities/boutique/model/types';
+import type { StoreResponse, ItemCategory, SortOption, DrawType } from '@/entities/boutique/model/types';
 import { AndroidBridge } from '@/shared/lib/webview';
 
 export default function BoutiquePage() {
@@ -97,7 +97,9 @@ export default function BoutiquePage() {
   };
 
   // 가챠 뽑기 핸들러
-  const handleGachaPull = (type: 'single' | 'multi') => {
+  const handleGachaPull = async (type: DrawType) => {
+    if (!user?.userId) return;
+
     const price = type === 'single' ? 50 : 450;
     const count = type === 'single' ? 1 : 10;
     
@@ -106,8 +108,29 @@ export default function BoutiquePage() {
       return;
     }
 
-    // TODO: 가챠 모달 구현
-    AndroidBridge.showToast(`${count}뽑 가챠 기능 준비중입니다!`);
+    try {
+      const response = await drawGacha(user.userId, { drawType: type });
+
+      if (response.status === 200) {
+        AndroidBridge.showToast(`${count}뽑 가챠 완료!`);
+        
+        // 가챠 결과 모달 열기
+        open("boutique", "gachaResult", {
+          result: response.data,
+        });
+
+        // CR 업데이트
+        setUserCurrency(response.data.remainingCredit);
+        
+        // 스토어 아이템 새로고침 (새로 얻은 아이템이 구매 목록에 반영되도록)
+        refreshData();
+      } else {
+        throw new Error(response.message || '가챠에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('가챠 실패:', error);
+      AndroidBridge.showToast('가챠에 실패했습니다.');
+    }
   };
 
   if (!user) {

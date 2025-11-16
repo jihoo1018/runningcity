@@ -4,7 +4,9 @@ import type { ApiResponse } from "@/shared/api/types";
 import type { 
   StoreResponse, 
   PurchaseItemRequest, 
-  PurchaseItemResponse 
+  PurchaseItemResponse,
+  GachaRequest,
+  GachaResponse
 } from "../model/types";
 
 /**
@@ -48,6 +50,22 @@ export async function getUserCurrency(userId: number): Promise<ApiResponse<{ cr:
       cr: response.data.totalCredit ?? 0
     }
   };
+}
+
+/**
+ * 가챠 뽑기
+ * @param userId 사용자 ID
+ * @param request 가챠 요청 (single or multi)
+ * @returns 가챠 결과
+ */
+export async function drawGacha(
+  userId: number,
+  request: GachaRequest
+): Promise<ApiResponse<GachaResponse>> {
+  return await apiPost<ApiResponse<GachaResponse>, GachaRequest>(
+    `/boutique/gacha/${userId}`,
+    request
+  );
 }
 
 // 백엔드 UserResponse 타입 (필요한 필드만)
