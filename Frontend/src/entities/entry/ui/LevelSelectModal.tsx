@@ -1,3 +1,5 @@
+// src/entites/entry/ui/LevelSelectModal.tsx
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../../components/Modal";
@@ -19,16 +21,22 @@ export const LevelSelectModal = ({ entryName, baseId, userId, onClose }: LevelSe
     try {
       // ✅ 1️⃣ 서버로 세션 생성 요청
       const data = await fetchStartEntry(userId, baseId);
-      // console.log("✅ 세션 생성 성공:", data);
+      console.log("✅ 세션 생성 성공:", data);
+      console.log("▶ sessionId:", data.sessionId);
 
       // ✅ 2️⃣ Android WebView 브릿지 호출 (러닝 시작)
-      if (window.Android?.startRunning) {
-        window.Android.startRunning(String(data?.sessionId));
-        // console.log("📲 AndroidBridge.startRunning() 호출됨");
+      if (window.Android?.startRunning && data) {
+        console.log("[WEB] Android.startRunning 호출 직전", data.sessionId, typeof data.sessionId);
+        window.Android.startRunning(String(data.sessionId)); // 문자열로 넘기는 것도 안전
+        console.log("[WEB] Android.startRunning 호출 완료");
+      } else {
+        console.log("[WEB] Android 객체 없음 or startRunning 없음", window.Android);
       }
 
+
+
       onClose(); // 모달 닫기
-      navigate(`/entry/${data.sessionId}`); // TODO 달리기 화면 중간에 잇기 -> 지금은 바로 결과화면으로...
+      navigate("/running", { state: { sessionId: data.sessionId } }); // TODO 달리기 화면 중간 잇기 -> 지금은 바로 러닝 화면으로 이동
     } catch (err) {
       console.error("❌ 세션 생성 실패:", err);
       // alert("서버에 세션을 생성하지 못했습니다.");

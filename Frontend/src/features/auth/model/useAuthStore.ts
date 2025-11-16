@@ -4,13 +4,14 @@ import { persist } from "zustand/middleware";
 
 export type AuthUser = {
   userId: number;
+  level: number;
   nickname?: string | null;
   userCode?: string;
   totalExp?: number;
   email?: string;
 };
 
-type AuthState = {
+export type AuthState = {
   user: AuthUser | null;
   setUser: (user: AuthUser) => void;
   clear: () => void;
@@ -23,9 +24,8 @@ export const useAuthStore = create<AuthState>()(
       setUser: (user) => set({ user }),
       clear: () => set({ user: null }),
     }),
-    { name: "auth" }
-  )
+    { name: "auth" },
+  ),
 );
 
 export const useIsAuthenticated = () => !!useAuthStore((s) => s.user);
-

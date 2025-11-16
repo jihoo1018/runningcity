@@ -1,4 +1,3 @@
-// src/entities/showroom/ui/LPCCharacterRenderer.tsx
 import { useEffect, useRef } from "react";
 import { EquippedItem } from "@/entities/showroom/model/type";
 import { ENV } from "@/shared/config/env";
@@ -12,7 +11,7 @@ interface Props {
 }
 
 export const LPCCharacterRenderer = ({
-  items = [], // 배열 null 보호
+  items = [],
   animation = "walk",
   direction = 2,
   frameDelay = 150,
@@ -20,12 +19,10 @@ export const LPCCharacterRenderer = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef(0);
 
-  /** 🎨 경로 */
-  function resolvePath(basePath: string) {
-    return normalizePath(basePath, animation);
+  function resolvePath(path: string) {
+    return normalizePath(path, animation);
   }
 
-  /** 🧱 clothes 상의/하의/신발 레이어 분리 */
   function getClothesLayer(sub: string) {
     if (["tshirt", "longsleeve", "shortsleeves"].includes(sub)) return "clothes_top";
     if (["shorts"].includes(sub)) return "clothes_bottom";
@@ -33,93 +30,72 @@ export const LPCCharacterRenderer = ({
     return "clothes";
   }
 
-  /** 🎨 RENDER 레이어 이름 */
   function getLayerName(item: EquippedItem) {
     if (item.category === "clothes") return getClothesLayer(item.subcategory);
-    if (item.category === "head") return item.subcategory; // faces/eyes/eyebrows...
-    return item.category; // bodies, hair
+    if (item.category === "head") return item.subcategory;
+    return item.category;
   }
 
-  /** 🖼 이미지 로드 */
-  async function loadImage(path: string): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = `${ENV.ASSETS_ORIGIN}/${path}`;
-
-      img.onload = () => resolve(img);
-      img.onerror = (err) => {
-        console.error("❌ 이미지 로드 실패:", img.src);
-        reject(err);
-      };
-    });
-  }
-
-  /** 🧱 레이어 순서 (Z-index) */
   const LAYER_ORDER = [
     "bodies",
     "clothes_bottom",
     "clothes_top",
     "clothes_shoes",
-    // 얼굴 기본(머리형)
+
     "heads",
-    // 세부 얼굴 요소
     "faces",
     "nose",
     "eyes",
     "eyebrows",
     "ears",
-    // 맨 앞
+
     "hair",
   ];
 
-  /** 🎮 렌더링 */
+  async function loadImage(path: string) {
+    return new Promise<HTMLImageElement>((resolve, reject) => {
+      const img = new Image();
+      img.src = `${ENV.ASSETS_ORIGIN}/${path}`;
+      img.onload = () => resolve(img);
+      img.onerror = (err) => reject(err);
+    });
+  }
+
   useEffect(() => {
-    if (!Array.isArray(items)) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = 64;
-    canvas.height = 64;
-
-    let active = true;
+    let alive = true;
 
     async function render() {
-      const loadedLayers: { layer: string; img: HTMLImageElement }[] = [];
+      const layers: { layer: string; img: HTMLImageElement }[] = [];
 
       for (const item of items) {
-        if (!item) continue;
-
-        const path = resolvePath(item.basePath);
         try {
-          const img = await loadImage(path);
-          loadedLayers.push({ layer: getLayerName(item), img });
+          const img = await loadImage(resolvePath(item.basePath));
+          layers.push({ layer: getLayerName(item), img });
         } catch (e) {
-          console.warn("로드 실패한 아이템:", item);
+          console.warn("로드 실패:", item);
         }
       }
+
       function drawFrame() {
-        if (!active) return;
+        if (!alive) return;
 
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        const ctx = canvas?.getContext("2d");
+        if (!canvas || !ctx) return;
 
-        const ctx2 = canvas.getContext("2d");
-        if (!ctx2) return; // ← 안전장치
-
-        ctx2.clearRect(0, 0, 64, 64);
+        canvas.width = 64;
+        canvas.height = 64;
+        ctx.clearRect(0, 0, 64, 64);
 
         const frame = frameRef.current;
-        const frameX = frame * 64;
-        const frameY = direction * 64;
+        const fx = frame * 64;
+        const fy = direction * 64;
 
         for (const layer of LAYER_ORDER) {
-          const found = loadedLayers.find((l) => l.layer === layer);
+          const found = layers.find((l) => l.layer === layer);
           if (!found) continue;
 
-          ctx2.drawImage(found.img, frameX, frameY, 64, 64, 0, 0, 64, 64);
+          ctx.drawImage(found.img, fx, fy, 64, 64, 0, 0, 64, 64);
         }
 
         frameRef.current = (frame + 1) % 9;
@@ -130,9 +106,8 @@ export const LPCCharacterRenderer = ({
     }
 
     render();
-
     return () => {
-      active = false;
+      alive = false;
     };
   }, [items, animation, direction, frameDelay]);
 

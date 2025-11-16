@@ -105,10 +105,11 @@ public class ShowRoomService {
      */
     public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
 
-        return equippedItemRepository.findByUserId(userId)
-                .stream()
-                .map(UserEquippedItemResponse::fromEntity)
-                .collect(Collectors.toList());
+//        return equippedItemRepository.findByUserId(userId)
+//                .stream()
+//                .map(UserEquippedItemResponse::fromEntity)
+//                .collect(Collectors.toList());
+        return equippedItemRepository.findEquippedItemsByUserId(userId);
     }
 
 
@@ -138,20 +139,26 @@ public class ShowRoomService {
 //                .collect(Collectors.toList());
 //    }
 
-
+    @Transactional
+    public void changeClothes(Long userId, List<UserEquippedItemRequest> reqList){
+        this.deleteEquippedItemAllByUserId(userId);
+        this.addEquippedItem(userId, reqList);
+    }
 
     // 유저 착장 리스트 저장
-    @Transactional
+    @Transactional(propagation = Propagation.MANDATORY)
     public void addEquippedItem(Long userId, List<UserEquippedItemRequest> reqList) {
         for (UserEquippedItemRequest req : reqList) {
             if (req.getItemId()!= null && req.getItemId() != 0) {
                 UserEquippedItem equippedItem = userEquippedItemMapper.toEntity(userId, req);
+                log.info(equippedItem.toString());
                 equippedItemRepository.save(equippedItem);
             }
         }
     }
 
     // 유저 착장 리스트 전체 삭제
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteEquippedItemAllByUserId(Long userId) {
         equippedItemRepository.deleteAllByUserId(userId);
     }

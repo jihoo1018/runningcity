@@ -19,7 +19,7 @@ public class UserEquippedItemResponse {
     private ItemCategory category;
     private SubCategory subcategory;
     private Style style;
-    private String basePath;
+    private String basePath;//
 
     // Entity → DTO 변환 (JPA에서 가져온 Entity를 Response로 매핑)
     public static UserEquippedItemResponse fromEntity(UserEquippedItem entity) {
