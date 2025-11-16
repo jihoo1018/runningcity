@@ -95,7 +95,7 @@ public class RunService {
 
         // GPS 유효성 검증 (null/빈 리스트는 validateGps 내부에서 통과)
         List<WatchUploadRequest.GpsPoint> gps = req.getGpsPoints();
-        validateGps(gps);
+        //validateGps(gps);
 
         // 워치 사후 동기화 상수
         final String TYPE = "NORMAL";
