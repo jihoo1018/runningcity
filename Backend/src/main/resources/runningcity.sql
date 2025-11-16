@@ -408,3 +408,12 @@ CREATE TRIGGER trg_friendship_updated_at
     BEFORE UPDATE ON friendship
     FOR EACH ROW
     EXECUTE FUNCTION set_updated_at();
+
+CREATE TABLE run_ai_report (
+                               id          BIGSERIAL PRIMARY KEY,
+                               session_id  BIGINT NOT NULL UNIQUE
+                                   REFERENCES run_session(session_id) ON DELETE CASCADE,
+                               content     TEXT NOT NULL,
+                               model       VARCHAR(50) NOT NULL,
+                               created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
