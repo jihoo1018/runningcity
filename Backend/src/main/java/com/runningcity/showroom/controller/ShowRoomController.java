@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/showroom")
 @RequiredArgsConstructor
-public class MyShowroomController {
+public class ShowRoomController {
 
     private final ShowRoomService showroomService;
     private final PrivacySettingService privacySettingService;
@@ -114,4 +114,41 @@ public class MyShowroomController {
         privacySettingService.savePrivacySetting(userId, req);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.PRIVACY_SETTING_POST_SUCCESS));
     }
+
+    // ============================================
+    // ✅ 새로 추가: 글로벌 쇼룸 (랜덤 아바타 조회)
+    // ============================================
+
+    /**
+     * 🎲 글로벌 쇼룸 - 랜덤 유저 아바타 조회 (친구 제외)
+     *
+     * 동작:
+     * - 친구가 아닌 유저들을 랜덤으로 조회
+     * - 각 유저의 현재 장착 아이템 포함
+     *
+     * @param userId 현재 로그인한 사용자 ID
+     * @param size 조회할 유저 수 (기본값: 10, 최대: 50)
+     * @return 랜덤 유저들의 아바타 정보
+     */
+    @GetMapping("/global/{userId}")
+    public ResponseEntity<ApiResponse<List<RandomAvatarResponse>>> getGlobalShowroom(
+            @PathVariable("userId") Long userId,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        // 최대 조회 개수 제한
+        int validSize = Math.min(size, 50);
+
+        List<RandomAvatarResponse> randomAvatars =
+                showroomService.getRandomAvatars(userId, validSize);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(CommonResponseCode.SUCCESS, randomAvatars)
+        );
+    }
+
+    // ============================================
+    // TODO: 친구 쇼룸 보기 (다음 단계)
+    // ============================================
+
+
 }
