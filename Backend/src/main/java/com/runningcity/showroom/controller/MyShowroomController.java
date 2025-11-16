@@ -78,8 +78,10 @@ public class MyShowroomController {
     @Transactional
     @PostMapping("/clothes/{userId}")
     public ResponseEntity<ApiResponse<Void>> changeClothes(@PathVariable("userId") Long userId, @RequestBody List<UserEquippedItemRequest> reqList){
-        showroomService.deleteEquippedItemAllByUserId(userId);
-        showroomService.addEquippedItem(userId,reqList);
+//        showroomService.deleteEquippedItemAllByUserId(userId);
+//        showroomService.addEquippedItem(userId,reqList);
+        showroomService.changeClothes(userId,reqList);
+        System.out.println(reqList);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.CHANGE_CLOTHES_POST_SUCCESS));
     }
 
