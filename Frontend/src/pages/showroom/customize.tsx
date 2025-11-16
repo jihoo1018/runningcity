@@ -52,7 +52,10 @@ export default function CustomizePage() {
       if (tab === "피부색") return inventory.filter((i) => i.category === "bodies");
     }
 
-    if (mode === "head") return inventory.filter((i) => i.subcategory === tabToSub(tab));
+    if (mode === "head") {
+      if (tab === "헤어") return inventory.filter((i) => i.category === "hair");
+      return inventory.filter((i) => i.subcategory === tabToSub(tab));
+    }
 
     return inventory;
   }
