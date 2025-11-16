@@ -71,6 +71,19 @@ class WebAppInterface(
                     Log.e("WebAppInterface", "✅ React로 에러 메시지 전달 완료")
                     Log.e("WebAppInterface", "═══════════════════════════════════════")
                 }
+                "com.runningcity.WATCH_PAIRED" -> {
+                    Log.d("WebAppInterface", "═══════════════════════════════════════")
+                    Log.d("WebAppInterface", "⌚ [연동 완료] 브로드캐스트 수신: 워치 연동 완료")
+                    Log.d("WebAppInterface", "   📤 React로 전달 중...")
+                    
+                    val jsonMessage = JSONObject().apply {
+                        put("type", "WATCH_PAIRED")
+                    }.toString()
+                    sendToReact(jsonMessage)
+                    
+                    Log.d("WebAppInterface", "✅ React로 연동 완료 메시지 전달 완료")
+                    Log.d("WebAppInterface", "═══════════════════════════════════════")
+                }
             }
         }
     }
@@ -131,6 +144,7 @@ class WebAppInterface(
         val heartRateFilter = IntentFilter().apply {
             addAction("com.runningcity.HEART_RATE_MEASURED")
             addAction("com.runningcity.HEART_RATE_ERROR")
+            addAction("com.runningcity.WATCH_PAIRED")
         }
         context.registerReceiver(
             heartRateReceiver,
@@ -349,6 +363,33 @@ class WebAppInterface(
                 Log.d("WebAppInterface", "✅ [2단계] 워치 심박수 측정 요청 전송 완료")
                 Log.d("WebAppInterface", "   → 워치에서 측정을 시작합니다 (약 15초 소요)")
                 Log.d("WebAppInterface", "   → 측정 결과를 기다리는 중...")
+            }
+        }
+    }
+
+    /**
+     * 워치 연동 요청
+     */
+    @JavascriptInterface
+    fun pairWatch() {
+        Log.d("WebAppInterface", "═══════════════════════════════════════")
+        Log.d("WebAppInterface", "⌚ [1단계] React → Android: pairWatch() 호출됨")
+        Log.d("WebAppInterface", "📤 워치에 연동 요청 전송 중...")
+        
+        CoroutineScope(Dispatchers.IO).launch {
+            val success = WatchCommunicationHelper.requestWatchPairing(context)
+            if (!success) {
+                Log.e("WebAppInterface", "❌ [실패] 워치 연동 요청 실패")
+                Log.e("WebAppInterface", "   → 워치가 연결되어 있는지 확인해주세요")
+                // 실패 시 React에 에러 메시지 전달
+                val jsonMessage = JSONObject().apply {
+                    put("type", "WATCH_PAIRING_ERROR")
+                    put("message", "워치 연결을 확인해주세요")
+                }.toString()
+                sendToReact(jsonMessage)
+            } else {
+                Log.d("WebAppInterface", "✅ [2단계] 워치 연동 요청 전송 완료")
+                Log.d("WebAppInterface", "   → 워치에서 확인 버튼을 눌러주세요")
             }
         }
     }
