@@ -8,6 +8,7 @@ import { purchaseItem, getStoreItems, getUserCurrency } from '@/entities/boutiqu
 import { useAuthStore } from '@/features/auth/model/useAuthStore';
 import type { StoreResponse } from '@/entities/boutique/model/types';
 import { AndroidBridge } from '@/shared/lib/webview';
+import { SpritePreview } from '@/entities/boutique/ui/SpritePreview';
 
 // 구매 확인 모달에 전달될 데이터 타입
 type PurchasePayload = {
@@ -98,48 +99,49 @@ export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps
         </div>
       }
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
+        {/* 아이템 이미지 */}
+        <div className="flex justify-center">
+          <div className="w-32 h-32 bg-custom-black/50 rounded-lg overflow-hidden border border-primary/30">
+            <SpritePreview 
+              basePath={item.basePath}
+              category={item.category}
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+
         {/* 아이템 정보 */}
-        <div className="border rounded-lg p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">
-                {item.category === 'bodies' && '👤'}
-                {item.category === 'clothes' && '👕'}
-                {item.category === 'hair' && '💇'}
-                {item.category === 'head' && '🎭'}
-              </span>
-            </div>
-            <div className="text-left">
-              <h3 className="font-medium text-gray-900">{item.name}</h3>
-              <p className="text-sm text-gray-500">
-                {item.subcategory} {item.style && `• ${item.style}`}
-              </p>
-            </div>
+        <div className="bg-section-bg border border-primary/20 rounded-lg p-4">
+          <div className="text-center mb-3">
+            <h3 className="text-lg font-bold text-custom-white mb-1">{item.name}</h3>
+            <p className="text-sm text-custom-gray">
+              {item.subcategory} {item.style && `• ${item.style}`}
+            </p>
           </div>
           
-          <div className="text-center">
-            <p className="text-2xl font-bold text-blue-600 mb-1">
+          <div className="text-center pt-3 border-t border-primary/20">
+            <p className="text-2xl font-bold text-primary mb-1">
               {item.priceCr.toLocaleString()} CR
             </p>
-            <p className="text-sm text-gray-500">구매 가격</p>
+            <p className="text-xs text-custom-gray">구매 가격</p>
           </div>
         </div>
 
         {/* 잔액 정보 */}
-        <div className="bg-gray-50 rounded-lg p-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-600">현재 잔액:</span>
-            <span className="font-medium">{userCurrency.toLocaleString()} CR</span>
-          </div>
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-gray-600">구매 가격:</span>
-            <span className="font-medium text-red-600">-{item.priceCr.toLocaleString()} CR</span>
-          </div>
-          <hr className="my-2" />
+        <div className="bg-custom-black/30 rounded-lg p-4 space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-gray-900">구매 후 잔액:</span>
-            <span className={`font-bold ${canAfford ? 'text-green-600' : 'text-red-600'}`}>
+            <span className="text-sm text-custom-gray">현재 잔액:</span>
+            <span className="font-medium text-custom-white">{userCurrency.toLocaleString()} CR</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-custom-gray">구매 가격:</span>
+            <span className="font-medium text-accent-red">-{item.priceCr.toLocaleString()} CR</span>
+          </div>
+          <div className="h-px bg-primary/20 my-2" />
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-bold text-custom-white">구매 후 잔액:</span>
+            <span className={`font-bold text-lg ${canAfford ? 'text-primary' : 'text-accent-red'}`}>
               {remainingCurrency.toLocaleString()} CR
             </span>
           </div>
@@ -147,8 +149,8 @@ export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps
 
         {/* 경고 메시지 */}
         {!canAfford && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-            <p className="text-sm text-red-600 text-center">
+          <div className="bg-accent-red/20 border border-accent-red/50 rounded-lg p-3">
+            <p className="text-sm text-accent-red text-center font-medium">
               💰 CR이 부족합니다!
             </p>
           </div>
