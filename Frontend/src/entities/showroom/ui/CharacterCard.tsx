@@ -1,7 +1,8 @@
 import { LPCCharacterRenderer } from "./LPCCharacterRenderer";
-import { useAvatarStore, slotsToArray } from "@/features/avatar/model/avatarStore";
+import { useAvatarStore } from "@/features/avatar/model/avatarStore";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
 import type { MyOffice } from "@/entities/showroom/model/type";
+import { slotsToArray } from "@/entities/showroom/model/slotUtils";
 
 type Props = {
   tab: "me" | "friend" | "global";
