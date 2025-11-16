@@ -481,7 +481,7 @@ class WorkoutService : Service() {
                         latitude = location.latitude,
                         longitude = location.longitude,
                         accuracy = location.accuracy,
-                        altitude = location.altitude,
+                        altitude = 0.0,
                         speed = location.speed,
                         syncedToServer = false,
                         savedAt = System.currentTimeMillis()
