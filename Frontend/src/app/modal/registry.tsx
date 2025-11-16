@@ -1,6 +1,8 @@
 import { lazy } from "react";
 import type { FlowRegistry } from "./types";
 
+const SettingsRoot = lazy(() => import("@/features/modals/setting/Root"));
+const SettingsConfirm = lazy(() => import("@/features/modals/setting/Confirm"));
 const EntryRoot = lazy(() => import("@/features/modals/entry/Root"));
 const EntryLevel = lazy(() => import("@/features/modals/entry/Level"));
 const SettingRoot = lazy(() => import("@/features/modals/setting/Root"));
@@ -10,6 +12,8 @@ const SettingGoal = lazy(() => import("@/features/modals/setting/Goal"));
 const AlertRoot = lazy(() => import("@/features/modals/alert/Root"));
 const UserModify = lazy(() => import("@/features/modals/user/Modify"));
 const UserConfirm = lazy(() => import("@/features/modals/user/Confirm"));
+const BoutiquePurchaseConfirm = lazy(() => import("@/features/modals/boutique/PurchaseConfirm"));
+const BoutiqueGachaResult = lazy(() => import("@/features/modals/boutique/GachaResult"));
 const MissionRoot = lazy(() => import("@/features/modals/mission/Root"));
 const MissionConfirm = lazy(() => import("@/features/modals/mission/Confirm"));
 const CommonFail = lazy(() => import("@/features/modals/common/Fail"));
@@ -35,6 +39,10 @@ export const REGISTRY = {
   mission: {
     root: MissionRoot,
     confirm: MissionConfirm,
+  },
+  boutique: {
+    purchaseConfirm: BoutiquePurchaseConfirm,
+    gachaResult: BoutiqueGachaResult,
   },
   common: {
     fail: CommonFail,
