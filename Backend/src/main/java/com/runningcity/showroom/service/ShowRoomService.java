@@ -2,10 +2,12 @@ package com.runningcity.showroom.service;
 
 import com.runningcity.boutique.entity.Boutique;
 import com.runningcity.entry.dto.EntryListResponse;
+import com.runningcity.showroom.dto.UserEquippedItemRequest;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
 import com.runningcity.showroom.dto.UserInventoryResponse;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
+import com.runningcity.showroom.mapper.UserEquippedItemMapper;
 import com.runningcity.showroom.mapper.UserInventoryMapper;
 import com.runningcity.showroom.repository.EquippedItemRepository;
 import com.runningcity.showroom.repository.UserInventoryRepository;
@@ -26,9 +28,8 @@ import java.util.Optional;
 public class ShowRoomService {
 
     private final UserInventoryRepository inventoryRepository;
-
     private final EquippedItemRepository equippedItemRepository;
-
+    private final UserEquippedItemMapper userEquippedItemMapper;
 
     /**
      * 인벤토리에 신규 아이템 추가
@@ -138,4 +139,20 @@ public class ShowRoomService {
 //    }
 
 
+
+    // 유저 착장 리스트 저장
+    @Transactional
+    public void addEquippedItem(Long userId, List<UserEquippedItemRequest> reqList) {
+        for (UserEquippedItemRequest req : reqList) {
+            if (req.getItemId()!= null && req.getItemId() != 0) {
+                UserEquippedItem equippedItem = userEquippedItemMapper.toEntity(userId, req);
+                equippedItemRepository.save(equippedItem);
+            }
+        }
+    }
+
+    // 유저 착장 리스트 전체 삭제
+    public void deleteEquippedItemAllByUserId(Long userId) {
+        equippedItemRepository.deleteAllByUserId(userId);
+    }
 }
