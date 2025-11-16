@@ -6,7 +6,8 @@ import {
   fetchGetEquippedItems,
   fetchSave,
 } from "@/entities/showroom/api/customize";
-import { useAvatarStore, slotsToArray } from "@/features/avatar/model/avatarStore";
+import { useAvatarStore } from "@/features/avatar/model/avatarStore";
+import { slotsToArray } from "@/entities/showroom/model/slotUtils";
 
 const BODY_TABS = ["상의", "하의", "피부색"];
 const HEAD_TABS = ["헤어", "얼굴", "표정", "눈썹", "눈", "코", "귀"];
