@@ -105,10 +105,11 @@ public class ShowRoomService {
      */
     public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
 
-        return equippedItemRepository.findByUserId(userId)
-                .stream()
-                .map(UserEquippedItemResponse::fromEntity)
-                .collect(Collectors.toList());
+//        return equippedItemRepository.findByUserId(userId)
+//                .stream()
+//                .map(UserEquippedItemResponse::fromEntity)
+//                .collect(Collectors.toList());
+        return equippedItemRepository.findEquippedItemsByUserId(userId);
     }
 
 
