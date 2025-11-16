@@ -1,6 +1,7 @@
 package com.runningcity.service
 
 import android.content.Intent
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.wearable.MessageEvent
@@ -27,8 +28,11 @@ class MobileMessageListenerService : WearableListenerService() {
         // 메시지 경로
         private const val PATH_START_WORKOUT = "/start_workout"
         private const val PATH_STOP_WORKOUT = "/stop_workout"
+        private const val PATH_PAUSE_WORKOUT = "/pause_workout"
+        private const val PATH_RESUME_WORKOUT = "/resume_workout"
         private const val PATH_MOBILE_READY = "/mobile_ready"
         private const val PATH_MEASURE_HEART_RATE = "/measure_heart_rate"
+        private const val PATH_PAIR_WATCH = "/pair_watch"
     }
     
     override fun onCreate() {
@@ -57,6 +61,16 @@ class MobileMessageListenerService : WearableListenerService() {
                 stopWorkoutFromMobile()
             }
             
+            PATH_PAUSE_WORKOUT -> {
+                Log.d(TAG, "⏸️ 운동 일시정지 요청")
+                pauseWorkoutFromMobile()
+            }
+            
+            PATH_RESUME_WORKOUT -> {
+                Log.d(TAG, "▶️ 운동 재개 요청")
+                resumeWorkoutFromMobile()
+            }
+            
             PATH_MOBILE_READY -> {
                 Log.d(TAG, "✅ 모바일 준비 완료")
                 notifyMobileReady()
@@ -65,6 +79,11 @@ class MobileMessageListenerService : WearableListenerService() {
             PATH_MEASURE_HEART_RATE -> {
                 Log.d(TAG, "💓 심박수 측정 요청 수신")
                 startHeartRateMeasurement()
+            }
+            
+            PATH_PAIR_WATCH -> {
+                Log.d(TAG, "⌚ 워치 연동 요청 수신")
+                startWatchPairing()
             }
             
             else -> {
@@ -106,6 +125,28 @@ class MobileMessageListenerService : WearableListenerService() {
     }
     
     /**
+     * 모바일에서 시작된 운동 일시정지
+     */
+    private fun pauseWorkoutFromMobile() {
+        // WorkoutScreen의 일시정지 로직을 트리거하기 위해 브로드캐스트 전송
+        val intent = Intent("com.runningcity.PAUSE_WORKOUT_FROM_MOBILE")
+        sendBroadcast(intent)
+        
+        Log.d(TAG, "✅ 워치 운동 일시정지 브로드캐스트 전송")
+    }
+    
+    /**
+     * 모바일에서 시작된 운동 재개
+     */
+    private fun resumeWorkoutFromMobile() {
+        // WorkoutScreen의 재개 로직을 트리거하기 위해 브로드캐스트 전송
+        val intent = Intent("com.runningcity.RESUME_WORKOUT_FROM_MOBILE")
+        sendBroadcast(intent)
+        
+        Log.d(TAG, "✅ 워치 운동 재개 브로드캐스트 전송")
+    }
+    
+    /**
      * 모바일 준비 완료 알림
      */
     private fun notifyMobileReady() {
@@ -138,6 +179,53 @@ class MobileMessageListenerService : WearableListenerService() {
         sendBroadcast(intent)
         
         Log.d(TAG, "✅ 심박수 측정 서비스 시작 및 브로드캐스트 전송")
+    }
+    
+    /**
+     * 워치 연동 시작
+     */
+    private fun startWatchPairing() {
+        Log.d(TAG, "⌚ 워치 연동 요청 수신 - 화면 표시")
+        
+        // 워치 화면 깨우기 (닫혀있어도 켜지도록)
+        wakeUpScreen()
+        
+        // WatchPairingActivity 시작 (화면 켜기 플래그 포함)
+        try {
+            val activityIntent = Intent(this, com.runningcity.presentation.WatchPairingActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or 
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(activityIntent)
+            Log.d(TAG, "✅ 워치 연동 화면 Activity 시작")
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 워치 연동 화면 Activity 시작 실패: ${e.message}")
+            e.printStackTrace()
+        }
+    }
+    
+    /**
+     * 워치 화면 깨우기
+     */
+    private fun wakeUpScreen() {
+        try {
+            val powerManager = getSystemService(PowerManager::class.java)
+            if (powerManager != null && !powerManager.isInteractive) {
+                // 화면이 꺼져있으면 깨우기
+                val wakeLock = powerManager.newWakeLock(
+                    PowerManager.SCREEN_BRIGHT_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    "WatchPairing::WakeLock"
+                )
+                wakeLock.acquire(100) // 짧게 acquire
+                wakeLock.release() // 즉시 release (화면만 켜기)
+                Log.d(TAG, "✅ 워치 화면 깨우기 완료")
+            } else {
+                Log.d(TAG, "✅ 워치 화면이 이미 켜져있음")
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ 워치 화면 깨우기 실패: ${e.message}")
+        }
     }
     
     override fun onDestroy() {

@@ -1,4 +1,38 @@
 INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('역사탐방길','풍납토성근린공원 ~ 풍납토성 ~ 몽촌토성 ~ 방이동백제고분군 ~ 석촌동백제초기적석총(지하철8호선 포함)','서울 송파구',11.45,'쉬움','3시간','서울 송파구 장지동',37.475962,127.12539,'공식_산책로',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('인사동삼청동 나들길','인사동 네거리~경복궁매표소~청와대분수앞~북촌한옥마을길','서울 종로구',8.12,'보통','2시간','서울 종로구 세종로 1-7',37.583634,126.974916,'공식_산책로',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('신반포 올레길','총 3km (신잠원나들목 -(1.15km) 신반포5차 오솔길 - (1.50km)반포천나들목)','서울 서초구',3.0,'매우쉬움','60분','서울 서초구 잠원동',37.512126,127.001642,'공식_산책로',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('중랑천제방장미벚꽃길','사각문~묵동수림공원~수림대장미원','서울 중랑구',5.67,'쉬움','2시간','서울 중랑구 중화동',37.594683,127.071106,'공식_산책로',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시은평구_20190101_063936','서울특별시은평구_20190101_063936','은평구 응암1동',15.252,NULL,'약 338분','서울특별시 은평구 응암1동',37.597164,126.91555,'사용자_트랙',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시강남구_20190101_064141','서울특별시강남구_20190101_064141','강남구 논현2동',5.778,NULL,'약 120분','서울특별시 강남구 논현2동',37.51009,127.035599,'사용자_트랙',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시종로구_20181231_233936','서울특별시종로구_20181231_233936','종로구 무악동',3.251,NULL,'약 99분','서울특별시 종로구 무악동',37.574158,126.958771,'사용자_트랙',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시송파구_20181231_224808','서울특별시송파구_20181231_224808','송파구 거여2동',11.34,NULL,'약 178분','서울특별시 송파구 거여2동',37.496956,127.150009,'사용자_트랙',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시강남구_20181231_191401','서울특별시강남구_20181231_191401','강남구 논현2동',8.137,NULL,'약 150분','서울특별시 강남구 논현2동',37.506214,127.032677,'사용자_트랙',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시성동구_20181231_203927','서울특별시성동구_20181231_203927','성동구 금호1가동',5.791,NULL,'약 113분','서울특별시 성동구 금호1가동',37.553623,127.018654,'사용자_트랙',0);
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
+VALUES ('서울특별시양천구_20181231_231046','서울특별시양천구_20181231_231046','양천구 목5동',3.351,NULL,'약 40분','서울특별시 양천구 목5동',37.535324,126.877777,'사용자_트랙',0);
+
+
+INSERT INTO entry (course_nm, course_desc, region, distance_km, difficulty, duration, address, latitude, longitude, data_source, group_no)
 VALUES
 ('영등포 봄꽃 나들길', '신갈공원~신길동 넝쿨장미길', '서울 영등포구', 3.84, '매우쉬움', '1시간 30분', '서울 영등포구 신길동', 37.5042413, 126.8994712, '공식_산책로', 1),
 
@@ -34,7 +68,7 @@ VALUES
 	37.503325874722,
 	127.04403462366,
  '사용자 트랙',
- 2
+ 1
 );
 
 
@@ -94,3 +128,4 @@ VALUES
  '공식_산책로',
  2
 );
+

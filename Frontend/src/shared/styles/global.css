@@ -76,3 +76,47 @@ img {
   -o-user-drag: none;
   user-drag: none;
 }
+
+/* 캐릭터 카드 스타일*/
+.chip-frame {
+  background: linear-gradient(135deg, #1d2333, #0b0f18 40%, #2a334d 80%, #0a0d14);
+  border-radius: 16px;
+  position: relative;
+}
+
+.chip-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(120deg, #00faff, #604bff, #00c7ff);
+  background-size: 300% 300%;
+  animation: chipGlow 5s ease infinite;
+  z-index: -1;
+}
+
+/* 홀로그램 효과 */
+.hologram {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.08) 0px,
+    rgba(255, 255, 255, 0.08) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  mix-blend-mode: overlay;
+}
+
+@keyframes chipGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+/* 캐릭터 카드 스타일 end*/
