@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuthStore } from '@/features/auth/model/useAuthStore';
 import { getStoreItems, getUserCurrency } from '@/entities/boutique/api';
 import { useModalRouter } from '@/app/modal/useModalRouter';
@@ -50,8 +50,8 @@ export default function BoutiquePage() {
     loadData();
   }, [user?.userId]);
 
-  // 데이터 새로고침 함수
-  const refreshData = async () => {
+  // 데이터 새로고침 함수 (useCallback으로 메모이제이션)
+  const refreshData = useCallback(async () => {
     if (!user?.userId) return;
 
     try {
@@ -70,14 +70,29 @@ export default function BoutiquePage() {
     } catch (error) {
       console.error('데이터 새로고침 실패:', error);
     }
-  };
+  }, [user?.userId]);
+
+  // 구매 성공 이벤트 리스너
+  useEffect(() => {
+    const handlePurchaseSuccess = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      console.log('[부티크] 구매 성공 이벤트 수신:', customEvent.detail);
+      refreshData();
+    };
+
+    window.addEventListener('boutique:purchase-success', handlePurchaseSuccess);
+
+    return () => {
+      window.removeEventListener('boutique:purchase-success', handlePurchaseSuccess);
+    };
+  }, [refreshData]);
 
   // 구매 모달 열기
   const handlePurchaseClick = (item: StoreResponse) => {
     open("boutique", "purchaseConfirm", {
       item,
       userCurrency,
-      onPurchaseSuccess: refreshData,
+      // 함수는 History API에서 직렬화할 수 없으므로 제거
     });
   };
 

@@ -40,7 +40,7 @@ export function StoreItemGrid({ items, userCurrency, onPurchaseClick }: StoreIte
         <div
           key={item.itemId}
           className={`bg-section-bg border border-primary/20 rounded-lg overflow-hidden ${
-            item.isOwned ? 'opacity-60' : ''
+            item.isPurchased ? 'opacity-60' : ''
           }`}
         >
           {/* 아이템 이미지 영역 */}
@@ -73,7 +73,7 @@ export function StoreItemGrid({ items, userCurrency, onPurchaseClick }: StoreIte
                 {item.priceCr.toLocaleString()} CR
               </span>
               
-              {item.isOwned ? (
+              {item.isPurchased ? (
                 <span className="text-xs text-primary font-medium">소유중</span>
               ) : (
                 <button

@@ -62,21 +62,20 @@ export interface StoreResponse {
   basePath: string;
   rarity: ItemRarity;
   priceCr: number;
-  obtainMethod: ObtainMethod;
-  isOwned: boolean; // 사용자가 이미 소유하고 있는지 여부
+  isPurchased: boolean; // 사용자가 이미 구매했는지 여부 (백엔드 StoreResponse.isPurchased)
 }
 
-// 아이템 구매 요청 타입
+// 아이템 구매 요청 타입 (백엔드 PurchaseRequest와 매칭)
 export interface PurchaseItemRequest {
-  userId: number;
   itemId: number;
 }
 
-// 아이템 구매 응답 타입
+// 아이템 구매 응답 타입 (백엔드 PurchaseResponse와 매칭)
 export interface PurchaseItemResponse {
-  success: boolean;
-  message: string;
-  remainingCr?: number; // 구매 후 남은 CR
+  itemId: number;        // 구매한 아이템 ID
+  itemName: string;      // 아이템 이름
+  paidCr: number;        // 지불한 크레딧
+  remainingCr: number;   // 남은 크레딧
 }
 
 // 카테고리별 필터 옵션

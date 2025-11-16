@@ -13,7 +13,6 @@ import { AndroidBridge } from '@/shared/lib/webview';
 type PurchasePayload = {
   item: StoreResponse;
   userCurrency: number;
-  onPurchaseSuccess: () => void; // 구매 성공 시 부모 컴포넌트 데이터 새로고침 콜백
 };
 
 export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps) {
@@ -24,7 +23,6 @@ export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps
   const data = (payload as PurchasePayload | undefined) ?? undefined;
   const item = data?.item;
   const userCurrency = data?.userCurrency ?? 0;
-  const onPurchaseSuccess = data?.onPurchaseSuccess;
 
   if (!item || !user?.userId) {
     return (
@@ -41,19 +39,19 @@ export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps
     try {
       setIsPurchasing(true);
       
-      const response = await purchaseItem({
-        userId: user.userId,
+      const response = await purchaseItem(user.userId, {
         itemId: item.itemId,
       });
 
       if (response.status === 200) {
         AndroidBridge.showToast(`${item.name}을(를) 구매했습니다!`);
         
-        // 부모 컴포넌트에 구매 성공 알림
-        if (onPurchaseSuccess) {
-          onPurchaseSuccess();
-        }
+        // 구매 성공 이벤트 발생
+        window.dispatchEvent(new CustomEvent('boutique:purchase-success', { 
+          detail: { itemId: item.itemId } 
+        }));
         
+        // 모달 닫기
         onClose();
       } else {
         throw new Error(response.message || '구매에 실패했습니다.');

@@ -18,12 +18,16 @@ export async function getStoreItems(userId: number): Promise<ApiResponse<StoreRe
 
 /**
  * 아이템 구매
- * @param request 구매 요청 데이터
+ * @param userId 사용자 ID
+ * @param request 구매 요청 데이터 (itemId)
  * @returns 구매 결과
  */
-export async function purchaseItem(request: PurchaseItemRequest): Promise<ApiResponse<PurchaseItemResponse>> {
+export async function purchaseItem(
+  userId: number, 
+  request: PurchaseItemRequest
+): Promise<ApiResponse<PurchaseItemResponse>> {
   return await apiPost<ApiResponse<PurchaseItemResponse>, PurchaseItemRequest>(
-    "/boutique/purchase", 
+    `/boutique/store/${userId}`, 
     request
   );
 }
