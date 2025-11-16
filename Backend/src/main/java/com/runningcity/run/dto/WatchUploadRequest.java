@@ -20,7 +20,7 @@ public class WatchUploadRequest  {
     @Positive
     private long endTime;     // epoch millis
 
-    @Valid @NotNull
+    @Valid
     private Summary summary;
 
     @Valid
@@ -34,14 +34,14 @@ public class WatchUploadRequest  {
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
     public static class Summary {
-        @Min(0) private Integer totalSteps;
-        @DecimalMin("0.0") private Double totalDistance; // meters
-        @Min(0) private Integer totalCalories;           // kcal
-        @Min(0) private Integer avgHeartRate;            // bpm
-        @Min(0) private Integer duration;                // sec
-        @Min(0) private Integer avgCadence;              // spm
-        @Min(0) private Integer avgPace;                 // sec/k
-        @DecimalMin("0.0") private Double elevation;     // meters
+        private Integer totalSteps;
+        private Double totalDistance; // meters
+        private Integer totalCalories;           // kcal
+        private Integer avgHeartRate;            // bpm
+        private Integer duration;                // sec
+        private Integer avgCadence;              // spm
+        private Integer avgPace;                 // sec/k
+        private Double elevation;     // meters
     }
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
