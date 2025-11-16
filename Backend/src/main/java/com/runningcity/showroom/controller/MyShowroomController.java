@@ -32,12 +32,28 @@ public class MyShowroomController {
     ){
         // 현재 사용자 착장 아이템 리스트
         List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId);
+
         //TODO 사용자의 총 상태 조회부분 추가하기
 
 
         MyOfficeResponse myOfficeResponse = MyOfficeResponse.from(userEquippedItemList);
 
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS,myOfficeResponse));
+    }
+
+
+
+    /**
+     * 착장 아이템 리스트 조회
+     *
+     * @param userId 사용자 ID
+     * @return 쇼룸 첫화면에서 필요한 정보-사용자의 총 상태, 사용자 착장 리스트
+     */
+    @GetMapping("/equipped/{userId}")
+    public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getEquippedItems(@PathVariable("userId") Long userId
+    ){
+        // 현재 사용자 착장 아이템 리스트
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS,showroomService.getUserEquippedItemList(userId)));
     }
 
     /**
