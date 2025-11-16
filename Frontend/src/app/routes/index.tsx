@@ -45,10 +45,10 @@ export function AppRoutes() {
           <Route path="/showroom/edit" element={<ShowroomEditPage />} />
           <Route path="/friendship" element={<FriendshipPage />} />
           <Route path="/friendship/request" element={<FriendRequestPage />} />
-          <Route path="/running" element={<RunningPage />} />
+          
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-
+        <Route path="/running" element={<RunningPage />} />
         <Route path="/m/*" element={<Navigate to="/" replace />} />
 
         <Route path="/nickname" element={<NicknamePage />} />

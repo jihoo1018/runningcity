@@ -171,7 +171,7 @@ const HomePage = () => {
       <FloatingMenu />
       <div className="flex flex-1 items-center justify-center">캐릭터 영역</div>
       <CommonLinkButton
-        href="/"
+        href="/running"
         className="shadow-primary/20 text-primary mb-3 border-2 py-5 text-lg font-bold shadow-lg"
       >
         러닝 에너지 모으기 ▶
