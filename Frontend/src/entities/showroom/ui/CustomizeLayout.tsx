@@ -1,5 +1,3 @@
-// src/entities/showroom/ui/CustomizeLayout.tsx
-import React from "react";
 import { BackIconButton } from "@/shared/ui/IconButtons";
 import { LPCCharacterRenderer } from "@/entities/showroom/ui/LPCCharacterRenderer";
 import { EquippedItem } from "@/entities/showroom/model/type";
