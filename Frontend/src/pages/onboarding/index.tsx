@@ -9,7 +9,7 @@ const OnboardingPage = () => {
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
   const [hasRunningHistory, setHasRunningHistory] = useState<boolean | null>(null);
-  const [targetDistance, setTargetDistance] = useState("");
+  const [targetDistance, setTargetDistance] = useState("1");
   const [fitnessLevel, setFitnessLevel] = useState<FitnessLevel | "">("");
   const [restingHeartRate, setRestingHeartRate] = useState("");
   const [hasSmartWatch, setHasSmartWatch] = useState(true);
@@ -18,6 +18,7 @@ const OnboardingPage = () => {
   const [isMeasuringHeartRate, setIsMeasuringHeartRate] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const measurementTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
     if (!user) {
       navigate("/login", { replace: true });
@@ -99,16 +100,30 @@ const OnboardingPage = () => {
     initializeAndroidListener((data) => {
       console.log("📩 Android 메시지 수신:", data);
       if (data.type === "HEART_RATE_MEASURED" && data.heartRate) {
+        // 타임아웃 클리어
+        if (measurementTimeoutRef.current) {
+          clearTimeout(measurementTimeoutRef.current);
+          measurementTimeoutRef.current = null;
+        }
         setRestingHeartRate(data.heartRate.toString());
         setIsMeasuringHeartRate(false);
         setError("");
         console.log("✅ 심박수 측정 완료:", data.heartRate);
       } else if (data.type === "HEART_RATE_ERROR") {
+        // 타임아웃 클리어
+        if (measurementTimeoutRef.current) {
+          clearTimeout(measurementTimeoutRef.current);
+          measurementTimeoutRef.current = null;
+        }
         console.error("❌ 심박수 측정 에러 수신:", data);
         setIsMeasuringHeartRate(false);
         const errorMsg = data.message || "심박수 측정에 실패했습니다";
         setError(errorMsg);
         console.error("❌ 에러 메시지:", errorMsg);
+        // 측정 실패 시 restingHeartRate 초기화 (숫자가 넘어오지 않았으므로)
+        if (!data.heartRate) {
+          setRestingHeartRate("");
+        }
       } else {
         console.log("📨 기타 메시지:", data);
       }
@@ -116,9 +131,28 @@ const OnboardingPage = () => {
   }, []);
   const handleMeasureHeartRate = () => {
     if (!hasSmartWatch) return;
+    
+    // 이전 타임아웃 클리어
+    if (measurementTimeoutRef.current) {
+      clearTimeout(measurementTimeoutRef.current);
+      measurementTimeoutRef.current = null;
+    }
+    
     setIsMeasuringHeartRate(true);
     setError("");
     AndroidBridge.measureHeartRate();
+    
+    // 타임아웃 처리: 17초 후에도 응답이 없으면 버튼 초기화
+    measurementTimeoutRef.current = setTimeout(() => {
+      setIsMeasuringHeartRate((prev) => {
+        if (prev) {
+          console.warn("⚠️ 심박수 측정 타임아웃 - 버튼 초기화");
+          setError("측정 시간이 초과되었습니다. 다시 시도해주세요.");
+        }
+        return false;
+      });
+      measurementTimeoutRef.current = null;
+    }, 17000); // 17초 타임아웃
   };
   const fitnessOptions: { value: FitnessLevel; label: string }[] = [
     { value: "BEGINNER", label: "입문자 (처음 시작)" },
@@ -188,18 +222,105 @@ const OnboardingPage = () => {
             </div>
           </div>
           {/* 목표 거리 */}
-          <div>
-            <label className="text-label text-custom-white mb-2 block">목표 거리 (km)</label>
-            <input
-              type="number"
-              value={targetDistance}
-              onChange={(e) => setTargetDistance(e.target.value)}
-              placeholder="1~40km"
-              min="1"
-              max="40"
-              step="0.1"
-              className="text-content border-custom-gray bg-custom-black text-custom-white focus:border-primary box-border w-full rounded-lg border p-2.5 transition-colors duration-200 outline-none"
-            />
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between px-1">
+              <p className="text-label text-custom-gray">나의 목표 거리</p>
+              <div className="flex items-baseline justify-center gap-1">
+                <strong className="text-subtitle tabular-nums text-custom-white">{targetDistance || "1"}</strong>
+                <span className="text-content text-custom-gray">km</span>
+              </div>
+            </div>
+            <div
+              className="p-[6px]"
+              style={{
+                border: "2px solid color-mix(in srgb, var(--color-primary), transparent 50%)",
+              }}
+            >
+              <input
+                type="range"
+                name="targetDistanceKm"
+                placeholder="1 ~ 40"
+                min="1"
+                max="40"
+                step="1"
+                value={targetDistance || "1"}
+                onChange={(e) => {
+                  const v = Math.min(40, Math.max(1, e.currentTarget.valueAsNumber));
+                  const rounded = Math.round(v);
+                  setTargetDistance(rounded.toString());
+                }}
+                style={
+                  {
+                    "--pct": `${((parseFloat(targetDistance || "1") - 1) / (40 - 1)) * 100}%`,
+                  } as React.CSSProperties
+                }
+                className="rc-range block w-full appearance-none focus:outline-none"
+                aria-label="목표 거리"
+              />
+            </div>
+            <style>{`
+              .rc-range {
+                height: 14px;
+                background:
+                  /* 선택 구간 타일 */
+                  repeating-linear-gradient(
+                    90deg,
+                    var(--color-primary) 0 10px,
+                    transparent 10px 12px
+                  ) left / var(--pct) 100% no-repeat,
+
+                  /* 미선택 구간 타일 */
+                  repeating-linear-gradient(
+                    90deg,
+                    color-mix(in srgb, var(--color-custom-gray), transparent 70%) 0 10px,
+                    transparent 10px 12px
+                  ) left / 100% 100% no-repeat,
+
+                  /* 트랙 베이스 */
+                  color-mix(in srgb, var(--color-custom-gray), transparent 80%);
+              }
+
+              /* WebKit */
+              .rc-range::-webkit-slider-runnable-track {
+                height: 18px;
+                background: transparent;
+                border-radius: 4px;
+              }
+              .rc-range::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                height: 18px;
+                width: 12px;
+                margin-top: 0;
+                border-radius: 2px;
+                background: var(--color-primary);
+                border: 1px solid color-mix(in srgb, var(--color-primary), black 20%);
+                box-shadow:
+                  0 0 0 2px color-mix(in srgb, var(--color-primary), transparent 60%),
+                  0 0 0 4px color-mix(in srgb, var(--color-primary), transparent 85%); 
+              }
+
+              /* Firefox */
+              .rc-range::-moz-range-track {
+                height: 18px;
+                background: transparent;
+                border: none;
+              }
+              .rc-range::-moz-range-progress {
+                height: 18px;
+                background: transparent; 
+              }
+              .rc-range::-moz-range-thumb {
+                height: 18px;
+                width: 12px;
+                border-radius: 2px;
+                background: var(--color-primary);
+                border: 1px solid color-mix(in srgb, var(--color-primary), black 20%);
+              }
+
+              /* Edge/Chromium(레거시) */
+              .rc-range::-ms-fill-lower { background: transparent; }
+              .rc-range::-ms-fill-upper { background: transparent; }
+            `}</style>
           </div>
           {/* 운동 능력치 */}
           <div className="relative" ref={dropdownRef}>
