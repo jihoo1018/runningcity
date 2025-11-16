@@ -4,7 +4,8 @@ import { EquippedItem } from "@/entities/showroom/model/type";
 export const defaultEquippedItems: EquippedItem[] = [
   {
     equippedId: 0,
-    itemId: 1,
+    itemId: 0,
+    // itemId: 1,
     category: "bodies",
     subcategory: "male",
     style: null,
@@ -12,7 +13,8 @@ export const defaultEquippedItems: EquippedItem[] = [
   },
   {
     equippedId: 0,
-    itemId: 706,
+    // itemId: 706,
+    itemId: 0,
     category: "head",
     subcategory: "heads",
     style: null,
@@ -20,7 +22,8 @@ export const defaultEquippedItems: EquippedItem[] = [
   },
   {
     equippedId: 0,
-    itemId: 289,
+    // itemId: 289,
+    itemId: 0,
     category: "head",
     subcategory: "eyebrows",
     style: null,
@@ -28,7 +31,8 @@ export const defaultEquippedItems: EquippedItem[] = [
   },
   {
     equippedId: 0,
-    itemId: 579,
+    // itemId: 579,
+    itemId: 0,
     category: "head",
     subcategory: "eyes",
     style: null,
@@ -36,7 +40,8 @@ export const defaultEquippedItems: EquippedItem[] = [
   },
   {
     equippedId: 0,
-    itemId: 703,
+    // itemId: 703,
+    itemId: 0,
     category: "head",
     subcategory: "nose",
     style: null,

@@ -18,25 +18,21 @@ export const CharacterCard = ({ tab, data }: Props) => {
     <div className="relative mx-auto mt-2 w-full max-w-[360px] px-3">
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
         <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
-          {/* LV + UID */}
           <div className="flex items-center justify-between">
             <div className="text-xs font-semibold text-[#67e8f9]">LV {user?.level ?? 1}</div>
             <div className="text-[10px] text-gray-400">UID: {user?.userId}</div>
           </div>
 
-          {/* 캐릭터 렌더링 */}
           <div className="relative mt-4 h-48 overflow-hidden rounded-lg border border-[#70f3ff]/40">
             <div className="flex h-full items-center justify-center">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
           </div>
 
-          {/* 닉네임 */}
           <div className="mt-4 text-lg font-bold text-white">
             {user?.nickname ?? "러닝시티 유저"}
           </div>
 
-          {/* 통계 */}
           {tab === "me" && data && (
             <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
               <div>총 러닝: {data.totalDist}</div>

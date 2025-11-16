@@ -25,7 +25,6 @@ export const CustomizeLayout = ({
 }: Props) => {
   return (
     <div className="mx-auto flex max-w-[480px] flex-col">
-      {/* 상단 버튼 */}
       <div className="flex items-center justify-between">
         <BackIconButton onClick={onBack} />
 
@@ -56,12 +55,10 @@ export const CustomizeLayout = ({
         </div>
       </div>
 
-      {/* 캐릭터 프리뷰 */}
       <div className="flex justify-center py-4">
-        <LPCCharacterRenderer items={equippedItems} animation="walk" direction={2} />
+        <LPCCharacterRenderer items={equippedItems} direction={2} animation="walk" />
       </div>
 
-      {/* 하위 탭 */}
       <div className="scrollbar-hide flex gap-2 overflow-x-auto">
         {tabList.map((t) => (
           <button

@@ -20,15 +20,16 @@ export default function CustomizePage() {
   const inventory = useAvatarStore((s) => s.inventory);
   const setInventory = useAvatarStore((s) => s.setInventory);
   const equip = useAvatarStore((s) => s.equip);
-  const syncFromServer = useAvatarStore((s) => s.syncFromServer);
+  const sync = useAvatarStore((s) => s.syncFromServer);
   const toArray = useAvatarStore((s) => s.toArray);
 
-  // 인벤토리 + 착장 불러오기
+  // 인벤토리 / 서버착장 불러오기
   useEffect(() => {
     fetchGetInventoryList().then(setInventory);
-    fetchGetEquippedItems().then(syncFromServer);
+    fetchGetEquippedItems().then(sync);
   }, []);
 
+  // 탭 → subcategory 변환
   function tabToSub(tab: string) {
     return {
       헤어: "hair",
@@ -41,6 +42,7 @@ export default function CustomizePage() {
     }[tab];
   }
 
+  // 인벤토리 필터링
   function filterItems() {
     if (mode === "body") {
       if (tab === "상의")

@@ -1,8 +1,10 @@
 /**
- * 🎨 AvatarStore – 슬롯 기반 착장 저장소 (완전 통합 버전)
+ * 🎨 AvatarStore – 슬롯 기반 착장 저장소 (최종 안정 버전)
  */
+
 import { create } from "zustand";
 import { EquippedItem, InventoryItem } from "@/entities/showroom/model/type";
+import { defaultEquippedItems } from "@/entities/showroom/model/defaultAvatar";
 
 /* -------------------------------------------------------
  * 🎯 슬롯 타입
@@ -55,7 +57,7 @@ export function toEquipped(inv: InventoryItem): EquippedItem {
 }
 
 /* -------------------------------------------------------
- * EquippedItem[] → 슬롯 구조
+ * EquippedItem[] → 슬롯 구조로 매핑
  * ----------------------------------------------------- */
 export function mapArrayToSlots(list: EquippedItem[]): AvatarSlots {
   const slots: AvatarSlots = structuredClone(emptySlots);
@@ -81,10 +83,9 @@ export function mapArrayToSlots(list: EquippedItem[]): AvatarSlots {
       continue;
     }
 
-    if (category === "head") {
-      if (subcategory in slots) {
-        slots[subcategory as keyof AvatarSlots] = item;
-      }
+    if (category === "head" && subcategory in slots) {
+      slots[subcategory as keyof AvatarSlots] = item;
+      continue;
     }
   }
 
@@ -92,7 +93,25 @@ export function mapArrayToSlots(list: EquippedItem[]): AvatarSlots {
 }
 
 /* -------------------------------------------------------
- * 슬롯 구조 → EquippedItem[]
+ * 기본(default) + 서버 착장 병합
+ * ----------------------------------------------------- */
+export function mergeSlots(base: AvatarSlots, override: AvatarSlots): AvatarSlots {
+  const result = { ...base };
+
+  for (const key of Object.keys(base) as (keyof AvatarSlots)[]) {
+    // 🔥 bodies는 기본값 유지 (서버에 없어도 유지)
+    if (key === "bodies") continue;
+
+    if (override[key] !== null) {
+      result[key] = override[key];
+    }
+  }
+
+  return result;
+}
+
+/* -------------------------------------------------------
+ * 슬롯 → 배열 (중복 제거 없음!)
  * ----------------------------------------------------- */
 export function slotsToArray(slots: AvatarSlots): EquippedItem[] {
   return Object.values(slots).filter((v): v is EquippedItem => v !== null && v !== undefined);
@@ -104,7 +123,6 @@ export function slotsToArray(slots: AvatarSlots): EquippedItem[] {
 interface AvatarStore {
   inventory: InventoryItem[];
   slots: AvatarSlots;
-  animation: "walk" | "run";
 
   setInventory: (list: InventoryItem[]) => void;
   syncFromServer: (list: EquippedItem[]) => void;
@@ -115,36 +133,37 @@ interface AvatarStore {
 export const useAvatarStore = create<AvatarStore>((set, get) => ({
   inventory: [],
   slots: emptySlots,
-  animation: "walk",
 
   setInventory: (list) => set({ inventory: list }),
 
-  syncFromServer: (list) => {
-    set({ slots: mapArrayToSlots(list) });
-    console.log("📥 서버 착장 동기화:", list);
+  /** 서버 착장 → 기본과 병합 */
+  syncFromServer: (serverList) => {
+    const base = mapArrayToSlots(defaultEquippedItems);
+    const override = mapArrayToSlots(serverList);
+    const merged = mergeSlots(base, override);
+
+    set({ slots: merged });
   },
 
+  /** 착장 변경 */
   equip: (inv) => {
     const eq = toEquipped(inv);
     const prev = get().slots;
-    const newSlots = { ...prev };
+    const next = { ...prev };
 
-    if (inv.category === "bodies") newSlots.bodies = eq;
+    if (inv.category === "bodies") next.bodies = eq;
 
     if (inv.category === "clothes") {
-      if (["tshirt", "longsleeve", "shortsleeves"].includes(inv.subcategory))
-        newSlots.clothes_top = eq;
-
-      if (inv.subcategory === "shorts") newSlots.clothes_bottom = eq;
+      if (["tshirt", "longsleeve", "shortsleeves"].includes(inv.subcategory)) next.clothes_top = eq;
+      if (inv.subcategory === "shorts") next.clothes_bottom = eq;
     }
 
-    if (inv.category === "hair") newSlots.hair = eq;
+    if (inv.category === "hair") next.hair = eq;
 
-    if (inv.category === "head" && inv.subcategory in newSlots)
-      newSlots[inv.subcategory as keyof AvatarSlots] = eq;
+    if (inv.category === "head" && inv.subcategory in next)
+      next[inv.subcategory as keyof AvatarSlots] = eq;
 
-    set({ slots: newSlots });
-    console.log("👕 착장:", eq);
+    set({ slots: next });
   },
 
   toArray: () => slotsToArray(get().slots),
