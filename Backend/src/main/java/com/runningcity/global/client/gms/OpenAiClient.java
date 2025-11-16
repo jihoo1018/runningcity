@@ -50,7 +50,7 @@ public class OpenAiClient {
             throw new IllegalStateException("Failed to serialize OpenAI request body", e);
         }
 
-        String url = baseUrl + "/aa" + openaiPath;
+        String url = baseUrl + "/" + openaiPath;
 
         ChatResponse response = restClient.post()
                 .uri(url)
