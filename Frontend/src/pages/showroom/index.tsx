@@ -15,6 +15,7 @@ export default function ShowroomPage() {
   const [error, setError] = useState("");
 
   const { loadShowroom } = useShowroomLoader();
+  const sync = useAvatarStore((s) => s.syncFromServer); // 슬롯 동기화 함수
   const slots = useAvatarStore((s) => s.slots);
 
   useEffect(() => {
@@ -25,6 +26,8 @@ export default function ShowroomPage() {
 
         const data = await fetchGetShowroomMe();
         setMyShowroom(data);
+        const equipped = data.equippedItemList;
+        sync(equipped);
       } catch (err: any) {
         console.error(err);
         setError("내 사무실 정보를 불러오지 못했습니다.");
