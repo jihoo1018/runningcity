@@ -1,6 +1,8 @@
 package com.runningcity.run.dto;
 
 import com.runningcity.run.dto.common.GpsPointLike;
+import com.runningcity.run.dto.common.RunSessionPayload;
+import com.runningcity.run.dto.common.SummaryLike;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -9,7 +11,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class WatchUploadRequest  {
+public class WatchUploadRequest implements RunSessionPayload {
 
     @NotBlank
     private String clientSecretKey;        // 멱등키(워치 생성 UUID)
@@ -33,7 +35,7 @@ public class WatchUploadRequest  {
     private List<GpsPoint> gpsPoints;
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-    public static class Summary {
+    public static class Summary implements SummaryLike {
         private Integer totalSteps;
         private Double totalDistance; // meters
         private Integer totalCalories;           // kcal

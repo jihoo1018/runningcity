@@ -2,13 +2,15 @@
 package com.runningcity.run.dto;
 
 import com.runningcity.run.dto.common.GpsPointLike;
+import com.runningcity.run.dto.common.RunSessionPayload;
+import com.runningcity.run.dto.common.SummaryLike;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import java.util.List;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class FinishRequest {
+public class FinishRequest implements RunSessionPayload {
 
     private String clientSecretKey;
 
@@ -29,7 +31,7 @@ public class FinishRequest {
     private Rewards rewards; // null 가능
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-    public static class Summary {
+    public static class Summary implements SummaryLike {
         @Min(0) private Integer totalSteps;
         @DecimalMin("0.0") private Double totalDistance; // meters
         @Min(0) private Integer totalCalories;
