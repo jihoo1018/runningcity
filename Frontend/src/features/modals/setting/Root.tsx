@@ -52,7 +52,9 @@ export default function SettingRoot({ onClose }: ModalProps) {
             {pairingMessage}
           </div>
         )}
-        <CommonButton variant="outline">튜토리얼 다시보기</CommonButton>
+        <CommonButton variant="outline" onClick={() => to('setting', 'tutorial')}>
+          튜토리얼 다시보기
+        </CommonButton>
         <CommonButton variant="outline" onClick={() => to("setting", "goal")}>
           목표 수정
         </CommonButton>

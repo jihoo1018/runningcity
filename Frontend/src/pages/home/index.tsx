@@ -1,5 +1,3 @@
-// src/pages/home/index.tsx
-
 import { useState, useEffect, useMemo } from "react";
 import { AndroidBridge, initializeAndroidListener } from "../../shared/lib";
 import { FloatingMenu } from "./ui/FloatingMenu";
@@ -119,7 +117,7 @@ const HomePage = () => {
       </div>
       <CommonLinkButton
         href="/running"
-        className="shadow-primary/20 text-primary mb-3 border-2 py-5 text-lg font-bold shadow-lg"
+        className="shadow-primary/20 text-primary mb-8 border-2 py-5 text-lg font-bold shadow-lg"
       >
         러닝 에너지 모으기 ▶
       </CommonLinkButton>

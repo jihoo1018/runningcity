@@ -1,5 +1,5 @@
 export const FLOWS = {
-  setting: ["root", "confirm", "withdraw", "goal"] as const,
+  setting: ["root", "confirm", "withdraw", "goal", "tutorial"] as const,
   alert: ["root"] as const,
   user: ["modify", "confirm"] as const,
   mission: ["root", "confirm"] as const,
