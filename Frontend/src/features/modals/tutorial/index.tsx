@@ -15,47 +15,54 @@ type TutorialSlide = {
 
 // 튜토리얼 데이터
 const tutorialData: TutorialSlide[] = [
+  // 1) 세계관
   {
     slideId: 1,
-    title: "SYSTEM_BOOT\nRUNNERS_PROTOCOL.EXE",
-    description: "운동 에너지를 해킹 무기로\n전환하는 시스템 가동 중...",
-    scene: "welcome"
-  },
-  {
-    slideId: 2,
-    title: "WORLD_DATA\nMOTION_CITY.DAT",
-    description: "러닝 에너지로 구동되는 도시\nSTATIC 조직의 해킹 감지!",
+    title: "러닝시티 소개",
+    description: "러닝시티는 사람들이 달릴 때 생성되는 에너지로 운영되는 도시입니다.\n최근 에너지 부족으로 도시가 약해지고 있습니다.",
     scene: "city"
   },
+  // 2) 위협과 갈등
   {
-    slideId: 3,
-    title: "ROLE_ASSIGN\nACTIVE_RUNNER.SYS",
-    description: "당신은 액티브 러너\n운동으로 AI 코어 PULSE 보호",
-    scene: "nature"
-  },
-  {
-    slideId: 4,
-    title: "DAILY_MISSION\nPULSE.CORE",
-    description: "AI 코어가 매일 미션 송출\n크레딧과 데이터 칩 획득",
-    scene: "welcome"
-  },
-  {
-    slideId: 5,
-    title: "SOCIAL_NET\nRUNNERS_UNION.LNK",
-    description: "러너즈 유니온 구축\n협력으로 더 강한 에너지 생성",
-    scene: "nature"
-  },
-  {
-    slideId: 6,
-    title: "ENEMY_BASE\nSTATIC_SPOT.TGT",
-    description: "스태틱 기지 발견 시\n러닝으로 역해킹 개시!",
+    slideId: 2,
+    title: "STATIC의 방해",
+    description: "STATIC 조직의 공격으로 시민들이 달리기를 멈추며 도시의 에너지가 줄고 있습니다.",
     scene: "enemy"
   },
+  // 3) 내 역할
+  {
+    slideId: 3,
+    title: "당신의 역할",
+    description: "당신의 달리기가 러닝시티를 회복시키는 핵심 에너지입니다.",
+    scene: "welcome"
+  },
+  // 4) 달리면 생기는 효과
+  {
+    slideId: 4,
+    title: "달리면 변하는 것",
+    description: "당신이 달릴 때마다 에너지가 생성되고,\n도시는 다시 활성화됩니다.",
+    scene: "nature"
+  },
+  // 5) 보상 시스템
+  {
+    slideId: 5,
+    title: "미션과 보상",
+    description: "일일 미션으로 특별 보상을 얻고,\n1km마다 데이터 칩을 수집해 추가 정보를 해제할 수 있습니다.",
+    scene: "city"
+  },
+  // 6) 친구·경쟁 기능
+  {
+    slideId: 6,
+    title: "함께 달리기",
+    description: "친구를 추가해 서로의 활동을 비교하고,\n랭킹으로 경쟁을 즐겨보세요.",
+    scene: "nature"
+  },
+  // 7) 시작 안내
   {
     slideId: 7,
-    title: "PROTOCOL_START\nREADY_TO_RUN",
-    description: "모든 시스템 정상\n런닝 프로토콜을 시작합니다",
-    scene: "city",
+    title: "준비 완료",
+    description: "이제 러닝시티를 위한 러닝을 시작할 준비가 되었습니다.",
+    scene: "welcome",
     isLastSlide: true
   }
 ];
@@ -278,6 +285,12 @@ export default function TutorialModal({ onClose }: ModalProps) {
     }
   };
 
+  const handlePrevious = () => {
+    if (currentSlide > 0) {
+      setCurrentSlide(prev => prev - 1);
+    }
+  };
+
   const handleSkip = () => {
     onClose();
   };
@@ -286,20 +299,14 @@ export default function TutorialModal({ onClose }: ModalProps) {
     <Modal
       open
       onClose={onClose}
-      title={
-        <span className="text-xs text-primary font-mono">
-          TUTORIAL [{currentSlide + 1}/7]
-        </span>
-      }
+      title={`튜토리얼 (${currentSlide + 1}/7)`}
       className="max-w-2xl"
     >
-      <div className="space-y-4">
-        {/* 사이버 씬 캔버스 */}
+      <div className="space-y-6">
+        {/* 픽셀 아트 씬 캔버스 */}
         <div 
-          className="relative w-full h-48 rounded-lg overflow-hidden border-2 border-primary"
+          className="relative w-full h-48 rounded-lg overflow-hidden border border-primary/30 bg-gradient-to-b from-[#1a1a3e] to-[#0a0e27]"
           style={{
-            background: 'linear-gradient(180deg, #1a1a3e 0%, #0a0e27 100%)',
-            boxShadow: 'inset 0 0 30px rgba(0, 255, 255, 0.2)',
             imageRendering: 'pixelated'
           }}
         >
@@ -310,89 +317,63 @@ export default function TutorialModal({ onClose }: ModalProps) {
             className="w-full h-full"
             style={{ imageRendering: 'pixelated' }}
           />
-          
-          {/* 스캔라인 효과 */}
-          <div 
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 255, 0.03) 2px, rgba(0, 255, 255, 0.03) 4px)',
-              animation: 'scanline 8s linear infinite'
-            }}
-          />
         </div>
 
-        {/* 타이틀 */}
-        <div className="text-center">
-          <h2 
-            className="text-sm font-bold text-primary mb-2 whitespace-pre-line"
-            style={{
-              textShadow: '0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5)',
-              fontFamily: 'monospace'
-            }}
-          >
-            // {slide.title}
+        {/* 타이틀 & 설명 */}
+        <div className="text-center space-y-3 px-4">
+          <h2 className="text-lg font-bold text-custom-white">
+            {slide.title}
           </h2>
-          <p 
-            className="text-xs text-[#00ffaa] whitespace-pre-line leading-relaxed"
-            style={{
-              textShadow: '0 0 5px rgba(0, 255, 170, 0.5)'
-            }}
-          >
+          <p className="text-sm text-custom-gray whitespace-pre-line leading-relaxed">
             {slide.description}
           </p>
         </div>
 
         {/* 프로그레스 바 */}
-        <div className="w-full h-6 bg-custom-black/50 border-2 border-primary rounded p-1">
-          <div 
-            className="h-full rounded transition-all duration-300"
-            style={{
-              width: `${progress}%`,
-              background: 'linear-gradient(90deg, #00ffff 0%, #ff00ff 50%, #00ffff 100%)',
-              backgroundSize: '200% 100%',
-              boxShadow: '0 0 10px rgba(0, 255, 255, 0.8), inset 0 0 5px rgba(255, 255, 255, 0.5)',
-              animation: 'energyFlow 2s linear infinite'
-            }}
-          />
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs text-custom-gray px-1">
+            <span>{currentSlide + 1} / 7</span>
+            <span>{Math.round(progress)}%</span>
+          </div>
+          <div className="w-full h-2 bg-section-bg rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-primary rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
 
         {/* 버튼들 */}
-        <div className="flex gap-3 justify-center">
-          <CommonButton
-            variant="outline"
-            onClick={handleSkip}
-            className="border-primary text-primary hover:bg-primary/10"
-            style={{
-              textShadow: '0 0 5px rgba(0, 255, 255, 0.8)',
-              boxShadow: '0 0 15px rgba(0, 255, 255, 0.3)'
-            }}
-          >
-            건너뛰기
-          </CommonButton>
-          <CommonButton
-            variant="solid"
-            onClick={handleNext}
-            className="bg-primary/20 border-2 border-[#ff00ff] text-[#ff00ff] hover:bg-[#ff00ff]/20"
-            style={{
-              textShadow: '0 0 5px rgba(255, 0, 255, 0.8)',
-              boxShadow: '0 0 15px rgba(255, 0, 255, 0.3)'
-            }}
-          >
-            {slide.isLastSlide ? 'EXECUTE >' : 'NEXT >'}
-          </CommonButton>
-        </div>
+        <div className="space-y-3 pt-2">
+          {/* 이전/다음 버튼 */}
+          <div className="flex gap-3 justify-between">
+            <CommonButton
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={currentSlide === 0}
+              className="flex-1"
+            >
+              ← 이전
+            </CommonButton>
+            <CommonButton
+              variant="solid"
+              onClick={handleNext}
+              className="flex-1"
+            >
+              {slide.isLastSlide ? '시작하기' : '다음 →'}
+            </CommonButton>
+          </div>
 
-        {/* 애니메이션 스타일 */}
-        <style>{`
-          @keyframes energyFlow {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 200% 0%; }
-          }
-          @keyframes scanline {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100%); }
-          }
-        `}</style>
+          {/* 건너뛰기 버튼 */}
+          <div className="text-center">
+            <button
+              onClick={handleSkip}
+              className="text-xs text-custom-gray hover:text-custom-white transition-colors underline"
+            >
+              튜토리얼 건너뛰기
+            </button>
+          </div>
+        </div>
       </div>
     </Modal>
   );
