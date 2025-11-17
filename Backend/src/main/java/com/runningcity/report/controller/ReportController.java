@@ -1,8 +1,10 @@
 package com.runningcity.report.controller;
 
+import com.runningcity.global.client.gms.OpenAiClient;
 import com.runningcity.global.response.ApiResponse;
 import com.runningcity.global.response.CommonResponseCode;
 import com.runningcity.report.dto.ReportDetailResponse;
+import com.runningcity.report.service.AiReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ public class ReportController {
 
     private final ReportService reportService;
     // private static final long userId = 1L;
+    private final AiReportService aiReportService;
 
 
     @GetMapping    // ← /report?userId=...&year=...&month=...
@@ -40,6 +43,21 @@ public class ReportController {
 
         ReportDetailResponse data = reportService.getReportDetail(userId, sessionId);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS, data));
+    }
+
+    /**
+     * AI 리포트만 생성하는 엔드포인트 (런 세션 종료시 생성 실패한 경우)
+     * */
+    @PostMapping("/{sid}/ai")
+    public ResponseEntity<ApiResponse<ReportDetailResponse.AiReport>> regenerateAiReport(
+            @RequestParam Long userId,
+            @PathVariable("sid") Long sessionId
+    ) {
+        String content = aiReportService.generateFromSession(userId, sessionId);
+
+        ReportDetailResponse.AiReport dto = (content != null) ? new ReportDetailResponse.AiReport(content) : null;
+
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS, dto));
     }
 }
 

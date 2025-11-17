@@ -19,3 +19,4 @@ Frontend/vite.config.js
 *.log
 .vscode/
 .idea/
+vite.config.ts

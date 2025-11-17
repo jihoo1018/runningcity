@@ -1,26 +1,34 @@
 package com.runningcity.showroom.service;
 
 import com.runningcity.boutique.entity.Boutique;
+import com.runningcity.boutique.repository.BoutiqueRepository;
 import com.runningcity.entry.dto.EntryListResponse;
+import com.runningcity.friendship.repository.FriendshipRepository;
+import com.runningcity.global.exception.BaseException;
+import com.runningcity.showroom.dto.RandomAvatarResponse;
 import com.runningcity.showroom.dto.UserEquippedItemRequest;
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
 import com.runningcity.showroom.dto.UserInventoryResponse;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
+import com.runningcity.showroom.exception.ShowRoomResponseCode;
 import com.runningcity.showroom.mapper.UserEquippedItemMapper;
 import com.runningcity.showroom.mapper.UserInventoryMapper;
 import com.runningcity.showroom.repository.EquippedItemRepository;
 import com.runningcity.showroom.repository.UserInventoryRepository;
+import com.runningcity.user.entity.User;
+import com.runningcity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,6 +38,9 @@ public class ShowRoomService {
     private final UserInventoryRepository inventoryRepository;
     private final EquippedItemRepository equippedItemRepository;
     private final UserEquippedItemMapper userEquippedItemMapper;
+    private final FriendshipRepository friendshipRepository;
+    private final UserRepository userRepository;
+    private final BoutiqueRepository boutiqueRepository;
 
     /**
      * 인벤토리에 신규 아이템 추가
@@ -161,5 +172,234 @@ public class ShowRoomService {
     @Transactional(propagation = Propagation.MANDATORY)
     public void deleteEquippedItemAllByUserId(Long userId) {
         equippedItemRepository.deleteAllByUserId(userId);
+    }
+
+    /**
+     랜덤 유저 아바타 조회 (친구 제외)
+     *
+     * 동작 흐름:
+     * 1. 친구 목록 조회
+     * 2. 친구 + 본인 제외한 랜덤 유저 조회
+     * 3. 아이템 정보 캐싱 조회
+     * 4. 장착 정보 일괄 조회 (N+1 방지)
+     * 5. 응답 DTO 조립
+     *
+     * @param currentUserId 현재 로그인한 유저 ID
+     * @param size 조회할 유저 수 (최대 50)
+     * @return 랜덤 유저들의 아바타 정보
+     */
+    @Transactional(readOnly = true)
+    public List<RandomAvatarResponse> getRandomAvatars(Long currentUserId, int size) {
+        log.info("🎲 [시작] 랜덤 아바타 조회 - userId: {}, size: {}", currentUserId, size);
+
+        // ✅ Step 1: 친구 목록 조회
+        List<Long> friendUserIds = friendshipRepository.findAllRelatedUserIds(currentUserId);
+        log.debug("👥 친구 목록: {} ({}명)", friendUserIds, friendUserIds.size());
+
+        // ✅ Step 2: 제외할 유저 목록 (본인 + 친구들)
+        List<Long> excludedUserIds = new ArrayList<>(friendUserIds);
+        excludedUserIds.add(currentUserId);
+        log.debug("🚫 제외 목록: {} ({}명)", excludedUserIds, excludedUserIds.size());
+
+        // ✅ Step 3: 랜덤 유저 조회
+        Pageable pageable = PageRequest.of(0, size);
+        List<User> randomUsers = userRepository.findRandomNonFriends(
+                excludedUserIds,
+                pageable
+        );
+
+        if (randomUsers.isEmpty()) {
+            log.warn("⚠️ 조회 가능한 유저가 없습니다.");
+            return List.of();
+        }
+
+        log.info("✅ 조회된 랜덤 유저 수: {}", randomUsers.size());
+
+        // ✅ Step 4: 아이템 정보 조회 (캐싱!)
+        Map<Long, Boutique> itemMap = getAllItemsMap();
+        log.debug("📦 아이템 맵 로드: {}개", itemMap.size());
+
+        // ✅ Step 5: 장착 정보 일괄 조회 (N+1 방지!)
+        List<Long> userIds = randomUsers.stream()
+                .map(User::getUserId)
+                .toList();
+
+        List<UserEquippedItem> allEquippedItems =
+                equippedItemRepository.findAllByUserIdIn(userIds);
+
+        log.debug("🎨 장착 아이템 조회: {}개", allEquippedItems.size());
+
+        // ✅ Step 6: userId별로 그룹핑
+        Map<Long, List<UserEquippedItem>> equippedByUser = allEquippedItems.stream()
+                .collect(Collectors.groupingBy(UserEquippedItem::getUserId));
+
+        // ✅ Step 7: 응답 DTO 생성
+        List<RandomAvatarResponse> result = randomUsers.stream()
+                .map(user -> buildRandomAvatarResponse(
+                        user,
+                        equippedByUser.get(user.getUserId()),
+                        itemMap
+                ))
+                .toList();
+
+        log.info("✅ [완료] 랜덤 아바타 조회 성공 - 반환: {}명", result.size());
+        return result;
+    }
+
+    /**
+     * 📦 모든 아이템 정보 조회 (캐싱!)
+     *
+     * 캐시 동작:
+     * - 최초 1회만 DB 조회
+     * - 이후 Redis에서 조회
+     * - 서버 재시작 전까지 유지
+     *
+     * @return itemId를 키로 하는 아이템 맵
+     */
+    @Cacheable(value = "allItems")
+    public Map<Long, Boutique> getAllItemsMap() {
+        log.info("🔍 [캐시 미스] 아이템 정보 DB 조회 시작");
+
+        List<Boutique> allItems = boutiqueRepository.findAll();
+
+        Map<Long, Boutique> result = allItems.stream()
+                .collect(Collectors.toMap(Boutique::getItemId, item -> item));
+
+        log.info("✅ [캐시 저장] 아이템 {}개 로드 완료", result.size());
+        return result;
+    }
+
+    /**
+     * 🎨 User 엔티티 → RandomAvatarResponse 변환
+     *
+     * @param user 유저 엔티티
+     * @param equippedItems 해당 유저의 장착 아이템 목록 (null 가능)
+     * @param itemMap 전체 아이템 맵 (캐싱된 데이터)
+     * @return RandomAvatarResponse DTO (장착 아이템이 없으면 null)
+     */
+    private RandomAvatarResponse buildRandomAvatarResponse(
+            User user,
+            List<UserEquippedItem> equippedItems,
+            Map<Long, Boutique> itemMap
+    ) {
+        // ✅ 1단계: 장착 아이템이 없으면 null 반환
+        if (equippedItems == null || equippedItems.isEmpty()) {
+            log.debug("🚫 장착 아이템 없음 - 스킵: userId={}, nickname={}",
+                    user.getUserId(), user.getNickname());
+            return null;
+        }
+
+        // 장착 아이템 DTO 변환
+        List<RandomAvatarResponse.EquippedItemDto> items = equippedItems.stream()
+                .map(equipped -> {
+                    Boutique item = itemMap.get(equipped.getItemId());
+
+                    // 아이템 정보가 없는 경우 (데이터 정합성 문제)
+                    if (item == null) {
+                        log.warn("⚠️ 아이템 정보 없음: userId={}, itemId={}",
+                                user.getUserId(), equipped.getItemId());
+                        return null;
+                    }
+
+                    return RandomAvatarResponse.EquippedItemDto.builder()
+                            .itemId(item.getItemId())
+                            .category(item.getCategory())
+                            .subcategory(item.getSubcategory())
+                            .style(item.getStyle())
+                            .basePath(item.getBasePath())
+                            .build();
+                })
+                .filter(Objects::nonNull)  // ✅ null 아이템 제거
+                .toList();
+
+        // ✅ 2단계: 변환 후에도 유효한 아이템이 없으면 null 반환
+        if (items.isEmpty()) {
+            log.warn("⚠️ 유효한 장착 아이템 없음 - 스킵: userId={}, nickname={}",
+                    user.getUserId(), user.getNickname());
+            return null;
+        }
+
+        return RandomAvatarResponse.builder()
+                .userId(user.getUserId())
+                .nickname(user.getNickname())
+                .level(user.getLevel())
+                .equippedItems(items)
+                .build();
+    }
+    /**
+     * 👥 친구 쇼룸 - 친구들의 아바타 조회
+     *
+     * @param currentUserId 현재 로그인한 유저 ID
+     * @param size 조회할 친구 수 (최대 50, 기본값 전체)
+     * @return 친구들의 아바타 정보 (레벨 높은 순)
+     * @throws BaseException 친구가 없는 경우
+     */
+    @Transactional(readOnly = true)
+    public List<RandomAvatarResponse> getFriendAvatars(Long currentUserId, Integer size) {
+        log.info("👥 [시작] 친구 아바타 조회 - userId: {}, size: {}", currentUserId, size);
+
+        // ✅ Step 1: 친구 목록 조회 (ACCEPTED만)
+        List<Long> friendUserIds = friendshipRepository.findAllRelatedUserIds(currentUserId);
+
+        // ✅ 친구가 없으면 예외 던지기
+        if (friendUserIds.isEmpty()) {
+            log.warn("⚠️ 친구가 없습니다. - userId: {}", currentUserId);
+            throw new BaseException(ShowRoomResponseCode.NO_FRIENDS_FOUND);
+        }
+
+        log.debug("👥 친구 목록: {} ({}명)", friendUserIds, friendUserIds.size());
+
+        // ✅ Step 2: 친구 User 조회 (레벨 높은 순 정렬)
+        List<User> friends;
+
+        if (size != null && size > 0) {
+            // 개수 제한이 있는 경우
+            int validSize = Math.min(size, 50);
+            friends = userRepository.findByUserIdInOrderByLevelDesc(
+                    friendUserIds,
+                    PageRequest.of(0, validSize)
+            );
+        } else {
+            // 전체 조회
+            friends = userRepository.findByUserIdInOrderByLevelDesc(friendUserIds);
+        }
+
+        // ✅ 데이터 정합성 체크 (DB에 친구 정보가 없는 경우)
+        if (friends.isEmpty()) {
+            log.error("⚠️ [데이터 정합성 오류] 친구 ID는 있지만 User 데이터가 없음 - friendUserIds: {}", friendUserIds);
+            throw new BaseException(ShowRoomResponseCode.NO_FRIENDS_FOUND);
+        }
+
+        log.info("✅ 조회된 친구 수: {}", friends.size());
+
+        // ✅ Step 3: 아이템 정보 조회 (캐싱!)
+        Map<Long, Boutique> itemMap = getAllItemsMap();
+        log.debug("📦 아이템 맵 로드: {}개", itemMap.size());
+
+        // ✅ Step 4: 장착 정보 일괄 조회 (N+1 방지!)
+        List<Long> userIds = friends.stream()
+                .map(User::getUserId)
+                .toList();
+
+        List<UserEquippedItem> allEquippedItems =
+                equippedItemRepository.findAllByUserIdIn(userIds);
+
+        log.debug("🎨 장착 아이템 조회: {}개", allEquippedItems.size());
+
+        // ✅ Step 5: userId별로 그룹핑
+        Map<Long, List<UserEquippedItem>> equippedByUser = allEquippedItems.stream()
+                .collect(Collectors.groupingBy(UserEquippedItem::getUserId));
+
+        // ✅ Step 6: 응답 DTO 생성
+        List<RandomAvatarResponse> result = friends.stream()
+                .map(user -> buildRandomAvatarResponse(
+                        user,
+                        equippedByUser.get(user.getUserId()),
+                        itemMap
+                ))
+                .toList();
+
+        log.info("✅ [완료] 친구 아바타 조회 성공 - 반환: {}명", result.size());
+        return result;
     }
 }

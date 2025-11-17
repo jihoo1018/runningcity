@@ -2,6 +2,7 @@ package com.runningcity.report.service;
 
 import com.runningcity.global.exception.BaseException;
 import com.runningcity.report.repository.ReportNativeRepository;
+import com.runningcity.report.repository.RunAiReportRepository;
 import com.runningcity.run.entity.RunSession;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class ReportService {
 
     private final ReportRepository reportRepository;
     private final ReportNativeRepository nativeRepository;
+    private final RunAiReportRepository aiReportRepository;
 
 
     public ReportResponse getMonthly(Long userId, int year, int month) {
@@ -140,11 +142,16 @@ public class ReportService {
                 .map(s -> ReportDetailResponse.Route.builder().geojson(s).build())
                 .orElse(null);
 
+        ReportDetailResponse.AiReport aiDto = aiReportRepository.findByRunSession_SessionId(sessionId)
+                .map(r -> new ReportDetailResponse.AiReport(r.getContent()))
+                        .orElse(null);
+
         return ReportDetailResponse.builder()
                 .type(rs.getType())          // "NORMAL" | "ENTRY"
                 .summary(summary)
                 .rewards(rewards)
                 .route(route)
+                .aiReport(aiDto)
                 .build();
     }
 

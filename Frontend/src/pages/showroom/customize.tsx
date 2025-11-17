@@ -6,7 +6,8 @@ import {
   fetchGetEquippedItems,
   fetchSave,
 } from "@/entities/showroom/api/customize";
-import { useAvatarStore, slotsToArray } from "@/features/avatar/model/avatarStore";
+import { useAvatarStore } from "@/features/avatar/model/avatarStore";
+import { slotsToArray } from "@/entities/showroom/model/slotUtils";
 
 const BODY_TABS = ["상의", "하의", "피부색"];
 const HEAD_TABS = ["헤어", "얼굴", "표정", "눈썹", "눈", "코", "귀"];
@@ -51,7 +52,10 @@ export default function CustomizePage() {
       if (tab === "피부색") return inventory.filter((i) => i.category === "bodies");
     }
 
-    if (mode === "head") return inventory.filter((i) => i.subcategory === tabToSub(tab));
+    if (mode === "head") {
+      if (tab === "헤어") return inventory.filter((i) => i.category === "hair");
+      return inventory.filter((i) => i.subcategory === tabToSub(tab));
+    }
 
     return inventory;
   }

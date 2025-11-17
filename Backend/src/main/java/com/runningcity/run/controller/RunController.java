@@ -2,6 +2,7 @@ package com.runningcity.run.controller;
 
 import com.runningcity.global.response.ApiResponse;
 import com.runningcity.global.response.CommonResponseCode;
+import com.runningcity.report.service.AiReportService;
 import com.runningcity.run.dto.*;
 import com.runningcity.run.service.RunService;
 import jakarta.validation.Valid;
@@ -18,8 +19,8 @@ import java.time.Instant;
 @RequestMapping("/sessions") // (global) context-path: /api/v1
 @RequiredArgsConstructor
 public class RunController {
-
     private final RunService runService;
+    private final AiReportService aiReportService;
     // private static final long userId = 1L; // 로그인 없으니 임시 1 고정
 
     // RunController에 추가
@@ -36,13 +37,14 @@ public class RunController {
 
     /** 세션 종료 (모바일에서 Finish + 보상 1회 처리) */
     @PostMapping("/{sid}/finish")
-    public ResponseEntity<ApiResponse<Void>> finish(
+    public ResponseEntity<ApiResponse<AiReportResponse>> finish(
             @PathVariable("sid") long sessionId,
             @Valid @RequestBody FinishRequest req,
             @RequestParam Long userId
     ) {
         runService.finishSession(userId, sessionId, req);
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS));
+        AiReportResponse aiReport = new AiReportResponse(aiReportService.generateAndSave(userId, sessionId, req));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS, aiReport));
     }
 
 

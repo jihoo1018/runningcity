@@ -1,7 +1,9 @@
 import { LPCCharacterRenderer } from "./LPCCharacterRenderer";
-import { useAvatarStore, slotsToArray } from "@/features/avatar/model/avatarStore";
+import { useAvatarStore } from "@/features/avatar/model/avatarStore";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
 import type { MyOffice } from "@/entities/showroom/model/type";
+import { slotsToArray } from "@/entities/showroom/model/slotUtils";
+import { getLevelInfo } from "@/entities/user/model/leveling";
 
 type Props = {
   tab: "me" | "friend" | "global";
@@ -11,6 +13,7 @@ type Props = {
 export const CharacterCard = ({ tab, data }: Props) => {
   const user = useAuthStore((s) => s.user);
   const slots = useAvatarStore((s) => s.slots);
+  const userLevelInfo = getLevelInfo(user?.totalExp ?? 0);
 
   const equippedArray = slotsToArray(slots);
 
@@ -19,7 +22,9 @@ export const CharacterCard = ({ tab, data }: Props) => {
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
         <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
           <div className="flex items-center justify-between">
-            <div className="text-xs font-semibold text-[#67e8f9]">LV {user?.level ?? 1}</div>
+            <div className="text-xs font-semibold text-[#67e8f9]">
+              LV {userLevelInfo.level ?? 1}
+            </div>
             <div className="text-[10px] text-gray-400">UID: {user?.userId}</div>
           </div>
 

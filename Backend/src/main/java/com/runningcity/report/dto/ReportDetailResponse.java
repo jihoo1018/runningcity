@@ -11,6 +11,7 @@ public class ReportDetailResponse {
     private Summary summary;       // not null
     private Rewards rewards;       // nullable
     private Route route;           // nullable
+    private AiReport aiReport;
 
     @Getter
     @NoArgsConstructor
@@ -42,5 +43,13 @@ public class ReportDetailResponse {
     @Builder
     public static class Route {
         private String geojson;    // nullable, GeoJSON LineString (WGS84)
+    }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class AiReport {
+        private String content; // AI 리포트 내용
     }
 }
