@@ -6,8 +6,8 @@ export const ShowroomTabs = ({ tab, setTab }: Props) => {
   const tabStyle = (key: string) =>
     `
       px-3 py-2 sm:px-4 sm:py-2 
-      rounded-lg text-xs sm:text-sm 
-      ${tab === key ? "bg-primary text-black" : "border border-gray-500 text-gray-300"}
+      rounded-lg text-buton
+      ${tab === key ? "bg-primary text-black" : "border border-custom-gray text-custom-gray"}
     `;
 
   return (

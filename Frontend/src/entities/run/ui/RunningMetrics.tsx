@@ -11,7 +11,7 @@ export const RunningMetrics = ({ metrics }: RunningMetricsProps) => {
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}분`;
+    return `${minutes}분 ${remainingSeconds}초`;
   };
 
   // 페이스 포맷팅 (초/km -> 분:초/km)

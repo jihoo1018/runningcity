@@ -429,7 +429,7 @@ CREATE TABLE IF NOT EXISTS user_tags (
 -- 공개범위 설정
 CREATE TABLE IF NOT EXISTS privacy_settings (
     id BIGSERIAL PRIMARY KEY,
-    user_id BIGINT NOT NULL UNIQUE,
+    user_id BIGINT NOT NULL,
     is_global_public BOOLEAN NOT NULL DEFAULT TRUE,
     show_total_running BOOLEAN NOT NULL DEFAULT TRUE,
     show_max_distance BOOLEAN NOT NULL DEFAULT TRUE,
@@ -437,7 +437,6 @@ CREATE TABLE IF NOT EXISTS privacy_settings (
     show_best_pace BOOLEAN NOT NULL DEFAULT TRUE,
     show_hiking_count BOOLEAN NOT NULL DEFAULT TRUE
 );
-
 
 
 --  weekly_mission 테이블

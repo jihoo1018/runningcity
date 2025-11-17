@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AndroidBridge, initializeAndroidListener } from '@/shared/lib';
 import { RunningMetrics } from '@/entities/run/ui/RunningMetrics';
 import { RunningMetrics as RunningMetricsType, RunningState } from '@/entities/run/model/types';
 
@@ -13,45 +12,10 @@ const RunningPage = () => {
   const [metrics, setMetrics] = useState<RunningMetricsType>({
     heartRate: 0, // 초기값 (더미 데이터)
     pace: 0, // 초기값 (더미 데이터)
-    time: 0, // 24분 = 1440초 (초기값)
+    time: 0, // 초기값: 0초
     distance: 0.0, // 초기값 (더미 데이터)
   });
   const [progress, setProgress] = useState(50); // 진행률 (0-100)
-
-  // Android → React 메시지 수신 설정
-  useEffect(() => {
-    initializeAndroidListener((data) => {
-      console.log('📩 Android 메시지 수신:', data);
-      
-      if (data.type === 'RUNNING_STATE') {
-        // Android에서 "STARTED" 또는 "RUNNING" 모두 러닝 상태로 처리
-        const newState = (data.state === 'RUNNING' || data.state === 'STARTED') ? 'RUNNING' : 
-                        data.state === 'PAUSED' ? 'PAUSED' : 'STOPPED';
-        setState(newState);
-      }
-      
-      if (data.type === 'RUNNING_METRICS') {
-        setMetrics({
-          heartRate: data.heartRate || 0,
-          pace: data.pace || 0,
-          time: data.time || 0,
-          distance: data.distance || 0,
-        });
-      }
-    });
-
-    // GPS 데이터 주기적으로 가져오기
-    const interval = setInterval(() => {
-      if (state === 'RUNNING') {
-        const gps = AndroidBridge.getGPSData();
-        if (gps) {
-          console.log('GPS 데이터:', gps);
-        }
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [state]);
 
   // 시간 업데이트 (러닝 중일 때만)
   useEffect(() => {
@@ -76,20 +40,13 @@ const RunningPage = () => {
 
   const handlePause = () => {
     setState('PAUSED');
-    // Android에 일시정지 요청 (워치로도 전달됨)
-    AndroidBridge.pauseRunning();
   };
 
   const handleResume = () => {
     setState('RUNNING');
-    // Android에 재개 요청 (워치로도 전달됨)
-    AndroidBridge.resumeRunning();
   };
 
   const handleStop = () => {
-    setState('STOPPED');
-    // Android에 종료 요청 (워치로도 전달됨)
-    AndroidBridge.stopRunning();
     // 결과 페이지로 이동
     navigate('/entry/result');
   };
@@ -201,4 +158,3 @@ const RunningPage = () => {
 };
 
 export default RunningPage;
-
