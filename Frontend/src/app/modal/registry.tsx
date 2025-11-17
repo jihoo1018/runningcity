@@ -20,6 +20,7 @@ const PrivacySettingRoot = lazy(() => import("@/features/modals/privacySetting/R
 const PrivacySettingConfirm = lazy(() => import("@/features/modals/privacySetting/Confirm"));
 const PrivacySettingAlert = lazy(() => import("@/features/modals/privacySetting/Alert"));
 const CommonFail = lazy(() => import("@/features/modals/common/Fail"));
+const SettingTutorial = lazy(() => import("@/features/modals/tutorial"));
 
 export const REGISTRY = {
   setting: {
@@ -27,6 +28,7 @@ export const REGISTRY = {
     confirm: SettingConfirm,
     withdraw: SettingWithdraw,
     goal: SettingGoal,
+    tutorial: SettingTutorial,
   },
   alert: {
     root: AlertRoot,
