@@ -7,6 +7,9 @@ import com.runningcity.report.entity.RunAiReport;
 import com.runningcity.report.repository.RunAiReportRepository;
 import com.runningcity.report.repository.RunSessionRepository;
 import com.runningcity.run.dto.FinishRequest;
+import com.runningcity.run.dto.WatchUploadRequest;
+import com.runningcity.run.dto.common.RunSessionPayload;
+import com.runningcity.run.dto.common.SummaryLike;
 import com.runningcity.run.entity.RunSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,11 +49,20 @@ public class AiReportService {
      * 실패시 null 반환, DB 저장 X
      * */
     @Transactional
-    public String generateAndSave(long userId, long sessionId, FinishRequest req) {
+    public String generateAndSave(long userId, long sessionId, RunSessionPayload req) {
         UserPreference pref = preferenceRepository.findByUser_UserId(userId)
                 .orElseThrow(() -> new IllegalStateException("유저 온보딩 정보를 찾을 수 없습니다."));
 
-        FinishRequest.Summary s = req.getSummary();
+        SummaryLike s;
+
+        if(req instanceof FinishRequest finishReq) {
+            s = finishReq.getSummary();
+        } else if (req instanceof WatchUploadRequest watchReq) {
+            s = watchReq.getSummary();
+        } else {
+            throw new IllegalArgumentException("잘못된 세션 요약 정보입니다.");
+        }
+//        FinishRequest.Summary s = req.getSummary();
 
         double distanceKm = (s.getTotalDistance() != null ? s.getTotalDistance() : 0) / 1000.0;
         int durationSec   = s.getDuration() != null ? s.getDuration() : 0;
