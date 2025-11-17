@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PrivacySettingResponse {
     private Long userId;
-    private boolean isGlobalPublic;
+    private boolean globalPublic;
     private boolean showTotalRunning;
     private boolean showMaxDistance;
     private boolean showAvgPace;
@@ -30,7 +30,7 @@ public class PrivacySettingResponse {
                                                     List<UserTag> userTags) {
         return PrivacySettingResponse.builder()
                 .userId(entity.getUserId())
-                .isGlobalPublic(entity.isGlobalPublic())
+                .globalPublic(entity.isGlobalPublic())
                 .showTotalRunning(entity.isShowTotalRunning())
                 .showMaxDistance(entity.isShowMaxDistance())
                 .showAvgPace(entity.isShowAvgPace())
@@ -47,7 +47,7 @@ public class PrivacySettingResponse {
     public static PrivacySettingResponse createDefault(Long userId, List<UserTag> tags) {
         return PrivacySettingResponse.builder()
                 .userId(userId)
-                .isGlobalPublic(true)
+                .globalPublic(true)
                 .showTotalRunning(true)
                 .showMaxDistance(true)
                 .showAvgPace(true)
