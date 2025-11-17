@@ -48,7 +48,12 @@ public class FriendshipService {
             throw new BaseException(FriendshipResponseCode.FRIEND_REQUEST_SELF);
         }
 
-        // 4. 이미 존재하는 요청 확인
+        // 4. 이미 친구인지 확인 (양방향 ACCEPTED 관계 체크)
+        if (friendshipRepository.existsFriendship(requesterId, addressee.getUserId())) {
+            throw new BaseException(FriendshipResponseCode.FRIEND_ALREADY_EXISTS);
+        }
+
+        // 5. 이미 존재하는 요청 확인 (같은 방향)
         Optional<Friendship> existing = friendshipRepository
                 .findByRequesterUserIdAndAddresseeUserId(requesterId, addressee.getUserId());
 
@@ -61,27 +66,23 @@ public class FriendshipService {
             }
         }
 
-        // 5. 반대 방향 PENDING 요청 확인 (양방향 요청 체크)
+        // 6. 반대 방향 PENDING 요청 확인 (양방향 요청 체크)
         Optional<Friendship> oppositeRequest = friendshipRepository
                 .findByRequesterUserIdAndAddresseeUserId(addressee.getUserId(), requesterId);
 
-        if (oppositeRequest.isPresent() && 
-            oppositeRequest.get().getStatus() == FriendshipStatus.PENDING) {
-            // 양방향 요청이면 둘 다 ACCEPTED로 변경
+        if (oppositeRequest.isPresent()) {
             Friendship opposite = oppositeRequest.get();
-            opposite.accept();
-            friendshipRepository.save(opposite);
-
-            // 새 요청도 ACCEPTED로 생성
-            Friendship newFriendship = Friendship.builder()
-                    .requester(requester)
-                    .addressee(addressee)
-                    .status(FriendshipStatus.ACCEPTED)
-                    .build();
-            return FriendshipResponse.from(friendshipRepository.save(newFriendship));
+            if (opposite.getStatus() == FriendshipStatus.PENDING) {
+                // 양방향 요청이면 기존 요청만 ACCEPTED로 변경 (중복 레코드 방지)
+                opposite.accept();
+                return FriendshipResponse.from(friendshipRepository.save(opposite));
+            } else if (opposite.getStatus() == FriendshipStatus.ACCEPTED) {
+                // 반대 방향에 이미 ACCEPTED가 있으면 에러
+                throw new BaseException(FriendshipResponseCode.FRIEND_ALREADY_EXISTS);
+            }
         }
 
-        // 6. 일반적인 경우: PENDING 요청 생성
+        // 7. 일반적인 경우: PENDING 요청 생성
         Friendship friendship = Friendship.builder()
                 .requester(requester)
                 .addressee(addressee)
