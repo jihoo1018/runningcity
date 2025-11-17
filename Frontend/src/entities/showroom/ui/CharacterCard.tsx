@@ -7,6 +7,7 @@ import { getLevelInfo } from "@/entities/user/model/leveling";
 import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
 import { ENV } from "@/shared/config/env";
 import { useState, useEffect } from "react";
+import { NotificationIcon } from "@/shared/assets/icons";
 
 type Props = {
   tab: "me" | "friend" | "global";
@@ -215,8 +216,10 @@ export const CharacterCard = ({ tab, data }: Props) => {
 
           {/* 스와이프 안내 (친구/글로벌 탭) */}
           {(tab === "friend" || tab === "global") && (
-            <div className="mt-3 text-center text-xs text-gray-400">
-              👈 스와이프해서 다른 유저 보기 👉
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-400">
+              <NotificationIcon className="w-4 h-4 text-primary animate-pulse" />
+              <span>스와이프해서 다른 유저 보기</span>
+              <NotificationIcon className="w-4 h-4 text-primary animate-pulse" />
             </div>
           )}
         </div>
