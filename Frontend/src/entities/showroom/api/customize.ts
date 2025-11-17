@@ -28,8 +28,8 @@ export async function fetchSave(itemList: EquippedItem[]): Promise<void> {
 export const fetchGetEquippedItems = async () => {
   const userId = useAuthStore.getState().user?.userId;
   const res = await apiGet<ApiResponse<EquippedItem[]>>(`/showroom/equipped/${userId}`);
-  if (res.status !== 200 || res.code !== "MY_OFFICE_2000") {
-    throw new Error(res.message || "내 사무실 조회 실패");
+  if (res.status !== 200 || res.code !== "EQUIPPED_ITEMS_2000") {
+    throw new Error(res.message || "유저 착장 리스트 조회 실패");
   }
   return res.data;
 };
