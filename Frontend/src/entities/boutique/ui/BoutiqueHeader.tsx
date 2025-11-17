@@ -1,17 +1,11 @@
-// src/entities/boutique/ui/BoutiqueHeader.tsx
-interface BoutiqueHeaderProps {
-  userCurrency: number;
-}
+import { StarIcon } from "@/shared/assets/icons";
 
-export function BoutiqueHeader({ userCurrency }: BoutiqueHeaderProps) {
+export function BoutiqueHeader() {
   return (
-    <div className="mb-6">
-      <h1 className="text-game-title text-custom-white text-center mb-4">🏪 부티크</h1>
-      <div className="text-center">
-        <div className="inline-flex items-center bg-primary/20 px-4 py-2 rounded-full border border-primary/30">
-          <span className="text-primary font-bold text-lg">💰 {userCurrency.toLocaleString()} CR</span>
-        </div>
-      </div>
+    <div className="flex items-center justify-center gap-2 pt-2">
+      <StarIcon />
+      <h1 className="text-title text-custom-white bg-custom-black text-center">부티크</h1>
+      <StarIcon className="-scale-x-100" />
     </div>
   );
 }
