@@ -30,15 +30,13 @@ public class ShowRoomController {
     @GetMapping("/office/{userId}")
     public ResponseEntity<ApiResponse<MyOfficeResponse>> getMyOffice(@PathVariable("userId") Long userId
     ){
-        // 현재 사용자 착장 아이템 리스트
-        List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId);
-
-        //TODO 사용자의 총 상태 조회부분 추가하기
-
-
-        MyOfficeResponse myOfficeResponse = MyOfficeResponse.from(userEquippedItemList);
-
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS,myOfficeResponse));
+//        // 현재 사용자 착장 아이템 리스트
+//        List<UserEquippedItemResponse> userEquippedItemList = showroomService.getUserEquippedItemList(userId);
+//        //TODO 사용자의 총 상태 조회부분 추가하기
+//
+//        MyOfficeResponse myOfficeResponse = MyOfficeResponse.from(userEquippedItemList);
+//        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS,myOfficeResponse));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS, showroomService.getMyOffice(userId)));
     }
 
 

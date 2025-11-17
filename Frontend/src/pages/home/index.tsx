@@ -1,5 +1,3 @@
-// src/pages/home/index.tsx
-
 import { useState, useEffect, useMemo } from "react";
 import { AndroidBridge, initializeAndroidListener } from "../../shared/lib";
 import { FloatingMenu } from "./ui/FloatingMenu";
@@ -106,26 +104,23 @@ const HomePage = () => {
     <div className="flex h-full w-full flex-col gap-4">
       <UserProfileHeader />
       <FloatingMenu />
-
+      ``
       {/* ----------------------------- */}
-      {/* 🚀 캐릭터 + 포탈 영역 */}
+      {/* 캐릭터 + 포탈 영역 */}
       {/* ----------------------------- */}
-      <div className="flex flex-1 items-center justify-center">
+      <div className="flex flex-1 items-end justify-center pb-6">
         <div className="relative flex items-center justify-center">
-          {/* 🟣 캐릭터 (앞으로 나오도록 z-index + 크기 확대) */}
-          <div className="relative z-10">
+          <div className="relative z-10 mb-15 scale-200">
             <LPCCharacterRenderer items={equippedItems} direction={2} animation="walk" />
           </div>
         </div>
       </div>
-
       <CommonLinkButton
         href="/running"
-        className="shadow-primary/20 text-primary mb-3 border-2 py-5 text-lg font-bold shadow-lg"
+        className="shadow-primary/20 text-primary mb-8 border-2 py-5 text-lg font-bold shadow-lg"
       >
         러닝 에너지 모으기 ▶
       </CommonLinkButton>
-
       {/* GPS Debug */}
       {gpsData && (
         <div

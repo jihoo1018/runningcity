@@ -5,10 +5,9 @@ import com.runningcity.boutique.repository.BoutiqueRepository;
 import com.runningcity.entry.dto.EntryListResponse;
 import com.runningcity.friendship.repository.FriendshipRepository;
 import com.runningcity.global.exception.BaseException;
-import com.runningcity.showroom.dto.RandomAvatarResponse;
-import com.runningcity.showroom.dto.UserEquippedItemRequest;
-import com.runningcity.showroom.dto.UserEquippedItemResponse;
-import com.runningcity.showroom.dto.UserInventoryResponse;
+import com.runningcity.report.repository.RunSessionRepository;
+import com.runningcity.run.entity.RunSession;
+import com.runningcity.showroom.dto.*;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
 import com.runningcity.showroom.exception.ShowRoomResponseCode;
@@ -43,6 +42,7 @@ public class ShowRoomService {
     private final UserRepository userRepository;
     private final BoutiqueRepository boutiqueRepository;
     private final UserInventoryRepository userInventoryRepository;
+    private final RunSessionRepository runSessionRepository;
 
     /**
      * 인벤토리에 신규 아이템 추가
@@ -175,6 +175,38 @@ public class ShowRoomService {
     public void deleteEquippedItemAllByUserId(Long userId) {
         equippedItemRepository.deleteAllByUserId(userId);
     }
+
+    public MyOfficeResponse getMyOffice(Long userId) {
+        List<RunSession> sessions = runSessionRepository.findAllByUserIdAndEndTimeIsNotNull(userId);
+        double totalDist = 0;
+        double maxDist = 0;
+        double avgPace = 0;
+        double bestPace = 0;
+        long totalEntryCnt = 0;
+
+        for (RunSession session : sessions) {
+            totalDist += session.getTotalDistance();
+            maxDist = Math.max(maxDist, session.getTotalDistance());
+            avgPace +=  session.getAvgPace();
+            bestPace = Math.min(session.getAvgPace(), bestPace);
+            totalEntryCnt += ("ENTRY".equals(session.getType())? 1:0);
+        }
+
+        if(sessions.size() > 0) avgPace /= sessions.size();
+
+        // 현재 사용자 착장 아이템 리스트
+        List<UserEquippedItemResponse> userEquippedItemList = this.getUserEquippedItemList(userId);
+
+        return MyOfficeResponse.create(
+                totalDist,
+                maxDist,
+                avgPace,
+                bestPace,
+                totalEntryCnt,
+                userEquippedItemList
+        );
+    }
+
 
     /**
      랜덤 유저 아바타 조회 (친구 제외)

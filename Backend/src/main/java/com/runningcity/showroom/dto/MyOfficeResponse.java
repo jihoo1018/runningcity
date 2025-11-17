@@ -17,20 +17,31 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyOfficeResponse {
-    private Long totalDist;
-    private Long longestDist;
-    private Long avgPace;
-    private Long bestPace;
+    private double  totalDist;
+    private double  maxDist;
+    private double  avgPace;
+    private double  bestPace;
     private Long totalEntryCnt;
     private List<UserEquippedItemResponse> equippedItemList;
 
     public static MyOfficeResponse from(List<UserEquippedItemResponse> list) {
         return MyOfficeResponse.builder()
 //                .totalDist(entity.totalDist())
-//                .longestDist(entity.longestDist())
+//                .maxDist(entity.maxDist())
 //                .avgPace(entity.avgPace())
 //                .bestPace(entity.bestPace())
 //                .totalEntryCnt(entity.totalEntryCnt())
+                .equippedItemList(list)
+                .build();
+    }
+
+    public static MyOfficeResponse create(double totalDist, double maxDist, double avgPace, double bestPace, Long totalEntryCnt, List<UserEquippedItemResponse> list) {
+        return MyOfficeResponse.builder()
+                .totalDist(totalDist)
+                .maxDist(maxDist)
+                .avgPace(avgPace)
+                .bestPace(bestPace)
+                .totalEntryCnt(totalEntryCnt)
                 .equippedItemList(list)
                 .build();
     }
