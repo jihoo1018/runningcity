@@ -27,7 +27,11 @@ export default function CustomizePage() {
   // 인벤토리 / 서버착장 불러오기
   useEffect(() => {
     fetchGetInventoryList().then(setInventory);
-    fetchGetEquippedItems().then(sync);
+
+    // 만약 store에 이미 slots가 있으면 서버 호출 X
+    if (Object.keys(slots).length === 0) {
+      fetchGetEquippedItems().then(sync);
+    }
   }, []);
 
   // 탭 → subcategory 변환
