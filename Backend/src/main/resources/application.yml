@@ -20,6 +20,10 @@
         timeout: 3000ms
     cache:
       type: redis  # ✅ 추가
+      redis:
+        # ✅ 기본 TTL 설정 (10분)
+        time-to-live: 600000  # 밀리초 단위 (600,000ms = 10분)
+        cache-null-values: false  # null 값은 캐싱 안함 (메모리 절약)
 
     mvc:              # 비동기 핸들러가 영구 대기하지 않게
       async:
