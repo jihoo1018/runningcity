@@ -36,6 +36,9 @@ services:
       REDIS_HOST: ${DEV_REDIS_HOST}
       REDIS_PORT: ${DEV_REDIS_PORT}
       REDIS_PASSWORD: ${DEV_REDIS_PASSWORD}
+      GMS_API_KEY: ${GMS_API_KEY}
+      GMS_BASE_URL: ${GMS_BASE_URL}
+      GMS_PATH_OPENAI: ${GMS_PATH_OPENAI}
     restart: unless-stopped
 
   nginx:
