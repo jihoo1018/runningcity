@@ -3,10 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { ShowroomTabs } from "@/entities/showroom/ui/ShowroomTabs";
 import { CharacterCard } from "@/entities/showroom/ui/CharacterCard";
 import { ShowroomActions } from "@/entities/showroom/ui/ShowroomActions";
-import { 
-  fetchGetShowroomMe, 
-  fetchGetGlobalShowroom, 
-  fetchGetFriendShowroom 
+import {
+  fetchGetShowroomMe,
+  fetchGetGlobalShowroom,
+  fetchGetFriendShowroom
 } from "@/entities/showroom/api/me";
 import { MyOffice, RandomAvatar } from "@/entities/showroom/model/type";
 import { useShowroomLoader } from "@/entities/showroom/api/useShowroomLoader";
@@ -22,6 +22,7 @@ export default function ShowroomPage() {
   const [error, setError] = useState("");
 
   const { loadShowroom } = useShowroomLoader();
+  const sync = useAvatarStore((s) => s.syncFromServer); // 슬롯 동기화 함수
   const slots = useAvatarStore((s) => s.slots);
 
   // 스와이프 관련
@@ -53,7 +54,7 @@ export default function ShowroomPage() {
           console.log('[ShowroomPage] 글로벌 데이터 개수:', data.length);
           setGlobalList(data);
           console.log('[ShowroomPage] globalList 상태 업데이트 완료');
-          
+
           // 글로벌 유저가 없으면 에러는 아니고 그냥 빈 상태
           if (data.length === 0) {
             console.log('[ShowroomPage] 글로벌 유저 목록이 비어있습니다.');
@@ -116,33 +117,33 @@ export default function ShowroomPage() {
 
   const currentData = getCurrentData();
   console.log(`[ShowroomPage] 현재 탭: ${tab}, 현재 데이터:`, currentData);
-  
-  const showPagination = (tab === "friend" && friendList.length > 1) || 
+
+  const showPagination = (tab === "friend" && friendList.length > 1) ||
                          (tab === "global" && globalList.length > 1);
 
   return (
-    <div className="flex flex-col">
+    <div className="text-content flex flex-col">
       <ShowroomTabs tab={tab} setTab={setTab} />
 
       {loading && (
         <div className="text-center text-gray-400 py-8">불러오는 중...</div>
       )}
-      
+
       {error && (
         <div className="text-center text-red-400 py-8">{error}</div>
       )}
 
       {!loading && !error && currentData && (
         <>
-          <div 
+          <div
             className="flex items-start justify-center py-2"
             onTouchStart={tab !== "me" ? handleTouchStart : undefined}
             onTouchMove={tab !== "me" ? handleTouchMove : undefined}
             onTouchEnd={tab !== "me" ? handleTouchEnd : undefined}
           >
-            <CharacterCard 
-              tab={tab} 
-              data={currentData} 
+            <CharacterCard
+              tab={tab}
+              data={currentData}
             />
           </div>
 
