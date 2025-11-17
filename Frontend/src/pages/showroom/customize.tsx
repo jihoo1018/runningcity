@@ -1,5 +1,6 @@
 // src/pages/showroom/customize.tsx
 import { useEffect, useState, useMemo } from "react";
+import { useModalRouter } from "@/app/modal/useModalRouter";
 import { CustomizeLayout } from "@/entities/showroom/ui/CustomizeLayout";
 import { ItemGrid } from "@/entities/showroom/ui/ItemGrid";
 import {
@@ -23,6 +24,7 @@ export default function CustomizePage() {
   const equip = useAvatarStore((s) => s.equip);
   const sync = useAvatarStore((s) => s.syncFromServer);
   const toArray = useAvatarStore((s) => s.toArray);
+  const { open } = useModalRouter();
 
   useEffect(() => {
     // Tab 바뀔때마다 page 0으로 초기화
@@ -67,7 +69,7 @@ export default function CustomizePage() {
   async function handleSave() {
     const payload = toArray();
     await fetchSave(payload);
-    alert("저장되었습니다!");
+    open("showroom", "alert", { msg: "현재 착장이 저장되었습니다." });
   }
 
   return (
