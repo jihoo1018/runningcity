@@ -54,14 +54,14 @@ export const CharacterCard = ({ tab, data }: Props) => {
   return (
     <div className="text-content-bold relative mx-auto mt-2 w-full max-w-[360px] px-3">
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
-        <div className="border-primary rounded-xl border bg-[#0c101c]/70 px-4 py-6">
+        <div className="border-primary bg-section-bg rounded-xl border px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="text-button text-content-bold text-[#67e8f9]">LV {displayLevel}</div>
             <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div>
           </div>
 
-          <div className="border-primary/60 relative mt-4 h-48 overflow-hidden rounded-lg border">
-            <div className="flex h-full items-center justify-center">
+          <div className="border-primary/70 relative mt-4 h-48 overflow-hidden rounded-lg border">
+            <div className="flex h-full items-center justify-center bg-black/30">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
           </div>
