@@ -4,11 +4,14 @@
  * Android WebView 인터페이스 타입 정의
  */
 interface AndroidInterface {
-  startRunning: () => void;
-  stopRunning: () => void;
+  startRunning: (sessionId: string) => void;
+  stopRunning: (sessionId: string) => void;
+  pauseRunning: (sessionId: string) => void;
+  resumeRunning: (sessionId: string) => void;
   getGPSData: () => string;
   getHeartRate: () => number;
   measureHeartRate: () => void;
+  pairWatch: () => void;
   showToast: (message: string) => void;
   vibrate: (duration: number) => void;
   // 필요한 기능 추가
@@ -36,9 +39,9 @@ export const AndroidBridge = {
   /**
    * 러닝 시작
    */
-  startRunning(): void {
+  startRunning(sessionId: string = "0"): void {
     if (this.isAndroid()) {
-      window.Android!.startRunning();
+      window.Android!.startRunning(sessionId);
     } else {
       console.log("[DEV] 러닝 시작 (브라우저 환경)");
     }
@@ -47,11 +50,33 @@ export const AndroidBridge = {
   /**
    * 러닝 종료
    */
-  stopRunning(): void {
+  stopRunning(sessionId: string = "0"): void {
     if (this.isAndroid()) {
-      window.Android!.stopRunning();
+      window.Android!.stopRunning(sessionId);
     } else {
       console.log("[DEV] 러닝 종료 (브라우저 환경)");
+    }
+  },
+  
+  /**
+   * 러닝 일시정지
+   */
+  pauseRunning(sessionId: string = "0"): void {
+    if (this.isAndroid()) {
+      window.Android!.pauseRunning(sessionId);
+    } else {
+      console.log("[DEV] 러닝 일시정지 (브라우저 환경)");
+    }
+  },
+  
+  /**
+   * 러닝 재개
+   */
+  resumeRunning(sessionId: string = "0"): void {
+    if (this.isAndroid()) {
+      window.Android!.resumeRunning(sessionId);
+    } else {
+      console.log("[DEV] 러닝 재개 (브라우저 환경)");
     }
   },
 
@@ -97,6 +122,25 @@ export const AndroidBridge = {
           window.onAndroidMessage({
             type: "HEART_RATE_MEASURED",
             heartRate: 72,
+          });
+        }
+      }, 2000);
+    }
+  },
+
+  /**
+   * 워치 연동 요청
+   */
+  pairWatch(): void {
+    if (this.isAndroid()) {
+      window.Android!.pairWatch();
+    } else {
+      console.log("[DEV] 워치 연동 요청 (브라우저 환경)");
+      // 개발 환경에서는 더미 데이터로 시뮬레이션
+      setTimeout(() => {
+        if (window.onAndroidMessage) {
+          window.onAndroidMessage({
+            type: "WATCH_PAIRED",
           });
         }
       }, 2000);

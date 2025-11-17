@@ -1,52 +1,49 @@
-import { Showroom } from "../model/type";
-import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
+import { LPCCharacterRenderer } from "./LPCCharacterRenderer";
+import { useAvatarStore } from "@/features/avatar/model/avatarStore";
+import { useAuthStore } from "@/features/auth/model/useAuthStore";
+import type { MyOffice } from "@/entities/showroom/model/type";
+import { slotsToArray } from "@/entities/showroom/model/slotUtils";
 
-type Props = { tab: "me" | "friend" | "global"; data: Showroom };
+type Props = {
+  tab: "me" | "friend" | "global";
+  data?: MyOffice;
+};
 
 export const CharacterCard = ({ tab, data }: Props) => {
+  const user = useAuthStore((s) => s.user);
+  const slots = useAvatarStore((s) => s.slots);
+
+  const equippedArray = slotsToArray(slots);
+
   return (
-    <div className="border-primary w-80 overflow-hidden rounded-xl border">
-      {/* LV 영역 */}
-      <div className="p-4 text-lg font-bold">LV {data.userLv}</div>
+    <div className="relative mx-auto mt-2 w-full max-w-[360px] px-3">
+      <div className="chip-frame relative w-full rounded-xl p-[2px]">
+        <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
+          <div className="flex items-center justify-between">
+            <div className="text-xs font-semibold text-[#67e8f9]">LV {user?.level ?? 1}</div>
+            <div className="text-[10px] text-gray-400">UID: {user?.userId}</div>
+          </div>
 
-      {/* 캐릭터 이미지 */}
-      <div className="flex h-48 items-center justify-center bg-gray-100">
-        <div className="text-gray-500">캐릭터 이미지</div>
-      </div>
+          <div className="relative mt-4 h-48 overflow-hidden rounded-lg border border-[#70f3ff]/40">
+            <div className="flex h-full items-center justify-center">
+              <LPCCharacterRenderer items={equippedArray} direction={2} />
+            </div>
+          </div>
 
-      {/* 닉네임 */}
-      <div className="p-4 text-xl font-semibold">{data.userNm}</div>
+          <div className="mt-4 text-lg font-bold text-white">
+            {user?.nickname ?? "러닝시티 유저"}
+          </div>
 
-      {/* 프로필 정보 */}
-      <div className="border-primary mb-4 grid grid-cols-3 gap-3 border-t pt-4 pr-3 pl-3 text-sm">
-        <div>
-          <div className="text-gray-500">총 러닝</div>
-          <div className="font-medium">{metersToKm(data.totalDist)}</div>
-        </div>
-        <div>
-          <div className="text-gray-500">최장 거리</div>
-          <div className="font-medium">{metersToKm(data.longestDist)}</div>
-        </div>
-        <div>
-          <div className="text-gray-500">평균 페이스</div>
-          <div className="font-medium">{formatPace(data.avgPace)}</div>
-        </div>
-        <div>
-          <div className="text-gray-500">최고 기록</div>
-          <div className="font-medium">{formatPace(data.bestPace)}</div>
-        </div>
-        <div>
-          <div className="text-gray-500">잠입</div>
-          <div className="font-medium">{data.totalEntryCnt}회</div>
+          {tab === "me" && data && (
+            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+              <div>총 러닝: {data.totalDist}</div>
+              <div>최장 거리: {data.longestDist}</div>
+              <div>평균 페이스: {data.avgPace}</div>
+              <div>최고 기록: {data.bestPace}</div>
+            </div>
+          )}
         </div>
       </div>
-      {/* <div className="space-y-1 px-4 pb-4 text-sm">
-        <div>총 러닝 : 2142km</div>
-        <div>최장 거리 : 10km</div>
-        <div>평균 페이스 : 8m 21s</div>
-        <div>최고 기록 : 6m 34s</div>
-        <div>잠입 : 3423회</div>
-      </div>*/}
     </div>
   );
 };

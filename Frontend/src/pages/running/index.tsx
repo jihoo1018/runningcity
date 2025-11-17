@@ -24,7 +24,8 @@ const RunningPage = () => {
       console.log('📩 Android 메시지 수신:', data);
       
       if (data.type === 'RUNNING_STATE') {
-        const newState = data.state === 'RUNNING' ? 'RUNNING' : 
+        // Android에서 "STARTED" 또는 "RUNNING" 모두 러닝 상태로 처리
+        const newState = (data.state === 'RUNNING' || data.state === 'STARTED') ? 'RUNNING' : 
                         data.state === 'PAUSED' ? 'PAUSED' : 'STOPPED';
         setState(newState);
       }
@@ -75,22 +76,19 @@ const RunningPage = () => {
 
   const handlePause = () => {
     setState('PAUSED');
-    // Android에 일시정지 요청
-    if (AndroidBridge.isAndroid()) {
-      // AndroidBridge.pauseRunning(); // 필요시 구현
-    }
+    // Android에 일시정지 요청 (워치로도 전달됨)
+    AndroidBridge.pauseRunning();
   };
 
   const handleResume = () => {
     setState('RUNNING');
-    // Android에 재개 요청
-    if (AndroidBridge.isAndroid()) {
-      // AndroidBridge.resumeRunning(); // 필요시 구현
-    }
+    // Android에 재개 요청 (워치로도 전달됨)
+    AndroidBridge.resumeRunning();
   };
 
   const handleStop = () => {
     setState('STOPPED');
+    // Android에 종료 요청 (워치로도 전달됨)
     AndroidBridge.stopRunning();
     // 결과 페이지로 이동
     navigate('/entry/result');

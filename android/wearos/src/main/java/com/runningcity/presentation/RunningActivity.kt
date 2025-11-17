@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.wear.compose.material.*
 import com.runningcity.service.DataSyncService
 import com.runningcity.utils.PermissionManager
+import kotlinx.coroutines.launch
 
 class RunningActivity : ComponentActivity() {
 
@@ -60,6 +61,7 @@ class RunningActivity : ComponentActivity() {
     fun RunningCityNavigation() {
         val permissionMgr = this@RunningActivity.permissionManager
         val context = this@RunningActivity
+        val scope = rememberCoroutineScope()
 
         var currentScreen by remember { mutableStateOf<AppScreen>(AppScreen.Home) }
         var resultSessionSeq by remember { mutableStateOf(0L) }
@@ -91,6 +93,11 @@ class RunningActivity : ComponentActivity() {
             is AppScreen.Home -> {
                 HomeScreen(
                     onStartWorkout = {
+                        // 워치에서 모바일로 러닝 시작 요청 전송
+                        scope.launch {
+                            com.runningcity.utils.MobileCommunicationHelper.notifyStartRunning(context)
+                        }
+                        
                         if (permissionMgr.hasAllPermissions()) {
                             currentScreen = AppScreen.Workout
                         } else {
