@@ -73,5 +73,24 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
            ") " +
            "ORDER BY u.totalExp DESC, u.userId ASC")
     List<com.runningcity.user.entity.User> findFriendsByUserIdOrderByTotalExp(@Param("userId") Long userId);
+
+    /**
+     * 🎯 현재 유저와 친구 관계가 있는 모든 유저 ID 조회
+     * (PENDING 또는 ACCEPTED 상태 포함)
+     * 용도: 랜덤 아바타 조회 시 제외할 유저 목록
+     * @param userId 현재 사용자 ID
+     * @return 친구 관계에 있는 유저 ID 목록 (Long 타입)
+     */
+    @Query("""
+        SELECT DISTINCT 
+            CASE 
+                WHEN f.requester.userId = :userId THEN f.addressee.userId
+                ELSE f.requester.userId
+            END
+        FROM Friendship f
+        WHERE (f.requester.userId = :userId OR f.addressee.userId = :userId)
+          AND f.status IN ('PENDING', 'ACCEPTED')
+    """)
+    List<Long> findAllRelatedUserIds(@Param("userId") Long userId);
 }
 
