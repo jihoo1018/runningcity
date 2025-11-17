@@ -11,7 +11,7 @@ export const ShowroomTabs = ({ tab, setTab }: Props) => {
     `;
 
   return (
-    <div className="mt-2 flex justify-center gap-1 sm:gap-2">
+    <div className="text-content-bold mt-2 flex justify-center gap-3 sm:gap-2">
       <button className={tabStyle("me")} onClick={() => setTab("me")}>
         내 사무실
       </button>
