@@ -5,7 +5,7 @@ import { MapView } from "@/entities/entry/ui/MapView";
 import { EntryDetailModalContent } from "@/entities/entry/ui/EntryDetailModalContent";
 import { Modal } from "@/shared/ui";
 import { useModalRouter } from "@/app/modal/useModalRouter";
-
+import { useAuthStore } from "@/features/auth/model/useAuthStore";
 import { Entry, EntryDetail } from "@/entities/entry/model/types";
 import { fetchGetEntryList, fetchGetAllEntryList, fetchGetEntryDetail } from "@/entities/entry/api";
 
@@ -108,7 +108,7 @@ const EntryPage = () => {
     open("entry", "level", {
       entryName: entry.courseNm,
       baseId: entry.baseId,
-      userId: 1,
+      userId: useAuthStore.getState().user?.userId,
     });
   };
 

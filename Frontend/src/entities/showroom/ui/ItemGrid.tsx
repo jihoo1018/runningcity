@@ -26,7 +26,7 @@ export const ItemGrid = ({ items, onPrev, onNext, onSelect, disablePrev, disable
       <div className="grid w-full grid-cols-3 gap-3 px-2 py-2 sm:grid-cols-3 md:grid-cols-4">
         {items.map((item, idx) => (
           <div
-            key={idx}
+            key={item.inventoryId ?? item.itemId} // 이걸로 해야 안전
             onClick={() => onSelect(item)}
             className="border-primary flex flex-col rounded-xl border p-2 shadow-lg transition"
           >
