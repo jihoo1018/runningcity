@@ -7,6 +7,8 @@ import com.runningcity.auth.dto.SignupRequest;
 import com.runningcity.auth.exception.AuthResponseCode;
 import com.runningcity.auth.repository.UserAuthRepository;
 import com.runningcity.global.exception.BaseException;
+import com.runningcity.showroom.exception.ShowRoomResponseCode;
+import com.runningcity.showroom.service.ShowRoomService;
 import com.runningcity.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,7 @@ public class AuthService {
     private final UserAuthRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserCodeGenerator userCodeGenerator;
+    private final ShowRoomService showRoomService;
 
     @Transactional(readOnly = true)
     public CheckEmailResponse checkEmail(String email) {
@@ -75,6 +78,12 @@ public class AuthService {
         } catch (DataIntegrityViolationException ex) {
             // user_code UNIQUE 극희박 충돌 등
             throw new BaseException(AuthResponseCode.INTERNAL_ERROR);
+        }
+        // 6) ✅ 기본 아바타 지급
+        try {
+            showRoomService.giveDefaultAvatar(user.getUserId());
+        } catch (Exception e) {
+            throw new BaseException(ShowRoomResponseCode.FAILED_TO_GIVE_AVATAR);
         }
     }
 

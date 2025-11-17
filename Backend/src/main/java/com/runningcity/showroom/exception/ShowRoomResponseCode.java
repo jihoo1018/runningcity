@@ -12,7 +12,8 @@ public enum ShowRoomResponseCode implements BaseResponseCode {
     FRIEND_SHOWROOM_SUCCESS(HttpStatus.OK, "ShowRoom2002", "친구 쇼룸 조회가 성공적으로 이루어졌습니다."),
 
     // ✅ 에러 추가
-    NO_FRIENDS_FOUND(HttpStatus.NOT_FOUND, "ShowRoom4001", "친구가 없습니다.");
+    NO_FRIENDS_FOUND(HttpStatus.NOT_FOUND, "ShowRoom4001", "친구가 없습니다."),
+    FAILED_TO_GIVE_AVATAR(HttpStatus.BAD_REQUEST , "ShowRoom4002","아바타 지급에 실패하였습니다.");
 
 
     private final HttpStatus httpStatus;
