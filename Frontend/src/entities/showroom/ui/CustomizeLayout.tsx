@@ -109,7 +109,7 @@ export const CustomizeLayout = ({
       <div className="flex-none px-2 py-4">
         <button
           onClick={onSave}
-          className="border-primary text-button w-full rounded-xl border py-3"
+          className="border-primary text-button bg-section-bg w-full rounded-xl border py-3"
         >
           저장하기
         </button>

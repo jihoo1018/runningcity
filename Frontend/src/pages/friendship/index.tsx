@@ -5,6 +5,7 @@ import { fetchFriendRanking } from "@/entities/friendship/api/ranking";
 import type { FriendRankingItem } from "@/entities/friendship/model/types";
 import { FullPageLoader } from "@/shared/ui/Loader";
 import { RunIcon } from "@/shared/assets/icons";
+import { getLevelInfo } from "@/entities/user/model/leveling";
 
 export default function FriendshipPage() {
   const navigate = useNavigate();
@@ -132,7 +133,12 @@ export default function FriendshipPage() {
 
                 {/* 레벨 & 닉네임 */}
                 <div className="flex flex-col gap-1 flex-1">
-                  <p className="text-label text-custom-gray">레벨 {item.level}</p>
+                  <p className="text-label text-custom-gray">
+                    레벨 {(() => {
+                      const levelInfo = getLevelInfo(item.totalExp);
+                      return levelInfo.level > 50 ? 50 : levelInfo.level;
+                    })()}
+                  </p>
                   <p
                     className={`
                       text-content-bold 

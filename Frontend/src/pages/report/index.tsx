@@ -44,7 +44,7 @@ export default function RecordListPage() {
   const [loading, setLoading] = useState(true);
 
   // 페이지네이션
-  const PAGE_SIZE = 7;
+  const PAGE_SIZE = 10;
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -92,6 +92,7 @@ export default function RecordListPage() {
   const toKoreanType = (t: string) => {
     if (t === "NORMAL") return "에너지";
     if (t === "INTERVAL") return "기지 잠입";
+    if (t === "ENTRY") return "잠입";
     return t;
   };
 
@@ -217,7 +218,7 @@ export default function RecordListPage() {
               <ul className="flex flex-col gap-3">
                 {pagedRecords.map((r) => (
                   <li
-                    key={r.date + r.runningTime}
+                    key={r.sessionId}
                     className="flex items-center justify-between gap-4 rounded-xl bg-section-bg border border-custom-gray pt-5 px-4 pb-4 transition-all hover:border-primary hover:shadow-[0_0_10px_rgba(0,230,255,0.2)]"
                   >
                     <div className="flex-1 min-w-0">
