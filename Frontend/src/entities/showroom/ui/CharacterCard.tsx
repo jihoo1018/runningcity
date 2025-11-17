@@ -54,13 +54,13 @@ export const CharacterCard = ({ tab, data }: Props) => {
   return (
     <div className="text-content-bold relative mx-auto mt-2 w-full max-w-[360px] px-3">
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
-        <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
+        <div className="border-primary rounded-xl border bg-[#0c101c]/70 px-4 py-6">
           <div className="flex items-center justify-between">
-            <div className="text-xs font-semibold text-[#67e8f9]">LV {displayLevel}</div>
-            <div className="text-[10px] text-gray-400">UID: {displayUserId}</div>
+            <div className="text-button text-content-bold text-[#67e8f9]">LV {displayLevel}</div>
+            <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div>
           </div>
 
-          <div className="relative mt-4 h-48 overflow-hidden rounded-lg border border-[#70f3ff]/40">
+          <div className="border-primary/60 relative mt-4 h-48 overflow-hidden rounded-lg border">
             <div className="flex h-full items-center justify-center">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
@@ -70,7 +70,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
 
           {/* 내 사무실일 때만 상세 통계 표시 (원래 기능 유지) */}
           {tab === "me" && isMyOffice && (
-            <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
               <div>
                 <div className="text-gray-500">총 러닝</div>
                 <div className="font-medium"> {metersToKm((data as MyOffice).totalDist)}</div>
