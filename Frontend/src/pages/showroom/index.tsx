@@ -40,7 +40,7 @@ export default function ShowroomPage() {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="text-content flex flex-col">
       <ShowroomTabs tab={tab} setTab={setTab} />
 
       {loading && <div className="text-gray-400">불러오는 중...</div>}
