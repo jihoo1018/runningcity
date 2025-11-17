@@ -46,7 +46,7 @@ export default function BoutiquePage() {
       } catch (err) {
         console.error("부티크 데이터 로드 실패:", err);
         setError(err instanceof Error ? err.message : "데이터를 불러오는데 실패했습니다.");
-        AndroidBridge.showToast("데이터를 불러오는데 실패했습니다.");
+        // AndroidBridge.showToast("데이터를 불러오는데 실패했습니다.");
       } finally {
         setLoading(false);
       }
@@ -109,7 +109,7 @@ export default function BoutiquePage() {
     const count = type === "single" ? 1 : 10;
 
     if (userCurrency < price) {
-      AndroidBridge.showToast("CR이 부족합니다!");
+      // AndroidBridge.showToast("CR이 부족합니다!");
       return;
     }
 
@@ -117,7 +117,7 @@ export default function BoutiquePage() {
       const response = await drawGacha(user.userId, { drawType: type });
 
       if (response.status === 200) {
-        AndroidBridge.showToast(`${count}뽑 가챠 완료!`);
+        // AndroidBridge.showToast(`${count}뽑 가챠 완료!`);
 
         // 가챠 결과 모달 열기
         open("boutique", "gachaResult", {
@@ -134,7 +134,7 @@ export default function BoutiquePage() {
       }
     } catch (error) {
       console.error("가챠 실패:", error);
-      AndroidBridge.showToast("가챠에 실패했습니다.");
+      // AndroidBridge.showToast("가챠에 실패했습니다.");
     }
   };
 

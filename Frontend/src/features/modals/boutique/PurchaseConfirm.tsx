@@ -45,7 +45,7 @@ export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps
       });
 
       if (response.status === 200) {
-        AndroidBridge.showToast(`${item.name}을(를) 구매했습니다!`);
+        // AndroidBridge.showToast(`${item.name}을(를) 구매했습니다!`);
 
         // 구매 성공 이벤트 발생
         window.dispatchEvent(
@@ -61,7 +61,7 @@ export default function BoutiquePurchaseConfirm({ onClose, payload }: ModalProps
       }
     } catch (error) {
       console.error("구매 실패:", error);
-      AndroidBridge.showToast("구매에 실패했습니다.");
+      // AndroidBridge.showToast("구매에 실패했습니다.");
     } finally {
       setIsPurchasing(false);
     }
