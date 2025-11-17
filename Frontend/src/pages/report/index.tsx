@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
 import { FullPageLoader } from "@/shared/ui/Loader";
+import { apiGet } from "@/shared/api";
 
 type CalendarDay = {
   day: number;
@@ -52,17 +53,24 @@ export default function RecordListPage() {
 
     setLoading(true);
 
-    const host = window.location.hostname || "localhost";
-    const protocol = window.location.protocol === "https:" ? "https" : "http";
-    const url = `${protocol}://${host}:8080/api/v1/report?userId=${userId}&year=${year}&month=${month}`;
+    // 쿼리스트링 안전하게 만들기
+    const qs = new URLSearchParams({
+      userId: String(userId),
+      year: String(year),
+      month: String(month),
+    }).toString();
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((json: MonthlyResponse) => {
+    // 기존에 쓰던 엔드포인트 경로로만 바꿔 넣으면 됨
+    apiGet<MonthlyResponse>(`/report?${qs}`)
+      .then((json) => {
         setData(json);
         setPage(1); // 새 달로 바뀌면 1페이지로
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error("월간 리포트 조회 실패:", err);
+        // 필요하면 에러 상태도 세팅
+        // setError(err);
+      })
       .finally(() => setLoading(false));
   }, [userId, year, month]);
 
@@ -113,7 +121,7 @@ export default function RecordListPage() {
 
   if (!data) {
     return (
-      <div className="flex h-full w-full items-center justify-center bg-section-bg">
+      <div className="bg-section-bg flex h-full w-full items-center justify-center">
         <p className="text-content text-custom-gray">기록이 없습니다.</p>
       </div>
     );
@@ -137,16 +145,16 @@ export default function RecordListPage() {
         <div className="mb-6 flex items-center justify-center gap-4">
           <button
             onClick={handlePrevMonth}
-            className="h-20 w-20 text-button text-custom-white transition-all hover:text-primary hover:shadow-[0_0_8px_rgba(0,230,255,0.3)] flex items-center justify-center"
+            className="text-button text-custom-white hover:text-primary flex h-20 w-20 items-center justify-center transition-all hover:shadow-[0_0_8px_rgba(0,230,255,0.3)]"
           >
             &lt;
           </button>
-          <h1 className="text-subtitle !text-[23px] text-custom-white drop-shadow-[0_0_4px_rgba(0,230,255,0.3)]">
+          <h1 className="text-subtitle text-custom-white !text-[23px] drop-shadow-[0_0_4px_rgba(0,230,255,0.3)]">
             {year}년 {month}월
           </h1>
           <button
             onClick={handleNextMonth}
-            className="h-20 w-20 text-button text-custom-white transition-all hover:text-primary hover:shadow-[0_0_8px_rgba(0,230,255,0.3)] flex items-center justify-center"
+            className="text-button text-custom-white hover:text-primary flex h-20 w-20 items-center justify-center transition-all hover:shadow-[0_0_8px_rgba(0,230,255,0.3)]"
           >
             &gt;
           </button>
@@ -154,21 +162,21 @@ export default function RecordListPage() {
 
         {/* 요약 통계 */}
         <div className="mb-6 grid grid-cols-3 gap-3">
-          <div className="rounded-xl border border-custom-gray bg-section-bg p-4">
-            <div className="mb-2 text-center text-label text-custom-gray">총 거리</div>
-            <div className="text-center text-subtitle !text-[18px] text-primary">
+          <div className="border-custom-gray bg-section-bg rounded-xl border p-4">
+            <div className="text-label text-custom-gray mb-2 text-center">총 거리</div>
+            <div className="text-subtitle text-primary text-center !text-[18px]">
               {Number(monthSummary.totalDistanceKm.toFixed(1))}km
             </div>
           </div>
-          <div className="rounded-xl border border-custom-gray bg-section-bg p-4">
-            <div className="mb-2 text-center text-label text-custom-gray">평균 페이스</div>
-            <div className="text-center text-subtitle !text-[18px] text-primary">
+          <div className="border-custom-gray bg-section-bg rounded-xl border p-4">
+            <div className="text-label text-custom-gray mb-2 text-center">평균 페이스</div>
+            <div className="text-subtitle text-primary text-center !text-[18px]">
               {monthSummary.avgPace}
             </div>
           </div>
-          <div className="rounded-xl border border-custom-gray bg-section-bg p-4">
-            <div className="mb-2 text-center text-label text-custom-gray">러닝</div>
-            <div className="text-center text-subtitle !text-[18px] text-primary">
+          <div className="border-custom-gray bg-section-bg rounded-xl border p-4">
+            <div className="text-label text-custom-gray mb-2 text-center">러닝</div>
+            <div className="text-subtitle text-primary text-center !text-[18px]">
               {monthSummary.totalRuns}
             </div>
           </div>
@@ -176,19 +184,16 @@ export default function RecordListPage() {
 
         {/* 달력 영역 */}
         <div className="mb-7">
-          <div className="grid grid-cols-6 gap-3 rounded-xl border border-primary/40 bg-section-bg/60 p-4">
+          <div className="border-primary/40 bg-section-bg/60 grid grid-cols-6 gap-3 rounded-xl border p-4">
             {calendarDays.map((dayObj) => (
               <button
                 key={dayObj.day}
                 type="button"
-                className={`
-                  h-12 w-12 rounded-full flex items-center justify-center transition-all
-                  ${
-                    dayObj.hasRecord
-                      ? "bg-primary/15 border-2 border-primary text-primary"
-                      : "bg-custom-black/30 border border-custom-gray/40 text-custom-gray opacity-50"
-                  }
-                `}
+                className={`flex h-12 w-12 items-center justify-center rounded-full transition-all ${
+                  dayObj.hasRecord
+                    ? "bg-primary/15 border-primary text-primary border-2"
+                    : "bg-custom-black/30 border-custom-gray/40 text-custom-gray border opacity-50"
+                } `}
                 onClick={() => {
                   // 나중에 이 날짜로 스크롤 이동 같은 거 붙이고 싶으면 여기서 처리
                 }}
@@ -208,10 +213,8 @@ export default function RecordListPage() {
         {/* 리스트 영역 */}
         <div>
           {records.length === 0 ? (
-            <div className="rounded-xl bg-section-bg border border-custom-gray p-4 text-center">
-              <p className="text-content text-custom-gray">
-                아직 러닝 기록이 없습니다.
-              </p>
+            <div className="bg-section-bg border-custom-gray rounded-xl border p-4 text-center">
+              <p className="text-content text-custom-gray">아직 러닝 기록이 없습니다.</p>
             </div>
           ) : (
             <>
@@ -219,10 +222,10 @@ export default function RecordListPage() {
                 {pagedRecords.map((r) => (
                   <li
                     key={r.sessionId}
-                    className="flex items-center justify-between gap-4 rounded-xl bg-section-bg border border-custom-gray pt-5 px-4 pb-4 transition-all hover:border-primary hover:shadow-[0_0_10px_rgba(0,230,255,0.2)]"
+                    className="bg-section-bg border-custom-gray hover:border-primary flex items-center justify-between gap-4 rounded-xl border px-4 pt-5 pb-4 transition-all hover:shadow-[0_0_10px_rgba(0,230,255,0.2)]"
                   >
-                    <div className="flex-1 min-w-0">
-                      <div className="mb-4 text-content-bold text-primary drop-shadow-[0_0_4px_rgba(0,230,255,0.3)]">
+                    <div className="min-w-0 flex-1">
+                      <div className="text-content-bold text-primary mb-4 drop-shadow-[0_0_4px_rgba(0,230,255,0.3)]">
                         {formatDate(r.date)}
                       </div>
                       <div className="flex gap-6">
@@ -234,25 +237,21 @@ export default function RecordListPage() {
                         </div>
                         <div className="flex flex-col">
                           <div className="text-label text-custom-gray/70">평균 페이스</div>
-                          <div className="text-content-bold text-custom-white">
-                            {r.avgPace}
-                          </div>
+                          <div className="text-content-bold text-custom-white">{r.avgPace}</div>
                         </div>
                         <div className="flex flex-col">
                           <div className="text-label text-custom-gray/70">시간</div>
-                          <div className="text-content-bold text-custom-white">
-                            {r.runningTime}
-                          </div>
+                          <div className="text-content-bold text-custom-white">{r.runningTime}</div>
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <div className="rounded-full border border-primary/40 bg-section-bg px-3 py-1 text-desc text-custom-gray whitespace-nowrap">
+                      <div className="border-primary/40 bg-section-bg text-desc text-custom-gray rounded-full border px-3 py-1 whitespace-nowrap">
                         {toKoreanType(r.runningType)}
                       </div>
                       <button
                         type="button"
-                        className="rounded-lg border border-primary/50 bg-custom-black px-4 py-1.5 text-button text-custom-white whitespace-nowrap transition-all hover:border-primary hover:bg-primary/10"
+                        className="border-primary/50 bg-custom-black text-button text-custom-white hover:border-primary hover:bg-primary/10 rounded-lg border px-4 py-1.5 whitespace-nowrap transition-all"
                         onClick={() => {
                           if (!userId) return;
                           navigate(`/report/${r.sessionId}?userId=${userId}`);
@@ -270,31 +269,25 @@ export default function RecordListPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className={`
-                    rounded-lg border px-3 py-1.5 text-desc transition-all
-                    ${
-                      page === 1
-                        ? "border-custom-gray/40 bg-section-bg text-custom-gray opacity-50 cursor-not-allowed"
-                        : "border-primary/40 bg-section-bg text-custom-white hover:border-primary hover:bg-primary/10 hover:shadow-[0_0_6px_rgba(0,230,255,0.3)]"
-                    }
-                  `}
+                  className={`text-desc rounded-lg border px-3 py-1.5 transition-all ${
+                    page === 1
+                      ? "border-custom-gray/40 bg-section-bg text-custom-gray cursor-not-allowed opacity-50"
+                      : "border-primary/40 bg-section-bg text-custom-white hover:border-primary hover:bg-primary/10 hover:shadow-[0_0_6px_rgba(0,230,255,0.3)]"
+                  } `}
                 >
                   이전
                 </button>
-                <span className="rounded-lg border border-primary/40 bg-section-bg px-3 py-1.5 text-desc text-custom-white">
+                <span className="border-primary/40 bg-section-bg text-desc text-custom-white rounded-lg border px-3 py-1.5">
                   {page} / {totalPages}
                 </span>
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className={`
-                    rounded-lg border px-3 py-1.5 text-desc transition-all
-                    ${
-                      page === totalPages
-                        ? "border-custom-gray/40 bg-section-bg text-custom-gray opacity-50 cursor-not-allowed"
-                        : "border-primary/40 bg-section-bg text-custom-white hover:border-primary hover:bg-primary/10 hover:shadow-[0_0_6px_rgba(0,230,255,0.3)]"
-                    }
-                  `}
+                  className={`text-desc rounded-lg border px-3 py-1.5 transition-all ${
+                    page === totalPages
+                      ? "border-custom-gray/40 bg-section-bg text-custom-gray cursor-not-allowed opacity-50"
+                      : "border-primary/40 bg-section-bg text-custom-white hover:border-primary hover:bg-primary/10 hover:shadow-[0_0_6px_rgba(0,230,255,0.3)]"
+                  } `}
                 >
                   다음
                 </button>
@@ -306,4 +299,3 @@ export default function RecordListPage() {
     </div>
   );
 }
-
