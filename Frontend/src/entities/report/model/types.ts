@@ -11,23 +11,26 @@ export type ReportDetail = {
   type: "NORMAL" | "ENTRY";
   summary: {
     totalSteps: number | null;
-    totalDistance: number | null;   // meters
+    totalDistance: number | null; // meters
     totalCalories: number | null;
     avgHeartRate: number | null;
-    duration: number | null;        // seconds
+    duration: number | null; // seconds
     avgCadence: number | null;
-    avgPace: number | null;         // sec/km
+    avgPace: number | null; // sec/km
     elevation: number | null;
   };
   rewards?: { credit?: number; exp?: number };
-  route?: { geojson: string };      // GeoJSON LineString (WGS84, [lon,lat])
+  route?: { geojson: string }; // GeoJSON LineString (WGS84, [lon,lat])
+  aiReport?: {
+    content: string;
+  } | null;
 };
 
 export type ReportListItem = {
   sessionId: number;
-  startTime: string;                // ISO
+  startTime: string; // ISO
   type: "NORMAL" | "ENTRY" | string;
-  totalDistance: number;            // 백엔드 스펙에 맞춰 단위 고정
+  totalDistance: number; // 백엔드 스펙에 맞춰 단위 고정
   duration: number;
   avgPace: number;
 };
@@ -37,4 +40,8 @@ export type ReportMonthPayload = {
   MonthtotalDistance: number;
   totalAvgPace: number;
   totalSession: number;
+};
+
+export type AiReport = {
+  content: string;
 };

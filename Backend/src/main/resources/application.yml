@@ -45,6 +45,13 @@
       serialization:
         write-dates-as-timestamps: false
 
+  gms:
+    api:
+      key: ${GMS_API_KEY}
+      base-url: ${GMS_BASE_URL}
+    path:
+      openai: ${GMS_PATH_OPENAI}
+
   logging:
     level:
       org.springframework.web: DEBUG

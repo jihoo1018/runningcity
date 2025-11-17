@@ -54,3 +54,8 @@ signing.properties
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
+
+# ----------------------------
+# firebase
+# ----------------------------
+**/google-services.json
