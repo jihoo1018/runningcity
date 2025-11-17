@@ -27,7 +27,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
     // 1~4 중 랜덤 선택
     const randomNum = Math.floor(Math.random() * 4) + 1;
     const bgUrl = `${ENV.ASSETS_ORIGIN}/background/character_card_background${randomNum}.png`;
-    
+
     // 이미지 preload
     const img = new Image();
     img.onload = () => {
@@ -79,13 +79,13 @@ export const CharacterCard = ({ tab, data }: Props) => {
   return (
     <div className="text-content-bold relative mx-auto mt-2 w-full max-w-[360px] px-3">
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
-        <div className="border-primary rounded-xl border bg-[#0c101c]/70 px-4 py-6">
+        <div className="border-primary bg-section-bg rounded-xl border px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="text-button text-content-bold text-[#67e8f9]">LV {displayLevel}</div>
             <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div>
           </div>
 
-          <div 
+          <div
             className="border-primary/60 relative mt-4 h-48 overflow-hidden rounded-lg border bg-cover bg-center bg-no-repeat transition-opacity duration-500"
             style={{
               backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
@@ -100,22 +100,24 @@ export const CharacterCard = ({ tab, data }: Props) => {
               </div>
             )}
             <div className="flex h-full items-center justify-center relative z-10">
+          <div className="border-primary/70 relative mt-4 h-48 overflow-hidden rounded-lg border">
+            <div className="flex h-full items-center justify-center bg-black/30">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
           </div>
 
           <div className="mt-4 text-lg font-bold text-white">{displayNickname}</div>
 
-          {/* 내 사무실일 때 - 모든 통계 표시 */}
+          {/* 내 사무실일 때만 상세 통계 표시 (원래 기능 유지) */}
           {tab === "me" && isMyOffice && (
             <div className="text-content mt-4 grid grid-cols-2 gap-4">
               <div>
                 <div className="text-custom-gray text-content-bold">총 러닝</div>
-                <div className="">{metersToKm((data as MyOffice).totalDist)}</div>
+                <div className=""> {metersToKm((data as MyOffice).totalDist)}</div>
               </div>
               <div>
                 <div className="text-custom-gray text-content-bold">최장 거리</div>
-                <div className="font-medium">{metersToKm((data as MyOffice).maxDist)}</div>
+                <div className="font-medium"> {metersToKm((data as MyOffice).maxDist)}</div>
               </div>
               <div>
                 <div className="text-custom-gray text-content-bold">평균 페이스</div>
@@ -127,7 +129,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
               </div>
               <div>
                 <div className="text-custom-gray text-content-bold">잠입 횟수</div>
-                <div className="font-medium">{(data as MyOffice).totalEntryCnt ?? 0} 회</div>
+                <div className="font-medium"> {(data as MyOffice).totalEntryCnt ?? 0} 회</div>
               </div>
             </div>
           )}
@@ -136,10 +138,10 @@ export const CharacterCard = ({ tab, data }: Props) => {
           {(tab === "friend" || tab === "global") && isRandomAvatar && (() => {
             const avatar = data as RandomAvatar;
             const privacy = avatar.privacySetting;
-            
+
             // Privacy 설정에 따라 표시할 항목 필터링
             const statsToShow: Array<{ label: string; value: string }> = [];
-            
+
             if (privacy.showTotalRunning) {
               statsToShow.push({ label: "총 러닝", value: metersToKm(avatar.totalDist) });
             }
@@ -175,7 +177,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
           {/* 태그 표시 (모든 탭) */}
           {(() => {
             let tags: string[] = [];
-            
+
             // me 탭: MyOffice의 privacySetting
             if (tab === "me" && isMyOffice && data) {
               tags = (data as MyOffice).privacySetting?.tags || [];

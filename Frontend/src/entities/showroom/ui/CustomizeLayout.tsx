@@ -27,10 +27,11 @@ export const CustomizeLayout = ({
   onSave,
 }: Props) => {
   return (
-    <div
-      className="mx-auto flex max-w-[480px] flex-col overflow-hidden"
-      style={{ height: "calc(100vh - 64px)" }} // 👈 하단 nav 제외한 높이
-    >
+    <div className="flex h-full w-full flex-col">
+      {/* <div
+       className="mx-auto flex max-w-[480px] flex-col overflow-hidden"
+       style={{ height: "calc(100vh - 64px)" }} // 👈 하단 nav 제외한 높이
+     >*/}
       {/* 상단 UI */}
       <div className="flex flex-none items-center justify-between px-2 py-3">
         <BackIconButton onClick={onBack} />
@@ -72,11 +73,11 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 탭 리스트 */}
-      <div className="scrollbar-hide flex flex-none gap-2 overflow-x-auto px-2 pb-2">
+      <div className="scrollbar-hide flex flex-none flex-nowrap gap-2 overflow-x-auto px-2 pb-2">
         {tabList.map((t) => (
           <button
             key={t}
-            className={`text-button rounded px-3 py-2 ${
+            className={`text-button flex-shrink-0 rounded px-4 py-2 whitespace-nowrap ${
               tab === t
                 ? "bg-primary text-custom-black"
                 : "border-custom-gray text-custom-white border"
@@ -106,7 +107,7 @@ export const CustomizeLayout = ({
       </div> */}
 
       {/* 저장하기 버튼 */}
-      <div className="flex-none px-2 py-4">
+      <div className="mt-15 flex-none px-2 py-4">
         <button
           onClick={onSave}
           className="border-primary text-button bg-section-bg w-full rounded-xl border py-3"

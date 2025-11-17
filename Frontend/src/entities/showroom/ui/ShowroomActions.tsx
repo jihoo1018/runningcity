@@ -41,7 +41,7 @@ export const ShowroomActions = ({ tab, onNext, onNextGlobal }: Props) => {
   }
 
   return (
-    <div className="my-3 flex justify-center gap-2 sm:gap-4">
+    <div className="text-content-bold my-3 flex justify-center gap-2 sm:gap-4">
       <button
         className="border-primary bg-section-bg text-buton rounded-xl border px-4 py-2 sm:px-6 sm:py-3 sm:text-base"
         onClick={goChangeClothes}

@@ -104,13 +104,12 @@ const HomePage = () => {
     <div className="flex h-full w-full flex-col gap-4">
       <UserProfileHeader />
       <FloatingMenu />
-      ``
       {/* ----------------------------- */}
       {/* 캐릭터 + 포탈 영역 */}
       {/* ----------------------------- */}
       <div className="flex flex-1 items-end justify-center pb-6">
         <div className="relative flex items-center justify-center">
-          <div className="relative z-10 mb-15 scale-200">
+          <div className="relative z-10 mb-15 scale-150">
             <LPCCharacterRenderer items={equippedItems} direction={2} animation="walk" />
           </div>
         </div>
