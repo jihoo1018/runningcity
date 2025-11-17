@@ -29,3 +29,4 @@ export { ReactComponent as HairIcon } from "./hair.svg";
 export { ReactComponent as ApparelIcon } from "./apparel.svg";
 export { ReactComponent as HeadAccIcon } from "./head_acc.svg";
 export { ReactComponent as BodyIcon } from "./body.svg";
+export { ReactComponent as GiftIcon } from "./gift.svg";
