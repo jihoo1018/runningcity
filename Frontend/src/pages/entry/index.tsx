@@ -113,7 +113,7 @@ const EntryPage = () => {
   };
 
   return (
-    <div className="bg-custom-black text-custom-white flex h-full w-full flex-col overflow-hidden">
+    <div className="bg-custom-black text-custom-white flex h-full w-full flex-col gap-6 overflow-hidden pt-4">
       {/* 탭 선택 */}
       <div className="flex w-full justify-between gap-3">
         <button
@@ -146,7 +146,7 @@ const EntryPage = () => {
       </div>
 
       {/* 지도 */}
-      <div className="mt-2 mb-3 flex h-[30vh] w-full justify-center">
+      <div className="flex h-[50vw] w-full justify-center">
         <MapView
           markers={
             entries
