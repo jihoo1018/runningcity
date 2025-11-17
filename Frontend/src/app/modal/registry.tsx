@@ -21,6 +21,7 @@ const PrivacySettingConfirm = lazy(() => import("@/features/modals/privacySettin
 const PrivacySettingAlert = lazy(() => import("@/features/modals/privacySetting/Alert"));
 const CommonFail = lazy(() => import("@/features/modals/common/Fail"));
 const SettingTutorial = lazy(() => import("@/features/modals/tutorial"));
+const customAlert = lazy(() => import("@/features/modals/showroom/customAlert"));
 
 export const REGISTRY = {
   setting: {
@@ -53,6 +54,9 @@ export const REGISTRY = {
     root: PrivacySettingRoot,
     confirm: PrivacySettingConfirm,
     alert: PrivacySettingAlert,
+  },
+  showroom: {
+    alert: customAlert,
   },
   common: {
     fail: CommonFail,
