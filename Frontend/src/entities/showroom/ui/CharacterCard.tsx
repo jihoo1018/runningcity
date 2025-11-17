@@ -100,8 +100,6 @@ export const CharacterCard = ({ tab, data }: Props) => {
               </div>
             )}
             <div className="flex h-full items-center justify-center relative z-10">
-          <div className="border-primary/70 relative mt-4 h-48 overflow-hidden rounded-lg border">
-            <div className="flex h-full items-center justify-center bg-black/30">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
           </div>
