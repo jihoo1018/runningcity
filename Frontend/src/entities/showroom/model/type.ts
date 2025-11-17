@@ -54,3 +54,21 @@ export type ItemGridProps = {
   onNext: () => void;
   onSelect: (item: InventoryItem) => void;
 };
+
+// ============================================
+// 랜덤 아바타 (친구/글로벌 쇼룸용)
+// ============================================
+export type RandomAvatar = {
+  userId: number;
+  nickname: string;
+  level: number;
+  equippedItems: RandomAvatarEquippedItem[];
+};
+
+export type RandomAvatarEquippedItem = {
+  itemId: number;
+  category: "bodies" | "clothes" | "hair" | "head";
+  subcategory: string;
+  style?: string | null;
+  basePath: string;
+};
