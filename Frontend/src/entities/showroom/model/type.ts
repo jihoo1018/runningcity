@@ -10,6 +10,7 @@ export type MyOffice = {
   bestPace: number; // 유저 최고 기록(페이스)
   totalEntryCnt: number; // 유저 총 잠입 횟수
   equippedItemList: EquippedItem[];
+  privacySetting?: PrivacySetting; // Privacy 설정 (선택적)
 };
 
 export type EquippedItem = {
@@ -63,6 +64,14 @@ export type RandomAvatar = {
   nickname: string;
   level: number;
   equippedItems: RandomAvatarEquippedItem[];
+  // 🆕 통계 정보
+  totalDist: number;
+  maxDist: number;
+  avgPace: number;
+  bestPace: number;
+  totalEntryCnt: number;
+  // 🆕 Privacy 설정
+  privacySetting: PrivacySetting;
 };
 
 export type RandomAvatarEquippedItem = {
