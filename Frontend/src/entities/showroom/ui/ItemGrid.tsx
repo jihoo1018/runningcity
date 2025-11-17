@@ -34,7 +34,7 @@ export const ItemGrid = ({ items, onPrev, onNext, onSelect, disablePrev, disable
               <LPCPreviewRenderer basePath={item.basePath} />
             </div>
 
-            <div className="mt-1 text-center text-[10px] text-white">{item.name}</div>
+            <div className="mt-1 h-7 text-center text-[10px] text-white">{item.name}</div>
           </div>
         ))}
       </div>
