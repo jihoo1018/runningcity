@@ -9,4 +9,8 @@ import java.util.Optional;
 public interface DailyMissionRepository extends JpaRepository<DailyMission, Long> {
 
     Optional<DailyMission> findByUserIdAndDate(Long userId, ZonedDateTime date);
+    // 기존 DailyMissionRepository에 아래 메서드 추가
+    int countByUserIdAndDateGreaterThanEqualAndDateLessThanAndCompletedTrue(
+            Long userId, ZonedDateTime startInclusive, ZonedDateTime endExclusive);
+
 }
