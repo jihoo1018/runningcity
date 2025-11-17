@@ -70,25 +70,25 @@ export const CharacterCard = ({ tab, data }: Props) => {
 
           {/* 내 사무실일 때만 상세 통계 표시 (원래 기능 유지) */}
           {tab === "me" && isMyOffice && (
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+            <div className="text-content mt-4 grid grid-cols-2 gap-4">
               <div>
-                <div className="text-gray-500">총 러닝</div>
-                <div className="font-medium"> {metersToKm((data as MyOffice).totalDist)}</div>
+                <div className="text-custom-gray text-content-bold">총 러닝</div>
+                <div className=""> {metersToKm((data as MyOffice).totalDist)}</div>
               </div>
               <div>
-                <div className="text-gray-500">최장 거리</div>
+                <div className="text-custom-gray text-content-bold">최장 거리</div>
                 <div className="font-medium"> {metersToKm((data as MyOffice).maxDist)}</div>
               </div>
               <div>
-                <div className="text-gray-500">평균 페이스</div>
+                <div className="text-custom-gray text-content-bold">평균 페이스</div>
                 <div className="font-medium">{formatPace((data as MyOffice).avgPace)}</div>
               </div>
               <div>
-                <div className="text-gray-500">최고 페이스</div>
+                <div className="text-custom-gray text-content-bold">최고 페이스</div>
                 <div className="font-medium">{formatPace((data as MyOffice).bestPace)}</div>
               </div>
               <div>
-                <div className="text-gray-500">잠입 횟수</div>
+                <div className="text-custom-gray text-content-bold">잠입 횟수</div>
                 <div className="font-medium"> {(data as MyOffice).totalEntryCnt ?? 0} 회</div>
               </div>
             </div>
