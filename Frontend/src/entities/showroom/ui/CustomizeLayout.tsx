@@ -89,13 +89,27 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 아이템 그리드 — 남은 공간을 모두 차지 */}
-      <div className="overflow-auto">{children}</div>
+      {/* <div className="overflow-auto">{children}</div> */}
+      {/* 아이템 그리드 영역 고정 높이 */}
+      <div className="relative flex-none" style={{ height: "240px" }}>
+        {children}
+      </div>
+
+      {/* 저장하기 버튼 */}
+      {/* <div className="flex-none px-2 py-4">
+        <button
+          className="border-primary text-button w-full rounded-xl border py-3"
+          onClick={onSave}
+        >
+          저장하기
+        </button>
+      </div> */}
 
       {/* 저장하기 버튼 */}
       <div className="flex-none px-2 py-4">
         <button
-          className="border-primary text-button w-full rounded-xl border py-3"
           onClick={onSave}
+          className="border-primary text-button bg-section-bg w-full rounded-xl border py-3"
         >
           저장하기
         </button>

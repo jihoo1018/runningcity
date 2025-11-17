@@ -7,7 +7,7 @@ export const ShowroomTabs = ({ tab, setTab }: Props) => {
     `
       px-3 py-2 sm:px-4 sm:py-2 
       rounded-lg text-buton
-      ${tab === key ? "bg-primary text-black" : "border border-custom-gray text-custom-gray"}
+      ${tab === key ? "bg-primary text-black" : "border border-custom-gray bg-section-bg text-custom-gray"}
     `;
 
   return (
