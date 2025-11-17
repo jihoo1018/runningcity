@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.android)
     id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlyticsPlugin)
 }
 
 
@@ -29,12 +31,12 @@ android {
             )
 
             // 릴리스 빌드용 URL 추가
-            buildConfigField("String", "WEBVIEW_URL", "\"https://api.runningcity.com\"")
+            buildConfigField("String", "WEBVIEW_URL", "\"http://k13a405.p.ssafy.io\"")
         }
 
         debug {
             // 디버그 빌드용 URL 추가 (로컬호스트:5173 사용)
-            buildConfigField("String", "WEBVIEW_URL", "\"http://:5173\"") // 또는 각자의 IP 주소를 사용하기
+            buildConfigField("String", "WEBVIEW_URL", "\"http://k13a405.p.ssafy.io\"") // 또는 각자의 IP 주소를 사용하기
         }
     }
     compileOptions {
@@ -106,4 +108,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // crashlytics
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.firebaseCrashlytics)
 }

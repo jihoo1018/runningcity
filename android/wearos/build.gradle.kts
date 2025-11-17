@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.googleServices)
+    alias(libs.plugins.firebaseCrashlyticsPlugin)
 }
 
 android {
@@ -9,7 +11,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.runningcity"
+        applicationId = "com.runningcity.wear"
         minSdk = 30
         targetSdk = 33  // ✅ 33으로 변경 (Galaxy Watch 6 최적화)
         versionCode = 1
@@ -110,4 +112,8 @@ dependencies {
 
     // JSON
     implementation(libs.gson)
+
+    // crashlytics
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.firebaseCrashlytics)
 }

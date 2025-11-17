@@ -44,7 +44,10 @@ public class RunService {
         if (!st.isBefore(et)) {
             throw new BaseException(RunResponseCode.INVALID_TIME_RANGE);
         }
-        validateGps(req.getGpsPoints());
+
+        // ✅ GPS 검증 (null/빈 리스트는 validateGps 내부에서 그냥 통과)
+        List<? extends com.runningcity.run.dto.common.GpsPointLike> gps = req.getGpsPoints();
+        validateGps(gps);
 
         String rewardsJson = (req.getRewards() == null) ? null : toJsonString(req.getRewards());
 
@@ -66,12 +69,19 @@ public class RunService {
                 req.getClientSecretKey()
         );
 
-        nativeRepository.batchInsertPoints(sid, req.getGpsPoints());
-        boolean ok = nativeRepository.upsertRouteAndLength(sid, 2.0);
-        if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
+        // ✅ GPS가 1개 이상 있을 때만 포인트/라인 처리
+        if (gps != null && !gps.isEmpty()) {
+            nativeRepository.batchInsertPoints(sid, gps);
+
+            // 라인은 2개 이상일 때만 만드는 게 안전하니 size 체크
+            if (gps.size() >= 2) {
+                boolean ok = nativeRepository.upsertRouteAndLength(sid, 2.0);
+                if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
+            }
+        }
     }
 
-
+    /** 워치 사후 동기화 업로드 */
     @Transactional
     public void uploadWatchOnce(long userId, WatchUploadRequest req) {
         // epoch millis 강제 + 범위 검증
@@ -83,8 +93,9 @@ public class RunService {
             throw new BaseException(RunResponseCode.INVALID_TIME_RANGE);
         }
 
-        // GPS 유효성 검증
-        validateGps(req.getGpsPoints());
+        // GPS 유효성 검증 (null/빈 리스트는 validateGps 내부에서 통과)
+        List<WatchUploadRequest.GpsPoint> gps = req.getGpsPoints();
+        //validateGps(gps);
 
         // 워치 사후 동기화 상수
         final String TYPE = "NORMAL";
@@ -109,14 +120,20 @@ public class RunService {
                 toJsonString(req.getHeartRateRecords())
         );
 
+        // ✅ GPS가 없으면 여기서 그냥 끝 (심박/summary만 있는 세션)
+        if (gps == null || gps.isEmpty()) {
+            return;
+        }
+
         // 포인트 배치 멱등 삽입
-        nativeRepository.batchInsertPoints(sid, req.getGpsPoints());
+        nativeRepository.batchInsertPoints(sid, gps);
 
-        // 경로 생성/업데이트
-        boolean ok = nativeRepository.upsertRouteAndLength(sid, 2.0);
-        if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
+        // 라인 생성은 2개 이상이어야 의미 있으니 체크
+        if (gps.size() >= 2) {
+            boolean ok = nativeRepository.upsertRouteAndLength(sid, 2.0);
+            if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
+        }
     }
-
 
     /** JSON 직렬화 실패 시 JSON_SERIALIZATION_FAILED */
     private String toJsonString(Object v) {

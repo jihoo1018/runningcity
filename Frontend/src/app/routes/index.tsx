@@ -20,6 +20,8 @@ import LoginPage from "@/pages/login";
 import SignupPage from "@/pages/signup";
 import RequireAuth from "./guards/RequireAuth";
 import RequireGuest from "./guards/RequireGuest";
+import NotFoundPage from "@/pages/notFound";
+import FriendRequestPage from "@/pages/friendship/request";
 
 export function AppRoutes() {
   const location = useLocation();
@@ -42,9 +44,11 @@ export function AppRoutes() {
           <Route path="/showroom/customize" element={<CustomizePage />} />
           <Route path="/showroom/edit" element={<ShowroomEditPage />} />
           <Route path="/friendship" element={<FriendshipPage />} />
-          <Route path="/running" element={<RunningPage />} />
+          <Route path="/friendship/request" element={<FriendRequestPage />} />
+          
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
-
+        <Route path="/running" element={<RunningPage />} />
         <Route path="/m/*" element={<Navigate to="/" replace />} />
 
         <Route path="/nickname" element={<NicknamePage />} />

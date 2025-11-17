@@ -78,4 +78,25 @@ public class UserEquippedItem {
     public boolean isEquipped(Long itemId) {
         return this.itemId.equals(itemId);
     }
+
+
+    // 정적 팩터리 메서드
+    public static UserEquippedItem create(
+            Long userId,
+            Long itemId,
+            ItemCategory category,
+            SubCategory subcategory,
+            Style style,
+            ZonedDateTime equippedAt
+    ) {
+        UserEquippedItem ei = new UserEquippedItem();
+        ei.userId = userId;
+        ei.itemId = itemId;
+        ei.category = category;
+        ei.subcategory = subcategory;
+        ei.style = style;
+        ei.equippedAt = equippedAt;
+        return ei;
+    }
+
 }

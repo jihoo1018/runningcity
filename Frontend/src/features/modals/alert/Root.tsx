@@ -18,7 +18,7 @@ export default function AlertRoot({ onClose }: { onClose: () => void }) {
               <span className="text-label">알림삭제</span>
             </CommonButton>
             <CommonLinkButton
-              href="/friendship"
+              href="/friendship/request?tab=received"
               onClick={onClose}
               variant="solid"
               className="w-[50%] p-2"
