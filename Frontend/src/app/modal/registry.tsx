@@ -16,6 +16,9 @@ const BoutiquePurchaseConfirm = lazy(() => import("@/features/modals/boutique/Pu
 const BoutiqueGachaResult = lazy(() => import("@/features/modals/boutique/GachaResult"));
 const MissionRoot = lazy(() => import("@/features/modals/mission/Root"));
 const MissionConfirm = lazy(() => import("@/features/modals/mission/Confirm"));
+const PrivacySettingRoot = lazy(() => import("@/features/modals/privacySetting/Root"));
+const PrivacySettingConfirm = lazy(() => import("@/features/modals/privacySetting/Confirm"));
+const PrivacySettingAlert = lazy(() => import("@/features/modals/privacySetting/Alert"));
 const CommonFail = lazy(() => import("@/features/modals/common/Fail"));
 
 export const REGISTRY = {
@@ -43,6 +46,11 @@ export const REGISTRY = {
   boutique: {
     purchaseConfirm: BoutiquePurchaseConfirm,
     gachaResult: BoutiqueGachaResult,
+  },
+  privacySetting: {
+    root: PrivacySettingRoot,
+    confirm: PrivacySettingConfirm,
+    alert: PrivacySettingAlert,
   },
   common: {
     fail: CommonFail,

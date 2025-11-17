@@ -39,11 +39,12 @@ export const CharacterCard = ({ tab, data }: Props) => {
           </div>
 
           {tab === "me" && data && (
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+            <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
               <div>총 러닝: {data.totalDist}</div>
-              <div>최장 거리: {data.longestDist}</div>
+              <div>최장 거리: {data.maxDist}</div>
               <div>평균 페이스: {data.avgPace}</div>
               <div>최고 기록: {data.bestPace}</div>
+              <div>잠입: {data.totalEntryCnt}</div>
             </div>
           )}
         </div>

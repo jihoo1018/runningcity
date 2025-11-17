@@ -5,6 +5,7 @@ export const FLOWS = {
   mission: ["root", "confirm"] as const,
   boutique: ["purchaseConfirm", "gachaResult"] as const,
   entry: ["root", "level"] as const,
+  privacySetting: ["root", "confirm", "alert"] as const,
   common: ["fail"] as const,
 } as const;
 
