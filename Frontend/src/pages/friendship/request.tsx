@@ -370,7 +370,6 @@ export default function FriendRequestPage() {
 
                 {/* 정보 */}
                 <div className="flex flex-col flex-1 gap-1">
-                  <p className="text-label text-custom-gray">레벨 {item.friendLevel}</p>
                   <p className="text-content-bold text-custom-white">{item.friendNickname}</p>
                 </div>
 
@@ -416,7 +415,6 @@ export default function FriendRequestPage() {
 
               {/* 정보 */}
               <div className="flex flex-col flex-1 gap-1">
-                <p className="text-label text-custom-gray">레벨 {item.requesterLevel}</p>
                 <p className="text-content-bold text-custom-white">{item.requesterNickname}</p>
               </div>
 
