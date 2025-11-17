@@ -146,16 +146,16 @@ export default function BoutiquePage() {
     );
   }
 
-  if (loading) {
-    return (
-      <div className="bg-custom-black flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2"></div>
-          <p className="text-custom-gray">부티크 로딩 중...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="bg-custom-black flex min-h-screen items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2"></div>
+  //         <p className="text-custom-gray">부티크 로딩 중...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return (
