@@ -27,12 +27,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -279,37 +275,49 @@ public class ShowRoomService {
      * @param user 유저 엔티티
      * @param equippedItems 해당 유저의 장착 아이템 목록 (null 가능)
      * @param itemMap 전체 아이템 맵 (캐싱된 데이터)
-     * @return RandomAvatarResponse DTO
+     * @return RandomAvatarResponse DTO (장착 아이템이 없으면 null)
      */
     private RandomAvatarResponse buildRandomAvatarResponse(
             User user,
             List<UserEquippedItem> equippedItems,
             Map<Long, Boutique> itemMap
     ) {
+        // ✅ 1단계: 장착 아이템이 없으면 null 반환
+        if (equippedItems == null || equippedItems.isEmpty()) {
+            log.debug("🚫 장착 아이템 없음 - 스킵: userId={}, nickname={}",
+                    user.getUserId(), user.getNickname());
+            return null;
+        }
+
         // 장착 아이템 DTO 변환
-        List<RandomAvatarResponse.EquippedItemDto> items =
-                (equippedItems != null)
-                        ? equippedItems.stream()
-                        .map(equipped -> {
-                            Boutique item = itemMap.get(equipped.getItemId());
+        List<RandomAvatarResponse.EquippedItemDto> items = equippedItems.stream()
+                .map(equipped -> {
+                    Boutique item = itemMap.get(equipped.getItemId());
 
-                            // 아이템 정보가 없는 경우 (데이터 정합성 문제)
-                            if (item == null) {
-                                log.warn("⚠️ 아이템 정보 없음: userId={}, itemId={}",
-                                        user.getUserId(), equipped.getItemId());
-                                return null;
-                            }
+                    // 아이템 정보가 없는 경우 (데이터 정합성 문제)
+                    if (item == null) {
+                        log.warn("⚠️ 아이템 정보 없음: userId={}, itemId={}",
+                                user.getUserId(), equipped.getItemId());
+                        return null;
+                    }
 
-                            return RandomAvatarResponse.EquippedItemDto.builder()
-                                    .itemId(item.getItemId())
-                                    .category(item.getCategory())
-                                    .subcategory(item.getSubcategory())
-                                    .style(item.getStyle())
-                                    .basePath(item.getBasePath())
-                                    .build();
-                        })
-                        .toList()
-                        : List.of();  // equippedItems가 null이면 빈 리스트
+                    return RandomAvatarResponse.EquippedItemDto.builder()
+                            .itemId(item.getItemId())
+                            .category(item.getCategory())
+                            .subcategory(item.getSubcategory())
+                            .style(item.getStyle())
+                            .basePath(item.getBasePath())
+                            .build();
+                })
+                .filter(Objects::nonNull)  // ✅ null 아이템 제거
+                .toList();
+
+        // ✅ 2단계: 변환 후에도 유효한 아이템이 없으면 null 반환
+        if (items.isEmpty()) {
+            log.warn("⚠️ 유효한 장착 아이템 없음 - 스킵: userId={}, nickname={}",
+                    user.getUserId(), user.getNickname());
+            return null;
+        }
 
         return RandomAvatarResponse.builder()
                 .userId(user.getUserId())
@@ -318,7 +326,6 @@ public class ShowRoomService {
                 .equippedItems(items)
                 .build();
     }
-
     /**
      * 👥 친구 쇼룸 - 친구들의 아바타 조회
      *
