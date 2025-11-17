@@ -104,7 +104,6 @@ const HomePage = () => {
     <div className="flex h-full w-full flex-col gap-4">
       <UserProfileHeader />
       <FloatingMenu />
-      ``
       {/* ----------------------------- */}
       {/* 캐릭터 + 포탈 영역 */}
       {/* ----------------------------- */}

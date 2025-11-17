@@ -17,13 +17,17 @@ export default function CustomizePage() {
   const [mode, setMode] = useState<"body" | "head">("body");
   const [tab, setTab] = useState("상의");
   const [page, setPage] = useState(0);
-
   const slots = useAvatarStore((s) => s.slots);
   const inventory = useAvatarStore((s) => s.inventory);
   const setInventory = useAvatarStore((s) => s.setInventory);
   const equip = useAvatarStore((s) => s.equip);
   const sync = useAvatarStore((s) => s.syncFromServer);
   const toArray = useAvatarStore((s) => s.toArray);
+
+  useEffect(() => {
+    // Tab 바뀔때마다 page 0으로 초기화
+    setPage(0);
+  }, [tab]);
 
   useEffect(() => {
     fetchGetInventoryList().then(setInventory);
