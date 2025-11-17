@@ -178,6 +178,7 @@ public class ShowRoomService {
     }
 
     public MyOfficeResponse getMyOffice(Long userId) {
+        // 운동 통계 계산 (기존 로직 그대로)
         List<RunSession> sessions = runSessionRepository.findAllByUserIdAndEndTimeIsNotNull(userId);
         double totalDist = 0;
         double maxDist = 0;
@@ -188,23 +189,28 @@ public class ShowRoomService {
         for (RunSession session : sessions) {
             totalDist += session.getTotalDistance();
             maxDist = Math.max(maxDist, session.getTotalDistance());
-            avgPace +=  session.getAvgPace();
+            avgPace += session.getAvgPace();
             bestPace = Math.min(session.getAvgPace(), bestPace);
-            totalEntryCnt += ("ENTRY".equals(session.getType())? 1:0);
+            totalEntryCnt += ("ENTRY".equals(session.getType()) ? 1 : 0);
         }
 
         if(sessions.size() > 0) avgPace /= sessions.size();
 
-        // 현재 사용자 착장 아이템 리스트
+        // 현재 사용자 착장 아이템 리스트 (기존)
         List<UserEquippedItemResponse> userEquippedItemList = this.getUserEquippedItemList(userId);
 
+        // 🆕 Privacy 설정 조회 추가
+        PrivacySettingResponse privacySetting = privacySettingService.getPrivacySetting(userId);
+
+        // 🔄 Privacy 포함해서 반환
         return MyOfficeResponse.create(
                 totalDist,
                 maxDist,
                 avgPace,
                 bestPace,
                 totalEntryCnt,
-                userEquippedItemList
+                userEquippedItemList,
+                privacySetting  // 🆕 추가
         );
     }
 
