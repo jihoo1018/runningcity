@@ -58,6 +58,9 @@ public enum CommonResponseCode implements BaseResponseCode {
     PRIVACY_SETTING_POST_SUCCESS(HttpStatus.OK, "PRIVACY_SETTING_2001", "내 사무실 공개 설정 저장 요청에 성공했습니다."),
     PRIVACY_SETTING_BAD_REQUEST(HttpStatus.BAD_REQUEST, "PRIVACY_SETTING_4001", "내 사무실 공개 설정 요청에 실패했습니다."),
 
+
+    EQUIPPED_ITEMS_GET_SUCCESS(HttpStatus.OK, "EQUIPPED_ITEMS_2000", "유저 착장 리스트 조회 요청에 성공했습니다."),
+
     // 옷 갈아입히기
     CHANGE_CLOTHES_GET_SUCCESS(HttpStatus.OK, "CHANGE_CLOTHES_2000", "옷 갈아입기 조회 요청에 성공했습니다."),
     CHANGE_CLOTHES_POST_SUCCESS(HttpStatus.OK, "CHANGE_CLOTHES_2001", "옷 갈아입기 저장 요청에 성공했습니다."),

@@ -120,3 +120,22 @@ img {
   }
 }
 /* 캐릭터 카드 스타일 end*/
+
+/* 위아래 float 애니메이션 */
+@keyframes float {
+  0% {
+    transform: translateY(5px);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+}

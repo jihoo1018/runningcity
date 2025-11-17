@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getEntryResult, completeEntrySession } from "@/entities/entry/api";
+import { getEntryResult } from "@/entities/entry/api";
 import KakaoRunningPreviewMap from "@/entities/entry/ui/KakaoRunningPreviewMap";
 import { RunningSession, RewardType, Reward, GpsPoint } from "@/entities/entry/model/types";
 import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
@@ -82,8 +82,8 @@ const EntryResultPage = () => {
   const [bonusExp, setBonusExp] = useState(0); // 🔹 추가로 얻은 EXP
   const [bonusCr, setBonusCr] = useState(0); // 🔹 추가로 얻은 CR
   const [chipCount, setChipCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false); // ⚡ 요청 실패 시 상태 저장
+  const [loading] = useState(false);
+  const [error] = useState(false); // 버튼 레이블 유지용
   const { sid } = useParams();
   const sessionId = Number(sid); // 세션아이디값
 
@@ -170,63 +170,16 @@ const EntryResultPage = () => {
   };
 
   /** ✅ 저장 (확인 버튼) */
-  const handleConfirm = async () => {
-    // sessionId가 null이어도 저장 가능 (워치에서 시작한 경우)
-    if (!resultData) {
-      alert("결과 데이터가 없습니다.");
-      return;
-    }
-
-    setLoading(true);
-    setError(false);
-
-    const updatedSession = {
-      ...resultData,
-      rewards: {
-        exp: resultData && resultData.rewards ? resultData.rewards.exp + bonusExp : 0 + bonusExp,
-        credit:
-          resultData && resultData.rewards ? resultData.rewards.credit + bonusCr : 0 + bonusCr,
-      },
-    };
-
-    console.log("📦 서버로 보낼 데이터:", updatedSession);
-    console.log("📦 세션 정보:", {
-      sessionId: updatedSession.sessionId,
-      userId: updatedSession.userId,
-      clientSecretKey: updatedSession.clientSecretKey,
-    });
-
-    try {
-      const success = await completeEntrySession(updatedSession);
-
-      if (success) {
-        alert("✅ 잠입 세션이 성공적으로 종료되었습니다.");
-        navigate("/entry");
-      } else {
-        throw new Error("서버 응답 실패");
-      }
-    } catch (err: any) {
-      console.error("❌ 서버 요청 실패:", err);
-      console.error("❌ 에러 상세:", {
-        message: err.message,
-        response: err.response,
-        stack: err.stack,
-      });
-      
-      // 더 구체적인 에러 메시지 표시
-      const errorMessage = err.message || "서버 요청 중 문제가 발생했습니다.";
-      alert(`❌ ${errorMessage}\n\n다시 시도해주세요.`);
-      setError(true); // 요청 실패 시 복구 플래그
-    } finally {
-      setLoading(false);
-    }
+  const handleConfirm = () => {
+    navigate("/");
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#0A1A2F] p-6 text-white">
-      <h1 className="mb-6 text-2xl font-bold">📊 결과 리포트</h1>
+    <div className="flex flex-col h-full justify-center items-center p-6 text-white">
+      <div className="w-full max-w-md flex flex-col items-center">
+        <h1 className="mb-6 text-2xl font-bold text-center">결과 리포트</h1>
 
-      <div className="mb-6 w-full max-w-md rounded-2xl border border-cyan-300 bg-[#1B3240] p-4">
+        <div className="mb-6 w-full rounded-2xl border border-cyan-300 bg-[#1B3240] p-4">
         {/* 지도 자리 */}
         <div className="mt-4">
           <KakaoRunningPreviewMap points={resultData?.gpsPoints ?? []}></KakaoRunningPreviewMap>
@@ -275,7 +228,7 @@ const EntryResultPage = () => {
 
         {/* 보상 영역 */}
         <div className="rounded-lg bg-[#13242F] p-4 text-center">
-          <h2 className="mb-2 text-xl font-semibold">획득 보상 🎁</h2>
+          <h2 className="mb-2 text-xl font-semibold">획득 보상</h2>
           <div className="mt-4 mb-4 grid grid-cols-2 gap-3 border-t pt-3 pr-3 pl-3 text-sm">
             {/* 🔹 EXP, CR = 기본값 + 추가 리워드 */}
             <div>
@@ -313,35 +266,38 @@ const EntryResultPage = () => {
                 )}
               </div>
             ) : (
-              <p>데이터칩을 열어보세요 🔹</p>
+              <p>데이터칩을 열어보세요</p>
             )}
           </div>
         </div>
-      </div>
+        </div>
 
-      {/* ✅ 칩 0개 시 저장 버튼 (재시도 가능) */}
-      {chipCount > 0 ? (
-        <button
-          onClick={handleDraw}
-          className="rounded-xl bg-cyan-500 px-6 py-2 font-semibold text-black transition-all hover:bg-cyan-400"
-        >
-          데이터칩 열기
-        </button>
-      ) : (
-        <button
-          onClick={handleConfirm}
-          disabled={loading}
-          className={`items-center justify-center rounded-xl px-6 py-2 font-semibold transition-all ${
-            loading
-              ? "bg-custom-gray text-custom-black cursor-wait"
-              : error
-                ? "bg-accent-red"
-                : "bg-custom-white text-custom-black"
-          }`}
-        >
-          {loading ? "저장 중..." : error ? "재시도" : "확인"}
-        </button>
-      )}
+        {/* ✅ 칩 0개 시 저장 버튼 (재시도 가능) */}
+        <div className="w-full flex justify-center">
+          {chipCount > 0 ? (
+            <button
+              onClick={handleDraw}
+              className="rounded-xl bg-cyan-500 px-6 py-2 font-semibold text-black transition-all hover:bg-cyan-400"
+            >
+              데이터칩 열기
+            </button>
+          ) : (
+            <button
+              onClick={handleConfirm}
+              disabled={loading}
+              className={`rounded-xl px-6 py-2 font-semibold transition-all ${
+                loading
+                  ? "bg-custom-gray text-custom-black cursor-wait"
+                  : error
+                    ? "bg-accent-red"
+                    : "bg-custom-white text-custom-black"
+              }`}
+            >
+              {loading ? "저장 중..." : error ? "재시도" : "확인"}
+            </button>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

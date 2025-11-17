@@ -12,12 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PrivacySettingRequest {
-    private boolean isGlobalPublic;
+    private boolean globalPublic;
     private boolean showTotalRunning;
     private boolean showMaxDistance;
     private boolean showAvgPace;
     private boolean showBestPace;
     private boolean showHikingCount;
 
-    private List<String> tags; // TODO 유저당 최대 4개의 태그 제약하기
+    private List<String> tags;
 }

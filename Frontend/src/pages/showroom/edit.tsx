@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useModalRouter } from "@/app/modal/useModalRouter";
+import { BackIconButton } from "@/shared/ui/IconButtons";
 import { PrivacySetting } from "@/entities/showroom/model/type";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
 import {
@@ -183,9 +184,14 @@ const ShowroomEditPage = () => {
   // 🔵 UI
   // -----------------------------
   return (
-    <div className="border-primary bg-section-bg text-content flex flex-col items-center rounded-xl border p-6">
-      <div className="mb-1">
-        <h1 className="text-subtitle text-custom-white text-center">공개설정</h1>
+    <div className="border-primary bg-section-bg text-content mx-auto flex max-w-[480px] flex-col items-center rounded-xl border p-6">
+      <div className="items-left mb-3 flex justify-between">
+        {/* 왼쪽 뒤로가기 버튼 */}
+        <div className="absolute left-8">
+          <BackIconButton onClick={() => history.back()} />
+        </div>
+        {/* 중앙 제목 */}
+        <h1 className="text-subtitle text-custom-white mx-auto text-center">공개설정</h1>{" "}
       </div>
 
       <div className="w-full max-w-[360px] rounded-xl shadow-md">
@@ -220,7 +226,7 @@ const ShowroomEditPage = () => {
                 className={`rounded-full px-3 py-1 text-sm ${
                   isSelected
                     ? "bg-primary text-custom-black"
-                    : "border-primary text-custom-gray border"
+                    : "border-primary text-custom-white border"
                 }`}
               >
                 {tag}

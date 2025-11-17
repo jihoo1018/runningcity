@@ -18,7 +18,7 @@ export const ShowroomActions = ({ tab, onNext, onNextGlobal }: Props) => {
     return (
       <div className="mb-2 flex justify-center">
         <button
-          className="rounded-xl border px-4 py-2 text-sm shadow sm:text-base"
+          className="text-buton rounded-xl border px-4 py-2 text-sm shadow sm:text-base"
           onClick={onNext}
         >
           next ▶
@@ -31,7 +31,7 @@ export const ShowroomActions = ({ tab, onNext, onNextGlobal }: Props) => {
     return (
       <div className="mb-2 flex justify-center">
         <button
-          className="rounded-xl border px-4 py-2 text-sm shadow sm:text-base"
+          className="text-buton rounded-xl border px-4 py-2 text-sm shadow sm:text-base"
           onClick={onNextGlobal}
         >
           next ▶
@@ -43,13 +43,13 @@ export const ShowroomActions = ({ tab, onNext, onNextGlobal }: Props) => {
   return (
     <div className="my-3 flex justify-center gap-2 sm:gap-4">
       <button
-        className="rounded-xl border px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base"
+        className="border-primary bg-section-bg text-buton rounded-xl border px-4 py-2 sm:px-6 sm:py-3 sm:text-base"
         onClick={goChangeClothes}
       >
         옷 갈아입기
       </button>
       <button
-        className="rounded-xl border px-4 py-2 text-sm sm:px-6 sm:py-3 sm:text-base"
+        className="border-primary bg-section-bg m:px-6 text-buton rounded-xl border px-4 py-2 sm:py-3 sm:text-base"
         onClick={goEditInfo}
       >
         사무실 정보 수정

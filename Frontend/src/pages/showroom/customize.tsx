@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+// src/pages/showroom/customize.tsx
+import { useEffect, useState, useMemo } from "react";
 import { CustomizeLayout } from "@/entities/showroom/ui/CustomizeLayout";
 import { ItemGrid } from "@/entities/showroom/ui/ItemGrid";
 import {
@@ -24,27 +25,26 @@ export default function CustomizePage() {
   const sync = useAvatarStore((s) => s.syncFromServer);
   const toArray = useAvatarStore((s) => s.toArray);
 
-  // 인벤토리 / 서버착장 불러오기
   useEffect(() => {
     fetchGetInventoryList().then(setInventory);
-    fetchGetEquippedItems().then(sync);
+    if (Object.keys(slots).length === 0) {
+      fetchGetEquippedItems().then(sync);
+    }
   }, []);
 
-  // 탭 → subcategory 변환
-  function tabToSub(tab: string) {
-    return {
-      헤어: "hair",
-      얼굴: "heads",
-      표정: "faces",
-      눈썹: "eyebrows",
-      눈: "eyes",
-      코: "nose",
-      귀: "ears",
-    }[tab];
-  }
+  /** 🔥 useMemo 안에서 tabToSub + filterItems 정의 */
+  const filteredItems = useMemo(() => {
+    const tabToSub = (tab: string) =>
+      ({
+        헤어: "hair",
+        얼굴: "heads",
+        표정: "faces",
+        눈썹: "eyebrows",
+        눈: "eyes",
+        코: "nose",
+        귀: "ears",
+      })[tab];
 
-  // 인벤토리 필터링
-  function filterItems() {
     if (mode === "body") {
       if (tab === "상의")
         return inventory.filter((i) => ["tshirt", "longsleeve"].includes(i.subcategory));
@@ -58,7 +58,7 @@ export default function CustomizePage() {
     }
 
     return inventory;
-  }
+  }, [inventory, mode, tab]);
 
   async function handleSave() {
     const payload = toArray();
@@ -75,20 +75,21 @@ export default function CustomizePage() {
       tabList={mode === "body" ? BODY_TABS : HEAD_TABS}
       equippedItems={slotsToArray(slots)}
       onBack={() => history.back()}
+      onSave={handleSave}
     >
       <ItemGrid
-        items={filterItems().slice(page * 8, page * 8 + 8)}
+        items={filteredItems.slice(page * 6, page * 6 + 6)}
         onPrev={() => setPage((p) => Math.max(0, p - 1))}
-        onNext={() => setPage((p) => p + 1)}
+        onNext={() =>
+          setPage((p) => {
+            const maxPage = Math.floor((filteredItems.length - 1) / 6);
+            return Math.min(maxPage, p + 1);
+          })
+        }
         onSelect={equip}
+        disablePrev={page === 0}
+        disableNext={page >= Math.floor((filteredItems.length - 1) / 6)}
       />
-
-      <button
-        className="bg-primary mt-4 w-full rounded-xl py-3 font-bold text-black"
-        onClick={handleSave}
-      >
-        저장하기
-      </button>
     </CustomizeLayout>
   );
 }
