@@ -5,6 +5,9 @@ import type { MyOffice, RandomAvatar } from "@/entities/showroom/model/type";
 import { slotsToArray } from "@/entities/showroom/model/slotUtils";
 import { getLevelInfo } from "@/entities/user/model/leveling";
 import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
+import { ENV } from "@/shared/config/env";
+import { useState, useEffect } from "react";
+import { NotificationIcon } from "@/shared/assets/icons";
 
 type Props = {
   tab: "me" | "friend" | "global";
@@ -15,6 +18,28 @@ export const CharacterCard = ({ tab, data }: Props) => {
   const user = useAuthStore((s) => s.user);
   const slots = useAvatarStore((s) => s.slots);
   const userLevelInfo = getLevelInfo(user?.totalExp ?? 0);
+
+  // 랜덤 배경 이미지 (1~4)
+  const [backgroundImage, setBackgroundImage] = useState<string>("");
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    // 1~4 중 랜덤 선택
+    const randomNum = Math.floor(Math.random() * 4) + 1;
+    const bgUrl = `${ENV.ASSETS_ORIGIN}/background/character_card_background${randomNum}.png`;
+
+    // 이미지 preload
+    const img = new Image();
+    img.onload = () => {
+      setBackgroundImage(bgUrl);
+      setIsImageLoaded(true);
+    };
+    img.onerror = () => {
+      // 이미지 로드 실패 시 기본 배경 사용
+      setIsImageLoaded(true);
+    };
+    img.src = bgUrl;
+  }, []);
 
   // 데이터 타입 구분
   const isMyOffice = data && "equippedItemList" in data;
@@ -60,8 +85,21 @@ export const CharacterCard = ({ tab, data }: Props) => {
             <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div>
           </div>
 
-          <div className="border-primary/70 relative mt-4 h-48 overflow-hidden rounded-lg border">
-            <div className="flex h-full items-center justify-center bg-black/30">
+          <div
+            className="border-primary/60 relative mt-4 h-48 overflow-hidden rounded-lg border bg-cover bg-center bg-no-repeat transition-opacity duration-500"
+            style={{
+              backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+              backgroundColor: '#1a1a3e',
+              opacity: isImageLoaded ? 1 : 0.8
+            }}
+          >
+            {/* 로딩 중일 때 약간의 블러 효과 */}
+            {!isImageLoaded && (
+              <div className="absolute inset-0 bg-[#1a1a3e]/50 backdrop-blur-sm flex items-center justify-center">
+                <div className="text-primary text-xs animate-pulse">Loading...</div>
+              </div>
+            )}
+            <div className="flex h-full items-center justify-center relative z-10">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
           </div>
@@ -94,10 +132,94 @@ export const CharacterCard = ({ tab, data }: Props) => {
             </div>
           )}
 
-          {/* 친구/글로벌일 때는 스와이프 안내 */}
+          {/* 친구/글로벌 탭 - Privacy 설정에 따라 통계 표시 */}
+          {(tab === "friend" || tab === "global") && isRandomAvatar && (() => {
+            const avatar = data as RandomAvatar;
+            const privacy = avatar.privacySetting;
+
+            // Privacy 설정에 따라 표시할 항목 필터링
+            const statsToShow: Array<{ label: string; value: string }> = [];
+
+            if (privacy.showTotalRunning) {
+              statsToShow.push({ label: "총 러닝", value: metersToKm(avatar.totalDist) });
+            }
+            if (privacy.showMaxDistance) {
+              statsToShow.push({ label: "최장 거리", value: metersToKm(avatar.maxDist) });
+            }
+            if (privacy.showAvgPace) {
+              statsToShow.push({ label: "평균 페이스", value: formatPace(avatar.avgPace) });
+            }
+            if (privacy.showBestPace) {
+              statsToShow.push({ label: "최고 페이스", value: formatPace(avatar.bestPace) });
+            }
+            if (privacy.showHikingCount) {
+              statsToShow.push({ label: "잠입 횟수", value: `${avatar.totalEntryCnt ?? 0} 회` });
+            }
+
+            return statsToShow.length > 0 ? (
+              <div className="text-content mt-4 grid grid-cols-2 gap-4">
+                {statsToShow.map((stat, idx) => (
+                  <div key={idx}>
+                    <div className="text-custom-gray text-content-bold">{stat.label}</div>
+                    <div className="font-medium">{stat.value}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-4 text-center text-xs text-gray-400">
+                🔒 이 사용자는 통계를 비공개로 설정했습니다
+              </div>
+            );
+          })()}
+
+          {/* 태그 표시 (모든 탭) */}
+          {(() => {
+            let tags: string[] = [];
+
+            // me 탭: MyOffice의 privacySetting
+            if (tab === "me" && isMyOffice && data) {
+              tags = (data as MyOffice).privacySetting?.tags || [];
+            }
+            // 친구/글로벌 탭: RandomAvatar의 privacySetting
+            else if ((tab === "friend" || tab === "global") && isRandomAvatar) {
+              tags = (data as RandomAvatar).privacySetting?.tags || [];
+            }
+
+            // 태그 색상 배열 (Tailwind)
+            const tagColors = [
+              "bg-blue-500/20 text-blue-400 border-blue-500/30",
+              "bg-purple-500/20 text-purple-400 border-purple-500/30",
+              "bg-pink-500/20 text-pink-400 border-pink-500/30",
+              "bg-green-500/20 text-green-400 border-green-500/30",
+              "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+              "bg-red-500/20 text-red-400 border-red-500/30",
+              "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+              "bg-orange-500/20 text-orange-400 border-orange-500/30",
+            ];
+
+            return tags.length > 0 ? (
+              <div className="mt-4">
+                <div className="text-custom-gray text-xs mb-2">태그</div>
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className={`text-xs px-3 py-1 rounded-full border ${tagColors[idx % tagColors.length]}`}
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null;
+          })()}
+
+          {/* 스와이프 안내 (친구/글로벌 탭) */}
           {(tab === "friend" || tab === "global") && (
-            <div className="mt-4 text-center text-xs text-gray-400">
-              👈 스와이프해서 다른 유저 보기 👉
+            <div className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-400">
+              <NotificationIcon className="w-4 h-4 text-primary animate-pulse" />
+              <span>스와이프해서 다른 유저 보기</span>
+              <NotificationIcon className="w-4 h-4 text-primary animate-pulse" />
             </div>
           )}
         </div>

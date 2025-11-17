@@ -73,11 +73,11 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 탭 리스트 */}
-      <div className="scrollbar-hide flex flex-none gap-2 overflow-x-auto px-2 pb-2">
+      <div className="scrollbar-hide flex flex-none flex-nowrap gap-2 overflow-x-auto px-2 pb-2">
         {tabList.map((t) => (
           <button
             key={t}
-            className={`text-button rounded px-3 py-2 ${
+            className={`text-button flex-shrink-0 rounded px-4 py-2 whitespace-nowrap ${
               tab === t
                 ? "bg-primary text-custom-black"
                 : "border-custom-gray text-custom-white border"
