@@ -413,7 +413,7 @@ public class ShowRoomService {
         log.info("🎁 기본 아바타 지급 시작: userId={}", userId);
 
         // 기본 지급 아이템 ID 목록
-        List<Long> defaultItemIds = List.of(1L, 179L, 251L, 287L, 293L, 276L, 706L, 703L);
+        List<Long> defaultItemIds = List.of(1L, 179L, 251L, 287L, 276L, 706L, 703L);
 
         try {
             // 1️⃣ 아이템 정보 조회

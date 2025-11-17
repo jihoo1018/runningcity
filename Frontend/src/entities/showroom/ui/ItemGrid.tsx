@@ -1,34 +1,40 @@
-// src\entities\showroom\ui\ItemGrid.tsx
+// src/entities/showroom/ui/ItemGrid.tsx
 import { LPCPreviewRenderer } from "./LPCPreviewRenderer";
-import { ItemGridProps, InventoryItem } from "@/entities/showroom/model/type";
+import { ItemGridProps } from "@/entities/showroom/model/type";
 
 export const ItemGrid = ({ items, onPrev, onNext, onSelect }: ItemGridProps) => {
   return (
-    <div className="relative mt-2">
-      {/* prev 버튼 */}
+    <div className="relative w-full">
+      {/* Prev 버튼 */}
       <button
-        className="bg-primary absolute top-1/2 left-0 h-7 w-7 -translate-y-1/2 rounded-full shadow sm:h-12 sm:w-12"
+        className="bg-primary absolute top-1/2 left-0 z-20 h-7 w-7 -translate-y-1/2 rounded-full shadow"
         onClick={onPrev}
       >
         ◀
       </button>
 
-      {/* grid */}
-      <div className="border-primary mt-1 grid grid-cols-4 gap-3 p-4 sm:grid-cols-4 sm:gap-4 md:grid-cols-5">
+      {/* Responsive Grid */}
+      <div className="grid w-full grid-cols-3 gap-3 border-t px-2 py-2 sm:grid-cols-3 md:grid-cols-4">
         {items.map((item, idx) => (
           <div
             key={idx}
             onClick={() => onSelect(item)}
-            className="flex h-16 w-16 items-center justify-center rounded-lg border sm:h-20 sm:w-20 md:h-24 md:w-24"
+            className="border-primary flex flex-col rounded-xl border p-2 shadow-lg transition"
           >
-            <LPCPreviewRenderer basePath={item.basePath} />
+            <div className="flex flex-1 items-center justify-center rounded-md bg-black/20">
+              <LPCPreviewRenderer basePath={item.basePath} />
+            </div>
+
+            <div className="text-content-bold mt-1 text-center text-[10px] text-white">
+              {item.name}
+            </div>
           </div>
         ))}
       </div>
 
-      {/* next 버튼 */}
+      {/* Next 버튼 */}
       <button
-        className="bg-primary absolute top-1/2 right-0 h-7 w-7 -translate-y-1/2 rounded-full border sm:h-12 sm:w-12"
+        className="bg-primary absolute top-1/2 right-0 z-20 h-7 w-7 -translate-y-1/2 rounded-full shadow"
         onClick={onNext}
       >
         ▶
