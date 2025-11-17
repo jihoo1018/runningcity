@@ -42,16 +42,16 @@ export const CharacterCard = ({ tab, data }: Props) => {
   const equippedArray = getEquippedItems();
 
   // 유저 정보 결정
-  const displayLevel = isRandomAvatar
-    ? (data as RandomAvatar).level
-    : user?.level ?? 1;
-
-  const displayNickname = isRandomAvatar
-    ? (data as RandomAvatar).nickname
+  const displayLevel = isRandomAvatar 
+    ? (data as RandomAvatar).level 
+    : userLevelInfo.level ?? 1;
+  
+  const displayNickname = isRandomAvatar 
+    ? (data as RandomAvatar).nickname 
     : user?.nickname ?? "러닝시티 유저";
-
-  const displayUserId = isRandomAvatar
-    ? (data as RandomAvatar).userId
+  
+  const displayUserId = isRandomAvatar 
+    ? (data as RandomAvatar).userId 
     : user?.userId;
 
   return (
@@ -59,10 +59,6 @@ export const CharacterCard = ({ tab, data }: Props) => {
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
         <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
           <div className="flex items-center justify-between">
-            <div className="text-xs font-semibold text-[#67e8f9]">
-              LV {userLevelInfo.level ?? 1}
-            </div>
-            <div className="text-[10px] text-gray-400">UID: {user?.userId}</div>
             <div className="text-xs font-semibold text-[#67e8f9]">
               LV {displayLevel}
             </div>
@@ -81,13 +77,14 @@ export const CharacterCard = ({ tab, data }: Props) => {
             {displayNickname}
           </div>
 
-          {/* 내 사무실일 때만 상세 통계 표시 */}
+          {/* 내 사무실일 때만 상세 통계 표시 (원래 기능 유지) */}
           {tab === "me" && isMyOffice && (
-            <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-300">
+            <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
               <div>총 러닝: {(data as MyOffice).totalDist}</div>
-              <div>최장 거리: {(data as MyOffice).longestDist}</div>
+              <div>최장 거리: {(data as MyOffice).maxDist}</div>
               <div>평균 페이스: {(data as MyOffice).avgPace}</div>
               <div>최고 기록: {(data as MyOffice).bestPace}</div>
+              <div>잠입: {(data as MyOffice).totalEntryCnt}</div>
             </div>
           )}
 
@@ -95,13 +92,6 @@ export const CharacterCard = ({ tab, data }: Props) => {
           {(tab === "friend" || tab === "global") && (
             <div className="mt-4 text-center text-xs text-gray-400">
               👈 스와이프해서 다른 유저 보기 👉
-          {tab === "me" && data && (
-            <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
-              <div>총 러닝: {data.totalDist}</div>
-              <div>최장 거리: {data.maxDist}</div>
-              <div>평균 페이스: {data.avgPace}</div>
-              <div>최고 기록: {data.bestPace}</div>
-              <div>잠입: {data.totalEntryCnt}</div>
             </div>
           )}
         </div>
