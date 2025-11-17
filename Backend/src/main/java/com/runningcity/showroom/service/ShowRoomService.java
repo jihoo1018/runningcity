@@ -198,16 +198,15 @@ public class ShowRoomService {
         List<Long> friendUserIds = friendshipRepository.findAllRelatedUserIds(currentUserId);
         log.debug("👥 친구 목록: {} ({}명)", friendUserIds, friendUserIds.size());
 
-        // ✅ Step 2: 제외할 유저 목록 (본인 + 친구들)
+        // ✅ Step 2: 제외할 유저 목록
         List<Long> excludedUserIds = new ArrayList<>(friendUserIds);
         excludedUserIds.add(currentUserId);
-        log.debug("🚫 제외 목록: {} ({}명)", excludedUserIds, excludedUserIds.size());
 
-        // ✅ Step 3: 랜덤 유저 조회
-        Pageable pageable = PageRequest.of(0, size);
-        List<User> randomUsers = userRepository.findRandomNonFriends(
+        // ✅ Step 3: 장착 아이템 있는 랜덤 유저 조회
+        int fetchSize = (int) (size * 1.5);  // 여유분 확보
+        List<User> randomUsers = userRepository.findRandomUsersWithEquippedItems(
                 excludedUserIds,
-                pageable
+                fetchSize
         );
 
         if (randomUsers.isEmpty()) {
@@ -217,19 +216,16 @@ public class ShowRoomService {
 
         log.info("✅ 조회된 랜덤 유저 수: {}", randomUsers.size());
 
-        // ✅ Step 4: 아이템 정보 조회 (캐싱!)
+        // ✅ Step 4: 아이템 정보 조회
         Map<Long, Boutique> itemMap = getAllItemsMap();
-        log.debug("📦 아이템 맵 로드: {}개", itemMap.size());
 
-        // ✅ Step 5: 장착 정보 일괄 조회 (N+1 방지!)
+        // ✅ Step 5: 장착 정보 일괄 조회
         List<Long> userIds = randomUsers.stream()
                 .map(User::getUserId)
                 .toList();
 
         List<UserEquippedItem> allEquippedItems =
                 equippedItemRepository.findAllByUserIdIn(userIds);
-
-        log.debug("🎨 장착 아이템 조회: {}개", allEquippedItems.size());
 
         // ✅ Step 6: userId별로 그룹핑
         Map<Long, List<UserEquippedItem>> equippedByUser = allEquippedItems.stream()
@@ -242,6 +238,8 @@ public class ShowRoomService {
                         equippedByUser.get(user.getUserId()),
                         itemMap
                 ))
+                .filter(Objects::nonNull)  // null 제거
+                .limit(size)  // 요청 개수만큼
                 .toList();
 
         log.info("✅ [완료] 랜덤 아바타 조회 성공 - 반환: {}명", result.size());
