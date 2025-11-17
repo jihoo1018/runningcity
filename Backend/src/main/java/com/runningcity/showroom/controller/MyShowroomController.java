@@ -53,7 +53,7 @@ public class MyShowroomController {
     public ResponseEntity<ApiResponse<List<UserEquippedItemResponse>>> getEquippedItems(@PathVariable("userId") Long userId
     ){
         // 현재 사용자 착장 아이템 리스트
-        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.MY_OFFICE_GET_SUCCESS,showroomService.getUserEquippedItemList(userId)));
+        return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.EQUIPPED_ITEMS_GET_SUCCESS,showroomService.getUserEquippedItemList(userId)));
     }
 
     /**
