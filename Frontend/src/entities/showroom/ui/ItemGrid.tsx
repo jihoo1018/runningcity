@@ -1,20 +1,29 @@
 // src/entities/showroom/ui/ItemGrid.tsx
 import { LPCPreviewRenderer } from "./LPCPreviewRenderer";
-import { ItemGridProps } from "@/entities/showroom/model/type";
+import { InventoryItem } from "@/entities/showroom/model/type";
 
-export const ItemGrid = ({ items, onPrev, onNext, onSelect }: ItemGridProps) => {
+type Props = {
+  items: InventoryItem[];
+  onPrev: () => void;
+  onNext: () => void;
+  onSelect: (item: InventoryItem) => void;
+  disablePrev: boolean;
+  disableNext: boolean;
+};
+
+export const ItemGrid = ({ items, onPrev, onNext, onSelect, disablePrev, disableNext }: Props) => {
   return (
-    <div className="relative w-full">
+    <div className="relative flex h-full w-full items-start justify-center">
       {/* Prev 버튼 */}
       <button
-        className="bg-primary absolute top-1/2 left-0 z-20 h-7 w-7 -translate-y-1/2 rounded-full shadow"
+        disabled={disablePrev}
+        className={`bg-primary absolute top-1/2 left-1 h-8 w-8 -translate-y-1/2 rounded-full ${disablePrev ? "cursor-not-allowed opacity-30" : ""}`}
         onClick={onPrev}
       >
         ◀
       </button>
-
-      {/* Responsive Grid */}
-      <div className="grid w-full grid-cols-3 gap-3 border-t px-2 py-2 sm:grid-cols-3 md:grid-cols-4">
+      {/* Grid */}
+      <div className="grid w-full grid-cols-3 gap-3 px-2 py-2 sm:grid-cols-3 md:grid-cols-4">
         {items.map((item, idx) => (
           <div
             key={idx}
@@ -25,16 +34,15 @@ export const ItemGrid = ({ items, onPrev, onNext, onSelect }: ItemGridProps) => 
               <LPCPreviewRenderer basePath={item.basePath} />
             </div>
 
-            <div className="text-content-bold mt-1 text-center text-[10px] text-white">
-              {item.name}
-            </div>
+            <div className="mt-1 text-center text-[10px] text-white">{item.name}</div>
           </div>
         ))}
       </div>
 
       {/* Next 버튼 */}
       <button
-        className="bg-primary absolute top-1/2 right-0 z-20 h-7 w-7 -translate-y-1/2 rounded-full shadow"
+        disabled={disableNext}
+        className={`bg-primary absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 rounded-full ${disableNext ? "cursor-not-allowed opacity-30" : ""}`}
         onClick={onNext}
       >
         ▶
