@@ -87,15 +87,17 @@ export const MapView = ({ markers, onMarkerClick }: MapViewProps) => {
   }, [markers]);
 
   return (
-    <div
-      ref={mapRef}
-      style={{
-        width: "100%",
-        height: "50vw",
-        borderRadius: "10px",
-        marginBottom: "20px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-      }}
-    />
+    <div className="flex items-center  justify-center h-[50vw] w-full mb-5 ">
+      <div
+        ref={mapRef}
+        className="
+          w-full
+          h-[50vw]
+          shadow-md
+          rounded-[15px]
+        "
+      />
+    </div>
+
   );
 };
