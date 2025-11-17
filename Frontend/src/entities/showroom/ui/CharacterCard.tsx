@@ -3,6 +3,7 @@ import { useAvatarStore } from "@/features/avatar/model/avatarStore";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
 import type { MyOffice, RandomAvatar } from "@/entities/showroom/model/type";
 import { slotsToArray } from "@/entities/showroom/model/slotUtils";
+import { getLevelInfo } from "@/entities/user/model/leveling";
 
 type Props = {
   tab: "me" | "friend" | "global";
@@ -12,6 +13,7 @@ type Props = {
 export const CharacterCard = ({ tab, data }: Props) => {
   const user = useAuthStore((s) => s.user);
   const slots = useAvatarStore((s) => s.slots);
+  const userLevelInfo = getLevelInfo(user?.totalExp ?? 0);
 
   // 데이터 타입 구분
   const isMyOffice = data && "equippedItemList" in data;
@@ -40,16 +42,16 @@ export const CharacterCard = ({ tab, data }: Props) => {
   const equippedArray = getEquippedItems();
 
   // 유저 정보 결정
-  const displayLevel = isRandomAvatar 
-    ? (data as RandomAvatar).level 
+  const displayLevel = isRandomAvatar
+    ? (data as RandomAvatar).level
     : user?.level ?? 1;
-  
-  const displayNickname = isRandomAvatar 
-    ? (data as RandomAvatar).nickname 
+
+  const displayNickname = isRandomAvatar
+    ? (data as RandomAvatar).nickname
     : user?.nickname ?? "러닝시티 유저";
-  
-  const displayUserId = isRandomAvatar 
-    ? (data as RandomAvatar).userId 
+
+  const displayUserId = isRandomAvatar
+    ? (data as RandomAvatar).userId
     : user?.userId;
 
   return (
@@ -57,6 +59,10 @@ export const CharacterCard = ({ tab, data }: Props) => {
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
         <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
           <div className="flex items-center justify-between">
+            <div className="text-xs font-semibold text-[#67e8f9]">
+              LV {userLevelInfo.level ?? 1}
+            </div>
+            <div className="text-[10px] text-gray-400">UID: {user?.userId}</div>
             <div className="text-xs font-semibold text-[#67e8f9]">
               LV {displayLevel}
             </div>
@@ -89,6 +95,13 @@ export const CharacterCard = ({ tab, data }: Props) => {
           {(tab === "friend" || tab === "global") && (
             <div className="mt-4 text-center text-xs text-gray-400">
               👈 스와이프해서 다른 유저 보기 👉
+          {tab === "me" && data && (
+            <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
+              <div>총 러닝: {data.totalDist}</div>
+              <div>최장 거리: {data.maxDist}</div>
+              <div>평균 페이스: {data.avgPace}</div>
+              <div>최고 기록: {data.bestPace}</div>
+              <div>잠입: {data.totalEntryCnt}</div>
             </div>
           )}
         </div>

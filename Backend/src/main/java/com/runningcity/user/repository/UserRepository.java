@@ -46,21 +46,28 @@ public interface UserRepository extends JpaRepository<User, Long> {
                         @Param("gainedCredit") long gainedCredit);
 
     /**
-     * 🎯 친구가 아닌 유저들 랜덤 조회
-     * 용도: 랜덤 아바타 쇼룸
-     * @param excludedUserIds 제외할 유저 ID 목록 (친구 + 본인)
-     * @param pageable 조회 개수 제한 (예: PageRequest.of(0, 10))
-     * @return 랜덤 순서로 정렬된 유저 목록
+     * 🎲 장착 아이템이 있는 랜덤 유저 조회 (친구 제외)
+     *
+     * @param excludedUserIds 제외할 유저 ID 목록
+     * @param pageable 페이징 정보
+     * @return 장착 아이템이 있는 랜덤 유저 목록
      */
     @Query(value = """
-        SELECT * FROM users u
-        WHERE u.user_id NOT IN (:excludedUserIds)
-        ORDER BY RANDOM()
-        """,
-            nativeQuery = true)
-    List<User> findRandomNonFriends(
+    SELECT u.*
+    FROM users u
+    WHERE EXISTS (
+        SELECT 1 
+        FROM user_equipped_items uei 
+        WHERE uei.user_id = u.user_id
+    )
+    AND u.user_id NOT IN (:excludedUserIds)
+    AND u.is_active = true
+    ORDER BY RANDOM()
+    LIMIT :limit
+    """, nativeQuery = true)
+    List<User> findRandomUsersWithEquippedItems(
             @Param("excludedUserIds") List<Long> excludedUserIds,
-            Pageable pageable
+            @Param("limit") int limit
     );
     /**
      * 🎯 특정 유저 ID 목록에 해당하는 유저들 조회 (레벨 높은 순)

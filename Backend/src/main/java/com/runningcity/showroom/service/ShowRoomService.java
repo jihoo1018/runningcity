@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,7 @@ public class ShowRoomService {
     private final FriendshipRepository friendshipRepository;
     private final UserRepository userRepository;
     private final BoutiqueRepository boutiqueRepository;
+    private final UserInventoryRepository userInventoryRepository;
 
     /**
      * 인벤토리에 신규 아이템 추가
@@ -196,16 +198,15 @@ public class ShowRoomService {
         List<Long> friendUserIds = friendshipRepository.findAllRelatedUserIds(currentUserId);
         log.debug("👥 친구 목록: {} ({}명)", friendUserIds, friendUserIds.size());
 
-        // ✅ Step 2: 제외할 유저 목록 (본인 + 친구들)
+        // ✅ Step 2: 제외할 유저 목록
         List<Long> excludedUserIds = new ArrayList<>(friendUserIds);
         excludedUserIds.add(currentUserId);
-        log.debug("🚫 제외 목록: {} ({}명)", excludedUserIds, excludedUserIds.size());
 
-        // ✅ Step 3: 랜덤 유저 조회
-        Pageable pageable = PageRequest.of(0, size);
-        List<User> randomUsers = userRepository.findRandomNonFriends(
+        // ✅ Step 3: 장착 아이템 있는 랜덤 유저 조회
+        int fetchSize = (int) (size * 1.5);  // 여유분 확보
+        List<User> randomUsers = userRepository.findRandomUsersWithEquippedItems(
                 excludedUserIds,
-                pageable
+                fetchSize
         );
 
         if (randomUsers.isEmpty()) {
@@ -215,19 +216,16 @@ public class ShowRoomService {
 
         log.info("✅ 조회된 랜덤 유저 수: {}", randomUsers.size());
 
-        // ✅ Step 4: 아이템 정보 조회 (캐싱!)
+        // ✅ Step 4: 아이템 정보 조회
         Map<Long, Boutique> itemMap = getAllItemsMap();
-        log.debug("📦 아이템 맵 로드: {}개", itemMap.size());
 
-        // ✅ Step 5: 장착 정보 일괄 조회 (N+1 방지!)
+        // ✅ Step 5: 장착 정보 일괄 조회
         List<Long> userIds = randomUsers.stream()
                 .map(User::getUserId)
                 .toList();
 
         List<UserEquippedItem> allEquippedItems =
                 equippedItemRepository.findAllByUserIdIn(userIds);
-
-        log.debug("🎨 장착 아이템 조회: {}개", allEquippedItems.size());
 
         // ✅ Step 6: userId별로 그룹핑
         Map<Long, List<UserEquippedItem>> equippedByUser = allEquippedItems.stream()
@@ -240,6 +238,8 @@ public class ShowRoomService {
                         equippedByUser.get(user.getUserId()),
                         itemMap
                 ))
+                .filter(Objects::nonNull)  // null 제거
+                .limit(size)  // 요청 개수만큼
                 .toList();
 
         log.info("✅ [완료] 랜덤 아바타 조회 성공 - 반환: {}명", result.size());
@@ -401,5 +401,63 @@ public class ShowRoomService {
 
         log.info("✅ [완료] 친구 아바타 조회 성공 - 반환: {}명", result.size());
         return result;
+    }
+
+    /**
+     * 🎁 신규 유저에게 기본 아바타 지급
+     *
+     * @param userId 신규 유저 ID
+     */
+    @Transactional
+    public void giveDefaultAvatar(Long userId) {
+        log.info("🎁 기본 아바타 지급 시작: userId={}", userId);
+
+        // 기본 지급 아이템 ID 목록
+        List<Long> defaultItemIds = List.of(1L, 179L, 251L, 287L, 293L, 276L, 706L, 703L);
+
+        try {
+            // 1️⃣ 아이템 정보 조회
+            List<Boutique> defaultItems = boutiqueRepository.findAllById(defaultItemIds);
+
+            if (defaultItems.isEmpty()) {
+                log.error("❌ 기본 아이템 조회 실패: userId={}", userId);
+                return;
+            }
+
+            if (defaultItems.size() != defaultItemIds.size()) {
+                log.warn("⚠️ 일부 기본 아이템 없음: 조회됨={}, 기대={}",
+                        defaultItems.size(), defaultItemIds.size());
+            }
+
+            // 2️⃣ 인벤토리에 추가 (정적 팩터리 메서드 사용)
+            List<UserInventory> inventoryItems = defaultItems.stream()
+                    .map(item -> UserInventory.create(userId, item.getItemId()))
+                    .toList();
+
+            userInventoryRepository.saveAll(inventoryItems);
+            log.info("📦 인벤토리 추가 완료: userId={}, 개수={}", userId, inventoryItems.size());
+
+            // 3️⃣ 자동 장착 (정적 팩터리 메서드 사용)
+            ZonedDateTime now = ZonedDateTime.now();
+            List<UserEquippedItem> equippedItems = defaultItems.stream()
+                    .map(item -> UserEquippedItem.create(
+                            userId,
+                            item.getItemId(),
+                            item.getCategory(),      // Enum 타입
+                            item.getSubcategory(),   // Enum 타입
+                            item.getStyle(),         // Enum 타입
+                            now
+                    ))
+                    .toList();
+
+            equippedItemRepository.saveAll(equippedItems);
+            log.info("👕 자동 장착 완료: userId={}, 개수={}", userId, equippedItems.size());
+
+            log.info("✅ 기본 아바타 지급 완료: userId={}, 아이템={}개", userId, defaultItems.size());
+
+        } catch (Exception e) {
+            log.error("❌ 기본 아바타 지급 중 에러 발생: userId={}", userId, e);
+            // 예외를 다시 던지지 않음 (회원가입은 성공으로 처리)
+        }
     }
 }
