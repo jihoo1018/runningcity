@@ -49,7 +49,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test' //Spring Boot + JUnit + Mockito 통합 환경이 전부 세팅
     testImplementation 'org.springframework.security:spring-security-test' // Spring Security 테스트 전용 라이브러리
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher' // JUnit Platform을 실행(run)할 때 필요한 런타임 구성요소
-    implementation "me.paulschwarz:spring-dotenv:4.0.0" //env 파일 읽는거
 }
 
 tasks.withType(JavaCompile) {
