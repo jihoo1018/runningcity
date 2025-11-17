@@ -43,29 +43,21 @@ export const CharacterCard = ({ tab, data }: Props) => {
   const equippedArray = getEquippedItems();
 
   // 유저 정보 결정
-  const displayLevel = isRandomAvatar
-    ? (data as RandomAvatar).level
-    : userLevelInfo.level ?? 1;
+  const displayLevel = isRandomAvatar ? (data as RandomAvatar).level : (userLevelInfo.level ?? 1);
 
   const displayNickname = isRandomAvatar
     ? (data as RandomAvatar).nickname
-    : user?.nickname ?? "러닝시티 유저";
+    : (user?.nickname ?? "러닝시티 유저");
 
-  const displayUserId = isRandomAvatar
-    ? (data as RandomAvatar).userId
-    : user?.userId;
+  const displayUserId = isRandomAvatar ? (data as RandomAvatar).userId : user?.userId;
 
   return (
     <div className="text-content-bold relative mx-auto mt-2 w-full max-w-[360px] px-3">
       <div className="chip-frame relative w-full rounded-xl p-[2px]">
         <div className="rounded-xl border border-[#5bd0ff]/30 bg-[#0c101c]/70 px-4 py-6">
           <div className="flex items-center justify-between">
-            <div className="text-xs font-semibold text-[#67e8f9]">
-              LV {displayLevel}
-            </div>
-            <div className="text-[10px] text-gray-400">
-              UID: {displayUserId}
-            </div>
+            <div className="text-xs font-semibold text-[#67e8f9]">LV {displayLevel}</div>
+            <div className="text-[10px] text-gray-400">UID: {displayUserId}</div>
           </div>
 
           <div className="relative mt-4 h-48 overflow-hidden rounded-lg border border-[#70f3ff]/40">
@@ -74,18 +66,31 @@ export const CharacterCard = ({ tab, data }: Props) => {
             </div>
           </div>
 
-          <div className="mt-4 text-lg font-bold text-white">
-            {displayNickname}
-          </div>
+          <div className="mt-4 text-lg font-bold text-white">{displayNickname}</div>
 
           {/* 내 사무실일 때만 상세 통계 표시 (원래 기능 유지) */}
           {tab === "me" && isMyOffice && (
             <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
-              <div>총 러닝: {(data as MyOffice).totalDist}</div>
-              <div>최장 거리: {(data as MyOffice).maxDist}</div>
-              <div>평균 페이스: {(data as MyOffice).avgPace}</div>
-              <div>최고 기록: {(data as MyOffice).bestPace}</div>
-              <div>잠입: {(data as MyOffice).totalEntryCnt}</div>
+              <div>
+                <div className="text-gray-500">총 러닝</div>
+                <div className="font-medium"> {metersToKm((data as MyOffice).totalDist)}</div>
+              </div>
+              <div>
+                <div className="text-gray-500">최장 거리</div>
+                <div className="font-medium"> {metersToKm((data as MyOffice).maxDist)}</div>
+              </div>
+              <div>
+                <div className="text-gray-500">평균 페이스</div>
+                <div className="font-medium">{formatPace((data as MyOffice).avgPace)}</div>
+              </div>
+              <div>
+                <div className="text-gray-500">최고 페이스</div>
+                <div className="font-medium">{formatPace((data as MyOffice).bestPace)}</div>
+              </div>
+              <div>
+                <div className="text-gray-500">잠입 횟수</div>
+                <div className="font-medium"> {(data as MyOffice).totalEntryCnt ?? 0} 회</div>
+              </div>
             </div>
           )}
 
@@ -93,30 +98,6 @@ export const CharacterCard = ({ tab, data }: Props) => {
           {(tab === "friend" || tab === "global") && (
             <div className="mt-4 text-center text-xs text-gray-400">
               👈 스와이프해서 다른 유저 보기 👉
-
-
-          {tab === "me" && data && (
-            <div className="text-content-bold mt-4 grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <div className="text-gray-500">총 러닝</div>
-                <div className="font-medium"> {metersToKm(data.totalDist)}</div>
-              </div>
-              <div>
-                <div className="text-gray-500">최장 거리</div>
-                <div className="font-medium"> {metersToKm(data.maxDist)}</div>
-              </div>
-              <div>
-                <div className="text-gray-500">평균 페이스</div>
-                <div className="font-medium">{formatPace(data.avgPace)}</div>
-              </div>
-              <div>
-                <div className="text-gray-500">최고 페이스</div>
-                <div className="font-medium">{formatPace(data.bestPace)}</div>
-              </div>
-              <div>
-                <div className="text-gray-500">잠입 횟수</div>
-                <div className="font-medium"> {data.totalEntryCnt ?? 0} 회</div>
-              </div>
             </div>
           )}
         </div>
