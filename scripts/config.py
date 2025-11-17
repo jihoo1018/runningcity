@@ -43,11 +43,11 @@ if sys.platform == 'win32':
 # 설정
 # ============================================
 DB_CONFIG = {
-    "host": "k13a405.p.ssafy.io",
+    "host": "your-host",
     "port": 5432,
-    "database": "RUNNINGCITY_DEV",
-    "user": "ging",
-    "password": "runrunging@~@",
+    "database": "your-database-name",
+    "user": "your-database-user-name",
+    "password": "your-database-password",
     "client_encoding": "UTF8",
     "options": "-c client_encoding=UTF8"
 }
@@ -62,7 +62,7 @@ LOG_FILE = OUTPUT_DIR / "sync.log"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ===== CDN 설정 (나중에 사용) =====
-CDN_BASE_URL = "https://cdn.runningcity.com/store-assets"
+CDN_BASE_URL = "your-base-url"
 # S3_BUCKET = "runningcity-assets"  # AWS S3 사용 시
 
 
