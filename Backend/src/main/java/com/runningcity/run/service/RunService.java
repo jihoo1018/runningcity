@@ -83,7 +83,7 @@ public class RunService {
 
     /** 워치 사후 동기화 업로드 */
     @Transactional
-    public void uploadWatchOnce(long userId, WatchUploadRequest req) {
+    public long uploadWatchOnce(long userId, WatchUploadRequest req) {
         // epoch millis 강제 + 범위 검증
         Instant st = toInstantStrictMillis(req.getStartTime());
         Instant et = toInstantStrictMillis(req.getEndTime());
@@ -122,7 +122,7 @@ public class RunService {
 
         // ✅ GPS가 없으면 여기서 그냥 끝 (심박/summary만 있는 세션)
         if (gps == null || gps.isEmpty()) {
-            return;
+            return 0;
         }
 
         // 포인트 배치 멱등 삽입
@@ -133,6 +133,8 @@ public class RunService {
             boolean ok = nativeRepository.upsertRouteAndLength(sid, 2.0);
             if (!ok) throw new BaseException(RunResponseCode.ROUTE_BUILD_FAILED);
         }
+
+        return sid;
     }
 
     /** JSON 직렬화 실패 시 JSON_SERIALIZATION_FAILED */

@@ -56,7 +56,8 @@ public class RunController {
                                                              //  @AuthenticationPrincipal UserDetails userDetails,
                                                              ) {
         // MVP: 인증 없음. 추후 JWT userId 매칭 추가.
-        runService.uploadWatchOnce(userId, req);
+        long sessionId = runService.uploadWatchOnce(userId, req);
+        aiReportService.generateAndSave(userId, sessionId, req);
         return ResponseEntity.ok(ApiResponse.success(CommonResponseCode.SUCCESS));
     }
 
