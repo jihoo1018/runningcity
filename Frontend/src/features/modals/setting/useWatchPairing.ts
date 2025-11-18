@@ -8,8 +8,8 @@ export function useWatchPairing() {
 
   // Android → React 메시지 수신 설정
   useEffect(() => {
-    initializeAndroidListener((data) => {
-      console.log("📩 Android 메시지 수신:", data);
+    const cleanup = initializeAndroidListener((data) => {
+      console.log("📩 [WatchPairing] Android 메시지 수신:", data);
       if (data.type === "WATCH_PAIRED") {
         // 타임아웃 클리어
         if (pairingTimeoutRef.current) {
@@ -32,6 +32,8 @@ export function useWatchPairing() {
         setPairingMessage(data.message || "워치 연동에 실패했습니다");
       }
     });
+    
+    return cleanup;
   }, []);
 
   const pairWatch = () => {
