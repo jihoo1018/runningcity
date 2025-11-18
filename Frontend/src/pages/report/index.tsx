@@ -242,7 +242,7 @@ const formatTimeHHMM = (isoString: string) => {
                         <div className="flex flex-col">
                           <div className="text-label text-custom-gray/70">거리</div>
                           <div className="text-content-bold text-custom-white">
-                            {Number(r.distanceKm.toFixed(1))}km
+                            {Number(r.distanceKm.toFixed(2))}km
                           </div>
                         </div>
                         <div className="flex flex-col">
