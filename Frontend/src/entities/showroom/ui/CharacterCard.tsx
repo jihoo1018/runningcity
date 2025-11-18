@@ -74,7 +74,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
     ? (data as RandomAvatar).nickname
     : (user?.nickname ?? "러닝시티 유저");
 
-  const displayUserId = isRandomAvatar ? (data as RandomAvatar).userId : user?.userId;
+  // const displayUserId = isRandomAvatar ? (data as RandomAvatar).userId : user?.userId;
 
   return (
     <div className="text-content-bold relative mx-auto w-full max-w-[360px] px-3">
@@ -82,7 +82,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
         <div className="border-primary bg-section-bg rounded-xl border px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="text-button text-content-bold text-[#67e8f9]">LV {displayLevel}</div>
-            <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div>
+            {/* <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div> */}
           </div>
 
           <div
