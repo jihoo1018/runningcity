@@ -1,17 +1,13 @@
 package com.runningcity.showroom.repository;
 
-
 import com.runningcity.showroom.dto.UserEquippedItemResponse;
 import com.runningcity.showroom.entity.UserEquippedItem;
-import com.runningcity.showroom.entity.UserInventory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public interface EquippedItemRepository extends JpaRepository<UserEquippedItem, Long> {
 
@@ -23,18 +19,28 @@ public interface EquippedItemRepository extends JpaRepository<UserEquippedItem, 
 
     @Query("""
         SELECT new com.runningcity.showroom.dto.UserEquippedItemResponse(
-                    u.equippedId,
-                    u.itemId,
-                    b.category,
-                    b.subcategory,
-                    b.style,
-                    b.basePath
-                )
-                FROM UserEquippedItem u
-                JOIN Boutique b ON u.itemId = b.itemId
-                WHERE u.userId = :userId
+            u.equippedId,
+            u.itemId,
+            b.category,
+            b.subcategory,
+            b.style,
+            b.basePath,
+            'COMPOSITE'
+        )
+        FROM UserEquippedItem u
+        JOIN Boutique b ON u.itemId = b.itemId
+        WHERE u.userId = :userId
+        ORDER BY 
+            CASE b.category
+                WHEN 'BODIES' THEN 1
+                WHEN 'CLOTHES' THEN 2
+                WHEN 'HAIR' THEN 3
+                WHEN 'HEAD' THEN 4
+            END,
+            b.subcategory
     """)
     List<UserEquippedItemResponse> findEquippedItemsByUserId(Long userId);
+
     /**
      * 용도: 랜덤 아바타/친구 아바타 목록 조회 시 N+1 문제 방지
      * 동작:

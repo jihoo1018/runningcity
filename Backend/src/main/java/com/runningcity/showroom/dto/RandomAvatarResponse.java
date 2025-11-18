@@ -25,14 +25,14 @@ public class RandomAvatarResponse {
     private String nickname;
     private Integer level;
 
-    // ===== 🆕 통계 정보 =====
-    private Double totalDist;      // 총 거리
-    private Double maxDist;        // 최장 거리
-    private Double avgPace;        // 평균 페이스
-    private Double bestPace;       // 최고 페이스
-    private Long totalEntryCnt;    // 총 운동 횟수
+    // ===== 통계 정보 =====
+    private Double totalDist;
+    private Double maxDist;
+    private Double avgPace;
+    private Double bestPace;
+    private Long totalEntryCnt;
 
-    // ===== 🆕 Privacy 설정 =====
+    // ===== Privacy 설정 =====
     private PrivacySettingResponse privacySetting;
 
     // ===== 장착 아이템 =====
@@ -51,5 +51,8 @@ public class RandomAvatarResponse {
         private SubCategory subcategory;
         private Style style;
         private String basePath;
+
+        // ⭐ 새로 추가: 스프라이트 타입
+        private String spriteType;  // "COMPLETE" or "COMPOSITE"
     }
 }
