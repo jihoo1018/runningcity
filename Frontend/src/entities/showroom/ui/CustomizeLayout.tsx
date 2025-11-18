@@ -40,8 +40,8 @@ export const CustomizeLayout = ({
           <button
             className={`text-button rounded-xl px-4 py-2 ${
               mode === "body"
-                ? "bg-primary text-custom-black"
-                : "border-custom-gray text-custom-white border"
+                ? "bg-cyan-400 text-black shadow-[0_0_10px_rgba(0,255,255,0.8)]"
+                : "bg-section-bg border-custom-gray text-custom-gray border hover:border-cyan-300"
             }`}
             onClick={() => {
               setMode("body");
@@ -54,8 +54,8 @@ export const CustomizeLayout = ({
           <button
             className={`text-button rounded-xl px-4 py-2 ${
               mode === "head"
-                ? "bg-primary text-custom-black"
-                : "border-custom-gray text-custom-white border"
+                ? "bg-cyan-400 text-black shadow-[0_0_10px_rgba(0,255,255,0.8)]"
+                : "bg-section-bg border-custom-gray text-custom-gray border hover:border-cyan-300"
             }`}
             onClick={() => {
               setMode("head");
@@ -68,7 +68,7 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 캐릭터 */}
-      <div className="flex flex-none justify-center py-3">
+      <div className="mt-10 mb-15 flex flex-none scale-150 justify-center">
         <LPCCharacterRenderer items={equippedItems} direction={2} animation="walk" />
       </div>
 
@@ -79,8 +79,8 @@ export const CustomizeLayout = ({
             key={t}
             className={`text-button flex-shrink-0 rounded px-4 py-2 whitespace-nowrap ${
               tab === t
-                ? "bg-primary text-custom-black"
-                : "border-custom-gray text-custom-white border"
+                ? "bg-cyan-400 text-black shadow-[0_0_10px_rgba(0,255,255,0.8)]"
+                : "border-custom-gray bg-section-bg text-custom-gray border hover:border-cyan-300"
             }`}
             onClick={() => setTab(t)}
           >
@@ -107,10 +107,10 @@ export const CustomizeLayout = ({
       </div> */}
 
       {/* 저장하기 버튼 */}
-      <div className="mt-15 flex-none px-2 py-4">
+      <div className="mt-4 flex-none px-2 py-4">
         <button
           onClick={onSave}
-          className="border-primary text-button bg-section-bg w-full rounded-xl border py-3"
+          className="bg-primary mt-2 w-full rounded-xl from-cyan-400 to-cyan-600 py-3 text-center font-semibold text-black shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all hover:shadow-[0_0_25px_rgba(0,255,255,0.8)]"
         >
           저장하기
         </button>

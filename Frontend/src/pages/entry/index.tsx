@@ -138,7 +138,7 @@ const EntryPage = () => {
           className={`text-mg w-[50%] rounded-md border py-2.5 font-bold ${
             viewMode === "all"
               ? "bg-primary border-primary text-black"
-              : "bg-custom-black text-custom-gray border-custom-gray"
+              : "bg-section-bg text-custom-gray border-custom-gray"
           }`}
         >
           전체 기지
@@ -173,7 +173,10 @@ const EntryPage = () => {
           entries &&
           !Array.isArray(entries) &&
           Object.entries(entries).map(([groupNo, list]) => (
-            <div key={groupNo} className="border-custom-white mb-7 rounded-lg border p-3 shadow">
+            <div
+              key={groupNo}
+              className="bg-section-bg border-primary mb-7 rounded-lg border p-3 shadow"
+            >
               <h3 className="text-primary mb-2 text-xl font-semibold">
                 {["초계 정찰기지", "도심 수색기지", "중부 통제기지"][Number(groupNo)] ??
                   `기지 ${Number(groupNo) + 1}`}
@@ -202,7 +205,7 @@ const EntryPage = () => {
           entries.map((e) => (
             <div
               key={e.baseId}
-              className="border-custom-white mb-3 cursor-pointer rounded-lg border p-3 shadow"
+              className="bg-section-bg border-primary mb-3 cursor-pointer rounded-lg border p-3 shadow"
               onClick={() => fetchEntryDetail(e.baseId)}
             >
               <strong>{e.courseNm}</strong>

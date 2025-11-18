@@ -127,7 +127,7 @@ export default function ShowroomPage() {
 
             {/* 페이지 네비게이터 (친구/글로벌) */}
             {showPagination && (
-              <div className="mt-2 mb-4 flex justify-center gap-2">
+              <div className="mt-2 mb-2 flex justify-center gap-2">
                 {(tab === "friend" ? friendList : globalList).map((_, idx) => (
                   <div
                     key={idx}
@@ -141,7 +141,7 @@ export default function ShowroomPage() {
 
             {/* 내 사무실일 때 하단 버튼 */}
             {tab === "me" && (
-              <div className="flex justify-center pb-6">
+              <div className="flex justify-center pb-10">
                 <ShowroomActions tab={tab} />
               </div>
             )}

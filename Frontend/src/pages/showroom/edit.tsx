@@ -184,64 +184,73 @@ const ShowroomEditPage = () => {
   // 🔵 UI
   // -----------------------------
   return (
-    <div className="border-primary bg-section-bg text-content mx-auto flex max-w-[480px] flex-col items-center rounded-xl border p-6">
-      <div className="items-left mb-3 flex justify-between">
-        {/* 왼쪽 뒤로가기 버튼 */}
-        <div className="absolute left-8">
-          <BackIconButton onClick={() => history.back()} />
-        </div>
-        {/* 중앙 제목 */}
-        <h1 className="text-subtitle text-custom-white mx-auto text-center">공개설정</h1>{" "}
-      </div>
+    <div className="flex min-h-[calc(100vh-56px)] items-center justify-center px-4 pb-20">
+      <div>
+        {/* 제목 + 뒤로가기 */}
+        <div className="relative mb-3 flex items-center justify-center">
+          <div className="absolute left-0">
+            <BackIconButton onClick={() => history.back()} />
+          </div>
 
-      <div className="w-full max-w-[360px] rounded-xl shadow-md">
-        {/* 체크박스 목록 */}
+          <h1 className="text-xl font-bold text-cyan-300 drop-shadow-[0_0_6px_rgba(0,255,255,0.6)]">
+            공개설정
+          </h1>
+        </div>
+
+        {/* 내부 컨텐츠 */}
         <div className="flex flex-col gap-3">
-          {metricsList.map((m) => (
-            <label key={m.key} className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={selectedMetrics.includes(m.key)}
-                onChange={() => toggleMetric(m.key)}
-                className="h-4 w-4"
-              />
-              <span className="text-sm">{m.label}</span>
-            </label>
-          ))}
-        </div>
+          {/* 체크박스 영역 패널 */}
+          <div className="rounded-xl border border-cyan-300 bg-[#0f1624]/60 p-4 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+            <div className="flex flex-col gap-3">
+              {metricsList.map((m) => (
+                <label key={m.key} className="flex cursor-pointer items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={selectedMetrics.includes(m.key)}
+                    onChange={() => toggleMetric(m.key)}
+                    className="h-4 w-4 accent-cyan-300"
+                  />
+                  <span className="text-sm text-cyan-100">{m.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
 
-        {/* 구분선 */}
-        <div className="my-3 border-t" />
+          {/* 태그 영역 */}
+          <div className="rounded-xl border border-cyan-300 bg-[#0f1624]/60 p-4 shadow-[0_0_20px_rgba(0,255,255,0.05)]">
+            <p className="mb-3 rounded-lg border border-cyan-400/70 py-1 text-center text-sm text-cyan-200">
+              태그 (최대 4개 선택)
+            </p>
 
-        {/* 태그 */}
-        <p className="mb-3 border p-1 text-center text-sm">태그 (최대 4개 선택)</p>
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag) => {
+                const isSelected = selectedTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`rounded-full px-3 py-1 text-sm transition-all ${
+                      isSelected
+                        ? "bg-cyan-300 text-black shadow-[0_0_10px_rgba(0,255,255,0.6)]"
+                        : "bg-section-bg border border-cyan-300 text-cyan-200"
+                    } `}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => {
-            const isSelected = selectedTags.includes(tag);
-            return (
-              <button
-                key={tag}
-                onClick={() => toggleTag(tag)}
-                className={`rounded-full px-3 py-1 text-sm ${
-                  isSelected
-                    ? "bg-primary text-custom-black"
-                    : "border-primary text-custom-white border"
-                }`}
-              >
-                {tag}
-              </button>
-            );
-          })}
+          {/* 저장 버튼 */}
+          <button
+            onClick={handleSave}
+            className="bg-primary mt-2 w-full rounded-xl from-cyan-400 to-cyan-600 py-3 text-center font-semibold text-black shadow-[0_0_15px_rgba(0,255,255,0.5)] transition-all hover:shadow-[0_0_25px_rgba(0,255,255,0.8)]"
+          >
+            저장하기
+          </button>
         </div>
       </div>
-
-      <button
-        onClick={handleSave}
-        className="border-primary text-button mt-4 w-[200px] rounded-lg border py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        저장하기
-      </button>
     </div>
   );
 };

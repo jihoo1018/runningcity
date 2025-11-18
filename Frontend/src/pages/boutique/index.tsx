@@ -77,32 +77,8 @@ export default function BoutiquePage() {
     }
   }, [user?.userId]);
 
-  // 구매 성공 이벤트 리스너
-  useEffect(() => {
-    const handlePurchaseSuccess = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      console.log("[부티크] 구매 성공 이벤트 수신:", customEvent.detail);
-      refreshData();
-    };
-
-    window.addEventListener("boutique:purchase-success", handlePurchaseSuccess);
-
-    return () => {
-      window.removeEventListener("boutique:purchase-success", handlePurchaseSuccess);
-    };
-  }, [refreshData]);
-
-  // 구매 모달 열기
-  const handlePurchaseClick = (item: StoreResponse) => {
-    open("boutique", "purchaseConfirm", {
-      item,
-      userCurrency,
-      // 함수는 History API에서 직렬화할 수 없으므로 제거
-    });
-  };
-
   // 가챠 뽑기 핸들러
-  const handleGachaPull = async (type: DrawType) => {
+  const handleGachaPull = useCallback(async (type: DrawType) => {
     if (!user?.userId) return;
 
     const price = type === "single" ? 50 : 450;
@@ -136,6 +112,44 @@ export default function BoutiquePage() {
       console.error("가챠 실패:", error);
       // AndroidBridge.showToast("가챠에 실패했습니다.");
     }
+  }, [user?.userId, userCurrency, open, refreshData]);
+
+  // 구매 성공 이벤트 리스너
+  useEffect(() => {
+    const handlePurchaseSuccess = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      console.log("[부티크] 구매 성공 이벤트 수신:", customEvent.detail);
+      refreshData();
+    };
+
+    window.addEventListener("boutique:purchase-success", handlePurchaseSuccess);
+
+    return () => {
+      window.removeEventListener("boutique:purchase-success", handlePurchaseSuccess);
+    };
+  }, [refreshData]);
+
+  // 10연뽑 다시 뽑기 이벤트 리스너
+  useEffect(() => {
+    const handleRetryMultiGacha = () => {
+      console.log("[부티크] 10연뽑 다시 뽑기 이벤트 수신");
+      handleGachaPull("multi");
+    };
+
+    window.addEventListener("boutique:retry-multi-gacha", handleRetryMultiGacha);
+
+    return () => {
+      window.removeEventListener("boutique:retry-multi-gacha", handleRetryMultiGacha);
+    };
+  }, [handleGachaPull]);
+
+  // 구매 모달 열기
+  const handlePurchaseClick = (item: StoreResponse) => {
+    open("boutique", "purchaseConfirm", {
+      item,
+      userCurrency,
+      // 함수는 History API에서 직렬화할 수 없으므로 제거
+    });
   };
 
   if (!user) {
