@@ -40,6 +40,9 @@ export default function CustomizePage() {
 
   /** 🔥 useMemo 안에서 tabToSub + filterItems 정의 */
   const filteredItems = useMemo(() => {
+    // COMPLETE 타입은 커스터마이징에서 제외 (완성된 아바타이므로 개별 파츠로 사용 불가)
+    const compositeInventory = inventory.filter((i) => i.spriteType !== "COMPLETE");
+
     const tabToSub = (tab: string) =>
       ({
         헤어: "hair",
@@ -53,17 +56,17 @@ export default function CustomizePage() {
 
     if (mode === "body") {
       if (tab === "상의")
-        return inventory.filter((i) => ["tshirt", "longsleeve"].includes(i.subcategory));
-      if (tab === "하의") return inventory.filter((i) => i.subcategory === "shorts");
-      if (tab === "피부색") return inventory.filter((i) => i.category === "bodies");
+        return compositeInventory.filter((i) => ["tshirt", "longsleeve"].includes(i.subcategory));
+      if (tab === "하의") return compositeInventory.filter((i) => i.subcategory === "shorts");
+      if (tab === "피부색") return compositeInventory.filter((i) => i.category === "bodies");
     }
 
     if (mode === "head") {
-      if (tab === "헤어") return inventory.filter((i) => i.category === "hair");
-      return inventory.filter((i) => i.subcategory === tabToSub(tab));
+      if (tab === "헤어") return compositeInventory.filter((i) => i.category === "hair");
+      return compositeInventory.filter((i) => i.subcategory === tabToSub(tab));
     }
 
-    return inventory;
+    return compositeInventory;
   }, [inventory, mode, tab]);
 
   async function handleSave() {

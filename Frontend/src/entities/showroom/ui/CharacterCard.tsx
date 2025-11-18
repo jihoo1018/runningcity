@@ -1,7 +1,7 @@
 import { LPCCharacterRenderer } from "./LPCCharacterRenderer";
 import { useAvatarStore } from "@/features/avatar/model/avatarStore";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
-import type { MyOffice, RandomAvatar } from "@/entities/showroom/model/type";
+import type { MyOffice, RandomAvatar, EquippedItem } from "@/entities/showroom/model/type";
 import { slotsToArray } from "@/entities/showroom/model/slotUtils";
 import { getLevelInfo } from "@/entities/user/model/leveling";
 import { metersToKm, formatPace, formatDuration } from "@/shared/lib/format";
@@ -46,7 +46,7 @@ export const CharacterCard = ({ tab, data }: Props) => {
   const isRandomAvatar = data && "equippedItems" in data;
 
   // 착장 아이템 결정
-  const getEquippedItems = () => {
+  const getEquippedItems = (): EquippedItem[] => {
     if (tab === "me") {
       return slotsToArray(slots); // 내 사무실은 AvatarStore에서
     }
@@ -60,7 +60,8 @@ export const CharacterCard = ({ tab, data }: Props) => {
         subcategory: item.subcategory,
         style: item.style ?? null,
         basePath: item.basePath,
-      }));
+        spriteType: item.spriteType,
+      } as EquippedItem));
     }
     return [];
   };

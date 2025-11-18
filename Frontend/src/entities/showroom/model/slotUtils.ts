@@ -41,6 +41,7 @@ export function toEquipped(inv: InventoryItem): EquippedItem {
     subcategory: inv.subcategory,
     style: inv.style ?? null,
     basePath: inv.basePath,
+    spriteType: inv.spriteType,
   };
 }
 
