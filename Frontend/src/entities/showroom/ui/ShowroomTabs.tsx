@@ -5,13 +5,16 @@ type Props = {
 export const ShowroomTabs = ({ tab, setTab }: Props) => {
   const tabStyle = (key: string) =>
     `
-      px-3 py-2 sm:px-4 sm:py-2 
-      rounded-lg text-buton
-      ${tab === key ? "bg-primary text-black" : "border border-custom-gray bg-section-bg text-custom-gray"}
+      px-4 py-2 rounded-xl font-semibold transition-all
+      ${
+        tab === key
+          ? "bg-cyan-400 text-black shadow-[0_0_10px_rgba(0,255,255,0.8)]"
+          : "border border-custom-gray text-custom-gray hover:border-cyan-300"
+      }
     `;
 
   return (
-    <div className="text-content-bold mt-2 flex justify-center gap-3 sm:gap-2">
+    <div className="flex justify-center gap-3">
       <button className={tabStyle("me")} onClick={() => setTab("me")}>
         내 사무실
       </button>

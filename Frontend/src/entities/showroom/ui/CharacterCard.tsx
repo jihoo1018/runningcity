@@ -77,38 +77,38 @@ export const CharacterCard = ({ tab, data }: Props) => {
   const displayUserId = isRandomAvatar ? (data as RandomAvatar).userId : user?.userId;
 
   return (
-    <div className="text-content-bold relative mx-auto mt-2 w-full max-w-[360px] px-3">
-      <div className="chip-frame relative w-full rounded-xl p-[2px]">
-        <div className="border-primary bg-section-bg rounded-xl border px-4 py-6">
+    <div className="text-content-bold relative mx-auto w-full max-w-[360px] px-3">
+      <div className="chip-frame relative w-full rounded-xl">
+        <div className="border-primary bg-section-bg rounded-xl border px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="text-button text-content-bold text-[#67e8f9]">LV {displayLevel}</div>
             <div className="text-custom-gray text-[10px]">UID: {displayUserId}</div>
           </div>
 
           <div
-            className="border-primary/60 relative mt-4 h-48 overflow-hidden rounded-lg border bg-cover bg-center bg-no-repeat transition-opacity duration-500"
+            className="border-primary/60 relative mt-2 h-48 overflow-hidden rounded-lg border bg-cover bg-center bg-no-repeat transition-opacity duration-500"
             style={{
               backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
-              backgroundColor: '#1a1a3e',
-              opacity: isImageLoaded ? 1 : 0.8
+              backgroundColor: "#1a1a3e",
+              opacity: isImageLoaded ? 1 : 0.8,
             }}
           >
             {/* 로딩 중일 때 약간의 블러 효과 */}
             {!isImageLoaded && (
-              <div className="absolute inset-0 bg-[#1a1a3e]/50 backdrop-blur-sm flex items-center justify-center">
-                <div className="text-primary text-xs animate-pulse">Loading...</div>
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#1a1a3e]/50 backdrop-blur-sm">
+                <div className="text-primary animate-pulse text-xs">Loading...</div>
               </div>
             )}
-            <div className="flex h-full items-center justify-center relative z-10">
+            <div className="relative z-10 flex h-full items-center justify-center">
               <LPCCharacterRenderer items={equippedArray} direction={2} />
             </div>
           </div>
 
-          <div className="mt-4 text-lg font-bold text-white">{displayNickname}</div>
+          <div className="mt-2 text-lg font-bold text-white">{displayNickname}</div>
 
           {/* 내 사무실일 때만 상세 통계 표시 (원래 기능 유지) */}
           {tab === "me" && isMyOffice && (
-            <div className="text-content mt-4 grid grid-cols-2 gap-4">
+            <div className="text-content mt-2 grid grid-cols-2 gap-4">
               <div>
                 <div className="text-custom-gray text-content-bold">총 러닝</div>
                 <div className=""> {metersToKm((data as MyOffice).totalDist)}</div>
@@ -133,44 +133,46 @@ export const CharacterCard = ({ tab, data }: Props) => {
           )}
 
           {/* 친구/글로벌 탭 - Privacy 설정에 따라 통계 표시 */}
-          {(tab === "friend" || tab === "global") && isRandomAvatar && (() => {
-            const avatar = data as RandomAvatar;
-            const privacy = avatar.privacySetting;
+          {(tab === "friend" || tab === "global") &&
+            isRandomAvatar &&
+            (() => {
+              const avatar = data as RandomAvatar;
+              const privacy = avatar.privacySetting;
 
-            // Privacy 설정에 따라 표시할 항목 필터링
-            const statsToShow: Array<{ label: string; value: string }> = [];
+              // Privacy 설정에 따라 표시할 항목 필터링
+              const statsToShow: Array<{ label: string; value: string }> = [];
 
-            if (privacy.showTotalRunning) {
-              statsToShow.push({ label: "총 러닝", value: metersToKm(avatar.totalDist) });
-            }
-            if (privacy.showMaxDistance) {
-              statsToShow.push({ label: "최장 거리", value: metersToKm(avatar.maxDist) });
-            }
-            if (privacy.showAvgPace) {
-              statsToShow.push({ label: "평균 페이스", value: formatPace(avatar.avgPace) });
-            }
-            if (privacy.showBestPace) {
-              statsToShow.push({ label: "최고 페이스", value: formatPace(avatar.bestPace) });
-            }
-            if (privacy.showHikingCount) {
-              statsToShow.push({ label: "잠입 횟수", value: `${avatar.totalEntryCnt ?? 0} 회` });
-            }
+              if (privacy.showTotalRunning) {
+                statsToShow.push({ label: "총 러닝", value: metersToKm(avatar.totalDist) });
+              }
+              if (privacy.showMaxDistance) {
+                statsToShow.push({ label: "최장 거리", value: metersToKm(avatar.maxDist) });
+              }
+              if (privacy.showAvgPace) {
+                statsToShow.push({ label: "평균 페이스", value: formatPace(avatar.avgPace) });
+              }
+              if (privacy.showBestPace) {
+                statsToShow.push({ label: "최고 페이스", value: formatPace(avatar.bestPace) });
+              }
+              if (privacy.showHikingCount) {
+                statsToShow.push({ label: "잠입 횟수", value: `${avatar.totalEntryCnt ?? 0} 회` });
+              }
 
-            return statsToShow.length > 0 ? (
-              <div className="text-content mt-4 grid grid-cols-2 gap-4">
-                {statsToShow.map((stat, idx) => (
-                  <div key={idx}>
-                    <div className="text-custom-gray text-content-bold">{stat.label}</div>
-                    <div className="font-medium">{stat.value}</div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="mt-4 text-center text-xs text-gray-400">
-                🔒 이 사용자는 통계를 비공개로 설정했습니다
-              </div>
-            );
-          })()}
+              return statsToShow.length > 0 ? (
+                <div className="text-content mt-4 grid grid-cols-2 gap-4">
+                  {statsToShow.map((stat, idx) => (
+                    <div key={idx}>
+                      <div className="text-custom-gray text-content-bold">{stat.label}</div>
+                      <div className="font-medium">{stat.value}</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-4 text-center text-xs text-gray-400">
+                  🔒 이 사용자는 통계를 비공개로 설정했습니다
+                </div>
+              );
+            })()}
 
           {/* 태그 표시 (모든 탭) */}
           {(() => {
@@ -199,12 +201,12 @@ export const CharacterCard = ({ tab, data }: Props) => {
 
             return tags.length > 0 ? (
               <div className="mt-4">
-                <div className="text-custom-gray text-xs mb-2">태그</div>
+                <div className="text-custom-gray mb-2 text-xs">태그</div>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className={`text-xs px-3 py-1 rounded-full border ${tagColors[idx % tagColors.length]}`}
+                      className={`rounded-full border px-3 py-1 text-xs ${tagColors[idx % tagColors.length]}`}
                     >
                       #{tag}
                     </span>
@@ -217,9 +219,9 @@ export const CharacterCard = ({ tab, data }: Props) => {
           {/* 스와이프 안내 (친구/글로벌 탭) */}
           {(tab === "friend" || tab === "global") && (
             <div className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-400">
-              <NotificationIcon className="w-4 h-4 text-primary animate-pulse" />
+              <NotificationIcon className="text-primary h-4 w-4 animate-pulse" />
               <span>스와이프해서 다른 유저 보기</span>
-              <NotificationIcon className="w-4 h-4 text-primary animate-pulse" />
+              <NotificationIcon className="text-primary h-4 w-4 animate-pulse" />
             </div>
           )}
         </div>
