@@ -97,8 +97,8 @@ const OnboardingPage = () => {
   };
   // Android → React 메시지 수신 설정
   useEffect(() => {
-    initializeAndroidListener((data) => {
-      console.log("📩 Android 메시지 수신:", data);
+    const cleanup = initializeAndroidListener((data) => {
+      console.log("📩 [Onboarding] Android 메시지 수신:", data);
       if (data.type === "HEART_RATE_MEASURED" && data.heartRate) {
         // 타임아웃 클리어
         if (measurementTimeoutRef.current) {
@@ -128,6 +128,8 @@ const OnboardingPage = () => {
         console.log("📨 기타 메시지:", data);
       }
     });
+    
+    return cleanup;
   }, []);
   const handleMeasureHeartRate = () => {
     if (!hasSmartWatch) return;

@@ -18,6 +18,7 @@ type RecordItem = {
   avgPace: string;
   runningTime: string;
   runningType: string;
+  startTime: string;
 };
 
 type MonthlyResponse = {
@@ -114,6 +115,15 @@ export default function RecordListPage() {
     const weekday = weekdays[date.getDay()];
     return `${year}.${month}.${day}. (${weekday})`;
   };
+
+  // 시간 포맷 (시:분)
+const formatTimeHHMM = (isoString: string) => {
+  const date = new Date(isoString);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+};
+
 
   if (loading) {
     return <FullPageLoader />;
@@ -226,7 +236,7 @@ export default function RecordListPage() {
                   >
                     <div className="min-w-0 flex-1">
                       <div className="text-content-bold text-primary mb-4 drop-shadow-[0_0_4px_rgba(0,230,255,0.3)]">
-                        {formatDate(r.date)}
+                        {formatDate(r.date)} · {formatTimeHHMM(r.startTime)}
                       </div>
                       <div className="flex gap-6">
                         <div className="flex flex-col">
