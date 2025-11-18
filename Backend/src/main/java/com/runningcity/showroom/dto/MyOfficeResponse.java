@@ -1,10 +1,5 @@
 package com.runningcity.showroom.dto;
 
-import com.runningcity.showroom.entity.PrivacySetting;
-import com.runningcity.showroom.entity.UserEquippedItem;
-import com.runningcity.showroom.entity.UserTag;
-import com.runningcity.user.dto.UserResponse;
-import com.runningcity.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,19 +18,18 @@ public class MyOfficeResponse {
     private double  bestPace;
     private Long totalEntryCnt;
     private List<UserEquippedItemResponse> equippedItemList;
+    private PrivacySettingResponse privacySetting;
 
-    public static MyOfficeResponse from(List<UserEquippedItemResponse> list) {
-        return MyOfficeResponse.builder()
-//                .totalDist(entity.totalDist())
-//                .maxDist(entity.maxDist())
-//                .avgPace(entity.avgPace())
-//                .bestPace(entity.bestPace())
-//                .totalEntryCnt(entity.totalEntryCnt())
-                .equippedItemList(list)
-                .build();
-    }
-
-    public static MyOfficeResponse create(double totalDist, double maxDist, double avgPace, double bestPace, Long totalEntryCnt, List<UserEquippedItemResponse> list) {
+    // 🔄 Privacy 포함 버전 (신규)
+    public static MyOfficeResponse create(
+            double totalDist,
+            double maxDist,
+            double avgPace,
+            double bestPace,
+            Long totalEntryCnt,
+            List<UserEquippedItemResponse> list,
+            PrivacySettingResponse privacySetting  // 🆕 파라미터 추가
+    ) {
         return MyOfficeResponse.builder()
                 .totalDist(totalDist)
                 .maxDist(maxDist)
@@ -43,6 +37,7 @@ public class MyOfficeResponse {
                 .bestPace(bestPace)
                 .totalEntryCnt(totalEntryCnt)
                 .equippedItemList(list)
+                .privacySetting(privacySetting)  // 🆕 추가
                 .build();
     }
 

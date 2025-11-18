@@ -7,20 +7,28 @@ type Props = {
   onChangeClothes?: () => void;
   onEditInfo?: () => void;
 };
-
 export const ShowroomActions = ({ tab, onNext, onNextGlobal }: Props) => {
   const navigate = useNavigate();
 
-  const goChangeClothes = () => navigate("/showroom/customize");
-  const goEditInfo = () => navigate("/showroom/edit");
+  const neonButton = `
+    bg-primary/20
+    px-6 py-3 rounded-xl font-semibold transition-all
+    border border-cyan-400 text-cyan-200
+    bg-[#0f1624]/60
+    hover:border-cyan-300 hover:text-cyan-100
+    hover:shadow-[0_0_10px_rgba(0,255,255,0.6)]
+  `;
+
+  const neonPrimary = `
+    px-6 py-3 rounded-xl font-semibold
+    bg-gradient-to-b from-cyan-400 to-cyan-600
+    text-black shadow-[0_0_15px_rgba(0,255,255,0.6)]
+  `;
 
   if (tab === "friend") {
     return (
-      <div className="mb-2 flex justify-center">
-        <button
-          className="text-buton rounded-xl border px-4 py-2 text-sm shadow sm:text-base"
-          onClick={onNext}
-        >
+      <div className="mb-4 flex justify-center">
+        <button className={neonPrimary} onClick={onNext}>
           next ▶
         </button>
       </div>
@@ -29,29 +37,19 @@ export const ShowroomActions = ({ tab, onNext, onNextGlobal }: Props) => {
 
   if (tab === "global") {
     return (
-      <div className="mb-2 flex justify-center">
-        <button
-          className="text-buton rounded-xl border px-4 py-2 text-sm shadow sm:text-base"
-          onClick={onNextGlobal}
-        >
+      <div className="mb-4 flex justify-center">
+        <button className={neonPrimary} onClick={onNextGlobal}>
           next ▶
         </button>
       </div>
     );
   }
-
   return (
-    <div className="my-3 flex justify-center gap-2 sm:gap-4">
-      <button
-        className="border-primary text-buton rounded-xl border px-4 py-2 sm:px-6 sm:py-3 sm:text-base"
-        onClick={goChangeClothes}
-      >
+    <div className="flex justify-center gap-3">
+      <button className={neonButton} onClick={() => navigate("/showroom/customize")}>
         옷 갈아입기
       </button>
-      <button
-        className="border-primary m:px-6 text-buton rounded-xl border px-4 py-2 sm:py-3 sm:text-base"
-        onClick={goEditInfo}
-      >
+      <button className={neonButton} onClick={() => navigate("/showroom/edit")}>
         사무실 정보 수정
       </button>
     </div>

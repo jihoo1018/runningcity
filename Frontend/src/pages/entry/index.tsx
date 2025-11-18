@@ -1,350 +1,236 @@
+// src/pages/entry/index.tsx
+
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { MapView, MapMarker } from "../../entities/entry/ui/MapView";
-import { EntryDetailModalContent } from "../../entities/entry/ui/EntryDetailModalContent";
-import { Modal } from "../../components/Modal";
-import { LevelSelectModal } from "../../entities/entry/ui/LevelSelectModal";
-import { Entry, EntryDetail, GroupedEntryResponse } from "@/entities/entry/model/types";
+import { MapView } from "@/entities/entry/ui/MapView";
+import { EntryDetailModalContent } from "@/entities/entry/ui/EntryDetailModalContent";
+import { Modal } from "@/shared/ui";
+import { useModalRouter } from "@/app/modal/useModalRouter";
+import { useAuthStore } from "@/features/auth/model/useAuthStore";
+import { Entry, EntryDetail } from "@/entities/entry/model/types";
 import { fetchGetEntryList, fetchGetAllEntryList, fetchGetEntryDetail } from "@/entities/entry/api";
 
-/** ✅ 위도·경도 간 거리 계산 (Haversine 공식) */
+/** 거리 계산 */
 const calculateDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: number) => {
-  const R = 6371; // 지구 반경 (km)
+  const R = 6371;
   const dLat = ((lat2 - lat1) * Math.PI) / 180;
   const dLon = ((lon2 - lon1) * Math.PI) / 180;
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
+
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
 const EntryPage = () => {
-  const navigate = useNavigate();
+  const { open } = useModalRouter();
+
   const [entries, setEntries] = useState<Record<string, Entry[]> | Entry[] | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [viewMode, setViewMode] = useState<"today" | "all">("today");
   const [selectedEntry, setSelectedEntry] = useState<EntryDetail | null>(null);
-  const [levelModalEntry, setLevelModalEntry] = useState<EntryDetail | null>(null); // ✅ 난이도 모달 상태
-  const [userId, setUserId] = useState(1); // TODO 일단 임시로 userId 1 박아놓기
 
-  // ✅ 사용자 위치 상태
-  const [userPosition, setUserPosition] = useState<{
-    lat: number;
-    lng: number;
-  } | null>({
+  const [userPosition, setUserPosition] = useState({
     lat: 37.501280686148306,
     lng: 127.03960748829459,
   });
 
-  // const BASE_URL = "/api/v1/entry";
-
-  /** ✅ 위치 수동 초기화 (한 번만) */
+  /** 현재 위치 */
   useEffect(() => {
-    if (!navigator.geolocation) return;
-
-    console.log("📍 userPosition 업데이트:", userPosition);
-
-    // ✅ 최초 1회: 현재 위치 가져오기
-    navigator.geolocation.getCurrentPosition(
+    navigator.geolocation?.getCurrentPosition(
       (pos) =>
         setUserPosition({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         }),
-      (err) => console.warn("초기 위치 불러오기 실패:", err),
-      { enableHighAccuracy: true, timeout: 5000 },
+      () => {},
+      { enableHighAccuracy: true },
     );
-
-    // ✅ 이후 실시간 감시
-    const watchId = navigator.geolocation.watchPosition(
-      (pos) =>
-        setUserPosition({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        }),
-      (err) => console.warn("위치 추적 실패:", err),
-      { enableHighAccuracy: true, maximumAge: 2000, timeout: 5000 },
-    );
-
-    return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  /** ✅ Entry 리스트 불러오기 */
-  const fetchEntries = async (mode: "today" | "all") => {
-    setLoading(true);
-    setError("");
+  const recalcDistances = (data: any, lat: number, lng: number) => {
+    if (!data) return null;
 
-    try {
-      const data = mode === "today" ? await fetchGetEntryList() : await fetchGetAllEntryList();
-      // ✅ userPosition이 있다면 즉시 거리 계산
-      if (userPosition) {
-        const updated = recalcDistances(data, userPosition.lat, userPosition.lng);
-        setEntries(updated);
-      } else {
-        setEntries(data);
-      }
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || "데이터를 불러오는데 실패했습니다.");
-    } finally {
-      setLoading(false);
+    const calc = (e: Entry) => calculateDistanceKm(lat, lng, e.latitude, e.longitude);
+
+    // 1) data가 배열인 경우
+    if (Array.isArray(data)) {
+      return data.map((e) => ({
+        ...e,
+        computedDistanceKm: calc(e),
+      }));
     }
-  };
 
-  /** ✅ 단일 상세 조회 */
-  const fetchEntryDetail = async (baseId: number) => {
-    try {
-      // 🕓 위치 준비 대기: 최대 3초간 재시도
-      let retry = 0;
-      while (!userPosition && retry < 6) {
-        console.log("📡 위치 준비 중... 대기", retry);
-        await new Promise((resolve) => setTimeout(resolve, 500)); // 0.5초 간격
-        retry++;
-      }
+    // 2) 객체인 경우
+    const cloned: Record<string, Entry[]> = {};
 
-      if (!userPosition) {
-        alert("📍 현재 위치 정보를 가져올 수 없습니다. GPS를 활성화해주세요.");
+    Object.entries(data).forEach(([g, list]) => {
+      if (!Array.isArray(list)) {
+        console.warn("❌ list가 배열이 아님 → ", list);
+        cloned[g] = [];
         return;
       }
 
-      // const res = await fetch(`${BASE_URL}/${baseId}`);
-      // const json: ApiResponse<EntryDetail> = await res.json();
-      // if (json.status !== 200) throw new Error(json.message);
-      // setSelectedEntry(json.data);
-      const data = await fetchGetEntryDetail(baseId);
-      setSelectedEntry(data);
-    } catch (e: any) {
-      alert("상세 정보를 불러오지 못했습니다.");
-    }
-  };
-
-  /** ✅ 상세 모달 → 난이도 모달 전환 */
-  const handleShowLevelModal = (entry: EntryDetail) => {
-    setSelectedEntry(null); // 기존 상세 닫기
-    setLevelModalEntry(entry); // 새 난이도 모달 열기
-  };
-
-  /** ✅ 거리 계산 함수 (공통) */
-  const recalcDistances = (
-    entries: Record<string, Entry[]> | Entry[] | null,
-    userLat: number,
-    userLng: number,
-  ): Record<string, Entry[]> | Entry[] | null => {
-    if (!entries) return null;
-
-    const calcDistance = (entry: Entry) => {
-      return calculateDistanceKm(userLat, userLng, entry.latitude, entry.longitude);
-    };
-
-    if (Array.isArray(entries)) {
-      // today 모드
-      const updated = entries.map((e) => ({
+      cloned[g] = list.map((e) => ({
         ...e,
-        computedDistanceKm: calcDistance(e),
+        computedDistanceKm: calc(e),
       }));
-      updated.sort((a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0));
-      return updated;
-    } else {
-      // all 모드
-      const grouped: Record<string, Entry[]> = {};
-      Object.entries(entries).forEach(([groupNo, list]) => {
-        grouped[groupNo] = list.map((e) => ({
-          ...e,
-          computedDistanceKm: calcDistance(e),
-        }));
-        grouped[groupNo].sort((a, b) => (a.computedDistanceKm ?? 0) - (b.computedDistanceKm ?? 0));
-      });
-      return grouped;
-    }
+    });
+
+    return cloned;
   };
 
-  /** ✅ 최초 진입 시 오늘의 기지 불러오기 */
+  const fetchEntries = async (mode: "today" | "all") => {
+    const data = mode === "today" ? await fetchGetEntryList() : await fetchGetAllEntryList();
+
+    if (userPosition) {
+      setEntries(recalcDistances(data, userPosition.lat, userPosition.lng));
+    } else setEntries(data);
+  };
+
   useEffect(() => {
     fetchEntries("today");
   }, []);
 
-  /** ✅ userPosition 변경 시 거리 재계산 (서버 호출 X) */
   useEffect(() => {
     if (userPosition && entries) {
-      console.log("📍 위치 변경 감지 → 거리 재계산:", userPosition);
-      const updated = recalcDistances(entries, userPosition.lat, userPosition.lng);
-      setEntries(updated);
+      setEntries(recalcDistances(entries, userPosition.lat, userPosition.lng));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userPosition]);
 
-  /** ✅ 버튼 클릭 시 모드 변경 */
-  const handleModeChange = (mode: "today" | "all") => {
-    setViewMode(mode);
-    fetchEntries(mode);
+  const fetchEntryDetail = async (baseId: number) => {
+    const data = await fetchGetEntryDetail(baseId);
+    setSelectedEntry(data);
+  };
+
+  /** 상세 → 잠입시작 모달 */
+  const handleShowLevelModal = (entry: EntryDetail) => {
+    setSelectedEntry(null);
+
+    open("entry", "level", {
+      entryName: entry.courseNm,
+      baseId: entry.baseId,
+      userId: useAuthStore.getState().user?.userId,
+    });
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        backgroundColor: "#1D2330",
-        color: "#E6FFFF",
-        boxSizing: "border-box",
-      }}
-    >
-      {/* 모드 전환 버튼 */}
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          gap: "10px",
-          justifyContent: "space-around",
-          marginBottom: "16px",
-        }}
-      >
+    <div className="bg-custom-black text-custom-white flex h-full w-full flex-col gap-6 overflow-hidden pt-4">
+      {/* 탭 선택 */}
+      <div className="flex w-full justify-between gap-3">
         <button
-          onClick={() => handleModeChange("today")}
-          style={{
-            backgroundColor: viewMode === "today" ? "#00E6FF" : "#1D2330",
-            color: viewMode === "today" ? "#1D2330" : "#94B8B8",
-            textAlign: "center",
-            width: "40%",
-            border: "1px solid",
-            borderRadius: "6px",
-            padding: "6px",
+          onClick={() => {
+            setViewMode("today");
+            fetchEntries("today");
           }}
+          className={`text-mg w-[50%] rounded-md border py-2.5 font-bold ${
+            viewMode === "today"
+              ? "bg-primary border-primary text-black"
+              : "bg-custom-black text-custom-gray border-custom-gray"
+          }`}
         >
-          오늘 활성화 기지
+          오늘 활성 기지
         </button>
+
         <button
-          onClick={() => handleModeChange("all")}
-          style={{
-            backgroundColor: viewMode === "all" ? "#00E6FF" : "#1D2330",
-            color: viewMode === "all" ? "#1D2330" : "#94B8B8",
-            textAlign: "center",
-            width: "40%",
-            border: "1px solid",
-            borderRadius: "6px",
-            padding: "6px",
+          onClick={() => {
+            setViewMode("all");
+            fetchEntries("all");
           }}
+          className={`text-mg w-[50%] rounded-md border py-2.5 font-bold ${
+            viewMode === "all"
+              ? "bg-primary border-primary text-black"
+              : "bg-section-bg text-custom-gray border-custom-gray"
+          }`}
         >
-          전체 기지 보기
+          전체 기지
         </button>
       </div>
 
-      {/* 지도 표시 */}
-      {error && <div style={{ color: "red" }}>❌ {error}</div>}
-      {!loading && !error && entries && (
-        <>
-          <MapView
-            markers={
-              (entries instanceof Array ? entries : Object.values(entries).flat()).map((e) => ({
-                baseId: e.baseId,
-                name: e.courseNm,
-                latitude: e.latitude,
-                longitude: e.longitude,
-              })) as MapMarker[]
-            }
-            onMarkerClick={(baseId) => fetchEntryDetail(baseId)}
-          />
+      {/* 지도 */}
+      <div className="flex h-[50vw] w-full justify-center">
+        <MapView
+          markers={
+            entries
+              ? (Array.isArray(entries) ? entries : Object.values(entries).flat()).map((e) => ({
+                  baseId: e.baseId,
+                  name: e.courseNm,
+                  latitude: e.latitude,
+                  longitude: e.longitude,
+                }))
+              : []
+          }
+          onMarkerClick={fetchEntryDetail}
+        />
+      </div>
 
-          {/* 목록 */}
-          <div
-            style={{
-              width: "100%",
-              overflowY: "auto",
-              maxHeight: "38vh",
-            }}
-          >
-            {viewMode === "all" && !(entries instanceof Array)
-              ? Object.entries(entries).map(([groupNo, list]) => (
-                  <div
-                    key={groupNo}
-                    style={{
-                      backgroundColor: "none",
-                      border: "1px solid #E6FFFF",
-                      borderRadius: "8px",
-                      marginBottom: "8px",
-                      padding: "10px",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                    }}
+      {/* 리스트 */}
+      <div className="mt-2 flex-1 overflow-y-auto pb-3">
+        {viewMode === "today" && (
+          <h3 className="text-primary mb-3 text-xl font-semibold">도심 수색기지</h3>
+        )}
+
+        {/* 전체 기지 */}
+        {viewMode === "all" &&
+          entries &&
+          !Array.isArray(entries) &&
+          Object.entries(entries).map(([groupNo, list]) => (
+            <div
+              key={groupNo}
+              className="bg-section-bg border-primary mb-7 rounded-lg border p-3 shadow"
+            >
+              <h3 className="text-primary mb-2 text-xl font-semibold">
+                {["초계 정찰기지", "도심 수색기지", "중부 통제기지"][Number(groupNo)] ??
+                  `기지 ${Number(groupNo) + 1}`}
+              </h3>
+
+              <ul className="divide-custom-gray divide-y">
+                {list.map((e) => (
+                  <li
+                    key={e.baseId}
+                    className="flex cursor-pointer justify-between py-3"
+                    onClick={() => fetchEntryDetail(e.baseId)}
                   >
-                    <h3 style={{ color: "#2563eb" }}>그룹 {groupNo}</h3>
-                    <ul style={{ listStyle: "none", padding: 0 }}>
-                      {list.map((entry) => (
-                        <li
-                          key={entry.baseId}
-                          onClick={() => fetchEntryDetail(entry.baseId)}
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            padding: "6px 0",
-                            borderBottom: "1px solid #e5e7eb",
-                            fontSize: "13px",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <div>
-                            <strong>{entry.courseNm}</strong>
-                            <div style={{ color: "#6b7280" }}>{entry.region}</div>
-                          </div>
-                          <div style={{ textAlign: "right" }}>
-                            <div>
-                              {entry.computedDistanceKm
-                                ? `${entry.computedDistanceKm.toFixed(2)} km 거리`
-                                : "거리 계산 중..."}
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))
-              : (entries as Entry[]).map((entry) => (
-                  <div
-                    key={entry.baseId}
-                    onClick={() => fetchEntryDetail(entry.baseId)}
-                    style={{
-                      backgroundColor: "none",
-                      border: "1px solid #E6FFFF",
-                      borderRadius: "8px",
-                      marginBottom: "8px",
-                      padding: "10px",
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <strong>{entry.courseNm}</strong>
-                    <div style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {entry.region} · {entry.computedDistanceKm?.toFixed(2)} km 거리
+                    <div>
+                      <strong>{e.courseNm}</strong>
+                      <div className="text-custom-gray">{e.region}</div>
                     </div>
-                  </div>
+                    <div>{e.computedDistanceKm?.toFixed(2)} km</div>
+                  </li>
                 ))}
-          </div>
-        </>
-      )}
+              </ul>
+            </div>
+          ))}
 
-      {/* ✅ 상세 모달 */}
+        {/* 오늘 활성 기지 (단일 리스트) */}
+        {Array.isArray(entries) &&
+          entries.map((e) => (
+            <div
+              key={e.baseId}
+              className="bg-section-bg border-primary mb-3 cursor-pointer rounded-lg border p-3 shadow"
+              onClick={() => fetchEntryDetail(e.baseId)}
+            >
+              <strong>{e.courseNm}</strong>
+              <div className="text-custom-gray text-xs">
+                {e.region} · {e.computedDistanceKm?.toFixed(2)} km
+              </div>
+            </div>
+          ))}
+      </div>
+
+      {/* 상세 모달 */}
       {selectedEntry && (
-        <Modal title={selectedEntry.courseNm} onClose={() => setSelectedEntry(null)}>
+        <Modal
+          open
+          onClose={() => setSelectedEntry(null)}
+          title={selectedEntry.courseNm}
+          className="!max-h-[85vh]"
+        >
           <EntryDetailModalContent
             entry={selectedEntry}
             userPosition={userPosition}
             onShowLevelModal={handleShowLevelModal}
+            showStartButton={viewMode === "today"} // ⭐ 전체 기지면 false
           />
         </Modal>
-      )}
-
-      {/* ✅ 난이도 선택 모달 */}
-      {levelModalEntry && (
-        <LevelSelectModal
-          entryName={levelModalEntry.courseNm}
-          baseId={levelModalEntry.baseId}
-          userId={userId}
-          onClose={() => setLevelModalEntry(null)}
-        />
       )}
     </div>
   );

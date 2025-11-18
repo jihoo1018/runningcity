@@ -1,11 +1,12 @@
 export const FLOWS = {
-  setting: ["root", "confirm", "withdraw", "goal"] as const,
+  setting: ["root", "confirm", "withdraw", "goal", "tutorial"] as const,
   alert: ["root"] as const,
   user: ["modify", "confirm"] as const,
   mission: ["root", "confirm"] as const,
   boutique: ["purchaseConfirm", "gachaResult"] as const,
   entry: ["root", "level"] as const,
   privacySetting: ["root", "confirm", "alert"] as const,
+  showroom: ["alert"] as const,
   common: ["fail"] as const,
 } as const;
 

@@ -92,6 +92,7 @@ export const Modal: React.FC<ModalProps> = ({
           "flex max-h-[70%] w-full flex-col py-5",
           "bg-section-bg border-primary shadow-primary/20 items-center border shadow-md",
           "outline-none focus:outline-none",
+          "overflow-hidden",
           SIZE_CLASS[size],
           "animate-[modalIn_160ms_ease-out]",
           className,
@@ -111,7 +112,7 @@ export const Modal: React.FC<ModalProps> = ({
           <CloseIconButton variant="ghost" onClick={onClose} />
         </div>
 
-        <div className="text-content w-full flex-1 flex-col items-center space-y-7 overflow-y-auto px-5 py-4 text-center">
+        <div className="text-content flex w-full flex-1 flex-col overflow-hidden px-5 py-4 text-center">
           {children}
         </div>
         {footer && (
