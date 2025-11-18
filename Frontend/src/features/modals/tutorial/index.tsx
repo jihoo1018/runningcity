@@ -276,11 +276,11 @@ export default function TutorialModal({ onClose }: ModalProps) {
       className="max-w-2xl !max-h-[85vh]"
     >
       <div className="space-y-6">
-        <div className="flex items-center justify-between text-xs text-custom-gray">
+        {/* <div className="flex items-center justify-between text-xs text-custom-gray">
           <span className="px-3 py-1 rounded-full border border-primary/30 text-primary/80 tracking-wide">
             RUNNING CITY STORY
           </span>
-        </div>
+        </div> */}
 
         {/* 픽셀 아트 씬 캔버스 */}
         <div 
@@ -350,23 +350,13 @@ export default function TutorialModal({ onClose }: ModalProps) {
           <h2 className={`text-xl font-bold text-custom-white text-center drop-shadow-md ${sceneTheme.accent}`}>
             {slide.title}
           </h2>
-          <p className="text-sm text-custom-gray whitespace-pre-line leading-relaxed text-center">
+          <p className="text-xs text-custom-gray whitespace-pre-line leading-relaxed text-center">
             {slide.description}
           </p>
         </div>
 
         {/* 프로그레스 바 */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between text-[11px] text-custom-gray px-1">
-            <span className="tracking-wide uppercase">Progress</span>
-            <span>{Math.round(progress)}%</span>
-          </div>
-          <div className="relative h-2 bg-section-bg rounded-full overflow-hidden">
-            <div 
-              className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-[#9be8ff] rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+        <div>
           <div className="flex items-center justify-between text-[10px] text-custom-gray/70 uppercase tracking-[0.2em]">
             {tutorialData.map((slideItem, idx) => (
               <div
