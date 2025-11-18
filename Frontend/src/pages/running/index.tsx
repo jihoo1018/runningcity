@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RunningMetrics } from '@/entities/run/ui/RunningMetrics';
 import { RunningMetrics as RunningMetricsType, RunningState } from '@/entities/run/model/types';
+import { AndroidBridge } from '@/shared/lib';
 
 const RunningPage = () => {
   const navigate = useNavigate();
@@ -40,13 +41,19 @@ const RunningPage = () => {
 
   const handlePause = () => {
     setState('PAUSED');
+    // 워치에 일시정지 메시지 전송
+    AndroidBridge.pauseRunning();
   };
 
   const handleResume = () => {
     setState('RUNNING');
+    // 워치에 재개 메시지 전송
+    AndroidBridge.resumeRunning();
   };
 
   const handleStop = () => {
+    // 워치에 종료 메시지 전송
+    AndroidBridge.stopRunning();
     // 결과 페이지로 이동
     navigate('/entry/result');
   };
