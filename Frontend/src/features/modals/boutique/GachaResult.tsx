@@ -58,6 +58,13 @@ export default function BoutiqueGachaResult({ onClose, payload }: ModalProps) {
     legendary: "전설",
   };
 
+  // 다시 뽑기 핸들러
+  const handleRetry = () => {
+    // 커스텀 이벤트 발생 - boutique 페이지에서 10연뽑기 재실행
+    window.dispatchEvent(new CustomEvent("boutique:retry-multi-gacha"));
+    onClose();
+  };
+
   return (
     <Modal
       open
@@ -67,9 +74,20 @@ export default function BoutiqueGachaResult({ onClose, payload }: ModalProps) {
       }
       footer={
         !isAnimating ? (
-          <CommonButton variant="solid" onClick={onClose} className="w-full">
-            확인
-          </CommonButton>
+          result.drawType === "multi" ? (
+            <div className="flex gap-2 w-full">
+              <CommonButton variant="outline" onClick={onClose} className="flex-1">
+                확인
+              </CommonButton>
+              <CommonButton variant="solid" onClick={handleRetry} className="flex-1">
+                다시 뽑기
+              </CommonButton>
+            </div>
+          ) : (
+            <CommonButton variant="solid" onClick={onClose} className="w-full">
+              확인
+            </CommonButton>
+          )
         ) : undefined
       }
     >
