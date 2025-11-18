@@ -411,16 +411,9 @@ fun WorkoutScreen(
                         }
                     }
 
-                    "com.runningcity.STOP_WORKOUT_FROM_MOBILE" -> {
-                        if (isRunning) {
-                            println("📨 모바일에서 중지 요청 수신")
-                            isRunning = false
-                        }
-                    }
-                    
                     "com.runningcity.PAUSE_WORKOUT_FROM_MOBILE" -> {
                         if (isRunning && !isPaused) {
-                            println("📨 모바일에서 일시정지 요청 수신")
+                            println("⏸️ 모바일에서 일시정지 요청 수신 → 워치 일시정지")
                             val intent = Intent(context, WorkoutService::class.java).apply {
                                 action = WorkoutService.ACTION_PAUSE
                             }
@@ -431,11 +424,19 @@ fun WorkoutScreen(
                     
                     "com.runningcity.RESUME_WORKOUT_FROM_MOBILE" -> {
                         if (isRunning && isPaused) {
-                            println("📨 모바일에서 재개 요청 수신")
+                            println("▶️ 모바일에서 재개 요청 수신 → 워치 재개")
                             val intent = Intent(context, WorkoutService::class.java).apply {
                                 action = WorkoutService.ACTION_RESUME
                             }
                             context.startService(intent)
+                            isPaused = false
+                        }
+                    }
+                    
+                    "com.runningcity.STOP_WORKOUT_FROM_MOBILE" -> {
+                        if (isRunning) {
+                            println("⏹️ 모바일에서 종료 요청 수신 → 워치 종료")
+                            isRunning = false
                             isPaused = false
                         }
                     }
