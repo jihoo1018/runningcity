@@ -22,6 +22,7 @@ declare global {
   interface Window {
     Android?: AndroidInterface;
     onAndroidMessage?: (data: any) => void;
+    _androidListeners?: Set<(data: any) => void>;
   }
 }
 
@@ -179,10 +180,37 @@ export const AndroidBridge = {
 /**
  * ✅ Android → React: 이벤트 수신 핸들러
  * Android 쪽에서 webView.evaluateJavascript("window.onAndroidMessage(...)") 호출 시 실행됨
+ * 
+ * 여러 컴포넌트에서 동시에 리스닝 가능 - Set으로 관리
  */
-export function initializeAndroidListener(callback: (data: any) => void): void {
-  window.onAndroidMessage = (data: any) => {
-    console.log("📩 Received message from Android:", data);
-    callback(data);
+export function initializeAndroidListener(callback: (data: any) => void): () => void {
+  // 리스너 Set 초기화 (처음 한 번만)
+  if (!window._androidListeners) {
+    window._androidListeners = new Set();
+    
+    // 전역 핸들러 설정 (처음 한 번만)
+    window.onAndroidMessage = (data: any) => {
+      console.log("📩 Received from Android:", data);
+      // 등록된 모든 리스너에게 브로드캐스트
+      window._androidListeners?.forEach((listener) => {
+        try {
+          listener(data);
+        } catch (error) {
+          console.error("❌ Listener error:", error);
+        }
+      });
+    };
+    
+    console.log("🔧 Android 메시지 브로드캐스터 초기화 완료");
+  }
+  
+  // 리스너 추가
+  window._androidListeners.add(callback);
+  console.log(`✅ 리스너 추가 (총 ${window._androidListeners.size}개 활성화)`);
+  
+  // cleanup 함수 반환 (useEffect의 return에서 사용)
+  return () => {
+    window._androidListeners?.delete(callback);
+    console.log(`🧹 리스너 제거 (남은 개수: ${window._androidListeners?.size || 0}개)`);
   };
 }
