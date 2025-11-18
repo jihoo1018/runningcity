@@ -60,6 +60,11 @@ const HomePage = () => {
     );
   }
 
+  const handleStartRunning = () => {
+    // 워치에 러닝 시작 메시지 전송
+    AndroidBridge.startRunning();
+  };
+
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <UserProfileHeader />
@@ -76,6 +81,7 @@ const HomePage = () => {
       </div>
       <CommonLinkButton
         href="/running"
+        onClick={handleStartRunning}
         className="shadow-primary/20 text-primary mb-8 border-2 py-5 text-lg font-bold shadow-lg"
       >
         러닝 에너지 모으기 ▶
