@@ -68,7 +68,7 @@ export const CustomizeLayout = ({
       </div>
 
       {/* 캐릭터 */}
-      <div className="m-10 flex flex-none scale-150 justify-center">
+      <div className="mt-10 mb-15 flex flex-none scale-150 justify-center">
         <LPCCharacterRenderer items={equippedItems} direction={2} animation="walk" />
       </div>
 
