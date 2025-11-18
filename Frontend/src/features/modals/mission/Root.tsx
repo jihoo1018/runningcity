@@ -5,6 +5,7 @@ import { apiGet, apiPost } from "@/shared/api";
 import { useModalRouter } from "@/app/modal/useModalRouter";
 import type { ModalProps } from "@/app/modal/types";
 import { useAuthStore } from "@/features/auth/model/useAuthStore";
+import { CommonButton } from "@/shared/ui";
 
 type DailyMissionResponse = {
   id: number | null;
@@ -21,7 +22,7 @@ type WeeklyMissionResponse = {
   missionId: number | null;
   userId: number;
   weekStart: string; // ISO
-  weekEnd: string;   // ISO
+  weekEnd: string; // ISO
   targetDays: number;
   completedDays: number;
   progressPercent: number;
@@ -70,7 +71,7 @@ const Battery: React.FC<BatteryProps> = ({ progress }) => {
   const pct = Math.max(0, Math.min(100, Number.isFinite(progress) ? progress : 0));
 
   return (
-    <div className="flex items-center justify-center mt-2">
+    <div className="mt-2 flex items-center justify-center">
       <div
         style={{
           width: 80,
@@ -142,8 +143,7 @@ function getDailyHamsterText(mission: DailyMissionResponse | null): string {
   if (!mission) return "오늘 미션 정보를 불러오는 중이야! 잠시만 기다려줘.";
 
   if (mission.claimed) return "이미 오늘의 선물은 받아갔어! 내일도 같이 달려보자!";
-  if (mission.completed)
-    return "와, 오늘 목표를 다 채웠어! 여기 와서 선물을 받아가!";
+  if (mission.completed) return "와, 오늘 목표를 다 채웠어! 여기 와서 선물을 받아가!";
 
   const p = mission.progressPercent ?? 0;
   if (p <= 0) return "아직 에너지가 모자라... 오늘도 같이 한 걸음씩 가보자!";
@@ -156,8 +156,7 @@ function getWeeklyHamsterText(mission: WeeklyMissionResponse | null): string {
   if (!mission) return "이번 주 미션 정보를 불러오는 중이야!";
 
   if (mission.claimed) return "이미 이번주 선물은 받아갔어! 다음 주도 기대할게!";
-  if (mission.completed)
-    return "이번 주 목표까지 꽉 채웠어! 선물 받아가고 푹 쉬자!";
+  if (mission.completed) return "이번 주 목표까지 꽉 채웠어! 선물 받아가고 푹 쉬자!";
 
   const p = mission.progressPercent ?? 0;
   if (p <= 0) return "이번 주 에너지가 아직 거의 없네... 천천히 같이 모아보자!";
@@ -183,9 +182,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
   const speak = (target: Tab, message: string) => {
     setHamsterOverride({ target, message });
     window.setTimeout(() => {
-      setHamsterOverride(prev =>
-        prev && prev.target === target ? null : prev
-      );
+      setHamsterOverride((prev) => (prev && prev.target === target ? null : prev));
     }, 2200);
   };
 
@@ -236,10 +233,9 @@ export default function MissionRoot({ onClose }: ModalProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const displayDate =
-    (daily as any)?.date?.trim?.()
-      ? (daily as any).date
-      : (daily as any)?.serverTime
+  const displayDate = (daily as any)?.date?.trim?.()
+    ? (daily as any).date
+    : (daily as any)?.serverTime
       ? String((daily as any).serverTime).slice(0, 10)
       : new Date().toISOString().slice(0, 10);
 
@@ -303,46 +299,28 @@ export default function MissionRoot({ onClose }: ModalProps) {
 
   const footer =
     tab === "daily" ? (
-      <button
-        className="px-4 py-3 rounded-xl font-semibold"
-        style={{
-          width: "100%",
-          border: "1px solid rgba(79,232,255,0.6)",
-          background: "transparent",
-          color: "#E8F6FF",
-          boxShadow: "0 0 0 1px rgba(79,232,255,0.35) inset",
-        }}
+      <CommonButton
+        variant="outline"
         onClick={claimDaily}
-        disabled={loading || !daily}
+        disabled={loading || !daily || !daily.completed}
       >
         보상 수령
-      </button>
+      </CommonButton>
     ) : (
-      <button
-        className="px-4 py-3 rounded-xl font-semibold"
-        style={{
-          width: "100%",
-          border: "1px solid rgba(79,232,255,0.6)",
-          background: "transparent",
-          color: "#E8F6FF",
-          boxShadow: "0 0 0 1px rgba(79,232,255,0.35) inset",
-        }}
+      <CommonButton
+        variant="outline"
         onClick={claimWeekly}
-        disabled={loading || !weekly}
+        disabled={loading || !weekly || !weekly.completed}
       >
         주간 보상 수령
-      </button>
+      </CommonButton>
     );
 
   const dailySpeech =
-    hamsterOverride?.target === "daily"
-      ? hamsterOverride.message
-      : getDailyHamsterText(daily);
+    hamsterOverride?.target === "daily" ? hamsterOverride.message : getDailyHamsterText(daily);
 
   const weeklySpeech =
-    hamsterOverride?.target === "weekly"
-      ? hamsterOverride.message
-      : getWeeklyHamsterText(weekly);
+    hamsterOverride?.target === "weekly" ? hamsterOverride.message : getWeeklyHamsterText(weekly);
 
   return (
     <Modal open onClose={onClose} title="미션" footer={footer}>
@@ -374,7 +352,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
               오늘 미션을 불러오지 못했어. 다시 시도할까?
             </div>
             <button
-              className="px-3 py-2 rounded-md text-white"
+              className="rounded-md px-3 py-2 text-white"
               style={{ background: "#607d8b" }}
               onClick={loadDaily}
               disabled={loading}
@@ -383,10 +361,10 @@ export default function MissionRoot({ onClose }: ModalProps) {
             </button>
           </div>
         ) : (
-          <div className="flex flex-col gap-5 items-center">
+          <div className="flex flex-col items-center gap-5">
             {/* 상단 목표 표시 */}
             <div className="text-center">
-              <div className="text-xs text-slate-300 mb-1">오늘의 목표</div>
+              <div className="mb-1 text-xs text-slate-300">오늘의 목표</div>
               <div className="text-3xl font-bold text-cyan-300">
                 {fmt(daily.targetKm)}
                 <span className="ml-1 text-base text-slate-200">km</span>
@@ -397,8 +375,8 @@ export default function MissionRoot({ onClose }: ModalProps) {
             <Battery progress={dailyFill} />
 
             {/* 햄스터 + 말풍선 */}
-            <div className="mt-2 flex items-center gap-3 w-full">
-              <div className="w-16 h-16 rounded-xl bg-slate-900/60 flex items-center justify-center overflow-hidden">
+            <div className="mt-2 flex w-full items-center gap-3">
+              <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-slate-900/60">
                 {/* TODO: 실제 햄스터 이미지로 교체 */}
                 <span style={{ fontSize: 32 }}>🐹</span>
               </div>
@@ -421,7 +399,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
             이번 주 미션을 불러오지 못했어. 다시 시도해볼까?
           </div>
           <button
-            className="px-3 py-2 rounded-md text-white"
+            className="rounded-md px-3 py-2 text-white"
             style={{ background: "#607d8b" }}
             onClick={loadWeekly}
             disabled={loading}
@@ -430,10 +408,10 @@ export default function MissionRoot({ onClose }: ModalProps) {
           </button>
         </div>
       ) : (
-        <div className="flex flex-col gap-5 items-center">
+        <div className="flex flex-col items-center gap-5">
           {/* 상단 주간 목표 표시 */}
           <div className="text-center">
-            <div className="text-xs text-slate-300 mb-1">이번 주 목표</div>
+            <div className="mb-1 text-xs text-slate-300">이번 주 목표</div>
             <div className="text-3xl font-bold text-cyan-300">
               {weekly.targetDays}
               <span className="ml-1 text-base text-slate-200">일</span>
@@ -444,8 +422,8 @@ export default function MissionRoot({ onClose }: ModalProps) {
           <Battery progress={weeklyFill} />
 
           {/* 햄스터 + 말풍선 */}
-          <div className="mt-2 flex items-center gap-3 w-full">
-            <div className="w-16 h-16 rounded-xl bg-slate-900/60 flex items-center justify-center overflow-hidden">
+          <div className="mt-2 flex w-full items-center gap-3">
+            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-xl bg-slate-900/60">
               {/* TODO: 실제 햄스터 이미지로 교체 */}
               <span style={{ fontSize: 32 }}>🐹</span>
             </div>
