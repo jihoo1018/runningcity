@@ -20,7 +20,7 @@ export type EquippedItem = {
   subcategory: string | null;
   style?: string | null; // head 파츠만 style 존재
   basePath: string; // DB에 저장된 경로 (COMPOSITE: 템플릿 경로, COMPLETE: 완성된 스프라이트 경로)
-  spriteType?: "COMPOSITE" | "COMPLETE"; // 스프라이트 타입
+  spriteType?: "COMPOSITE" | "COMPLETE" | undefined; // 스프라이트 타입
 };
 
 export type InventoryItem = {
@@ -37,7 +37,7 @@ export type InventoryItem = {
   rarity: string;
   priceCr: string;
   obtainMethod: string;
-  spriteType?: "COMPOSITE" | "COMPLETE"; // 스프라이트 타입
+  spriteType?: "COMPOSITE" | "COMPLETE" | undefined; // 스프라이트 타입
 };
 
 export type PrivacySetting = {

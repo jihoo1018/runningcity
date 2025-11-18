@@ -54,7 +54,7 @@ export function mapArrayToSlots(list: EquippedItem[]): AvatarSlots {
       slots.bodies = item;
       continue;
     }
-    if (item.category === "clothes") {
+    if (item.category === "clothes" && item.subcategory) {
       if (["tshirt", "longsleeve", "shortsleeves"].includes(item.subcategory))
         slots.clothes_top = item;
       else if (item.subcategory === "shorts") slots.clothes_bottom = item;
@@ -64,7 +64,7 @@ export function mapArrayToSlots(list: EquippedItem[]): AvatarSlots {
       slots.hair = item;
       continue;
     }
-    if (item.category === "head") {
+    if (item.category === "head" && item.subcategory) {
       if (item.subcategory in slots) {
         slots[item.subcategory as keyof AvatarSlots] = item;
       }
