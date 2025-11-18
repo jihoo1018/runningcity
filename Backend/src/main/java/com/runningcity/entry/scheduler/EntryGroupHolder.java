@@ -18,6 +18,7 @@ public class EntryGroupHolder {
     }
 
     public synchronized void rotateGroup() {
-        currentGroup = (++currentGroup % MAX_GROUP);
+//        currentGroup = (++currentGroup % MAX_GROUP);
+        currentGroup = 1L; // 시연을 위해 임시로 1로 고정
     }
 }
