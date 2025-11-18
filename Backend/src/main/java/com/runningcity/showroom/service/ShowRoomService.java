@@ -2,18 +2,17 @@ package com.runningcity.showroom.service;
 
 import com.runningcity.boutique.entity.Boutique;
 import com.runningcity.boutique.repository.BoutiqueRepository;
-import com.runningcity.entry.dto.EntryListResponse;
 import com.runningcity.friendship.repository.FriendshipRepository;
-import com.runningcity.global.exception.BaseException;
 import com.runningcity.report.repository.RunSessionRepository;
 import com.runningcity.run.entity.RunSession;
 import com.runningcity.showroom.dto.*;
+import com.runningcity.showroom.entity.UserCompleteSprite;
 import com.runningcity.showroom.entity.UserEquippedItem;
 import com.runningcity.showroom.entity.UserInventory;
-import com.runningcity.showroom.exception.ShowRoomResponseCode;
 import com.runningcity.showroom.mapper.UserEquippedItemMapper;
 import com.runningcity.showroom.mapper.UserInventoryMapper;
 import com.runningcity.showroom.repository.EquippedItemRepository;
+import com.runningcity.showroom.repository.UserCompleteSpriteRepository;
 import com.runningcity.showroom.repository.UserInventoryRepository;
 import com.runningcity.user.entity.User;
 import com.runningcity.user.repository.UserRepository;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +42,7 @@ public class ShowRoomService {
     private final UserInventoryRepository userInventoryRepository;
     private final RunSessionRepository runSessionRepository;
     private final PrivacySettingService privacySettingService;
+    private final UserCompleteSpriteRepository userCompleteSpriteRepository;
 
     /**
      * 인벤토리에 신규 아이템 추가
@@ -117,14 +116,14 @@ public class ShowRoomService {
      * @param userId 유저 ID
      * @return 유저가 현재 착용한 아이템 리스트
      */
-    public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
-
-//        return equippedItemRepository.findByUserId(userId)
-//                .stream()
-//                .map(UserEquippedItemResponse::fromEntity)
-//                .collect(Collectors.toList());
-        return equippedItemRepository.findEquippedItemsByUserId(userId);
-    }
+//    public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
+//
+////        return equippedItemRepository.findByUserId(userId)
+////                .stream()
+////                .map(UserEquippedItemResponse::fromEntity)
+////                .collect(Collectors.toList());
+//        return equippedItemRepository.findEquippedItemsByUserId(userId);
+//    }
 
 
     /**
@@ -238,64 +237,41 @@ public class ShowRoomService {
         return result;
     }
 
+// =========================================
+// 🔧 완성 스프라이트 지원 추가
+// =========================================
+
+
     /**
-     * 🎨 User 엔티티 → RandomAvatarResponse 변환
+     * 유저의 장착 아이템 목록 조회 (완성 스프라이트 우선)
      *
-     * @param user 유저 엔티티
-     * @param equippedItems 해당 유저의 장착 아이템 목록 (null 가능)
-     * @param itemMap 전체 아이템 맵 (캐싱된 데이터)
-     * @return RandomAvatarResponse DTO (장착 아이템이 없으면 null)
+     * @param userId 유저 ID
+     * @return 장착 아이템 응답 DTO 목록
      */
-    private RandomAvatarResponse buildRandomAvatarResponse(
-            User user,
-            List<UserEquippedItem> equippedItems,
-            Map<Long, Boutique> itemMap
-    ) {
-        // ✅ 1단계: 장착 아이템이 없으면 null 반환
-        if (equippedItems == null || equippedItems.isEmpty()) {
-            log.debug("🚫 장착 아이템 없음 - 스킵: userId={}, nickname={}",
-                    user.getUserId(), user.getNickname());
-            return null;
+    @Transactional(readOnly = true)
+    public List<UserEquippedItemResponse> getUserEquippedItemList(Long userId) {
+        log.debug("🎨 아이템 목록 조회 - userId: {}", userId);
+
+        // ⭐ Step 1: 완성 스프라이트 확인
+        Optional<UserCompleteSprite> completeSprite =
+                userCompleteSpriteRepository.findByUserId(userId);
+
+        if (completeSprite.isPresent()) {
+            // ✅ 완성 스프라이트 사용
+            log.debug("✨ 완성 스프라이트 사용 - userId: {}, path: {}",
+                    userId, completeSprite.get().getSpritePath());
+
+            return List.of(
+                    UserEquippedItemResponse.forCompleteSprite(
+                            completeSprite.get().getSpritePath()
+                    )
+            );
         }
 
-        // 장착 아이템 DTO 변환
-        List<RandomAvatarResponse.EquippedItemDto> items = equippedItems.stream()
-                .map(equipped -> {
-                    Boutique item = itemMap.get(equipped.getItemId());
-
-                    // 아이템 정보가 없는 경우 (데이터 정합성 문제)
-                    if (item == null) {
-                        log.warn("⚠️ 아이템 정보 없음: userId={}, itemId={}",
-                                user.getUserId(), equipped.getItemId());
-                        return null;
-                    }
-
-                    return RandomAvatarResponse.EquippedItemDto.builder()
-                            .itemId(item.getItemId())
-                            .category(item.getCategory())
-                            .subcategory(item.getSubcategory())
-                            .style(item.getStyle())
-                            .basePath(item.getBasePath())
-                            .build();
-                })
-                .filter(Objects::nonNull)  // ✅ null 아이템 제거
-                .toList();
-
-        // ✅ 2단계: 변환 후에도 유효한 아이템이 없으면 null 반환
-        if (items.isEmpty()) {
-            log.warn("⚠️ 유효한 장착 아이템 없음 - 스킵: userId={}, nickname={}",
-                    user.getUserId(), user.getNickname());
-            return null;
-        }
-
-        return RandomAvatarResponse.builder()
-                .userId(user.getUserId())
-                .nickname(user.getNickname())
-                .level(user.getLevel())
-                .equippedItems(items)
-                .build();
+        // ✅ 개별 파츠 조합 (기존 로직)
+        log.debug("🧩 개별 파츠 조합 - userId: {}", userId);
+        return equippedItemRepository.findEquippedItemsByUserId(userId);
     }
-
     // ========================================
     // 🆕 단일 유저 아바타 정보 조회 (통계 + Privacy)
     // ========================================
@@ -305,6 +281,7 @@ public class ShowRoomService {
      *
      * - getMyOffice의 통계 계산 로직 재사용
      * - PrivacySetting 정보 추가
+     * - ⭐ 완성 스프라이트 지원
      *
      * @param userId 조회할 유저 ID
      * @return 아바타 정보 (통계 + 장착 아이템 + Privacy)
@@ -314,9 +291,7 @@ public class ShowRoomService {
         log.debug("🎨 단일 유저 아바타 조회 - userId: {}", userId);
 
         // Step 1: 유저 정보 조회
-        User user = userRepository.findById(userId)
-                .orElse(null);
-
+        User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
             log.warn("⚠️ 유저를 찾을 수 없음 - userId: {}", userId);
             return null;
@@ -341,7 +316,7 @@ public class ShowRoomService {
 
         if(sessions.size() > 0) avgPace /= sessions.size();
 
-        // Step 3: 장착 아이템 조회
+        // Step 3: 장착 아이템 조회 (⭐ 완성 스프라이트 자동 처리!)
         List<UserEquippedItemResponse> equippedItems = getUserEquippedItemList(userId);
 
         // UserEquippedItemResponse → EquippedItemDto 변환
@@ -353,6 +328,7 @@ public class ShowRoomService {
                                 .subcategory(item.getSubcategory())
                                 .style(item.getStyle())
                                 .basePath(item.getBasePath())
+                                .spriteType(item.getSpriteType())  // ⭐ 추가!
                                 .build())
                         .toList();
 
@@ -365,13 +341,13 @@ public class ShowRoomService {
                 .nickname(user.getNickname())
                 .level(user.getLevel())
                 .equippedItems(equippedItemDtos)
-                // 🆕 통계 정보
+                // 통계 정보
                 .totalDist(totalDist)
                 .maxDist(maxDist)
                 .avgPace(avgPace)
                 .bestPace(bestPace)
                 .totalEntryCnt(totalEntryCnt)
-                // 🆕 Privacy 정보
+                // Privacy 정보
                 .privacySetting(privacySetting)
                 .build();
     }
