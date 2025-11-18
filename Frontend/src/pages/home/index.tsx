@@ -109,7 +109,7 @@ const HomePage = () => {
       {/* ----------------------------- */}
       <div className="flex flex-1 items-end justify-center pb-6">
         <div className="relative flex items-center justify-center">
-          <div className="relative z-10 mb-15 scale-150">
+          <div className="relative z-10 mb-10 scale-130">
             <LPCCharacterRenderer items={equippedItems} direction={2} animation="walk" />
           </div>
         </div>
