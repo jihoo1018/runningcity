@@ -1,5 +1,5 @@
 // src/pages/report/detail/ReportDetailPage.tsx
-
+import { BackIconButton } from "@/shared/ui/IconButtons";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useReportDetailQuery } from "@/entities/report/api/useReportDetailQuery";
@@ -28,16 +28,21 @@ export default function ReportDetailPage() {
 
   return (
     <div className="mx-auto max-w-md p-4">
-      <div className="mb-1 text-sm text-gray-500">기록 상세</div>
-
-      <div className="flex items-end gap-2">
-        <div className="text-4xl font-bold">
-          {bigDistance}
-          <span className="text-2xl">km</span>
+      <div className="relative mb-4 flex flex-col items-center text-center">
+        <div className="absolute left-0 top-0">
+          <BackIconButton onClick={() => history.back()} />
         </div>
-        <span className="rounded-full border px-2 py-1 text-xs">
-          {data.type === "ENTRY" ? "기지 잠입" : "에너지"}
-        </span>
+        <div className="mb-1 text-sm text-gray-500"></div>
+
+        <div className="flex items-end gap-2">
+          <div className="text-4xl font-bold">
+            {bigDistance}
+            <span className="text-2xl">km</span>
+          </div>
+          <span className="rounded-full border px-2 py-1 text-xs">
+            {data.type === "ENTRY" ? "기지 잠입" : "에너지"}
+          </span>
+        </div>
       </div>
 
       <div className="mt-4 grid grid-cols-3 gap-3 border-t pt-3 text-sm">
