@@ -28,21 +28,22 @@ export default function ReportDetailPage() {
 
   return (
     <div className="mx-auto max-w-md p-4">
-      <div className="relative mb-4 flex flex-col items-center text-center">
-        <div className="absolute left-0 top-0">
+      <div className="relative mb-4 flex justify-center flex-col items-center text-center">
+        <div className="absolute left-0 bottom-0">
           <BackIconButton onClick={() => history.back()} />
         </div>
         <div className="mb-1 text-sm text-gray-500"></div>
 
-        <div className="flex items-end gap-2">
+        <div className="flex flex-col justify-center items-center gap-2">
+          <span className="rounded-full border px-2 py-1 text-xs">
+            {data.type === "ENTRY" ? "기지 잠입" : "에너지"}
+          </span>
           <div className="text-4xl font-bold">
             {bigDistance}
             <span className="text-2xl">km</span>
           </div>
-          <span className="rounded-full border px-2 py-1 text-xs">
-            {data.type === "ENTRY" ? "기지 잠입" : "에너지"}
-          </span>
         </div>
+        
       </div>
 
       <div className="mt-4 grid grid-cols-3 gap-3 border-t pt-3 text-sm">
