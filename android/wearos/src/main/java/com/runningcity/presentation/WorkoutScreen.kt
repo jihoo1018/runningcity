@@ -675,40 +675,40 @@ fun WorkoutScreen(
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        if (serviceBound) {
-                            Text(
-                                text = "🔔 백그라운드 추적 중",
-                                style = MaterialTheme.typography.caption2,
-                                color = Color.Green
-                            )
-                        }
-
-                        Text(
-                            text = if (isPaused) "⏸️ 일시정지 중" else "🏃 측정 중...",
-                            style = MaterialTheme.typography.caption2,
-                            color = if (isPaused) Color.Yellow else Color.Green
-                        )
-
-                        // ⭐ 디버그: 페이스 값 확인용
-                        if (currentPace > 0) {
-                            Text(
-                                text = "페이스: ${formatPace(currentPace)} (${currentPace}초/km)",
-                                style = MaterialTheme.typography.caption2,
-                                color = Color.Cyan
-                            )
-                        }
-
-                        Text(
-                            text = "Key: $clientSecretKey",
-                            style = MaterialTheme.typography.caption2,
-                            color = Color.Gray
-                        )
-                        Text(
-                            text = "Seq: $workoutSessionSeq",
-                            style = MaterialTheme.typography.caption2,
-                            color = Color.Gray
-                        )
-                    }
+//                        if (serviceBound) {
+//                            Text(
+//                                text = "🔔 백그라운드 추적 중",
+//                                style = MaterialTheme.typography.caption2,
+//                                color = Color.Green
+//                            )
+//                        }
+//
+//                        Text(
+//                            text = if (isPaused) "⏸️ 일시정지 중" else "🏃 측정 중...",
+//                            style = MaterialTheme.typography.caption2,
+//                            color = if (isPaused) Color.Yellow else Color.Green
+//                        )
+//
+//                        // ⭐ 디버그: 페이스 값 확인용
+//                        if (currentPace > 0) {
+//                            Text(
+//                                text = "페이스: ${formatPace(currentPace)} (${currentPace}초/km)",
+//                                style = MaterialTheme.typography.caption2,
+//                                color = Color.Cyan
+//                            )
+//                        }
+//
+//                        Text(
+//                            text = "Key: $clientSecretKey",
+//                            style = MaterialTheme.typography.caption2,
+//                            color = Color.Gray
+//                        )
+//                        Text(
+//                            text = "Seq: $workoutSessionSeq",
+//                            style = MaterialTheme.typography.caption2,
+//                            color = Color.Gray
+//                        )
+//                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
                 }
