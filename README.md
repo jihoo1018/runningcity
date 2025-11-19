@@ -27,8 +27,8 @@ RunningCity는 다음과 같은 핵심 경험을 제공한다.
 ### 1) 메인 화면 – 워치 연동하기
 워치를 자동으로 감지하고 연동하여 실시간 GPS·심박 데이터를 앱으로 전달한다.  
 UI에서 연결 상태를 직관적으로 확인할 수 있다.
+![alt text](<./asset/Adobe Express - 1.워치 연동.gif>)
 
-![alt text](<Adobe Express - 1.워치 연동.gif>)
 
 ---
 
@@ -36,7 +36,7 @@ UI에서 연결 상태를 직관적으로 확인할 수 있다.
 버튼 클릭 즉시 실시간 러닝 모드로 진입.  
 거리·페이스·심박·시간 등 데이터를 확인하며 달릴 수 있다.
 
-![alt text](<2. 에너지 모으기.gif>)
+![alt text](<./asset/2. 에너지 모으기.gif>)
 
 ---
 
@@ -44,7 +44,7 @@ UI에서 연결 상태를 직관적으로 확인할 수 있다.
 러닝으로 얻는 모든 재화로 가챠를 돌릴 수 있다.  
 가챠/상점에서 획득한 장비 아이템으로 캐릭터를 꾸밀 수 있다.
 
-![alt text](<3. 부띠끄.gif>)
+![alt text](<./asset/3. 부띠끄.gif>)
 
 ---
 
@@ -52,14 +52,14 @@ UI에서 연결 상태를 직관적으로 확인할 수 있다.
 매일 다른 지역의 "활성화된 기지"에 잠입해 달리기를 수행하는 모드.  
 달리기 좋은 지역(공공데이터 기반)에서 달리면 추가 경험치/재화를 획득할 수 있다.
 
-![alt text](<4. 기지 잠입.gif>)
+![alt text](<./asset/4. 기지 잠입.gif>)
 ---
 
 ### 5) 내 사무실 – 캐릭터 꾸미기 & 자랑 공간
 가챠·상점에서 획득한 아이템으로 캐릭터를 꾸미는 개인 공간.  
 다른 사용자에게 자신의 캐릭터를 자랑할 수 있다.
 
-![alt text](<5. 내 사무실 옷.gif>)
+![alt text](<./asset/5. 내 사무실 옷.gif>)
 
 ---
 
@@ -68,7 +68,7 @@ UI에서 연결 상태를 직관적으로 확인할 수 있다.
 친구가 아닌 유저는 랜덤으로 노출  
 내 캐릭터 또한 쇼룸에 전시 가능
 
-![alt text](<6. 친구 쇼룸.gif>)
+![alt text](<./asset/6. 친구 쇼룸.gif>)
 
 ---
 
@@ -78,7 +78,7 @@ UI에서 연결 상태를 직관적으로 확인할 수 있다.
 상세에서 지도 기반 GPS 경로(폴리라인) 시각화  
 AI 리포트 생성 기능으로 내 러닝 패턴 분석 제공
 
-![alt text](7.기록.gif)
+![alt text](./asset/7.기록.gif)
 
 ---
 
@@ -110,5 +110,5 @@ AI 리포트 생성 기능으로 내 러닝 패턴 분석 제공
 ## 4. 팀원 소개
 | 문지후 | 강설민 | 유아름 | 이유리 | 정민주 | 김준서 |
 |:---:|:---:|:---:|:---:|:---:|:---:|
-| ![alt text](문지후-3.png) | ![alt text](강설민.png) |![alt text](유아름.png) | ![alt text](이유리.png) | ![alt text](정민주.png) | ![alt text](김준서.png) |
+| ![alt text](./asset/문지후-3.png) | ![alt text](./asset/강설민.png) |![alt text](./asset/유아름.png) | ![alt text](./asset/이유리.png) | ![alt text](./asset/정민주.png) | ![alt text](./asset/김준서.png) |
 | **Frontend  Backend** | **Frontend  Backend** | **Infra  Frontend / Backend** | **Frontend  Backend** | **Frontend  Backend** | **Frontend  Backend** |
