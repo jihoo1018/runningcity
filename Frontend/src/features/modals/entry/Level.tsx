@@ -23,7 +23,7 @@ export default function EntryLevel({ onClose, payload }: ModalProps) {
       }
 
       onClose();
-      navigate("/running", { state: { sessionId: data.sessionId } });
+      navigate("/running", { state: { sessionId: data.sessionId, mode: 'entry' } });
     } catch (e) {
       console.error("세션 생성 실패", e);
     }
