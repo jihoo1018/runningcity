@@ -119,19 +119,20 @@ const Battery: React.FC<BatteryProps> = ({ progress }) => {
 
           {/* 채워지는 에너지 */}
           <div
-            style={{
-              position: "absolute",
-              left: 4,
-              right: 4,
-              bottom: 4,
-              height: `${pct}%`,
-              borderRadius: 18,
-              background:
-                "linear-gradient(180deg, #e0ff7a 0%, #b7ff5e 35%, #63ff5b 70%, #22c55e 100%)",
-              boxShadow: "0 0 20px rgba(132, 255, 142, 0.8)",
-              transition: "height 250ms ease",
-            }}
+            className="
+              absolute left-1 right-1 bottom-1
+              rounded-[18px]
+              bg-gradient-to-b
+              from-primary
+              via-primary/90
+              to-primary/80
+              shadow-[0_0_20px_rgba(0,0,0,0.25)]
+              transition-all duration-300 ease-in-out
+            "
+            style={{ height: `${pct}%` }}
           />
+
+
         </div>
       </div>
     </div>
