@@ -89,7 +89,7 @@ export const Modal: React.FC<ModalProps> = ({
         aria-modal="true"
         aria-labelledby={title ? "modal-title" : undefined}
         className={clsx(
-          "flex max-h-[70%] w-full flex-col py-5",
+          "flex max-h-[80%] w-full flex-col py-5",
           "bg-section-bg border-primary shadow-primary/20 items-center border shadow-md",
           "outline-none focus:outline-none",
           "overflow-hidden",

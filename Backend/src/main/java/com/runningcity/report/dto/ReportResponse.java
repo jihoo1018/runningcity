@@ -26,6 +26,7 @@ public record ReportResponse(
             double distanceKm,
             String avgPace,
             String runningTime,
-            String runningType
+            String runningType,
+            String startTime
     ) {}
 }

@@ -122,7 +122,7 @@ public class RunService {
 
         // ✅ GPS가 없으면 여기서 그냥 끝 (심박/summary만 있는 세션)
         if (gps == null || gps.isEmpty()) {
-            return 0;
+            return sid;
         }
 
         // 포인트 배치 멱등 삽입

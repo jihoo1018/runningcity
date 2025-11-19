@@ -1,11 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { AndroidBridge, initializeAndroidListener } from "../../shared/lib";
+import { AndroidBridge } from "../../shared/lib";
 import { FloatingMenu } from "./ui/FloatingMenu";
 import { CommonLinkButton } from "@/shared/ui/CommonLinkButton";
 import UserProfileHeader from "./ui/UserProfileHeader";
-import { useAuthStore } from "@/features/auth/model/useAuthStore";
-import { apiPost } from "@/shared/api/http";
-import { ApiResponse } from "@/shared/api/types";
 import { fetchGetEquippedItems } from "@/entities/showroom/api/customize";
 import { LPCCharacterRenderer } from "@/entities/showroom/ui/LPCCharacterRenderer";
 import { useAvatarStore } from "@/features/avatar/model/avatarStore";
@@ -18,52 +15,15 @@ const HomePage = () => {
 
   const setWallet = useState(0)[1];
 
-  /** 워치 데이터 저장 */
-  const saveWatchDataToBackend = async (workoutData: any, userId: number) => {
-    try {
-      const requestBody = {
-        clientSecretKey: workoutData.clientSecretKey || "",
-        startTime: workoutData.startTime || 0,
-        endTime: workoutData.endTime || 0,
-        summary: workoutData.summary || {},
-        cadenceRecords: workoutData.cadenceRecords || [],
-        heartRateRecords: workoutData.heartRateRecords || [],
-        gpsPoints: workoutData.gpsPoints || [],
-      };
-
-      const response = await apiPost<ApiResponse<void>>(
-        `/sessions/watch?userId=${userId}`,
-        requestBody,
-      );
-
-      if (!(response.status === 200 && response.code === "COMMON_2000")) {
-        throw new Error(response.message || "저장 실패");
-      }
-    } catch (e) {
-      console.error("워치 데이터 저장 실패:", e);
-    }
-  };
-
-  /** Android Listener */
+  /** Android 메시지 리스너 (페이지별 처리) */
   useEffect(() => {
-    initializeAndroidListener((data) => {
-      if (data.type === "RUNNING_STATE") {
-        setIsRunning(data.state === "RUNNING");
-
-        if (data.state === "RUNNING") {
-          const gps = AndroidBridge.getGPSData();
-          setGpsData(gps);
-        }
-      }
-
-      if (data.type === "WORKOUT_RESULT") {
-        const workoutData = typeof data.data === "string" ? JSON.parse(data.data) : data.data;
-        const userId = useAuthStore.getState().user?.userId;
-        if (!userId) return;
-
-        saveWatchDataToBackend(workoutData, userId);
-      }
-    });
+    // 전역 리스너는 App.tsx에서 설정되므로 여기서는 제거
+    // 필요한 경우 페이지별 상태 업데이트만 처리
+    console.log("📱 HomePage 마운트됨");
+    
+    return () => {
+      console.log("📱 HomePage 언마운트됨");
+    };
   }, []);
 
   /** 러닝 시작/종료 */
@@ -100,6 +60,11 @@ const HomePage = () => {
     );
   }
 
+  const handleStartRunning = () => {
+    // 워치에 러닝 시작 메시지 전송
+    AndroidBridge.startRunning();
+  };
+
   return (
     <div className="flex h-full w-full flex-col gap-4">
       <UserProfileHeader />
@@ -116,6 +81,7 @@ const HomePage = () => {
       </div>
       <CommonLinkButton
         href="/running"
+        onClick={handleStartRunning}
         className="shadow-primary/20 text-primary mb-8 border-2 py-5 text-lg font-bold shadow-lg"
       >
         러닝 에너지 모으기 ▶

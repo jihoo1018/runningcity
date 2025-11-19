@@ -78,9 +78,12 @@ public class ReportService {
                         rs.getTotalDistance() != null ? rs.getTotalDistance() / 1000.0 : 0.0,
                         toPaceString(rs.getAvgPace()),
                         toTimeString(rs.getDuration()),
-                        rs.getType()
+                        rs.getType(),
+                        rs.getStartTime().atZone(KST).toOffsetDateTime().toString()
+
                 ))
                 .toList();
+
 
         return new ReportResponse(
                 year,

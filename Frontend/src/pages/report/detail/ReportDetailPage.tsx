@@ -19,7 +19,7 @@ export default function ReportDetailPage() {
   const hasAiReport = !!data?.aiReport?.content;
 
   const bigDistance = useMemo(
-    () => (s?.totalDistance ? (s.totalDistance / 1000).toFixed(1) : "-"),
+    () => (s?.totalDistance ? (s.totalDistance / 1000).toFixed(2) : "-"),
     [s?.totalDistance],
   );
 

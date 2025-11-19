@@ -96,54 +96,65 @@ class MobileMessageListenerService : WearableListenerService() {
      * 모바일에서 시작된 운동 시작
      */
     private fun startWorkoutFromMobile(sessionId: Long) {
-        // 1. 워치 앱 자동 시작
+        Log.d(TAG, "🚀 모바일에서 운동 시작 요청 수신 (세션: $sessionId)")
+        
+        // 워치 앱 자동 시작 (autoStart 플래그로 RunningActivity에서 onStartWorkout 로직 실행)
         val activityIntent = Intent(this, RunningActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             putExtra("sessionId", sessionId)
-            putExtra("autoStart", true)  // 자동 시작 플래그
+            putExtra("autoStart", true)  // 자동 시작 플래그 - 이것이 onStartWorkout 실행을 트리거
         }
         startActivity(activityIntent)
-        Log.d(TAG, "🚀 워치 앱 자동 시작 (세션: $sessionId)")
         
-        // 2. WorkoutScreen의 시작 로직을 트리거하기 위해 브로드캐스트 전송
-        val broadcastIntent = Intent("com.runningcity.START_WORKOUT_FROM_MOBILE")
-        broadcastIntent.putExtra("sessionId", sessionId)
-        sendBroadcast(broadcastIntent)
-        
-        Log.d(TAG, "✅ 워치 운동 시작 브로드캐스트 전송 (세션: $sessionId)")
+        Log.d(TAG, "✅ 워치 앱 자동 시작 완료 - onStartWorkout 로직 실행됨")
     }
     
     /**
      * 모바일에서 시작된 운동 중지
      */
     private fun stopWorkoutFromMobile() {
-        // WorkoutScreen의 중지 로직을 트리거하기 위해 브로드캐스트 전송
-        val intent = Intent("com.runningcity.STOP_WORKOUT_FROM_MOBILE")
-        sendBroadcast(intent)
+        Log.d(TAG, "⏹️ 모바일에서 운동 중지 요청 수신")
         
-        Log.d(TAG, "✅ 워치 운동 중지 브로드캐스트 전송")
+        // RunningActivity로 Intent 전송 (onNewIntent에서 처리)
+        val activityIntent = Intent(this, RunningActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("action", "STOP")
+        }
+        startActivity(activityIntent)
+        
+        Log.d(TAG, "✅ 워치 운동 중지 Intent 전송")
     }
     
     /**
      * 모바일에서 시작된 운동 일시정지
      */
     private fun pauseWorkoutFromMobile() {
-        // WorkoutScreen의 일시정지 로직을 트리거하기 위해 브로드캐스트 전송
-        val intent = Intent("com.runningcity.PAUSE_WORKOUT_FROM_MOBILE")
-        sendBroadcast(intent)
+        Log.d(TAG, "⏸️ 모바일에서 운동 일시정지 요청 수신")
         
-        Log.d(TAG, "✅ 워치 운동 일시정지 브로드캐스트 전송")
+        // RunningActivity로 Intent 전송 (onNewIntent에서 처리)
+        val activityIntent = Intent(this, RunningActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("action", "PAUSE")
+        }
+        startActivity(activityIntent)
+        
+        Log.d(TAG, "✅ 워치 운동 일시정지 Intent 전송")
     }
     
     /**
      * 모바일에서 시작된 운동 재개
      */
     private fun resumeWorkoutFromMobile() {
-        // WorkoutScreen의 재개 로직을 트리거하기 위해 브로드캐스트 전송
-        val intent = Intent("com.runningcity.RESUME_WORKOUT_FROM_MOBILE")
-        sendBroadcast(intent)
+        Log.d(TAG, "▶️ 모바일에서 운동 재개 요청 수신")
         
-        Log.d(TAG, "✅ 워치 운동 재개 브로드캐스트 전송")
+        // RunningActivity로 Intent 전송 (onNewIntent에서 처리)
+        val activityIntent = Intent(this, RunningActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("action", "RESUME")
+        }
+        startActivity(activityIntent)
+        
+        Log.d(TAG, "✅ 워치 운동 재개 Intent 전송")
     }
     
     /**
