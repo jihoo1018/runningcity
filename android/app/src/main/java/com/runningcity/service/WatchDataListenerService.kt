@@ -49,7 +49,7 @@ class WatchDataListenerService : WearableListenerService() {
         .build()
     
     // 백엔드 API URL (개발 환경)
-    private val BASE_URL = "http://:8080/api/v1" // IP 입력
+    private val BASE_URL = "http://k13a405.p.ssafy.io"  // IP 입력
     // private val BASE_URL = "http://localhost:8080/api/v1" // 실제 기기용 (필요시 변경)
 
     companion object {

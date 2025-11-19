@@ -32,11 +32,13 @@ android {
 
             // 릴리스 빌드용 URL 추가
             buildConfigField("String", "WEBVIEW_URL", "\"http://k13a405.p.ssafy.io\"")
+//            buildConfigField("String", "WEBVIEW_URL", "\"http://70.12.247.131:5173\"") // 또는 각자의 IP 주소를 사용하기
         }
 
         debug {
             // 디버그 빌드용 URL 추가 (로컬호스트:5173 사용)
             buildConfigField("String", "WEBVIEW_URL", "\"http://k13a405.p.ssafy.io\"") // 또는 각자의 IP 주소를 사용하기
+//            buildConfigField("String", "WEBVIEW_URL", "\"http://70.12.247.131:5173\"") // 또는 각자의 IP 주소를 사용하기
         }
     }
     compileOptions {

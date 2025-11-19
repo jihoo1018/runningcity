@@ -4,6 +4,8 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import android.webkit.WebView
+import com.runningcity.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 
 /**
@@ -18,6 +20,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // 추가 영역
+        if (BuildConfig.DEBUG) {
+            WebView.setWebContentsDebuggingEnabled(true)
+        }
+
 
         // ForegroundService NotificationChannel 생성
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
