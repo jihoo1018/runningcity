@@ -1,9 +1,9 @@
 // src/pages/running/index.tsx
 
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { RunningMetrics } from '@/entities/run/ui/RunningMetrics';
-import { RunningMetrics as RunningMetricsType, RunningState } from '@/entities/run/model/types';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { RunningMetrics } from "@/entities/run/ui/RunningMetrics";
+import { RunningMetrics as RunningMetricsType, RunningState } from "@/entities/run/model/types";
 import { AndroidBridge } from '@/shared/lib';
 
 const RunningPage = () => {
@@ -55,7 +55,8 @@ const RunningPage = () => {
     // 워치에 종료 메시지 전송
     AndroidBridge.stopRunning();
     // 결과 페이지로 이동
-    navigate('/entry/result');
+    // navigate("/entry/result");
+    navigate("/entry/1");
   };
 
   return (
