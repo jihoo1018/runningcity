@@ -160,8 +160,8 @@ function getWeeklyHamsterText(mission: WeeklyMissionResponse | null): string {
   if (mission.completed) return "이번 주 목표까지 꽉 채웠어! 선물 받아가고 푹 쉬자!";
 
   const p = mission.progressPercent ?? 0;
-  if (p <= 0) return "이번 주 에너지가 아직 거의 없네... 천천히 같이 모아보자!";
-  if (p < 50) return "좋은 페이스야! 이번 주 배터리도 서서히 차오르는 중이야!";
+  if (p <= 0) return "이번 주 에너지가 거의 없네... 천천히 같이 모아봐!";
+  if (p < 50) return "좋은 페이스! 이번 주 배터리도 서서히 차오르는 중!";
   return "이제 거의 다 왔어! 조금만 더 달리면 이번주 선물을 줄 수 있어!";
 }
 
@@ -382,7 +382,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
                 <span style={{ fontSize: 32 }}>🐹</span>
               </div>
               <div
-                className="flex-1 rounded-2xl px-3 py-2 text-sm leading-relaxed text-slate-50"
+                className="flex-1 rounded-2xl px-3 py-2 text-xs leading-relaxed text-slate-50"
                 style={{
                   background: "rgba(15,23,42,0.95)",
                   border: "1px solid rgba(148,231,255,0.6)",
@@ -429,7 +429,7 @@ export default function MissionRoot({ onClose }: ModalProps) {
               <span style={{ fontSize: 32 }}>🐹</span>
             </div>
             <div
-              className="flex-1 rounded-2xl px-3 py-2 text-sm leading-relaxed text-slate-50"
+              className="flex-1 rounded-2xl px-3 py-2 text-xs leading-relaxed text-slate-50"
               style={{
                 background: "rgba(15,23,42,0.95)",
                 border: "1px solid rgba(148,231,255,0.6)",

@@ -4,6 +4,20 @@ const API_ORIGIN = import.meta.env.VITE_API_ORIGIN ?? "";
 
 function toURL(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
+
+  
+  /* ✅ ADDED: 개발(프록시) 모드일 때는 프론트 경로 앞에 자동으로 "/api"를 붙여서
+     Vite proxy(/api -> /api/v1)를 타게 함. 운영에서는 API_ORIGIN이 /api/v1까지 포함되어
+     있으므로 기존 로직을 그대로 사용. */
+  const isApiOriginEmpty = !API_ORIGIN;
+  if (isApiOriginEmpty) {
+    // 항상 슬래시로 시작하도록 보정
+    let p = path.startsWith("/") ? path : `/${path}`;
+    // 이미 /api/로 시작하면 그대로 사용, 아니면 /api 접두어 부여
+    if (!p.startsWith("/api/")) p = `/api${p}`;
+    return p; // 같은 오리진 경로로 반환 → Vite가 프록시 처리
+  }
+
   if (!path.startsWith("/")) return `${API_ORIGIN}/${path}`;
   return `${API_ORIGIN}${path}`;
 }
