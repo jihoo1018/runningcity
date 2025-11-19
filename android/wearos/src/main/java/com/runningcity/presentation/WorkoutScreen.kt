@@ -708,7 +708,7 @@ fun WorkoutScreen(
 //                            style = MaterialTheme.typography.caption2,
 //                            color = Color.Gray
 //                        )
-//                    }
+                       }
 
                     Spacer(modifier = Modifier.height(20.dp))
                 }
