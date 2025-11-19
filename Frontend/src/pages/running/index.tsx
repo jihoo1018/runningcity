@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RunningMetrics } from "@/entities/run/ui/RunningMetrics";
 import { RunningMetrics as RunningMetricsType, RunningState } from "@/entities/run/model/types";
-import { AndroidBridge } from '@/shared/lib';
+import { AndroidBridge } from "@/shared/lib";
 
 const RunningPage = () => {
   const navigate = useNavigate();
-  
-  const [state, setState] = useState<RunningState>('RUNNING');
+
+  const [state, setState] = useState<RunningState>("RUNNING");
   const [metrics, setMetrics] = useState<RunningMetricsType>({
     heartRate: 0, // 초기값 (더미 데이터)
     pace: 0, // 초기값 (더미 데이터)
@@ -20,7 +20,7 @@ const RunningPage = () => {
 
   // 시간 업데이트 (러닝 중일 때만)
   useEffect(() => {
-    if (state !== 'RUNNING') return;
+    if (state !== "RUNNING") return;
 
     const interval = setInterval(() => {
       setMetrics((prev) => ({
@@ -40,13 +40,13 @@ const RunningPage = () => {
   }, [metrics.distance]);
 
   const handlePause = () => {
-    setState('PAUSED');
+    setState("PAUSED");
     // 워치에 일시정지 메시지 전송
     AndroidBridge.pauseRunning();
   };
 
   const handleResume = () => {
-    setState('RUNNING');
+    setState("RUNNING");
     // 워치에 재개 메시지 전송
     AndroidBridge.resumeRunning();
   };
@@ -55,27 +55,39 @@ const RunningPage = () => {
     // 워치에 종료 메시지 전송
     AndroidBridge.stopRunning();
     // 결과 페이지로 이동
-    // navigate("/entry/result");
-    navigate("/entry/1");
+    navigate("/entry/result");
+    // navigate("/entry/1");
   };
 
   return (
-    <div className="w-full h-full min-h-[calc(100vh-80px)] flex flex-col items-center justify-center bg-custom-black p-5 box-border relative overflow-hidden">
+    <div className="bg-custom-black relative box-border flex h-full min-h-[calc(100vh-80px)] w-full flex-col items-center justify-center overflow-hidden p-5">
       {/* 사이버네틱 배경 */}
-      <div className="absolute inset-0 pointer-events-none">
-        
+      <div className="pointer-events-none absolute inset-0">
         {/* 움직이는 원형 파티클 */}
-        <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-primary rounded-full opacity-30 animate-pulse" style={{ animation: 'float1 8s ease-in-out infinite' }} />
-        <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-primary rounded-full opacity-40 animate-pulse" style={{ animation: 'float2 10s ease-in-out infinite' }} />
-        <div className="absolute bottom-1/4 left-1/3 w-2.5 h-2.5 bg-primary rounded-full opacity-50 animate-pulse" style={{ animation: 'float3 7s ease-in-out infinite' }} />
-        <div className="absolute bottom-1/3 right-1/3 w-5 h-5 bg-primary rounded-full opacity-25 animate-pulse" style={{ animation: 'float4 9s ease-in-out infinite' }} />
-        
+        <div
+          className="bg-primary absolute top-1/4 left-1/4 h-4 w-4 animate-pulse rounded-full opacity-30"
+          style={{ animation: "float1 8s ease-in-out infinite" }}
+        />
+        <div
+          className="bg-primary absolute top-1/3 right-1/4 h-3 w-3 animate-pulse rounded-full opacity-40"
+          style={{ animation: "float2 10s ease-in-out infinite" }}
+        />
+        <div
+          className="bg-primary absolute bottom-1/4 left-1/3 h-2.5 w-2.5 animate-pulse rounded-full opacity-50"
+          style={{ animation: "float3 7s ease-in-out infinite" }}
+        />
+        <div
+          className="bg-primary absolute right-1/3 bottom-1/3 h-5 w-5 animate-pulse rounded-full opacity-25"
+          style={{ animation: "float4 9s ease-in-out infinite" }}
+        />
+
         {/* 스캔 라인 효과 */}
-        <div 
+        <div
           className="absolute inset-0 opacity-5"
           style={{
-            background: 'linear-gradient(180deg, transparent 0%, rgba(0, 230, 255, 0.3) 50%, transparent 100%)',
-            animation: 'scanLine 3s linear infinite'
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(0, 230, 255, 0.3) 50%, transparent 100%)",
+            animation: "scanLine 3s linear infinite",
           }}
         />
       </div>
@@ -113,17 +125,15 @@ const RunningPage = () => {
         }
       `}</style>
 
-      <div className="w-full max-w-[400px] flex flex-col gap-40 relative z-10">
+      <div className="relative z-10 flex w-full max-w-[400px] flex-col gap-40">
         {/* 헤더 */}
         <div className="text-center">
-          <h1 className="text-subtitle text-custom-white mb-3">
-            에너지 모으기
-          </h1>
-          
+          <h1 className="text-subtitle text-custom-white mb-3">에너지 모으기</h1>
+
           {/* 진행 바 */}
-          <div className="w-full h-2 bg-section-bg rounded-full overflow-hidden border border-custom-gray">
+          <div className="bg-section-bg border-custom-gray h-2 w-full overflow-hidden rounded-full border">
             <div
-              className="h-full bg-primary transition-all duration-300"
+              className="bg-primary h-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -134,26 +144,26 @@ const RunningPage = () => {
 
         {/* 버튼 영역 */}
         <div className="flex justify-center gap-4">
-          {state === 'RUNNING' ? (
+          {state === "RUNNING" ? (
             // 러닝 중: 일시정지 버튼
             <button
               onClick={handlePause}
-              className="w-24 h-24 rounded-full bg-section-bg border border-primary flex items-center justify-center cursor-pointer transition-all duration-200 hover:bg-primary/20 active:scale-95"
+              className="bg-section-bg border-primary hover:bg-primary/20 flex h-24 w-24 cursor-pointer items-center justify-center rounded-full border transition-all duration-200 active:scale-95"
             >
               <p className="text-content text-custom-white">일시정지</p>
             </button>
-          ) : state === 'PAUSED' ? (
+          ) : state === "PAUSED" ? (
             // 일시정지 중: 종료, 재개 버튼
             <>
               <button
                 onClick={handleStop}
-                className="w-24 h-24 rounded-full bg-section-bg border border-accent-red flex items-center justify-center cursor-pointer transition-all duration-200 hover:bg-accent-red/20 active:scale-95"
+                className="bg-section-bg border-accent-red hover:bg-accent-red/20 flex h-24 w-24 cursor-pointer items-center justify-center rounded-full border transition-all duration-200 active:scale-95"
               >
                 <p className="text-content text-custom-white">종료</p>
               </button>
               <button
                 onClick={handleResume}
-                className="w-24 h-24 rounded-full bg-section-bg border border-primary flex items-center justify-center cursor-pointer transition-all duration-200 hover:bg-primary/20 active:scale-95"
+                className="bg-section-bg border-primary hover:bg-primary/20 flex h-24 w-24 cursor-pointer items-center justify-center rounded-full border transition-all duration-200 active:scale-95"
               >
                 <p className="text-content text-custom-white">재개</p>
               </button>
