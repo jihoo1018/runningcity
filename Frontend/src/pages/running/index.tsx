@@ -1,13 +1,15 @@
 // src/pages/running/index.tsx
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { RunningMetrics } from "@/entities/run/ui/RunningMetrics";
 import { RunningMetrics as RunningMetricsType, RunningState } from "@/entities/run/model/types";
 import { AndroidBridge } from "@/shared/lib";
 
 const RunningPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const routeState = location.state as { sessionId?: number; mode?: string } | null;
 
   const [state, setState] = useState<RunningState>("RUNNING");
   const [metrics, setMetrics] = useState<RunningMetricsType>({
@@ -128,7 +130,9 @@ const RunningPage = () => {
       <div className="relative z-10 flex w-full max-w-[400px] flex-col gap-40">
         {/* 헤더 */}
         <div className="text-center">
-          <h1 className="text-subtitle text-custom-white mb-3">에너지 모으기</h1>
+          <h1 className="text-subtitle text-custom-white mb-3">
+            {routeState?.mode === 'entry' ? '개인 잠입' : '에너지 모으기'}
+          </h1>
 
           {/* 진행 바 */}
           <div className="bg-section-bg border-custom-gray h-2 w-full overflow-hidden rounded-full border">
