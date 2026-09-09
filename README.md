@@ -112,4 +112,4 @@ AI 리포트 생성 기능으로 내 러닝 패턴 분석 제공
 | 문지후 | 강설민 | 유아름 | 이유리 | 정민주 | 김준서 |
 |:---:|:---:|:---:|:---:|:---:|:---:|
 | ![alt text](./asset/문지후-3.png) | ![alt text](./asset/강설민.png) |![alt text](./asset/유아름.png) | ![alt text](./asset/이유리.png) | ![alt text](./asset/정민주.png) | ![alt text](./asset/김준서.png) |
-| **WearOs  Frontend / Backend** | **Frontend  Backend** | **Infra  Frontend / Backend** | **Frontend  Backend** | **Frontend  Backend** | **Frontend  Backend** |
+| **Frontend / Backend** | **Frontend  Backend** | **Infra  Frontend / Backend** | **Frontend  Backend** | **Frontend  Backend** | **Frontend  Backend** |
